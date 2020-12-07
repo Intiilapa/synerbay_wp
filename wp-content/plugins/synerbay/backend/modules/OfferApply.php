@@ -1,4 +1,5 @@
 <?php
+namespace SynerBay\Module;
 
 class OfferApply
 {
@@ -29,6 +30,15 @@ class OfferApply
         }
 
         // TODO mail-ek kiküldése
+//        $offerUsers = $this->offerModule->getOfferUsers($offerID);
+//
+//        foreach ($offerUsers as $offerUser) {
+//            if ($offerUser->ID === $userID) {
+//                // akkor a usernek megy egy köszönöő mail
+//            } else {
+//                $this->sendMail($offerUser);
+//            }
+//        }
 
         return $this->offerModule->getOfferCurrentData($offerID);
     }
@@ -64,4 +74,9 @@ class OfferApply
 
         return (bool)$result[0]->count;
     }
+
+//    private function sendMail($data)
+//    {
+//        do_action();
+//    }
 }

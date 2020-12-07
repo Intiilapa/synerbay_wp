@@ -1,4 +1,5 @@
 <?php
+namespace SynerBay\Module;
 
 class Offer
 {

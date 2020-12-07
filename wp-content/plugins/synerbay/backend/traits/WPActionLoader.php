@@ -1,7 +1,7 @@
 <?php
-namespace SynerBay;
+namespace SynerBay\Traits;
 
-class WPActionLoader
+trait WPActionLoader
 {
     public function addAction($functionName)
     {
@@ -14,6 +14,7 @@ class WPActionLoader
             register_rest_route('synerbay/api/v1', '/'. $endpointName .'/', [
                 'methods'  => $methods,
                 'callback' => [$this, $callback],
+                'permission_callback' => __return_true(),
             ]);
         });
     }

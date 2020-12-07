@@ -68,8 +68,9 @@
             'productQty': productQty,
         }, 'appear_offer', true);
 
-        synerbay.hideLoader();
-        location.reload();
+        if (response.loginRequired === undefined) {
+            location.reload();
+        }
     }
 
     synerbay.disAppearOffer= function(offerID) {
@@ -78,11 +79,20 @@
             'offerID': offerID
         }, 'disappear_offer', true);
 
-        synerbay.hideLoader();
-        location.reload();
+        if (response.loginRequired === undefined) {
+            location.reload();
+        }
     }
 
-    synerbay.restCall = function (callParams, endpoint, returnResponse = false) {
+    /**
+     *
+     * @param callParams
+     * @param endpoint
+     * @param returnResponse
+     * @param async
+     * @returns {boolean}
+     */
+    synerbay.restCall = function (callParams, endpoint, returnResponse = false, async = false) {
         synerbay.showLoader();
 
         let returnData = true;
@@ -90,7 +100,7 @@
         $.ajax({
             type: "post",
             dataType: "json",
-            async: false,
+            async: async,
             url : synerbayAjax.restURL + 'synerbay/api/v1/' + endpoint,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-WP-Nonce', synerbayAjax.restNonce)
@@ -98,32 +108,22 @@
             data : callParams,
             success: function(response, textStatus, xhr) {
                 if(response.success !== 'undefined' && response.success)  {
+                    console.log(response);
                     if (returnResponse) {
-                        return returnData = response;
-                    } else {
-                        synerbay.hideLoader();
-                        // toastr??
+                        returnData = response.data;
                     }
-                } else {
-                    returnData = false;
-                    // toastr??
-                    if (xhr.status === 401) {
-                        synerbay.hideLoader();
-                        // toastr??
-                    } else {
-                        synerbay.hideLoader();
-                        // toastr??
+
+                    /**
+                     * Login modal?
+                     */
+                    if (response.data.loginRequired !== undefined && response.data.loginRequired) {
+                        synerbay.showModal('login');
                     }
-                }
-            },
-            complete: function(xhr, textStatus) {
-                if (xhr.status === 401) {
-                    synerbay.hideLoader();
-                    synerbay.showModal('login');
                 }
             }
         });
 
+        synerbay.hideLoader();
         return returnData;
     }
 
