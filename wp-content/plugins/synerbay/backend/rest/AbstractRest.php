@@ -4,9 +4,24 @@ namespace SynerBay\Rest;
 use SynerBay\Traits\WPActionLoader;
 use WP_User;
 
+/**
+ * Class AbstractRest
+ *
+ * @package SynerBay\Rest
+ */
 class AbstractRest
 {
     use WPActionLoader;
+
+    /**
+     * Default permission callback function for rest routes
+     *
+     * @return false
+     */
+    public function defaultPermissionCallback(): bool
+    {
+        return false;
+    }
 
     /**
      * @return void
@@ -25,7 +40,7 @@ class AbstractRest
 
     protected function getPleaseLoginResponse()
     {
-        wp_send_json_success(['loginRequired' => true], 200);
+        $this->responseSuccess(['loginRequired' => true]);
     }
 
     protected function responseSuccess(array $responseData): void
