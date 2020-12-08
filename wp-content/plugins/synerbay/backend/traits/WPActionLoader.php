@@ -14,7 +14,7 @@ trait WPActionLoader
             register_rest_route('synerbay/api/v1', '/'. $endpointName .'/', [
                 'methods'  => $methods,
                 'callback' => [$this, $callback],
-                'permission_callback' => __return_true(),
+                'permission_callback' => false,
             ]);
         });
     }
