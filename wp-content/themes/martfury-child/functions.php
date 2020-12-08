@@ -136,79 +136,27 @@ function save_seller_url($store_user){
 -->
     <!-- END -->
     <?php }
-
-
-/**
- * @snippet    Hide Price & Add to Cart for Logged Out Users
-
-add_action('after_setup_theme','activate_filter') ;
-function activate_filter(){
-    add_filter('woocommerce_get_price_html', 'show_price_logged');
-}
-function show_price_logged($price){
-    if(is_user_logged_in() ){
-        return $price;
+    
+    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu' );
+    function dokan_load_document_menu( $query_vars ) {
+        $query_vars['Offers'] = 'offers';
+        return $query_vars;
     }
-    else
-    {
-        remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart' );
-        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
-        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-        remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_price', 10 );
-        return '<a class="hide_pricing" href="' . get_permalink(woocommerce_get_page_id('myaccount')) . '">Login to See Prices</a>';
+
+    add_filter( 'dokan_get_dashboard_nav', 'dokan_add_offers_menu' );
+    function dokan_add_offers_menu( $urls ) {
+        $urls['offers'] = array(
+            'title' => __( 'Offers', 'dokan'),
+            'icon'  => '<i class="fa fa-user"></i>',
+            'url'   => dokan_get_navigation_url( 'offers' ),
+            'pos'   => 51
+        );
+        return $urls;
     }
-}
- */
 
-//add_filter('woocommerce_add_to_cart_redirect', '_add_to_cart_redirect');
-//function _add_to_cart_redirect() {
-//    global $woocommerce;
-//        $checkout_url = wc_get_checkout_url();
-//    return $checkout_url;
-//}
-
-/*
- *
- * Remove all product types and make groupbuy set as default
- *
- */
-
-//add_filter( 'product_type_selector', 'remove_grouped_and_external' );
-//function remove_grouped_and_external( $product_types ){
-//
-//    //unset( $product_types['grouped'] );
-//    //unset( $product_types['external'] );
-//    //unset( $product_types['variable'] );
-//    //unset( $product_types['simple'] );
-//
-//
-//    return $product_types;
-//}
-//
-
-///**
-// * Auto Complete all WooCommerce orders.
-// */
-//add_action( 'woocommerce_thankyou', 'custom_woocommerce_auto_complete_order' );
-//function custom_woocommerce_auto_complete_order( $order_id ) {
-//    if ( ! $order_id ) {
-//        return;
-//    }
-//
-//    $order = wc_get_order( $order_id );
-//    $order->update_status( 'completed' );
-//}
-//
-//
-
-add_action( 'phpmailer_init', 'setup_phpmailer_init' );
-function setup_phpmailer_init( $phpmailer )
-{
-    $phpmailer->Host = 'smtp-relay.sendinblue.com'; // for example, smtp.mailtrap.io
-    $phpmailer->Port = 587; // set the appropriate port: 465, 2525, etc.
-    $phpmailer->Username = 'remcoad@gmail.com'; // your SMTP username
-    $phpmailer->Password = 'p2C64WxZO9LB0NRg'; // your SMTP password
-    $phpmailer->SMTPAuth = true;
-    $phpmailer->SMTPSecure = 'tls'; // preferable but optional
-    $phpmailer->IsSMTP();
-}
+    add_action( 'dokan_load_custom_template', 'dokan_load_template' );
+    function dokan_load_template( $query_vars ) {
+        if ( isset( $query_vars['Offers'] ) ) {
+            require_once dirname( __FILE__ ). '/offers.php';
+        }
+    }
