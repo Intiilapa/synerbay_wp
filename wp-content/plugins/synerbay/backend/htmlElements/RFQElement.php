@@ -1,5 +1,5 @@
 <?php
-namespace SynerBay\Element;
+namespace SynerBay\HTMLElement;
 
 class RFQElement extends AbstractElement
 {

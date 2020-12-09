@@ -12,7 +12,7 @@ $id = $product->get_main_wpml_product_id();
 if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_closed() ) return;
 
 ?>
-<?php do_action('woocommerce_before_add_to_cart_form'); ?>
+<?php do_action('woocommerce_before_add_to_cart_form');?>
 
     <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $post->ID; ?>">
         <?php
@@ -34,6 +34,7 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
 
         <?php do_action('synerbay_offerApplyButton', $product);?>
         <?php do_action('woocommerce_after_add_to_cart_button'); ?>
+<!--        --><?php //do_action('synerbay_test');die; ?>
 
     </form>
 

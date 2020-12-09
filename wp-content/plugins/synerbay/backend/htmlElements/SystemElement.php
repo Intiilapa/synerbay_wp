@@ -1,7 +1,6 @@
 <?php
 
-
-namespace SynerBay\Element;
+namespace SynerBay\HTMLElement;
 
 
 class SystemElement extends AbstractElement

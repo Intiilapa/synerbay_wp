@@ -1,6 +1,6 @@
 <?php
 
-namespace SynerBay\Element;
+namespace SynerBay\HTMLElement;
 
 use SynerBay\Traits\WPActionLoader;
 

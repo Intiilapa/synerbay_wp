@@ -3,9 +3,13 @@ namespace SynerBay\Traits;
 
 trait WPActionLoader
 {
-    public function addAction($functionName)
+    public function addAction($functionName, $methodName = '')
     {
-        add_action('synerbay_' . $functionName, [$this, $functionName]);
+        if (empty($methodName)) {
+            $methodName = $functionName;
+        }
+
+        add_action('synerbay_' . $functionName, [$this, $methodName]);
     }
 
     public function addRestRoute(string $callback, string $endpointName, $methods = 'POST', $permissionCallback = 'defaultPermissionCallback')
@@ -17,5 +21,12 @@ trait WPActionLoader
                 'permission_callback' => $this->$permissionCallback(),
             ]);
         });
+    }
+
+    public function getModule(string $moduleName)
+    {
+        $class = 'SynerBay\Module\\' . ucfirst($moduleName);
+
+        return new $class();
     }
 }

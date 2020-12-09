@@ -3,6 +3,7 @@
 
 namespace SynerBay\Rest;
 
+use Stripe\ApiOperations\Request;
 use SynerBay\Module\OfferApply;
 
 class OfferAppear extends AbstractRest
@@ -17,6 +18,7 @@ class OfferAppear extends AbstractRest
         $this->addRestRoute('appearOffer', 'appear_offer');
         $this->addRestRoute('disAppearOffer', 'disappear_offer');
     }
+
     /**
      * Appear offer
      */
@@ -29,7 +31,7 @@ class OfferAppear extends AbstractRest
         $offerID = isset($post_data['offerID']) ? sanitize_text_field($post_data['offerID']) : null;
         $productQty = isset($post_data['productQty']) ? sanitize_text_field($post_data['productQty']) : null;
 
-        $this->responseSuccess($this->offerApplyModule->appearOfferForUser($this->getCurrentUserID(), $offerID,
+        $this->responseSuccess($this->offerApplyModule->createAppearOfferForUser($this->getCurrentUserID(), $offerID,
             $productQty));
     }
 
@@ -44,6 +46,6 @@ class OfferAppear extends AbstractRest
 
         $offerID = isset($post_data['offerID']) ? sanitize_text_field($post_data['offerID']) : null;
 
-        $this->responseSuccess($this->offerApplyModule->disAppearOfferForUser($this->getCurrentUserID(), $offerID));
+        $this->responseSuccess($this->offerApplyModule->deleteAppearOfferForUser($this->getCurrentUserID(), $offerID));
     }
 }

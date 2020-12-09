@@ -12,7 +12,7 @@ class OfferApply
         $this->offerModule = new Offer();
     }
 
-    public function appearOfferForUser(int $userID, int $offerID, int $productQuantity)
+    public function createAppearOfferForUser(int $userID, int $offerID, int $productQuantity)
     {
         global $wpdb;
         $table = $wpdb->prefix . 'offer_applies';
@@ -43,7 +43,7 @@ class OfferApply
         return $this->offerModule->getOfferCurrentData($offerID);
     }
 
-    public function disAppearOfferForUser(int $userID, int $offerID)
+    public function deleteAppearOfferForUser(int $userID, int $offerID)
     {
         global $wpdb;
 

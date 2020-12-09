@@ -1,7 +1,8 @@
 <?php
-namespace SynerBay\Element;
+namespace SynerBay\HTMLElement;
 
 use SynerBay\Module\OfferApply as OfferApplyModule;
+use WC_Product;
 
 class OfferApplyElement extends AbstractElement
 {
@@ -14,7 +15,7 @@ class OfferApplyElement extends AbstractElement
         $this->addAction('offerApplyButton');
     }
 
-    public function offerApplyButton(\WC_Product $product)
+    public function offerApplyButton(WC_Product $product)
     {
         // TODO Remco a wp-ben a product azaz offer?
         // amennyiben a sajátja az offer, akkor nem tud jelentkezni

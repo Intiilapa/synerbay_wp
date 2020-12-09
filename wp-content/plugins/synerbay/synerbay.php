@@ -19,18 +19,7 @@ class SynerBay {
      */
     public function load() {
         add_action( 'wp_enqueue_scripts', [$this, 'loadScript']);
-        // basic files
-        include_once __DIR__ . '/backend/traits/WPActionLoader.php';
-        include_once __DIR__ . '/backend/htmlElements/AbstractElement.php';
-        include_once __DIR__ . '/backend/htmlElements/SystemElement.php';
-        include_once __DIR__ . '/backend/htmlElements/OfferApplyElement.php';
-        include_once __DIR__ . '/backend/rest/AbstractRest.php';
-        include_once __DIR__ . '/backend/rest/OfferAppear.php';
-        include_once __DIR__ . '/backend/rest/RFQ.php';
-        include_once __DIR__ . '/backend/modules/Offer.php';
-        include_once __DIR__ . '/backend/modules/OfferApply.php';
-        include_once __DIR__ . '/backend/modules/RFQ.php';
-        include_once __DIR__ . '/backend/modules/Invite.php';
+        // basic init ...
         include_once __DIR__ . '/backend/initPlugin.php';
     }
 
