@@ -13,7 +13,7 @@ class Product
         if ($product = $this->getProduct($productID)) {
             $productData = [
                 'id'    => $product->get_id(),
-                'name'  => $product->get_formatted_name(),
+                'name'  => $product->get_name(),
                 'price' => $product->get_price(),
                 'url'   => get_permalink($product->get_id()),
             ];

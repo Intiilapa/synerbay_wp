@@ -4,11 +4,11 @@ namespace SynerBay\Functions;
 
 
 use SynerBay\Helper\ArrayHelper;
-use SynerBay\Traits\WPActionLoader;
+use SynerBay\Traits\WPAction;
 
 class Data
 {
-    use WPActionLoader;
+    use WPAction;
 
     public function __construct()
     {

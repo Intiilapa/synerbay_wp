@@ -1,12 +1,12 @@
 <?php
 namespace SynerBay\Functions;
 
-use SynerBay\Traits\WPActionLoader;
+use SynerBay\Traits\WPAction;
 use SynerBay\Module\Product as ProductModule;
 
 class Product
 {
-    use WPActionLoader;
+    use WPAction;
 
     private ProductModule $productModule;
 

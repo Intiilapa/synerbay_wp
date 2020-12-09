@@ -2,11 +2,11 @@
 
 namespace SynerBay\HTMLElement;
 
-use SynerBay\Traits\WPActionLoader;
+use SynerBay\Traits\WPAction;
 
 class AbstractElement
 {
-    use WPActionLoader;
+    use WPAction;
 
     protected function generateModal($name, $title, $content)
     {

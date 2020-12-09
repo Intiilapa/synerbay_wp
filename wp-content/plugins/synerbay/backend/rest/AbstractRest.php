@@ -1,7 +1,7 @@
 <?php
 namespace SynerBay\Rest;
 
-use SynerBay\Traits\WPActionLoader;
+use SynerBay\Traits\WPAction;
 use WP_User;
 
 /**
@@ -11,7 +11,7 @@ use WP_User;
  */
 class AbstractRest
 {
-    use WPActionLoader;
+    use WPAction;
 
     /**
      * Default permission callback function for rest routes

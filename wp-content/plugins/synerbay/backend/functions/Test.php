@@ -3,11 +3,12 @@
 namespace SynerBay\Functions;
 
 use SynerBay\Module\Offer;
-use SynerBay\Traits\WPActionLoader;
+use SynerBay\Traits\Loader;
+use SynerBay\Traits\WPAction;
 
 class Test
 {
-    use WPActionLoader;
+    use WPAction, Loader;
 
     public function __construct()
     {
@@ -37,6 +38,6 @@ class Test
             ]
         );
         print '<pre>';
-        var_dump($module->getOfferCurrentData($offerID, true));die;
+        var_dump($module->getOfferData($offerID, true));die;
     }
 }

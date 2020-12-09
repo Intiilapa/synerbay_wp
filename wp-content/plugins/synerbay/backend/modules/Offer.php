@@ -2,12 +2,12 @@
 
 namespace SynerBay\Module;
 
+use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
-use SynerBay\Traits\WPActionLoader;
 
 class Offer
 {
-    use ModuleTrait, WPActionLoader;
+    use ModuleTrait, Loader;
 
     private $dataMap = [
         'product_id'             => '%d',
@@ -22,7 +22,7 @@ class Offer
         'weight_unit_sign'       => '%s',
         'material'               => '%s',
         'transport_parity'       => '%s',
-        'shipping_to'               => '%s',
+        'shipping_to'            => '%s',
     ];
 
     public function createOffer(array $data)
@@ -42,7 +42,7 @@ class Offer
         return $lastInsertedID;
     }
 
-    public function getOfferCurrentData(int $offerID, bool $withUser = false, bool $withApplies = true): array
+    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true): array
     {
         $ret = [];
 
@@ -57,9 +57,6 @@ class Offer
             $productModule = $this->getModule('product');
             $offer['product'] = $productModule->getProductData($offer['product_id']);
             var_dump($offer);die;
-//            $ret = [
-//                'id' =>
-//            ];
         }
 
         return $ret;

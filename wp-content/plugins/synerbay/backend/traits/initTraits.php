@@ -1,5 +1,6 @@
 <?php
 namespace SynerBay\Traits;
 
-include_once 'WPActionLoader.php';
+include_once 'WPAction.php';
 include_once 'Module.php';
+include_once 'Loader.php';

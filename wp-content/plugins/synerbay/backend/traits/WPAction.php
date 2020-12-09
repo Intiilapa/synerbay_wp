@@ -1,7 +1,7 @@
 <?php
 namespace SynerBay\Traits;
 
-trait WPActionLoader
+trait WPAction
 {
     public function addAction($functionName, $methodName = '')
     {
@@ -21,12 +21,5 @@ trait WPActionLoader
                 'permission_callback' => $this->$permissionCallback(),
             ]);
         });
-    }
-
-    public function getModule(string $moduleName)
-    {
-        $class = 'SynerBay\Module\\' . ucfirst($moduleName);
-
-        return new $class();
     }
 }

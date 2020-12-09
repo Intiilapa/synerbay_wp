@@ -40,7 +40,7 @@ class OfferApply
 //            }
 //        }
 
-        return $this->offerModule->getOfferCurrentData($offerID);
+        return $this->offerModule->getOfferData($offerID);
     }
 
     public function deleteAppearOfferForUser(int $userID, int $offerID)
@@ -57,7 +57,7 @@ class OfferApply
         }
 
         // TODO mail-ek kiküldése
-        return $this->offerModule->getOfferCurrentData($offerID);
+        return $this->offerModule->getOfferData($offerID);
     }
 
     /**
