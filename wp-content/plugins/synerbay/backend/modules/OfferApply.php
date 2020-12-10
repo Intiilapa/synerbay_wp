@@ -75,8 +75,14 @@ class OfferApply
         return (bool)$result[0]->count;
     }
 
-//    private function sendMail($data)
-//    {
-//        do_action();
-//    }
+    /**
+     * @param int    $offerID
+     * @param string $output
+     * @return array|object|null
+     */
+    public function getAppliesForOffer(int $offerID, $output = ARRAY_A)
+    {
+        global $wpdb;
+        return $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID, $output);
+    }
 }

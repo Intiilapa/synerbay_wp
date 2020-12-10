@@ -5,7 +5,22 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 global $product, $post;
+
+// todo Remco test, a paraméter az offer id
+// offer init example ...
+
+//do_action('synerbay_init_global_offer_by_id', 20);
+//global $offer;
+//
+//print '<pre>';
+//var_dump($offer['current_price']);
+//die;
+
+// todo Remco ez egy komplett offer létrehozás példa, fájl helye wp-content/plugins/synerbay/backend/functions/Test.php -> test function
+//do_action('synerbay_test');die;
+
 
 $id = $product->get_main_wpml_product_id();
 
@@ -34,8 +49,6 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
 
         <?php do_action('synerbay_offerApplyButton', $product);?>
         <?php do_action('woocommerce_after_add_to_cart_button'); ?>
-<!--        --><?php //do_action('synerbay_test');die; ?>
-
     </form>
 
 

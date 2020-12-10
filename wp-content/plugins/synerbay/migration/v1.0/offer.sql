@@ -6,6 +6,7 @@ create table sb_offers
     delivery_date datetime default current_timestamp not null,
     offer_start_date datetime default current_timestamp not null,
     offer_end_date datetime default current_timestamp not null,
+    price_steps varchar(512) not null,
     minimum_order_quantity int(32) unsigned not null comment 'pl.: a rendelhető mennyiség 50db-ról indul',
     order_quantity_step int(32) unsigned not null comment 'ennyivel növelhető a megrendelt mennyiség',
     max_total_offer_qty int(32) unsigned null comment 'ezzel szabod meg az ajánlatban szereplő termék felső mennyiségi határát, üresen hagyható, akkor nincs limit',
