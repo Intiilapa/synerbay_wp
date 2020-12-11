@@ -65,7 +65,7 @@ class Offer
             $offer['applies'] = $offerApplyModule->getAppliesForOffer($offerID);
 
             // calculate current price
-            $offer['current_price'] = $this->calculateCurrentPrice($offer);
+            $offer['current_price'] = wc_price($this->calculateCurrentPrice($offer));
         }
 
         return $offer;

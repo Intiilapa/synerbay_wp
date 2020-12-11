@@ -8,6 +8,15 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 global $product, $post;
 
+// TODO Remco itt van példa a select és mult iselect generáláshoz használható synerbay mezők
+//// select genaret example (backend/hmlElemnts/SelectElement.php)
+//do_action('synerbay_getUnitTypesSelect');
+//do_action('synerbay_getUnitTypesSelect', 'cl');
+//// multiselect example
+//do_action('synerbay_getMaterialTypesSelect');
+//do_action('synerbay_getMaterialTypesSelect', ['wood', 'chemical']);
+//die;
+
 // todo Remco test, a paraméter az offer id
 // offer init example ...
 
@@ -19,7 +28,7 @@ global $product, $post;
 //die;
 
 // todo Remco ez egy komplett offer létrehozás példa, fájl helye wp-content/plugins/synerbay/backend/functions/Test.php -> test function
-//do_action('synerbay_test');die;
+do_action('synerbay_test');die;
 
 
 $id = $product->get_main_wpml_product_id();
