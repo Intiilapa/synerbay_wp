@@ -28,8 +28,10 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
     $vendor_revenue          = isset( $profile_info['vendor_revenue'] ) ? $profile_info['vendor_revenue'] : '';
     $vendor_employees        = isset( $profile_info['vendor_employees'] ) ? $profile_info['vendor_employees'] : '';
     $vendor_product_range    = isset( $profile_info['vendor_product_range'] ) ? $profile_info['vendor_product_range'] : '';
-    ?>
+
+     ?>
     <hr>
+
     <!-- VAT -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -40,50 +42,80 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
         </div>
     </div>
 
-     <!-- Company Industry -->
+     <!-- Company industry -->
      <div class="custom dokan-form-group">
          <label class="dokan-w3 dokan-control-label" for="setting_address">
              <?php _e( 'Industry', 'dokan' ); ?>
          </label>
+
          <div class="dokan-w5">
-             <select name="vendor_industry" class="dokan-form-control" id="vendor_industry">
-                 <option value="Agriculture & Food" <?php if($vendor_industry =="Agriculture & Food") echo 'selected="selected"';?>>Agriculture & Food</option>
-                 <option value="Apparel,Textiles & Accessories" <?php if($vendor_industry =="Apparel,Textiles & Accessories") echo 'selected="selected"';?>>Apparel,Textiles & Accessories</option>
-                 <option value="Auto & Transportation" <?php if($vendor_industry =="Auto & Transportation") echo 'selected="selected"';?>>Auto & Transportation</option>
-                 <option value="Bags, Shoes & Accessories" <?php if($vendor_industry =="Bags, Shoes & Accessories") echo 'selected="selected"';?>>Bags, Shoes & Accessories</option>
-                 <option value="Electronics" <?php if($vendor_industry =="Electronics") echo 'selected="selected"';?>>Electronics</option>
-                 <option value="Electrical Equipment, Components & Telecoms" <?php if($vendor_industry =="Electrical Equipment, Components & Telecoms") echo 'selected="selected"';?>>Electrical Equipment, Components & Telecoms</option>
-                 <option value="Gifts, Sports & Toys" <?php if($vendor_industry =="Gifts, Sports & Toys") echo 'selected="selected"';?>>Gifts, Sports & Toys</option>
-                 <option value="Health & Beauty" <?php if($vendor_industry =="Health & Beauty") echo 'selected="selected"';?>>Health & Beauty</option>
-                 <option value="Home, Lights & Construction" <?php if($vendor_industry =="ome, Lights & Construction") echo 'selected="selected"';?>>Home, Lights & Construction</option>
-                 <option value="Machinery, Industrial Parts & Tools" <?php if($vendor_industry =="Machinery, Industrial Parts & Tools") echo 'selected="selected"';?>>Machinery, Industrial Parts & Tools</option>
-                 <option value="Metallurgy, Chemicals, Rubber & Plastics" <?php if($vendor_industry =="Metallurgy, Chemicals, Rubber & Plastics") echo 'selected="selected"';?>>Metallurgy, Chemicals, Rubber & Plastics</option>
-                 <option value="Packaging, Advertising & Office" <?php if($vendor_industry =="Packaging, Advertising & Office") echo 'selected="selected"';?>>Packaging, Advertising & Office</option>
+             <select class="dokan-form-control" name="vendor_industry" id="vendor_industry">
+                 <?php
+                 $industries = [
+                     '' => __( 'Select industry' ),
+                     'Agriculture & Food' => ('Agriculture & Food'),
+                     'Apparel,Textiles & Accessories' => ('Apparel, Textiles & Accessories'),
+                     'Auto & Transportation' => ('Auto & Transportation'),
+                     'Bags, Shoes & Accessories' => ('Bags, Shoes & Accessories'),
+                     'Electronics' => ('Electronics'),
+                     'Electrical Equipment, Components & Telecoms' => ('Electrical Equipment, Components & Telecoms'),
+                     'Gifts, Sports & Toys' => ('Gifts, Sports & Toys'),
+                     'Health & Beauty' => ('Health & Beauty'),
+                     'Home, Lights & Construction' => ('Home, Lights & Construction'),
+                     'Machinery, Industrial Parts & Tools' => ('Machinery, Industrial Parts & Tools'),
+                     'Metallurgy, Chemicals, Rubber & Plastics' => ('Metallurgy, Chemicals, Rubber & Plastics'),
+                     'Packaging, Advertising & Office' => ('Packaging, Advertising & Office'),
+                 ];
+
+                 foreach ( $industries as $value => $label ) {
+                     printf(
+                         '<option value="%s" %s>%s</option>',
+                         $value,
+                         selected( $value, $vendor_industry, false ),
+                         $label
+                     );
+                 }
+                 ?>
              </select>
          </div>
      </div>
 
-     <!-- Company Type -->
+     <!-- Company type -->
      <div class="custom dokan-form-group">
          <label class="dokan-w3 dokan-control-label" for="setting_address">
              <?php _e( 'Company Type', 'dokan' ); ?>
          </label>
+
          <div class="dokan-w5">
-             <select name="vendor_type" class="dokan-form-control" id="vendor_type">
-                 <option value="manufacturer" <?php if($vendor_type =="manufacturer") echo 'selected="selected"';?>>Manufacturer</option>
-                 <option value="wholesaler" <?php if($vendor_type =="wholesaler") echo 'selected="selected"';?>>Wholesaler</option>
-                 <option value="retailer" <?php if($vendor_type =="retailer") echo 'selected="selected"';?>>Retailer</option>
-                 <option value="service" <?php if($vendor_type =="service") echo 'selected="selected"';?>>Service</option>
+             <select class="dokan-form-control" name="vendor_type" id="vendor_type">
+                 <?php
+                 $company_types = [
+                     '' => __( 'Select company type' ),
+                     'manufacturer' => ('Manufacturer'),
+                     'wholesaler' => ('Wholesaler'),
+                     'retailer' => ('Retailer'),
+                     'service' => ('Service'),
+                 ];
+
+                 foreach ( $company_types as $value => $label ) {
+                     printf(
+                         '<option value="%s" %s>%s</option>',
+                         $value,
+                         selected( $value, $vendor_type, false ),
+                         $label
+                     );
+                 }
+                 ?>
              </select>
          </div>
      </div>
+
 
     <?php
         $country_obj   = new WC_Countries();
         $countries     = $country_obj->countries;
         $states        = $country_obj->states;
     ?>
-
      <!-- Shipping to -->
      <input type="hidden" id="dokan_selected_shipping_country" value="<?php echo esc_attr( $vendor_shipping_to )?>" />
      <div class="custom dokan-form-group">
@@ -111,14 +143,30 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
          <label class="dokan-w3 dokan-control-label" for="setting_address">
              <?php _e( 'Annual revenue', 'dokan' ); ?>
          </label>
+
          <div class="dokan-w5">
-             <select name="vendor_revenue" class="dokan-form-control" id="vendor_revenue">
-                 <option value="$0-$500.000" <?php if($vendor_revenue =="$0-$500.000") echo 'selected="selected"';?>>$0 - $500.000</option>
-                 <option value="$500.000-$1.000.000" <?php if($vendor_revenue =="$500.000-$1.000.000") echo 'selected="selected"';?>>$500.000 - $1.000.000</option>
-                 <option value="$1.000.000-$5.000.000" <?php if($vendor_revenue =="$1.000.000-$5.000.000") echo 'selected="selected"';?>>$1.000.000 - $5.000.000</option>
-                 <option value="$5.000.000-$10.000.000" <?php if($vendor_revenue =="$5.000.000-$10.000.000") echo 'selected="selected"';?>>$5.000.000 - $10.000.000</option>
-                 <option value="$10.000.000-$50.000.000" <?php if($vendor_revenue =="$10.000.000-$50.000.000") echo 'selected="selected"';?>>$10.000.000 - $50.000.000</option>
-                 <option value="$50.000.000<" <?php if($vendor_revenue =="$50.000.000") echo 'selected="selected"';?>>$50.000.000<</option>
+             <select class="dokan-form-control" name="vendor_revenue" id="vendor_revenue">
+                 <?php
+                 $revenues = [
+                     '' => __( 'Select annual revenue' ),
+                        '$0-$500.000' => ('$0 - $500.000'),
+                        '$500.000-$1.000.000' => ('$500.000 - $1.000.000'),
+                        '$1.000.000-$5.000.000' => ('$1.000.000 - $5.000.000'),
+                        '$5.000.000-$10.000.000' =>('$5.000.000 - $10.000.000'),
+                        '$10.000.000-$50.000.000' => ('$10.000.000 - $50.000.000'),
+                        '$50.000.000<' => ('$50.000.000<'),
+
+                 ];
+
+                 foreach ( $revenues as $value => $label ) {
+                     printf(
+                         '<option value="%s" %s>%s</option>',
+                         $value,
+                         selected( $value, $vendor_revenue, false ),
+                         $label
+                     );
+                 }
+                 ?>
              </select>
          </div>
      </div>
@@ -128,34 +176,65 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
          <label class="dokan-w3 dokan-control-label" for="setting_address">
              <?php _e( 'Employees', 'dokan' ); ?>
          </label>
+
          <div class="dokan-w5">
-             <select name="vendor_employees" class="dokan-form-control" id="vendor_employees">
-                 <option value="<10 employees" <?php if($vendor_employees =="<10 employees") echo 'selected="selected"';?>><10 employees</option>
-                 <option value="10-50 employees" <?php if($vendor_employees =="10-50 employees") echo 'selected="selected"';?>>10 - 50 employees</option>
-                 <option value="50-100 employees" <?php if($vendor_employees =="$50-100 employees") echo 'selected="selected"';?>>50 - 100 employees</option>
-                 <option value="100-500 employees" <?php if($vendor_employees =="100-500 employees") echo 'selected="selected"';?>>100 - 500 employees</option>
-                 <option value="500-1000 employees" <?php if($vendor_employees =="500-1000 employees") echo 'selected="selected"';?>>500 - 1000 employees</option>
-                 <option value="1000< employees" <?php if($vendor_employees =="1000< employees") echo 'selected="selected"';?>>1000< employees</option>
+             <select class="dokan-form-control" name="vendor_employees" id="vendor_employees">
+                 <?php
+                 $employees = [
+                        '' => __( 'Select employees count' ),
+                        '<10 employees' => ('< 10 employees'),
+                        '10-50 employees' => ('10 - 50 employees'),
+                        '50-100 employees' => ('50 - 100 employees'),
+                        '100-500 employees' => ('100 - 500 employees'),
+                        '500-1000 employees' => ('500 - 1000 employees'),
+                        '1000< employees' => ('1000 < employees'),
+                 ];
+
+                 foreach ( $employees as $value => $label ) {
+                     printf(
+                         '<option value="%s" %s>%s</option>',
+                         $value,
+                         selected( $value, $vendor_employees, false ),
+                         $label
+                     );
+                 }
+                 ?>
              </select>
          </div>
      </div>
 
      <!-- Product range -->
-     <div class="custom dokan-form-group">
+    <div class="custom dokan-form-group">
          <label class="dokan-w3 dokan-control-label" for="setting_address">
              <?php _e( 'Product range', 'dokan' ); ?>
          </label>
-         <div class="dokan-w5">
-             <select name="vendor_product_range" class="dokan-form-control" id="vendor_product_range">
-                 <option value="<10 products" <?php if($vendor_product_range =="<10 products") echo 'selected="selected"';?>><10 products</option>
-                 <option value="10-50 products" <?php if($vendor_product_range =="10-50 products") echo 'selected="selected"';?>>10 - 50 products</option>
-                 <option value="50-100 products" <?php if($vendor_product_range =="50-100 products") echo 'selected="selected"';?>>50 - 100 products</option>
-                 <option value="100-300 products" <?php if($vendor_product_range =="100-300 products") echo 'selected="selected"';?>>100 - 300 products</option>
-                 <option value="300-1000 products" <?php if($vendor_product_range =="300-1000 products") echo 'selected="selected"';?>>300 - 1000 products</option>
-                 <option value="1000< products" <?php if($vendor_product_range =="1000< products") echo 'selected="selected"';?>>1000< products</option>
-             </select>
-         </div>
+
+        <div class="dokan-w5">
+         <select class="dokan-form-control" name="vendor_product_range" id="vendor_product_range">
+             <?php
+             $product_ranges = [
+                 '' => __( 'Select a product range' ),
+                 '<10 products' => ('< 10 products'),
+                 '10-50 products' => ('10 - 50 products'),
+                 '50-100 products' => ('50 - 100 products'),
+                 '100-300 products' => ('100 - 300 products'),
+                 '300-1000 products' => ('300 - 1000 products'),
+                 '1000< products' => ('1000 < products'),
+             ];
+
+             foreach ( $product_ranges as $value => $label ) {
+                 printf(
+                     '<option value="%s" %s>%s</option>',
+                     $value,
+                     selected( $value, $vendor_product_range, false ),
+                     $label
+                 );
+             }
+             ?>
+         </select>
      </div>
+    </div>
+
      <hr>
     <?php
  }
@@ -231,7 +310,7 @@ function save_seller_url($store_user){
     }
     add_filter( 'dokan_get_dashboard_nav', 'dokan_add_offers_menu' );
     function dokan_add_offers_menu( $urls ) {
-        $urls['help'] = array(
+        $urls['offers'] = array(
             'title' => __( 'Offers', 'dokan'),
             'icon'  => '<i class="fa fa-user"></i>',
             'url'   => dokan_get_navigation_url( 'offers' ),
