@@ -4,6 +4,7 @@ namespace SynerBay\Functions;
 
 use SynerBay\Module\Offer;
 use SynerBay\Module\OfferApply;
+use SynerBay\Module\Order;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\WPAction;
 
@@ -83,7 +84,10 @@ class Test
                 'weight_unit_sign'       => 'mg',
 //                'material'               => 'wood',
                 // adatbázis set megadására példa, az eggyel feljebb lévő sort is beveszi
-                'material'               => 'wood,metal',
+                'material'               => [
+                        'wood',
+                        'metal'
+                    ],
                 'transport_parity'       => 'exw',
                 'shipping_to'            => 'worldwide',
             ]
@@ -96,6 +100,32 @@ class Test
         $offerApplyModule->createAppearOfferForUser(14, $offerID, rand(5, 40));
 
         print '<pre>';
-        var_dump($module->getOfferData($offerID));die;
+//        var_dump($module->getOfferData($offerID));
+
+        // update offer example
+//        $offerID = $module->updateOffer($offerID, [
+//            'delivery_date'          => date('Y-m-d H:i:s', strtotime('+150 days', time())),
+//            'offer_start_date'       => date('Y-m-d H:i:s', strtotime('+1 days', time())),
+//            'offer_end_date'         => date('Y-m-d H:i:s', strtotime('+45 days', time())),
+//            'price_steps'            => [
+//                [
+//                    'qty' => 5,
+//                    'price' => 50,
+//                ],
+//                [
+//                    'qty' => 10,
+//                    'price' => 5,
+//                ],
+//            ],
+//        ]);
+
+//        print '<pre>';
+//        var_dump($module->getOfferData($offerID));
+
+        /** @var Order $orderModule */
+        $orderModule = $this->getModule('order');
+        $orderModule->createOrdersFromOffer($offerID);
+
+        die;
     }
 }

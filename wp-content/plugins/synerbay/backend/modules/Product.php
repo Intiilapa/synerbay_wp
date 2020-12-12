@@ -7,7 +7,7 @@ use WC_Meta_Data;
 
 class Product
 {
-    public function getProductData(int $productID, $withMetaData = true): array
+    public function getProductData(int $productID, $withWCProduct = true, $withMetaData = true): array
     {
         $productData = [];
 
@@ -16,6 +16,10 @@ class Product
 
             if ($withMetaData) {
                 $productData['meta'] = $this->getProductMetaData($productID);
+            }
+
+            if ($withWCProduct) {
+                $productData['wc_product'] = wc_get_product($productID);
             }
         }
 

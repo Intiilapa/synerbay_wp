@@ -77,12 +77,23 @@ class OfferApply
 
     /**
      * @param int    $offerID
+     * @param bool   $withCustomerData
      * @param string $output
      * @return array|object|null
      */
-    public function getAppliesForOffer(int $offerID, $output = ARRAY_A)
+    public function getAppliesForOffer(int $offerID, bool $withCustomerData = false, $output = ARRAY_A)
     {
         global $wpdb;
-        return $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID, $output);
+
+        $results = $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID, $output);
+
+        if (count($results) && $withCustomerData) {
+            foreach ($results as &$result) {
+                $userID = $output == ARRAY_A ? $result['user_id'] : $result->user_id;
+                $result['customer'] = dokan_get_vendor($userID);
+            }
+        }
+
+        return $results;
     }
 }

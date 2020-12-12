@@ -4,10 +4,14 @@ namespace SynerBay\Module;
 
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
+use Exception;
 
 class Offer
 {
     use ModuleTrait, Loader;
+
+//    private $commissionMultiplier = 0.03;
+    private $commissionMultiplier = 0;
 
     private $dataMap = [
         'product_id'             => '%d',
@@ -32,19 +36,63 @@ class Offer
         $lastInsertedID = false;
         $table = $wpdb->prefix . 'offers';
         $data['user_id'] = get_current_user_id();
-        $data['price_steps'] = json_encode($data['price_steps']);
 
-        try {
-            $wpdb->insert($table, $this->cleanData($data), $this->getInsertFormat());
-            $lastInsertedID = $wpdb->insert_id;
-        } catch (Exception $e) {
+        $form = new \SynerBay\Forms\Offer($data);
 
+        if ($form->validate()) {
+            try {
+                $wpdb->insert($table, $this->cleanData($form->getFilteredValues()), $this->getInsertFormat());
+                $lastInsertedID = $wpdb->insert_id;
+            } catch (Exception $e) {
+
+            }
+
+            return $lastInsertedID;
         }
 
-        return $lastInsertedID;
+        print '<pre>';
+        var_dump($form->errorMessages());
+        die;
     }
 
-    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true): array
+    public function updateOffer(int $offerID, array $data)
+    {
+        global $wpdb;
+
+        if ($offer = $this->getOfferData($offerID)) {
+            if ($offer['user_id'] != get_current_user_id()) {
+                throw new Exception('Permission denied!');
+            }
+
+            if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
+                throw new Exception('It cannot be modified because it has started! ('.$offerID.')');
+            }
+
+            if (array_key_exists('price_steps', $data)) {
+                $data['price_steps'] = json_encode($data['price_steps']);
+            }
+
+            $table = $wpdb->prefix . 'offers';
+
+            try {
+                $wpdb->update(
+                    $table,
+                    $this->cleanUpdateData($data),
+                    array( 'id' => $offerID ),
+                    $this->getInsertFormat($data),
+                    array( '%d' )
+                );
+            } catch (Exception $e) {
+
+            }
+
+            return $offerID;
+        }
+
+        return false;
+    }
+
+    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false): array
     {
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
@@ -53,19 +101,21 @@ class Offer
             $offer['url'] = get_permalink($offerID);
 
             if ($withUser) {
-                $offer['user'] = dokan_get_vendor($offer['user_id']);
+                $offer['vendor'] = dokan_get_vendor($offer['user_id']);
             }
 
             /** @var Product $productModule */
             $productModule = $this->getModule('product');
-            $offer['product'] = $productModule->getProductData($offer['product_id']);
+            $offer['product'] = $productModule->getProductData($offer['product_id'], $withWCProduct);
 
             /** @var OfferApply $offerApplyModule */
             $offerApplyModule = $this->getModule('offerApply');
-            $offer['applies'] = $offerApplyModule->getAppliesForOffer($offerID);
+            $offer['applies'] = $offerApplyModule->getAppliesForOffer($offerID, $applyWithCustomerData);
 
-            // calculate current price
-            $offer['current_price'] = wc_price($this->calculateCurrentPrice($offer));
+            $offer['summary'] = $this->getOfferSummaryData($offer);
+            // format prices
+            $offer['summary']['formatted_actual_product_price'] = wc_price($offer['summary']['actual_product_price']);
+            $offer['summary']['formatted_actual_commission_price'] = wc_price($offer['summary']['actual_commission_price']);
         }
 
         return $offer;
@@ -84,15 +134,22 @@ class Offer
 
     /**
      * @param array $offerData
-     * @return mixed
+     * @return array
      */
-    public function calculateCurrentPrice(array $offerData)
+    private function getOfferSummaryData(array $offerData)
     {
-        $price = $offerData['product']['meta']['_price'];
+        $actualProductPrice = $offerData['product']['meta']['_price'];
         $priceSteps = $offerData['price_steps'];
+        $groupByProductQTYNumber = 0;
+        $actualApplicantNumber = 0;
+        $actualPriceStepQty = 0;
+        $minPriceStep = 0;
+        $maxPriceStep = 0;
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {
+            $actualApplicantNumber = count($offerData['applies']);
+
             $tmp = [];
             foreach ($priceSteps as $stepData) {
                 $tmp[$stepData['qty']] = $stepData['price'];
@@ -100,26 +157,38 @@ class Offer
 
             if (count($tmp)) {
                 // calculate apply qty
-                $appliesSum = 0;
-
                 foreach ($offerData['applies'] as $apply) {
-                    $appliesSum += $apply['qty'];
+                    $groupByProductQTYNumber += $apply['qty'];
                 }
 
                 ksort($tmp);
                 foreach ($tmp as $qty => $stepPrice) {
+                    $actualPriceStepQty = $qty;
+
                     // mi az ára?
-                    if ($appliesSum < $qty) {
+                    if ($groupByProductQTYNumber < $qty) {
                         break;
                     }
 
-                    $price = $stepPrice;
+                    $actualProductPrice = $stepPrice;
                 }
+
+                // get max price step
+                $minPriceStep = array_key_first($tmp);
+                $maxPriceStep = array_key_last($tmp);
             }
 
             unset($tmp);
         }
 
-        return $price;
+        return [
+            'actual_product_price' => $actualProductPrice,
+            'min_price_step_qty' => $minPriceStep,
+            'max_price_step_qty' => $maxPriceStep,
+            'actual_price_step_qty' => $actualPriceStepQty,
+            'actual_applicant_product_number' => $groupByProductQTYNumber,
+            'actual_commission_price' => $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0,
+            'actual_applicant_number' => $actualApplicantNumber,
+        ];
     }
 }

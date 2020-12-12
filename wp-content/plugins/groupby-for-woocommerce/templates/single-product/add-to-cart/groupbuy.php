@@ -28,7 +28,7 @@ global $product, $post;
 //die;
 
 // todo Remco ez egy komplett offer létrehozás példa, fájl helye wp-content/plugins/synerbay/backend/functions/Test.php -> test function
-do_action('synerbay_test');die;
+//do_action('synerbay_test');die('done');
 
 
 $id = $product->get_main_wpml_product_id();
@@ -36,12 +36,12 @@ $id = $product->get_main_wpml_product_id();
 if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_closed() ) return;
 
 ?>
-<?php do_action('woocommerce_before_add_to_cart_form');?>
+<?php //do_action('woocommerce_before_add_to_cart_form');?>
 
     <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $post->ID; ?>">
         <?php
 
-        do_action('woocommerce_before_add_to_cart_button');
+//        do_action('woocommerce_before_add_to_cart_button');
 
         if ( ! $product->is_sold_individually() )
             woocommerce_quantity_input( array(
@@ -51,13 +51,13 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
             ) );
         ?>
 
-        <div>
-            <input type="hidden" name="add-to-cart" value="<?php echo $product->get_id(); ?>" />
-            <input type="hidden" name="product_id" value="<?php echo esc_attr( $post->ID ); ?>" />
-        </div>
+<!--        <div>-->
+<!--            <input type="hidden" name="add-to-cart" value="--><?php //echo $product->get_id(); ?><!--" />-->
+<!--            <input type="hidden" name="product_id" value="--><?php //echo esc_attr( $post->ID ); ?><!--" />-->
+<!--        </div>-->
 
         <?php do_action('synerbay_offerApplyButton', $product);?>
-        <?php do_action('woocommerce_after_add_to_cart_button'); ?>
+<!--        --><?php //do_action('woocommerce_after_add_to_cart_button'); ?>
     </form>
 
 
