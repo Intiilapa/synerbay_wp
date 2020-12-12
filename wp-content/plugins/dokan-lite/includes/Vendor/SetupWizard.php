@@ -150,7 +150,7 @@ class SetupWizard extends DokanSetupWizard {
         ?>
         <h1><?php esc_attr_e( 'Welcome to the Marketplace!', 'dokan-lite' ); ?></h1>
         <p><?php echo wp_kses( __( 'Thank you for choosing The Marketplace to power your online store! This quick setup wizard will help you configure the basic settings.', 'dokan-lite' ), [ 'strong' => [] ] ); ?></p>
-        <p><?php esc_attr_e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the Store!', 'dokan-lite' ); ?></p>
+        <!--<p><?php esc_attr_e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the Store!', 'dokan-lite' ); ?></p>-->
         <p class="wc-setup-actions step">
             <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next lets-go-btn dokan-btn-theme"><?php esc_attr_e( 'Let\'s Go!', 'dokan-lite' ); ?></a>
             <!--<a href="<?php echo esc_url( $dashboard_url ); ?>" class="button button-large not-right-now-btn dokan-btn-theme"><?php esc_attr_e( 'Not right now', 'dokan-lite' ); ?></a>-->
@@ -198,28 +198,191 @@ class SetupWizard extends DokanSetupWizard {
                     </td>
 -->
                 </tr>
+
+                <!-- Ask vat -->
+                <th scope="row"><label for="vendor_vat"><?php esc_html_e( 'VAT Number', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="text" class="dokan-form-control input-md valid" name="vendor_vat" id="reg_seller_url" value="<?php echo $vendor_vat; ?>" />
+                    </td>
+                <tr>
+
+                <!-- Ask Industry -->
+                <th scope="row"><label for="vendor_industry"><?php esc_html_e( 'Industry', 'dokan-lite' ); ?></label></th>
+                <td>
+                    <select class="wc-enhanced-select" name="vendor_industry" id="vendor_industry">
+                        <?php
+                        $industries = [
+                            '' => __( 'Select industry' ),
+                            'Agriculture & Food' => ('Agriculture & Food'),
+                            'Apparel,Textiles & Accessories' => ('Apparel, Textiles & Accessories'),
+                            'Auto & Transportation' => ('Auto & Transportation'),
+                            'Bags, Shoes & Accessories' => ('Bags, Shoes & Accessories'),
+                            'Electronics' => ('Electronics'),
+                            'Electrical Equipment, Components & Telecoms' => ('Electrical Equipment, Components & Telecoms'),
+                            'Gifts, Sports & Toys' => ('Gifts, Sports & Toys'),
+                            'Health & Beauty' => ('Health & Beauty'),
+                            'Home, Lights & Construction' => ('Home, Lights & Construction'),
+                            'Machinery, Industrial Parts & Tools' => ('Machinery, Industrial Parts & Tools'),
+                            'Metallurgy, Chemicals, Rubber & Plastics' => ('Metallurgy, Chemicals, Rubber & Plastics'),
+                            'Packaging, Advertising & Office' => ('Packaging, Advertising & Office'),
+                        ];
+
+                        foreach ( $industries as $value => $label ) {
+                            printf(
+                                '<option value="%s" %s>%s</option>',
+                                $value,
+                                selected( $value, $vendor_industry, false ),
+                                $label
+                            );
+                        }
+                        ?>
+                    </select>
+                </td>
+                <tr>
+                <!-- Ask Company Type -->
+                <th scope="row"><label for="vendor_type"><?php esc_html_e( 'Company Type', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <select class="wc-enhanced-select" name="vendor_type" id="vendor_type">
+                            <?php
+                            $company_types = [
+                                '' => __( 'Select company type' ),
+                                'manufacturer' => ('Manufacturer'),
+                                'wholesaler' => ('Wholesaler'),
+                                'retailer' => ('Retailer'),
+                                'service' => ('Service'),
+                            ];
+
+                            foreach ( $company_types as $value => $label ) {
+                                printf(
+                                    '<option value="%s" %s>%s</option>',
+                                    $value,
+                                    selected( $value, $vendor_type, false ),
+                                    $label
+                                );
+                            }
+                            ?>
+                        </select>
+                    </td>
+                <tr>
+
+                <!-- Ask where company ships -->
+                <th scope="row"><label for="vendor_shipping_to"><?php esc_html_e( 'Shipping to', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <select name="vendor_shipping_to" class="wc-enhanced-select" id="vendor_shipping_to">
+                            <?php dokan_country_dropdown( $countries, $address_country, false ); ?>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Ask for Annual rev -->
+                <th scope="row"><label for="vendor_revenue"><?php esc_html_e( 'Annual Revenue', 'dokan-lite' ); ?></label></th>
+                <td>
+                    <select class="wc-enhanced-select" name="vendor_revenue" id="vendor_revenue">
+                        <?php
+                        $revenues = [
+                            '' => __( 'Select annual revenue' ),
+                            '$0-$500.000' => ('$0 - $500.000'),
+                            '$500.000-$1.000.000' => ('$500.000 - $1.000.000'),
+                            '$1.000.000-$5.000.000' => ('$1.000.000 - $5.000.000'),
+                            '$5.000.000-$10.000.000' =>('$5.000.000 - $10.000.000'),
+                            '$10.000.000-$50.000.000' => ('$10.000.000 - $50.000.000'),
+                            '$50.000.000<' => ('$50.000.000<'),
+
+                        ];
+
+                        foreach ( $revenues as $value => $label ) {
+                            printf(
+                                '<option value="%s" %s>%s</option>',
+                                $value,
+                                selected( $value, $vendor_revenue, false ),
+                                $label
+                            );
+                        }
+                        ?>
+                    </select>
+                </td>
+                <tr>
+
+                <!-- Ask employees -->
+                <th scope="row"><label for="vendor_employees"><?php esc_html_e( 'Employees', 'dokan-lite' ); ?></label></th>
+                <td>
+                    <select class="wc-enhanced-select" name="vendor_employees" id="vendor_employees">
+                        <?php
+                        $employees = [
+                            '' => __( 'Select employees count' ),
+                            '<10 employees' => ('< 10 employees'),
+                            '10-50 employees' => ('10 - 50 employees'),
+                            '50-100 employees' => ('50 - 100 employees'),
+                            '100-500 employees' => ('100 - 500 employees'),
+                            '500-1000 employees' => ('500 - 1000 employees'),
+                            '1000< employees' => ('1000 < employees'),
+                        ];
+
+                        foreach ( $employees as $value => $label ) {
+                            printf(
+                                '<option value="%s" %s>%s</option>',
+                                $value,
+                                selected( $value, $vendor_employees, false ),
+                                $label
+                            );
+                        }
+                        ?>
+                    </select>
+                </td>
+                <tr>
+
+                <!-- Ask Product range -->
+                <th scope="row"><label for="vendor_product_range"><?php esc_html_e( 'Product Range', 'dokan-lite' ); ?></label></th>
+                <td>
+                    <select class="wc-enhanced-select" name="vendor_product_range" id="vendor_product_range">
+                        <?php
+                        $product_ranges = [
+                            '' => __( 'Select a product range' ),
+                            '<10 products' => ('< 10 products'),
+                            '10-50 products' => ('10 - 50 products'),
+                            '50-100 products' => ('50 - 100 products'),
+                            '100-300 products' => ('100 - 300 products'),
+                            '300-1000 products' => ('300 - 1000 products'),
+                            '1000< products' => ('1000 < products'),
+                        ];
+
+                        foreach ( $product_ranges as $value => $label ) {
+                            printf(
+                                '<option value="%s" %s>%s</option>',
+                                $value,
+                                selected( $value, $vendor_product_range, false ),
+                                $label
+                            );
+                        }
+                        ?>
+                    </select>
+                </td>
+
+                <!-- Dokan store question -->
                 <tr>
                     <th scope="row"><label for="address[street_1]"><?php esc_html_e( 'Street', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo esc_attr( $address_street1 ); ?>" />
                     </td>
                 </tr>
+
                 <tr>
                     <th scope="row"><label for="address[street_2]"><?php esc_html_e( 'Street 2', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="address[street_2]" name="address[street_2]" value="<?php echo esc_attr( $address_street2 ); ?>" />
                     </td>
                 </tr>
+
                 <tr>
                     <th scope="row"><label for="address[city]"><?php esc_html_e( 'City', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="address[city]" name="address[city]" value="<?php echo esc_attr( $address_city ); ?>" />
                     </td>
                 </tr>
-                    <th scope="row"><label for="address[zip]"><?php esc_html_e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <input type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
-                    </td>
+                <th scope="row"><label for="address[zip]"><?php esc_html_e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
+                <td>
+                    <input type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
+                </td>
                 <tr>
                 </tr>
 
@@ -237,91 +400,6 @@ class SetupWizard extends DokanSetupWizard {
                         <input type="text" id="calc_shipping_state" name="address[state]" value="<?php echo esc_attr( $address_state ); ?>" / placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>">
                     </td>
                 </tr>
-
-                <!-- Ask vat -->
-                <th scope="row"><label for="vendor_vat"><?php esc_html_e( 'VAT Number', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <input type="text" class="dokan-form-control input-md valid" name="vendor_vat" id="reg_seller_url" value="<?php echo $vendor_vat; ?>" />
-                    </td>
-                <tr>
-
-                <!-- Ask Industry -->
-                <th scope="row"><label for="vendor_industry"><?php esc_html_e( 'Industry', 'dokan-lite' ); ?></label></th>
-                <td>
-                    <select name="vendor_industry" class="wc-enhanced-select" id="vendor_industry">
-                        <option value="Agriculture & Food">Agriculture & Food</option>
-                        <option value="Apparel,Textiles & Accessories">Apparel,Textiles & Accessories</option>
-                        <option value="Auto & Transportation">Auto & Transportation</option>
-                        <option value="Bags, Shoes & Accessories">Bags, Shoes & Accessories</option>
-                        <option value="Electronics">Electronics</option>
-                        <option value="Electrical Equipment, Components & Telecoms">Electrical Equipment, Components & Telecoms</option>
-                        <option value="Gifts, Sports & Toys">Gifts, Sports & Toys</option>
-                        <option value="Health & Beauty">Health & Beauty</option>
-                        <option value="Home, Lights & Construction">Home, Lights & Construction</option>
-                        <option value="Machinery, Industrial Parts & Tools">Machinery, Industrial Parts & Tools</option>
-                        <option value="Metallurgy, Chemicals, Rubber & Plastics">Metallurgy, Chemicals, Rubber & Plastics</option>
-                        <option value="Packaging, Advertising & Office">Packaging, Advertising & Office</option>
-                    </select>
-                </td>
-                <tr>
-                <!-- Ask Company Type -->
-                <th scope="row"><label for="vendor_type"><?php esc_html_e( 'Company Type', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <select name="vendor_type" class="wc-enhanced-select" id="vendor_type">
-                            <option value="manufacturer">Manufacturer</option>
-                            <option value="wholesaler">Wholesaler</option>
-                            <option value="retailer">Retailer</option>
-                            <option value="service">Service</option>
-                        </select>
-                    </td>
-                <tr>
-                <!-- Ask where company ships -->
-                <th scope="row"><label for="vendor_shipping_to"><?php esc_html_e( 'Shipping to', 'dokan-lite' ); ?></label></th>
-                    <td>
-                        <select name="vendor_shipping_to" class="wc-enhanced-select" id="vendor_shipping_to">
-                            <?php dokan_country_dropdown( $countries, $address_country, false ); ?>
-                        </select>
-                    </td>
-                </tr>
-                <!-- Ask for Annual rev -->
-                <th scope="row"><label for="vendor_revenue"><?php esc_html_e( 'Annual Revenue', 'dokan-lite' ); ?></label></th>
-                <td>
-                    <select name="vendor_revenue" class="wc-enhanced-select" id="vendor_revenue">
-                        <option value="$0-$500.000">$0 - $500.000</option>
-                        <option value="$500.000-$1.000.000">$500.000 - $1.000.000</option>
-                        <option value="$1.000.000-$5.000.000">$1.000.000 - $5.000.000</option>
-                        <option value="$5.000.000-$10.000.000">$5.000.000 - $10.000.000</option>
-                        <option value="$10.000.000-$50.000.000">$10.000.000 - $50.000.000</option>
-                        <option value="$50.000.000<">$50.000.000<</option>
-                    </select>
-                </td>
-                <tr>
-                <!-- Ask employees -->
-                <th scope="row"><label for="vendor_employees"><?php esc_html_e( 'Employees', 'dokan-lite' ); ?></label></th>
-                <td>
-                    <select name="vendor_employees" class="wc-enhanced-select" id="vendor_employees">
-                        <option value="<10 employees"><10 employees</option>
-                        <option value="10-50 employees">10 - 50 employees</option>
-                        <option value="50-100 employees">50 - 100 employees</option>
-                        <option value="100-500 employees">100 - 500 employees</option>
-                        <option value="500-1000 employees">500 - 1000 employees</option>
-                        <option value="1000< employees">1000< employees</option>
-                    </select>
-                </td>
-                <tr>
-                <!-- Ask Product range -->
-                <th scope="row"><label for="vendor_product_range"><?php esc_html_e( 'Product Range', 'dokan-lite' ); ?></label></th>
-                <td>
-                    <select name="vendor_product_range" class="wc-enhanced-select" id="vendor_product_range">
-                        <option value="<10 products"><10 products</option>
-                        <option value="10-50 products">10 - 50 products</option>
-                        <option value="50-100 products">50 - 100 products</option>
-                        <option value="100-300 products">100 - 300 products</option>
-                        <option value="300-1000 products">300 - 1000 products</option>
-                        <option value="1000< products">1000< products</option>
-                    </select>
-                </td>
-                <tr>
 
                 <?php do_action( 'dokan_seller_wizard_store_setup_after_address_field', $this ); ?>
 
