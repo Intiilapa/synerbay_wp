@@ -6,6 +6,9 @@ function martfury_child_enqueue_scripts() {
 	if ( is_rtl() ) {
 		wp_enqueue_style( 'martfury-rtl', get_template_directory_uri() . '/rtl.css', array(), '20180105' );
 	}
+
+	//Add Offer Class
+	//require_once  get_stylesheet_directory(). '/includes/Offer.php';
 }
 
 /*
@@ -305,25 +308,60 @@ function save_seller_url($store_user){
     */
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu' );
     function dokan_load_document_menu( $query_vars ) {
-        $query_vars['offers'] = 'offers';
+        $query_vars['offer'] = 'offer';
         return $query_vars;
     }
-    add_filter( 'dokan_get_dashboard_nav', 'dokan_add_offers_menu' );
-    function dokan_add_offers_menu( $urls ) {
-        $urls['offers'] = array(
+    add_filter( 'dokan_get_dashboard_nav', 'dokan_add_offer_menu' );
+    function dokan_add_offer_menu( $urls ) {
+        $urls['offer'] = array(
             'title' => __( 'Offers', 'dokan'),
             'icon'  => '<i class="fa fa-user"></i>',
-            'url'   => dokan_get_navigation_url( 'offers' ),
+            'url'   => dokan_get_navigation_url( 'offer' ),
             'pos'   => 51
         );
         return $urls;
     }
+
+    /*
+     *  Add actions to Offers
+     *
+     * @since 3.0.16
+     * @package dokan
+     *
+     */
+
+    //Main file
     add_action( 'dokan_load_custom_template', 'dokan_load_template' );
     function dokan_load_template( $query_vars ) {
-        if ( isset( $query_vars['offers'] ) ) {
-            require_once dirname( __FILE__ ). '/custom-dashboard/offers.php';
+        if ( isset( $query_vars['offer'] ) ) {
+            require_once dirname( __FILE__ ). '/dokan/templates/offers/offers.php';
         }
     }
+
+    //Header
+    add_action('dokan_offer_header', 'render_header_offers');
+    function render_header_offers(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/header.php';
+    }
+
+    //Filter(tabs)
+    add_action('dokan_offer_filter', 'render_filter_offers');
+    function render_filter_offers(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/status-filter.php';
+    }
+
+    //Content
+    add_action('dokan_main_content', 'render_content_offers');
+    function render_content_offers(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/content.php';
+    }
+
+    //Table
+    add_action('dokan_offer_table', 'render_offer_table');
+    function render_offer_table(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/listing.php';
+    }
+
 
 /**
  * NOTE: This code example uses the generic vendor prefix 'prefix_' and omits text domains where
