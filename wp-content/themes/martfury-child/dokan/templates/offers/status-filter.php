@@ -7,12 +7,12 @@
  * @package dokan
  */
 ?>
-<div id="dokan-comments_menu">
-    <ul class="subsubsub list-inline">
-        <li class="comments-menu-approved">
+<div id="dokan-offers_menu">
+    <ul class="list-inline">
+        <li class="menu-active">
             <a href="#">Active Offers</a>
         </li>
-        <li class="comments-menu-approved">
+        <li class="menu-orders">
             <a href="#">My Offers</a>
         </li>
     </ul>

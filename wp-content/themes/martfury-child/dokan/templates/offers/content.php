@@ -7,6 +7,7 @@
  * @package dokan
  */
 ?>
+
 <div class="dokan-comments-wrap">
     <?php
         /**

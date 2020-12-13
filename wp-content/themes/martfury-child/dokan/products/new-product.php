@@ -46,7 +46,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
             <header class="dokan-dashboard-header dokan-clearfix">
                 <h1 class="entry-title">
-                    <?php esc_html_e( 'Add New Product', 'dokan-lite' ); ?>
+                    <?php esc_html_e( 'Create new Offer', 'dokan-lite' ); ?>
                 </h1>
             </header><!-- .entry-header -->
 
@@ -250,9 +250,15 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         <select multiple="multiple" placeholder="<?php esc_attr_e( 'Select product tags', 'dokan-lite' ); ?>" name="product_tag[]" id="product_tag_search" class="product_tag_search product_tags dokan-form-control dokan-select2" data-placeholder="<?php esc_attr_e( 'Select tags', 'dokan-lite' ); ?>"></select>
                                     </div>
 
+                                    <div class="dokan-form-group">
+                                        <label for="product_max_quantity" class="form-label"><?php esc_html_e( 'Minimum Order Quantity', 'dokan-lite' ); ?></label>
+                                            <input type="text" class="dokan-form-control wc_input_price dokan-product" name="minimum_order_quantity" placeholder="0" id="minimum_order_quantity" value="<?php echo esc_attr( dokan_posted_input( 'minimum_order_quantity' ) ) ?>">
+                                    </div>
+
                                     <?php do_action( 'dokan_new_product_after_product_tags' ); ?>
                                 </div>
                             </div>
+
 
                             <div class="dokan-form-group">
                                 <label for="post_content" class="control-label"><?php esc_html_e( 'Description', 'dokan-lite' ) ?> <i class="fa fa-question-circle tips" data-title="<?php esc_attr_e( 'Add your product description', 'dokan-lite' ) ?>" aria-hidden="true"></i></label>

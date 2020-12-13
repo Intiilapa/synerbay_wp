@@ -30,9 +30,10 @@ global $product, $post;
 //die;
 
 // dashboard -> my offers
-//do_action('synerbay_init_global_my_offers_for_dashboard');
-//global $myOffers;
-//print '<pre>';var_dump($myOffers);die;
+do_action('synerbay_init_global_my_offers_for_dashboard');
+global $myOffers;
+print '<pre>';var_dump($myOffers);die;
+
 // dashboard -> my offer applies
 //do_action('synerbay_init_global_my_offer_applies_for_dashboard');
 //global $myOfferApplies;
