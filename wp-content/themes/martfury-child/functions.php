@@ -356,12 +356,17 @@ function save_seller_url($store_user){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/content.php';
     }
 
-    //Table
-    add_action('dokan_offer_table', 'render_offer_table');
-    function render_offer_table(){
-        require_once dirname( __FILE__ ). '/dokan/templates/offers/listing.php';
+    //Active Table
+    add_action('dokan_active_offer_table', 'render_active_offer_table');
+    function render_active_offer_table(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/active_offers.php';
     }
 
+    //Active Table
+    add_action('dokan_my_offer_table', 'render_my_offer_table');
+    function render_my_offer_table(){
+        require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
+    }
 
 /**
  * NOTE: This code example uses the generic vendor prefix 'prefix_' and omits text domains where
