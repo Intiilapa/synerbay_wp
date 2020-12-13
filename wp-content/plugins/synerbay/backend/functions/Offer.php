@@ -26,7 +26,7 @@ class Offer
     public function initGlobalOffer(int $offerID)
     {
         global $offer;
-        $offer = $this->offerModule->getOfferData($offerID);
+        $offer = $this->offerModule->getOfferData($offerID, true, true, true, true);
     }
 
     public function initGlobalMyOffers()

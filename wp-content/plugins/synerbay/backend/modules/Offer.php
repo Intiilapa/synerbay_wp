@@ -92,13 +92,13 @@ class Offer
         return false;
     }
 
-    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false): array
+    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
     {
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
             $offer['price_steps'] = json_decode($offer['price_steps'], true);
             // todo Remco ide kellene az url generálás
-            $offer['url'] = get_permalink($offerID);
+            $offer['url'] = get_site_url() . '/offer/' . $offerID;
 
             if ($withUser) {
                 $offer['vendor'] = dokan_get_vendor($offer['user_id']);

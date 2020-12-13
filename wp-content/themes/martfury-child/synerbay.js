@@ -129,12 +129,12 @@
 
     synerbay.showLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];
-        //loader.style.display = "";
+        loader.style.display = "";
     }
 
     synerbay.hideLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];
-        //loader.style.display = "none";
+        loader.style.display = "none";
     }
 
     /**

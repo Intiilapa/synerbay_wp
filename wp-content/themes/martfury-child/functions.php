@@ -11,6 +11,13 @@ function martfury_child_enqueue_scripts() {
 	//require_once  get_stylesheet_directory(). '/includes/Offer.php';
 }
 
+add_action('wp_footer', 'custom_footer_actions');
+function custom_footer_actions(){
+    do_action('synerbay_loader');
+    do_action('synerbay_loginModal');
+};
+
+
 /*
  *
  * Enable custom registration details for Dokan dashboard
