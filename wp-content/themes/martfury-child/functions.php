@@ -18,12 +18,6 @@ function custom_footer_actions(){
 };
 
 
-add_action('wp_footer', 'custom_footer_actions');
-function custom_footer_actions(){
-    do_action('synerbay_loader');
-    do_action('synerbay_loginModal');
-};
-
 /*
  *
  * Enable custom registration details for Dokan dashboard
@@ -379,6 +373,12 @@ function save_seller_url($store_user){
     add_action('dokan_my_offer_table', 'render_my_offer_table');
     function render_my_offer_table(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
+    }
+
+    //Create offer from product template
+    add_action('dokan_create_my_offer', 'render_create_offer');
+    function render_create_offer(){
+        require_once dirname( __FILE__). '/dokan/templates/offers/new-offer.php';
     }
 
 /**
