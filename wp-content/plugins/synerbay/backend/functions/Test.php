@@ -79,10 +79,11 @@ class Test
                 ],
                 'minimum_order_quantity' => 35,
                 'order_quantity_step'    => 5,
-                'max_total_offer_qty'    => null,
+//                'max_total_offer_qty'    => null,
+                'max_total_offer_qty'    => 1000,
                 'weight_unit'            => 10,
                 'weight_unit_sign'       => 'mg',
-//                'material'               => 'wood',
+//                'material'               => ['wood'],
                 // adatbázis set megadására példa, az eggyel feljebb lévő sort is beveszi
                 'material'               => [
                         'wood',
@@ -100,7 +101,7 @@ class Test
         $offerApplyModule->createAppearOfferForUser(14, $offerID, rand(5, 40));
 
         print '<pre>';
-//        var_dump($module->getOfferData($offerID));
+        //var_dump($module->getOfferData($offerID));
 
         // update offer example
 //        $offerID = $module->updateOffer($offerID, [
@@ -119,12 +120,12 @@ class Test
 //            ],
 //        ]);
 
-//        print '<pre>';
-//        var_dump($module->getOfferData($offerID));
+        print '<pre>';
+        var_dump($module->getOfferData($offerID));
 
         /** @var Order $orderModule */
-        $orderModule = $this->getModule('order');
-        $orderModule->createOrdersFromOffer($offerID);
+//        $orderModule = $this->getModule('order');
+//        $orderModule->createOrdersFromOffer($offerID);
 
         die;
     }

@@ -43,7 +43,23 @@ class Product
             }
         }
 
-        return $wpdb->get_results('select ID from ' . $table . ' where ' . implode('and', $where), $output);
+        return $wpdb->get_results('select * from ' . $table . ' where ' . implode('and', $where), $output);
+    }
+
+    public function getMyProductsForSelect()
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'posts';
+        $ret = [];
+        $results = $wpdb->get_results('select ID, post_title from ' . $table . ' where post_author = '. get_current_user_id(). ' and post_type = "product"', ARRAY_A);
+
+        if (count($results)) {
+            foreach ($results as $result) {
+                $ret[$result['ID']] = $result['post_title'];
+            }
+        }
+
+        return $ret;
     }
 
     /**

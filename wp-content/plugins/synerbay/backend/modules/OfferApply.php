@@ -1,15 +1,17 @@
 <?php
 namespace SynerBay\Module;
 
+use SynerBay\Traits\Loader;
+
 class OfferApply
 {
+    use Loader;
     /** @var Offer $offerModule */
     private Offer $offerModule;
 
     public function __construct()
     {
-        include_once 'Offer.php';
-        $this->offerModule = new Offer();
+        $this->offerModule = $this->getModule('offer');
     }
 
     public function createAppearOfferForUser(int $userID, int $offerID, int $productQuantity)
@@ -73,6 +75,7 @@ class OfferApply
         $result = $wpdb->get_results('select count(id) as count from sb_offer_applies WHERE user_id = ' . $userID . ' and offer_id = ' . $offerID);
 
         return (bool)$result[0]->count;
+
     }
 
     /**
@@ -95,5 +98,22 @@ class OfferApply
         }
 
         return $results;
+    }
+
+    public function getMyOfferAppliesForDashboard()
+    {
+        global $wpdb;
+
+        $ret = [];
+        $results = $wpdb->get_results('select * from sb_offer_applies WHERE user_id = ' . get_current_user_id() . ' order by id desc', ARRAY_A);
+
+        if (count($results)) {
+            foreach ($results as &$result) {
+                $result['offer'] = $this->offerModule->getOfferData($result['offer_id']);
+            }
+            $ret = $results;
+        }
+
+        return $ret;
     }
 }

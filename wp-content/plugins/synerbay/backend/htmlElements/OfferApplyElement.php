@@ -13,6 +13,7 @@ class OfferApplyElement extends AbstractElement
     {
         $this->offerApplyModule = new OfferApplyModule();
         $this->addAction('offerApplyButton');
+        $this->addAction('disAppearOfferDashBoardButton');
     }
 
     public function offerApplyButton(WC_Product $product)
@@ -26,9 +27,14 @@ class OfferApplyElement extends AbstractElement
         // jelentekezett máár rá vagy nem?
         // todo Remco színezd meg légyszi a gombokat és a js függvényx bemenő paraméterének kellene az offer id
         if (!get_current_user_id() || (get_current_user_id() && !$this->offerApplyModule->isUserAppliedOffer(get_current_user_id(), $product->get_id()))) {
-            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$product->get_id().")' class='button'>[angol szöveg] jelentkezés</div></button>";
+            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$product->get_id().")' class='button'>[angol szöveg] jelentkezés</button>";
         } else {
-            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$product->get_id().")' class='button'>[angol szöveg] lejelentkezés</div></button>";
+            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$product->get_id().")' class='button'>[angol szöveg] lejelentkezés</button>";
         }
+    }
+
+    public function disAppearOfferDashBoardButton($offerID)
+    {
+        echo  "<a onclick='window.synerbay.disAppearOffer(".$offerID.")' class='button'>x</a>";
     }
 }

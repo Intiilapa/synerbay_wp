@@ -43,6 +43,7 @@ class Offer extends AbstractForm
             'price_steps',
             true,
             ['isArray' => []],
+            ['setJSON']
         ));
 
         $this->addColumn(new Column(

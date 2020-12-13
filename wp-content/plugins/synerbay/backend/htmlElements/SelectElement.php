@@ -2,14 +2,28 @@
 namespace SynerBay\HTMLElement;
 
 use SynerBay\Helper\SynerBayDataHelper;
+use SynerBay\Module\Product;
+use SynerBay\Traits\Loader;
 
 class SelectElement extends AbstractElement
 {
+    use Loader;
+
     public function __construct()
     {
+        $this->addAction('getMyProductsSelect');
         $this->addAction('getMaterialTypesSelect');
         $this->addAction('getUnitTypesSelect');
         $this->addAction('getParityTypesSelect');
+    }
+
+    public function getMyProductsSelect($selected = false) {
+
+        /** @var Product $module */
+        $module = $this->getModule('product');
+        $haystack = $module->getMyProductsForSelect();
+
+        $this->generateSelect('product_id', $haystack, 'Product', $selected);
     }
 
     public function getMaterialTypesSelect($selectedHaystack = []) {
