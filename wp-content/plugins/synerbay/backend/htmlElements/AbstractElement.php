@@ -30,7 +30,7 @@ class AbstractElement
 
     protected function generateSelect($name, array $haystack, string $label = '', $selected = false)
     {
-        $skeleton = '<select name="'.$name.'">%s</select>';
+        $skeleton = '<select class="dokan-form-control" name="'.$name.'">%s</select>';
 
         if (!empty($label)) {
             $skeleton = '<label for="'.$name.'">'.$label.':</label>' . $skeleton;
@@ -52,7 +52,7 @@ class AbstractElement
             throw new \Exception('Invalid data in selected haystack, only array allowed!');
         }
 
-        $skeleton = '<select name="'.$name.'" multiple>%s</select>';
+        $skeleton = '<select class="dokan-form-control" name="'.$name.'" multiple>%s</select>';
 
         if (!empty($label)) {
             $skeleton = '<label for="'.$name.'">'.$label.':</label>' . $skeleton;

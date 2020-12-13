@@ -254,7 +254,15 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         <label for="product_max_quantity" class="form-label"><?php esc_html_e( 'Minimum Order Quantity', 'dokan-lite' ); ?></label>
                                             <input type="text" class="dokan-form-control wc_input_price dokan-product" name="minimum_order_quantity" placeholder="0" id="minimum_order_quantity" value="<?php echo esc_attr( dokan_posted_input( 'minimum_order_quantity' ) ) ?>">
                                     </div>
+                                    <?php
+                                        do_action('synerbay_getUnitTypesSelect');
+                                        do_action('synerbay_getUnitTypesSelect', 'cl');
 
+                                        do_action('synerbay_getMaterialTypesSelect');
+                                        do_action('synerbay_getMaterialTypesSelect', ['wood', 'chemical']);
+
+                                        do_action('synerbay_getMyProductsSelect');
+                                    ?>
                                     <?php do_action( 'dokan_new_product_after_product_tags' ); ?>
                                 </div>
                             </div>

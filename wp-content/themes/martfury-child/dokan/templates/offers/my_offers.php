@@ -2,13 +2,14 @@
 
 global $myOffers;
 do_action('synerbay_init_global_my_offers_for_dashboard');
+
 ?>
 <div class="product-listing-top dokan-clearfix">
     <h1>My Offers</h1>
     <?php if ( dokan_is_seller_enabled( get_current_user_id() ) ): ?>
         <span class="dokan-add-product-link">
                             <?php if ( current_user_can( 'dokan_add_product' ) ): ?>
-                                <a href="<?php echo esc_url( dokan_get_navigation_url( 'new-product' ) ); ?>" class="dokan-btn dokan-btn-theme <?php echo ( 'on' == dokan_get_option( 'disable_product_popup', 'dokan_selling', 'on' ) ) ? '' : 'dokan-add-new-product'; ?>">
+                                <a href="<?php echo esc_url( dokan_get_navigation_url( 'new-product' ) ); ?>" class="dokan-btn dokan-btn-theme <?php echo ( 'on' == dokan_get_option( 'disable_product_popup', 'dokan_selling', 'off' ) ) ? '' : 'dokan-add-new-product'; ?>">
                                     <i class="fa fa-briefcase">&nbsp;</i>
                                     <?php esc_html_e( 'Add new Offer', 'dokan-lite' ); ?>
                                 </a>
@@ -53,6 +54,10 @@ do_action('synerbay_init_global_my_offers_for_dashboard');
         . '<td>'. $offer['created_at'] . '</td>'
         . '</tr>';
 }
+
+    if (!$myOffers){
+        echo  '<td colspan="11">No offers found</td>';
+    }
 ?>
 
 </thead>

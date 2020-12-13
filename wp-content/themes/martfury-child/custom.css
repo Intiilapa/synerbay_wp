@@ -16,4 +16,16 @@
   color: black !important;
 }
 
+/*
+*
+* Dokan Dashboard
+ */
+.dokan-dashboard .dokan-dash-sidebar {
+  border-radius: 15px;
+}
+
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li.dokan-common-links a:last-child {
+  display: none;
+}
+
 /*# sourceMappingURL=custom.css.map */

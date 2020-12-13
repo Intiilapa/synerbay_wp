@@ -160,15 +160,6 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
 
                                     <div class="dokan-form-group">
                                         <input type="hidden" name="dokan_product_id" id="dokan-edit-product-id" value="<?php echo esc_attr( $post_id ); ?>"/>
-                                        <?php
-
-                                         //do_action('synerbay_getUnitTypesSelect');
-                                         //do_action('synerbay_getUnitTypesSelect', 'cl');
-                                         // multiselect example
-                                         //do_action('synerbay_getMaterialTypesSelect');
-                                         //do_action('synerbay_getMaterialTypesSelect', ['wood', 'chemical']);
-
-                                       ?>
                                         <label for="post_title" class="form-label"><?php esc_html_e( 'Title', 'dokan-lite' ); ?></label>
                                         <?php dokan_post_input_box( $post_id, 'post_title', array( 'placeholder' => __( 'Offer name..', 'dokan-lite' ), 'value' => $post_title ) ); ?>
                                         <div class="dokan-product-title-alert dokan-hide">

@@ -18,6 +18,12 @@ function custom_footer_actions(){
 };
 
 
+add_action('wp_footer', 'custom_footer_actions');
+function custom_footer_actions(){
+    do_action('synerbay_loader');
+    do_action('synerbay_loginModal');
+};
+
 /*
  *
  * Enable custom registration details for Dokan dashboard

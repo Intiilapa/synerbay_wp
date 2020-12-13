@@ -19,3 +19,16 @@ $primary-color : #ff004e;
 .price-rule-active .amount{
   color: black!important;
 }
+/*
+*
+* Dokan Dashboard
+ */
+
+.dokan-dashboard .dokan-dash-sidebar{
+  border-radius: 15px;
+}
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li.dokan-common-links a:last-child{
+  display: none;
+}
+
+
