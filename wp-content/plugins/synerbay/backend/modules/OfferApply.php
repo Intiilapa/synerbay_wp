@@ -73,6 +73,7 @@ class OfferApply
         $result = $wpdb->get_results('select count(id) as count from sb_offer_applies WHERE user_id = ' . $userID . ' and offer_id = ' . $offerID);
 
         return (bool)$result[0]->count;
+
     }
 
     /**

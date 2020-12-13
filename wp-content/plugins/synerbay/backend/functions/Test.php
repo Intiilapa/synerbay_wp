@@ -100,7 +100,7 @@ class Test
         $offerApplyModule->createAppearOfferForUser(14, $offerID, rand(5, 40));
 
         print '<pre>';
-//        var_dump($module->getOfferData($offerID));
+        //var_dump($module->getOfferData($offerID));
 
         // update offer example
 //        $offerID = $module->updateOffer($offerID, [
