@@ -9,7 +9,7 @@ class OfferApplyElement extends AbstractElement
     /** @var OfferApplyModule $offerApply */
     private OfferApplyModule $offerApplyModule;
 
-    public function __construct()
+    public function init()
     {
         $this->offerApplyModule = new OfferApplyModule();
         $this->addAction('offerApplyButton');

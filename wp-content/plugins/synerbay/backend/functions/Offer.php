@@ -21,6 +21,7 @@ class Offer
         $this->addAction('init_global_offer_by_id', 'initGlobalOffer');
         $this->addAction('init_global_my_offers_for_dashboard', 'initGlobalMyOffers');
         $this->addAction('init_global_my_offer_applies_for_dashboard', 'initGlobalMyOfferApplies');
+        $this->addAction('create_offer', 'createOffer');
     }
 
     public function initGlobalOffer(int $offerID)
@@ -39,6 +40,11 @@ class Offer
     {
         global $myOfferApplies;
         $myOfferApplies = $this->offerApplyModule->getMyOfferAppliesForDashboard();
+    }
+
+    public function createOffer($postData)
+    {
+        return $this->offerModule->createOffer($postData);
     }
 
 }

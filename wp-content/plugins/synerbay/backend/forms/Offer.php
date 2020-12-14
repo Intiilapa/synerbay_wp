@@ -88,7 +88,7 @@ class Offer extends AbstractForm
         ));
 
         $this->addColumn(new Column(
-            'transport_parity',
+            'parity_type',
             true,
             ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getOfferTransportParityTypes())]],
         ));

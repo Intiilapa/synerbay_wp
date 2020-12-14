@@ -137,6 +137,11 @@
         loader.style.display = "none";
     }
 
+    synerbay.initPriceStepInput = function()
+    {
+        console.log('init price step input ...');
+    }
+
     /**
      * Document ready
      */

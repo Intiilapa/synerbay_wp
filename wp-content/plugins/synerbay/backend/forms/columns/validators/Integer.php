@@ -14,6 +14,6 @@ class Integer extends AbstractValidator
 
     protected function run($value)
     {
-        return is_numeric($value) && is_integer($value);
+        return ctype_digit($value) && $value > 0;
     }
 }

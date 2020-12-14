@@ -9,41 +9,49 @@ class SelectElement extends AbstractElement
 {
     use Loader;
 
-    public function __construct()
+    public function init()
     {
-        $this->addAction('getMyProductsSelect');
-        $this->addAction('getMaterialTypesSelect');
-        $this->addAction('getUnitTypesSelect');
-        $this->addAction('getParityTypesSelect');
+        $this->addAction('getDokanMyProductsSelect');
+        $this->addAction('getDokanMaterialTypesSelect');
+        $this->addAction('getDokanUnitTypesSelect');
+        $this->addAction('getDokanParityTypesSelect');
+        $this->addAction('getDokanShippingToOfferSelect');
     }
 
-    public function getMyProductsSelect($selected = false) {
+    public function getDokanMyProductsSelect($selected = false, array $errorMessages = []) {
 
         /** @var Product $module */
         $module = $this->getModule('product');
         $haystack = $module->getMyProductsForSelect();
 
-        $this->generateSelect('product_id', $haystack, 'Product', $selected);
+        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages);
     }
 
-    public function getMaterialTypesSelect($selectedHaystack = []) {
+    public function getDokanMaterialTypesSelect($selectedHaystack = [], array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getMaterialTypes();
 
-        $this->generateMultiSelect('material', $haystack, 'Material', $selectedHaystack);
+        $this->generateDokanMultiSelect('material', $haystack, 'Material', $selectedHaystack, $errorMessages);
     }
 
-    public function getUnitTypesSelect($selected = false) {
+    public function getDokanUnitTypesSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getUnitTypes();
 
-        $this->generateSelect('unit_type', $haystack, 'Unit type', $selected);
+        $this->generateDokanSelect('weight_unit_sign', $haystack, 'Unit type', $selected, $errorMessages);
     }
 
-    public function getParityTypesSelect($selected = false) {
+    public function getDokanParityTypesSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getOfferTransportParityTypes();
 
-        $this->generateSelect('parity_type', $haystack, 'Parity type', $selected);
+        $this->generateDokanSelect('parity_type', $haystack, 'Parity type', $selected, $errorMessages);
+    }
+
+    public function getDokanShippingToOfferSelect($selected = false, array $errorMessages = []) {
+
+        $haystack = SynerBayDataHelper::getDeliveryDestinationsForOffer();
+
+        $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages);
     }
 }

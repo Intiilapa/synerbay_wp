@@ -58,4 +58,18 @@ class SynerBayDataHelper
             'ddu' => 'DDU – Delivered Duty Unpaid (named place of destination)',
         ];
     }
+
+    public static function getDeliveryDestinationsForOffer()
+    {
+        return ArrayHelper::reKeyBySlugFromValue([
+            'Worldwide',
+            'Africa',
+            'North America',
+            'South America',
+            'Europe',
+            'Asia',
+            'Middle East',
+            'Ocean Pacific',
+        ]);
+    }
 }

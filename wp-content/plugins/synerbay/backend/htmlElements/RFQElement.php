@@ -6,7 +6,7 @@ class RFQElement extends AbstractElement
 //    /** @var OfferApply $offerApply */
 //    private $offerApply;
 
-    public function __construct()
+    public function init()
     {
 //        include_once __DIR__ . '/../modules/OfferApply.php';
 //

@@ -5,7 +5,7 @@ namespace SynerBay\HTMLElement;
 
 class SystemElement extends AbstractElement
 {
-    public function __construct()
+    public function init()
     {
         $this->addAction('loader');
         $this->addAction('loginModal');

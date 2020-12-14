@@ -33,7 +33,6 @@ class Offer
     public function createOffer(array $data)
     {
         global $wpdb;
-        $lastInsertedID = false;
         $table = $wpdb->prefix . 'offers';
         $data['user_id'] = get_current_user_id();
 
@@ -44,15 +43,13 @@ class Offer
                 $wpdb->insert($table, $this->cleanData($form->getFilteredValues()), $this->getInsertFormat());
                 $lastInsertedID = $wpdb->insert_id;
             } catch (Exception $e) {
-
+                return false;
             }
 
             return $lastInsertedID;
         }
 
-        print '<pre>';
-        var_dump($form->errorMessages());
-        die;
+        return $form->errorMessages();
     }
 
     public function updateOffer(int $offerID, array $data)

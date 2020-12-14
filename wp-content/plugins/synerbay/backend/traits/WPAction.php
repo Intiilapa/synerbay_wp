@@ -9,7 +9,7 @@ trait WPAction
             $methodName = $functionName;
         }
 
-        add_action('synerbay_' . $functionName, [$this, $methodName]);
+        add_action('synerbay_' . $functionName, [$this, $methodName], 10, 2);
     }
 
     public function addRestRoute(string $callback, string $endpointName, $methods = 'POST', $permissionCallback = 'defaultPermissionCallback')
