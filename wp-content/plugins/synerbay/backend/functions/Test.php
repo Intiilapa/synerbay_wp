@@ -23,7 +23,7 @@ class Test
         $module = $this->getModule('offer');
 
         $offerID = $module->createOffer([
-                'product_id'             => 36,
+                'product_id'             => 77,
                 'delivery_date'          => date('Y-m-d H:i:s'),
                 'offer_start_date'       => date('Y-m-d H:i:s', strtotime('+1 days', time())),
                 'offer_end_date'         => date('Y-m-d H:i:s', strtotime('+45 days', time())),

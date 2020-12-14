@@ -375,10 +375,18 @@ function save_seller_url($store_user){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
     }
 
-    //Create offer from product template
-    add_action('dokan_create_my_offer', 'render_create_offer');
-    function render_create_offer(){
-        require_once dirname( __FILE__). '/dokan/templates/offers/new-offer.php';
+    //Create new offer template
+    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_offer' );
+    function dokan_load_document_menu_offer( $query_vars ) {
+        $query_vars['new-offer'] = 'new-offer';
+        return $query_vars;
+    }
+
+    add_action( 'dokan_load_custom_template', 'dokan_load_template_offer' );
+    function dokan_load_template_offer( $query_vars ) {
+        if ( isset( $query_vars['new-offer'] ) ) {
+            require_once dirname( __FILE__ ). '/dokan/templates/offers/new-offer.php';
+        }
     }
 
 /**

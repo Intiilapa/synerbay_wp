@@ -48,6 +48,7 @@ global $product, $post;
 //        .'<a href="stage.synerbay.com/offer/'.$offerApply['offer_id'].'">Ugrás az ajánlatra</a><br><hr/>';
 //}
 //print '<pre>';var_dump($myOfferApplies);die;
+
 // todo Remco ez egy komplett offer létrehozás példa, fájl helye wp-content/plugins/synerbay/backend/functions/Test.php -> test function
 //do_action('synerbay_test');die('done');
 

@@ -147,8 +147,17 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
                                 <div class="content-half-part dokan-product-meta">
                                     <div class="dokan-form-group">
-                                        <input class="dokan-form-control" name="post_title" id="post-title" type="text" placeholder="<?php esc_attr_e( 'Product name..', 'dokan-lite' ); ?>" value="<?php echo esc_attr( dokan_posted_input( 'post_title' ) ); ?>">
+                                        <input class="dokan-form-control" name="post_title" id="post-title" type="text" placeholder="<?php esc_attr_e( 'Offer name', 'dokan-lite' ); ?>" value="<?php echo esc_attr( dokan_posted_input( 'post_title' ) ); ?>">
                                     </div>
+                                    <?php
+                                        do_action('synerbay_getMyProductsSelect');
+                                        do_action('synerbay_getUnitTypesSelect');
+                                        do_action('synerbay_getUnitTypesSelect', 'cl');
+
+                                        do_action('synerbay_getMaterialTypesSelect');
+                                        do_action('synerbay_getMaterialTypesSelect', ['wood', 'chemical']);
+
+                                    ?>
 
                                     <div class="dokan-form-group">
                                         <div class="dokan-form-group dokan-clearfix dokan-price-container">
@@ -254,15 +263,6 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         <label for="product_max_quantity" class="form-label"><?php esc_html_e( 'Minimum Order Quantity', 'dokan-lite' ); ?></label>
                                             <input type="text" class="dokan-form-control wc_input_price dokan-product" name="minimum_order_quantity" placeholder="0" id="minimum_order_quantity" value="<?php echo esc_attr( dokan_posted_input( 'minimum_order_quantity' ) ) ?>">
                                     </div>
-                                    <?php
-                                        do_action('synerbay_getUnitTypesSelect');
-                                        do_action('synerbay_getUnitTypesSelect', 'cl');
-
-                                        do_action('synerbay_getMaterialTypesSelect');
-                                        do_action('synerbay_getMaterialTypesSelect', ['wood', 'chemical']);
-
-                                        do_action('synerbay_getMyProductsSelect');
-                                    ?>
                                     <?php do_action( 'dokan_new_product_after_product_tags' ); ?>
                                 </div>
                             </div>
@@ -278,9 +278,8 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                             <hr>
 
                             <div class="dokan-form-group dokan-right">
-                                <?php wp_nonce_field( 'dokan_add_new_product', 'dokan_add_new_product_nonce' ); ?>
-                                <button type="submit" name="add_product" class="dokan-btn dokan-btn-default" value="create_and_add_new"><?php esc_attr_e( 'Create & Add New', 'dokan-lite' ); ?></button>
-                                <button type="submit" name="add_product" class="dokan-btn dokan-btn-default dokan-btn-theme" value="create_new"><?php esc_attr_e( 'Create Product', 'dokan-lite' ); ?></button>
+                                <?php do_action( 'synerbay_test'); ?>
+                                <button type="submit" name="add_product" class="dokan-btn dokan-btn-default dokan-btn-theme" value="create_new"><?php esc_attr_e( 'Create offer', 'dokan-lite' ); ?></button>
                             </div>
 
                         </form>

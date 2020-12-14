@@ -9,9 +9,9 @@ do_action('synerbay_init_global_my_offers_for_dashboard');
     <?php if ( dokan_is_seller_enabled( get_current_user_id() ) ): ?>
         <span class="dokan-add-product-link">
                             <?php if ( current_user_can( 'dokan_add_product' ) ): ?>
-                                <a href="<?php echo esc_url( dokan_get_navigation_url( 'new-product' ) ); ?>" class="dokan-btn dokan-btn-theme <?php echo ( 'on' == dokan_get_option( 'disable_product_popup', 'dokan_selling', 'off' ) ) ? '' : 'dokan-add-new-product'; ?>">
+                                <a href="<?php echo esc_url( dokan_get_navigation_url( 'new-offer' ) ); ?>" class="dokan-btn dokan-btn-theme <?php echo ( 'on' == dokan_get_option( 'disable_product_popup', 'dokan_selling', 'off' ) ) ? '' : 'dokan-add-new-product'; ?>">
                                     <i class="fa fa-briefcase">&nbsp;</i>
-                                    <?php esc_html_e( 'Add new Offer', 'dokan-lite' ); ?>
+                                    <?php esc_html_e( 'Add new Offer (load new file)', 'dokan-lite' ); ?>
                                 </a>
                             <?php endif ?>
 
