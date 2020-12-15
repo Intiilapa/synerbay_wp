@@ -61,56 +61,10 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                         $post_data['shipping_to'] = json_encode($post_data['shipping_to']);
                     }
 
-                    $post_data['price_steps'] = [
-                        [
-                            'qty' => 5,
-                            'price' => 50,
-                        ],
-                        [
-                            'qty' => 10,
-                            'price' => 45,
-                        ],
-                        [
-                            'qty' => 15,
-                            'price' => 40,
-                        ],
-                        [
-                            'qty' => 20,
-                            'price' => 38,
-                        ],
-                        [
-                            'qty' => 28,
-                            'price' => 37,
-                        ],
-                        [
-                            'qty' => 30,
-                            'price' => 35,
-                        ],
-                        [
-                            'qty' => 35,
-                            'price' => 30,
-                        ],
-                        [
-                            'qty' => 40,
-                            'price' => 28,
-                        ],
-                        [
-                            'qty' => 45,
-                            'price' => 26,
-                        ],
-                        [
-                            'qty' => 50,
-                            'price' => 24,
-                        ],
-                        [
-                            'qty' => 55,
-                            'price' => 20,
-                        ],
-                        [
-                            'qty' => 60,
-                            'price' => 10,
-                        ],
-                    ];
+                    if (isset($post_data['price_steps'])) {
+                        $post_data['price_steps'] = json_decode($post_data['price_steps'], true);
+                    }
+
                     $createResponse = apply_filters('synerbay_create_offer', $post_data);
 
                     if (is_array($createResponse) && count($createResponse)) {
@@ -123,6 +77,10 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
                     if (isset($post_data['shipping_to'])) {
                         $post_data['shipping_to'] = json_decode($post_data['shipping_to'], true);
+                    }
+
+                    if (isset($post_data['price_steps'])) {
+                        $post_data['price_steps'] = json_encode($post_data['price_steps']);
                     }
                 }
                 ?>
@@ -242,23 +200,51 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 ?>
 
 <script>
-    var addNewButton = jQuery('[data-add-new-price-rule]');
+    var addNewButton = jQuery('#add-new-empty-row');
 
+    // init steps for hidden input
+    initPriceStepsForPost();
+
+    // sor hozzáadása
     addNewButton.on('click', function (e) {
         e.preventDefault();
 
-        jQuery('<span data-price-rules-container></span>').insertBefore(jQuery(e.target))
-            .append('<br>')
-            .append('Quantity: <input type="text" name="price_step_qty_wrapper" value="" style="width: 100px !important;"> Price: <input type="text" name="price_step_price_wrapper" value="" style="width: 100px !important;">')
-            .append('<button class="notice-dismiss remove-price-rule" data-remove-price-rule style="margin-left: 10px; vertical-align: middle">-</button></br>');
+        jQuery('<div id="price_step_row"></div>').insertBefore(jQuery(e.target))
+            .append(jQuery('#price_step_row_wrapper').html());
     });
 
-    jQuery('body').on('click', '.remove-price-rule', function (e) {
+    // sor törlése
+    function deleteStepRow(element)
+    {
+        jQuery(element).parent('div').remove();
+        initPriceStepsForPost();
+    }
 
-        e.preventDefault();
-        console.log('Pressed');
-        var element = jQuery(e.target.parentElement);
+    // reinit prices
+    function initPriceStepsForPost()
+    {
+        var steps = {};
+        var i = 0;
+        jQuery('input[name="price_step_qty"]').each(function(){
+            if(jQuery(this).closest('div').attr('id') !== 'price_step_row_wrapper') {
+                var element = {qty: jQuery(this).val()};
+                steps[i] = element;
+                i++;
+            }
 
-        element.remove();
-    });
+        });
+
+        var i = 0;
+        jQuery('input[name="price_step_price"]').each(function(){
+            if(jQuery(this).closest('div').attr('id') !== 'price_step_row_wrapper') {
+                var element = {price: jQuery(this).val()};
+                steps[i] = { ...steps[i], ...element};
+                i++;
+            }
+
+        });
+
+        document.getElementById('priceSteps').value = JSON.stringify(steps);
+    }
+
 </script>
