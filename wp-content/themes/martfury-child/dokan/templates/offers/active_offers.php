@@ -4,8 +4,6 @@ do_action('synerbay_init_global_my_offer_applies_for_dashboard');
 global $myOfferApplies;
 
 ?>
-<h1>Active offers</h1>
-<hr>
 
 <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table" id="dokan-product-list-table">
     <thead>
@@ -20,7 +18,15 @@ global $myOfferApplies;
     </tr>
 
 <?php
+$currentDate = strtotime(date('Y-m-d H:i:s'));
 foreach ($myOfferApplies as $offerApply) {
+
+    $deleteButton = '-';
+
+    if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
+        $deleteButton = "<a onclick='window.synerbay.disAppearOffer(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>x</a>";
+    }
+
     echo  '<tr>'
         . '<td>'. $offerApply['offer_id'] . '</td>'
         . '<td>'. $offerApply['offer']['product']['post_title'] . '</td>'
@@ -28,7 +34,7 @@ foreach ($myOfferApplies as $offerApply) {
         . '<td><b>'. $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
         . '<td><b>'. $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
         . '<td>'.'<a target="_blank" href="' . $offerApply['offer']['url'] . '">Details</a></td>'
-        . '<td>'."<a onclick='window.synerbay.disAppearOffer(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>x</a>".'</td>'
+        . '<td>'.$deleteButton.'</td>'
         . '</tr>';
 }
 

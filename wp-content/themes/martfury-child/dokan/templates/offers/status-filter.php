@@ -8,12 +8,12 @@
  */
 ?>
 <div id="dokan-offers_menu">
-    <ul class="list-inline">
-        <li class="menu-active">
-            <a href="#">Active Offers</a>
+    <ul class="dokan_tabs">
+        <li class="<?php if (strpos($_SERVER['REQUEST_URI'], '/offer/') !== false){ echo 'active'; }?>">
+            <a href="/dashboard/offer">Active Offers</a>
         </li>
-        <li class="menu-orders">
-            <a href="#">My Offers</a>
+        <li class="<?php if (strpos($_SERVER['REQUEST_URI'], 'my-offers/') !== false){ echo 'active'; }?>">
+            <a href="/dashboard/my-offers">My Offers</a>
         </li>
     </ul>
 </div>

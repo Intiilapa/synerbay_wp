@@ -82,12 +82,3 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
 <!--        --><?php //do_action('woocommerce_after_add_to_cart_button'); ?>
     </form>
 
-
-<?php
-// todo Remco ezt majd a headerbe vagy footerbe kellene hívni
-    do_action('synerbay_loader');
-?>
-<?php
-// todo Remco ezt majd a headerbe vagy footerbe kellene hívni
-    do_action('synerbay_loginModal');
-?>

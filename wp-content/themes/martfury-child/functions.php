@@ -7,8 +7,6 @@ function martfury_child_enqueue_scripts() {
 		wp_enqueue_style( 'martfury-rtl', get_template_directory_uri() . '/rtl.css', array(), '20180105' );
 	}
 
-	//Add Offer Class
-	//require_once  get_stylesheet_directory(). '/includes/Offer.php';
 }
 
 add_action('wp_footer', 'custom_footer_actions');
@@ -375,7 +373,7 @@ function save_seller_url($store_user){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
     }
 
-    //Create new offer template
+    //Add - Create new offer template
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_offer' );
     function dokan_load_document_menu_offer( $query_vars ) {
         $query_vars['new-offer'] = 'new-offer';
@@ -386,6 +384,34 @@ function save_seller_url($store_user){
     function dokan_load_template_offer( $query_vars ) {
         if ( isset( $query_vars['new-offer'] ) ) {
             require_once dirname( __FILE__ ). '/dokan/templates/offers/new-offer.php';
+        }
+    }
+
+    //Add - Edit offer template
+    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_edit_offer' );
+    function dokan_load_document_menu_edit_offer( $query_vars ) {
+        $query_vars['edit-offer'] = 'edit-offer';
+        return $query_vars;
+    }
+
+    add_action( 'dokan_load_custom_template', 'dokan_load_template_edit_offer' );
+    function dokan_load_template_edit_offer( $query_vars ) {
+        if ( isset( $query_vars['edit-offer'] ) ) {
+            require_once dirname( __FILE__ ). '/dokan/templates/offers/edit-offer.php';
+        }
+    }
+
+    //Add - My offers
+    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_my_offers' );
+    function dokan_load_document_menu_my_offers( $query_vars ) {
+        $query_vars['/my-offers'] = 'my-offers';
+        return $query_vars;
+    }
+
+    add_action( 'dokan_load_custom_template', 'dokan_load_template_my_offers' );
+    function dokan_load_template_my_offers( $query_vars ) {
+        if ( isset( $query_vars['my-offers'] ) ) {
+            require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
         }
     }
 
