@@ -62,9 +62,9 @@ class TextElement extends AbstractElement
         $addElementSkeleton = ['qty' => '', 'price' => ''];
 
         $input = '
-<div id="price_step_row">
-                Quantity: <input type="text" name="price_step_qty_wrapper" value="10" style="width: 100px !important;">
-                Price: <input type="text" name="price_step_price_wrapper" value="5" style="width: 100px !important;">
+                <div id="price_step_row">
+                Quantity: <input type="text" name="price_step_qty_wrapper" value="" style="width: 100px !important;">
+                Price: <input type="text" name="price_step_price_wrapper" value="" style="width: 100px !important;">
                 <button type="button" id="delete-wrapper" style="width: 30px !important;height: 30px !important;background: red; color: white; padding-bottom: 10px !important;">-</button>
                 </div>
             ';

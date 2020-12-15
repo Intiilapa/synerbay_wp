@@ -139,7 +139,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 <!--                    </div>-->
 <!--                --><?php //} ?>
 
-                <?php if ( isset( $created ) ): ?>
+                <?php if ( $created ): ?>
                     <div class="dokan-alert dokan-alert-success">
                         <a class="dokan-close" data-dismiss="alert">&times;</a>
                         <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>

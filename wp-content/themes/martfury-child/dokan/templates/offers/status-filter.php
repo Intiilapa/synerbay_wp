@@ -8,12 +8,12 @@
  */
 ?>
 <div id="dokan-offers_menu">
-    <ul class="list-inline">
+    <ul class="dokan_tabs">
         <li class="menu-active">
-            <a href="#">Active Offers</a>
+            <a href="?type=active_offers">Active Offers</a>
         </li>
         <li class="menu-orders">
-            <a href="#">My Offers</a>
+            <a href="?type=my_offers">My Offers</a>
         </li>
     </ul>
 </div>

@@ -89,13 +89,41 @@ class Offer
         return false;
     }
 
+    public function deleteOffer(int $userID, int $offerID): bool
+    {
+        global $wpdb;
+        if ($offer = $this->getOfferData($offerID)) {
+            try {
+                if ($offer['id'] != $userID) {
+                    throw new Exception('Permission denied!');
+                }
+
+                if (count($offer['applies'])) {
+                    throw new Exception('Active appears in offer!');
+                }
+
+                if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
+                    throw new Exception('It cannot be delete because it has started! ('.$offerID.')');
+                }
+
+                $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
+            } catch (Exception $e) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
     {
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
             $offer['price_steps'] = json_decode($offer['price_steps'], true);
             // todo Remco ide kellene az url generálás
-            $offer['url'] = get_site_url() . '/offer/' . $offerID;
+            $offer['url'] = get_site_url() . '/offers/' . $offerID;
 
             if ($withUser) {
                 $offer['vendor'] = dokan_get_vendor($offer['user_id']);

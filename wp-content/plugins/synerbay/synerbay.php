@@ -34,20 +34,20 @@ class SynerBay {
 
     public function subPageRulesInit(){
         add_rewrite_tag('%offer_id%', '([^&]+)', 'offer_id=');
-        add_rewrite_rule('^(offer)/([^/]*)/?', 'index.php?offer_id=$matches[2]', 'top');
+        add_rewrite_rule('^(offers)/([^/]*)/?', 'index.php?offer_id=$matches[2]', 'top');
     }
 
     function includeRuleControllers($template){
         global $wp_query;
-//        print '<pre>';
-//        var_dump($wp_query->query_vars);die;
+
         /**
          * TODO nagyon gagyi, megoldandó
          */
         if (array_key_exists('name', $wp_query->query_vars)) {
             $queryVars = $wp_query->query_vars;
 
-            if ($queryVars['name'] == 'offer') {
+            if ($queryVars['name'] == 'offers') {
+//                die('alma');
                 $new_template = get_theme_file_path().'/pages/offerSubPage.php';
                 if(file_exists($new_template)){
                     do_action('synerbay_init_global_offer_by_id', $queryVars['page']);
