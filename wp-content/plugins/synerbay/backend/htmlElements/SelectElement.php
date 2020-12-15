@@ -45,7 +45,7 @@ class SelectElement extends AbstractElement
 
         $haystack = SynerBayDataHelper::getOfferTransportParityTypes();
 
-        $this->generateDokanSelect('parity_type', $haystack, 'Parity type', $selected, $errorMessages);
+        $this->generateDokanSelect('transport_parity', $haystack, 'Parity type', $selected, $errorMessages);
     }
 
     public function getDokanShippingToOfferSelect($selected = false, array $errorMessages = []) {

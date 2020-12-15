@@ -84,6 +84,17 @@
         }
     }
 
+    synerbay.deleteOffer= function(offerID) {
+        // console.log(productQty);
+        let response = synerbay.restCall({
+            'offerID': offerID
+        }, 'delete_offer', true);
+
+        if (response.loginRequired === undefined) {
+            location.reload();
+        }
+    }
+
     /**
      *
      * @param callParams
@@ -135,11 +146,6 @@
     synerbay.hideLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];
         loader.style.display = "none";
-    }
-
-    synerbay.initPriceStepInput = function()
-    {
-        console.log('init price step input ...');
     }
 
     /**

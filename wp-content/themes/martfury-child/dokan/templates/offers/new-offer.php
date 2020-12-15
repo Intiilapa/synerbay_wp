@@ -55,18 +55,32 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                 <!--check if create-->
                 <?php
                 $error_messages = [];
+                $created = false;
                 if (isset($post_data['add_offer'])) {
                     if (isset($post_data['shipping_to'])) {
                         $post_data['shipping_to'] = json_encode($post_data['shipping_to']);
                     }
+
+                    if (isset($post_data['price_steps'])) {
+                        $post_data['price_steps'] = json_decode($post_data['price_steps'], true);
+                    }
+
                     $createResponse = apply_filters('synerbay_create_offer', $post_data);
 
-                    if (count($createResponse)) {
+                    if (is_array($createResponse) && count($createResponse)) {
                         $error_messages = $createResponse;
+                    } else {
+                        $created = $createResponse;
+
+                        unset($_POST['add_offer']);
                     }
 
                     if (isset($post_data['shipping_to'])) {
                         $post_data['shipping_to'] = json_decode($post_data['shipping_to'], true);
+                    }
+
+                    if (isset($post_data['price_steps'])) {
+                        $post_data['price_steps'] = json_encode($post_data['price_steps']);
                     }
                 }
                 ?>
@@ -83,11 +97,12 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 <!--                    </div>-->
 <!--                --><?php //} ?>
 
-                <?php if ( isset( $get_data['created_offer'] ) ): ?>
+                <?php if ( $created ): ?>
                     <div class="dokan-alert dokan-alert-success">
                         <a class="dokan-close" data-dismiss="alert">&times;</a>
                         <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>
-                        <?php printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> product', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+                        <?php printf( __( 'You have successfully created offer', 'dokan-lite' )); ?>
+<!--                        --><?php //printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> offer', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
                     </div>
                 <?php endif ?>
 
@@ -114,7 +129,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         do_action('synerbay_getDokanOfferOrderQTYStepInput', isset($post_data['order_quantity_step']) ? $post_data['order_quantity_step'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferMaxTotalOfferQtyInput', isset($post_data['max_total_offer_qty']) ? $post_data['max_total_offer_qty'] : '', $error_messages);
                                         do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
-                                        do_action('synerbay_getDokanParityTypesSelect', isset($post_data['parity_type']) ? $post_data['parity_type'] : false, $error_messages);
+                                        do_action('synerbay_getDokanParityTypesSelect', isset($post_data['transport_parity']) ? $post_data['transport_parity'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferStartDate', isset($post_data['offer_start_date']) ? $post_data['offer_start_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferEndDate', isset($post_data['offer_end_date']) ? $post_data['offer_end_date'] : '', $error_messages);
@@ -185,23 +200,51 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 ?>
 
 <script>
-    var addNewButton = jQuery('[data-add-new-price-rule]');
+    var addNewButton = jQuery('#add-new-empty-row');
 
+    // init steps for hidden input
+    initPriceStepsForPost();
+
+    // sor hozzáadása
     addNewButton.on('click', function (e) {
         e.preventDefault();
 
-        jQuery('<span data-price-rules-container></span>').insertBefore(jQuery(e.target))
-            .append('<br>')
-            .append('Quantity: <input type="text" name="price_step_qty_wrapper" value="" style="width: 100px !important;"> Price: <input type="text" name="price_step_price_wrapper" value="" style="width: 100px !important;">')
-            .append('<button class="notice-dismiss remove-price-rule" data-remove-price-rule style="margin-left: 10px; vertical-align: middle">-</button></br>');
+        jQuery('<div id="price_step_row"></div>').insertBefore(jQuery(e.target))
+            .append(jQuery('#price_step_row_wrapper').html());
     });
 
-    jQuery('body').on('click', '.remove-price-rule', function (e) {
+    // sor törlése
+    function deleteStepRow(element)
+    {
+        jQuery(element).parent('div').remove();
+        initPriceStepsForPost();
+    }
 
-        e.preventDefault();
-        console.log('Pressed');
-        var element = jQuery(e.target.parentElement);
+    // reinit prices
+    function initPriceStepsForPost()
+    {
+        var steps = {};
+        var i = 0;
+        jQuery('input[name="price_step_qty"]').each(function(){
+            if(jQuery(this).closest('div').attr('id') !== 'price_step_row_wrapper') {
+                var element = {qty: jQuery(this).val()};
+                steps[i] = element;
+                i++;
+            }
 
-        element.remove();
-    });
+        });
+
+        var i = 0;
+        jQuery('input[name="price_step_price"]').each(function(){
+            if(jQuery(this).closest('div').attr('id') !== 'price_step_row_wrapper') {
+                var element = {price: jQuery(this).val()};
+                steps[i] = { ...steps[i], ...element};
+                i++;
+            }
+
+        });
+
+        document.getElementById('priceSteps').value = JSON.stringify(steps);
+    }
+
 </script>
