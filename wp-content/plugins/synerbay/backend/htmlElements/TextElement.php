@@ -69,7 +69,7 @@ class TextElement extends AbstractElement
             $input .= '<br><div id="price_step_row">
                 Quantity: <input type="text" name="price_step_qty_wrapper" value="" style="width: 100px !important;">
                 Price: <input type="text" name="price_step_price_wrapper" value="" style="width: 100px !important;"><br>
-                <button type="button" id="add-new-empty-wrapper" style="width: 30px !important;height: 30px !important;background: green; color: white; padding-bottom: 10px !important;">+</button>
+                <button data-add-new-price-rule type="button" id="add-new-empty-wrapper" style="width: 30px !important;height: 30px !important;background: green; color: white; padding-bottom: 10px !important;">+</button>
                 </div>
             ';
         }

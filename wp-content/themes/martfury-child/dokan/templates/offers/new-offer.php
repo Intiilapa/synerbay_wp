@@ -103,6 +103,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                             <div class="product-edit-container dokan-clearfix">
 
                                 <div class="content-half-part dokan-product-meta">
+
                                     <?php
                                         //form elements ...
                                         do_action('synerbay_getDokanMyProductsSelect', isset($post_data['post_id']) ? $post_data['post_id'] : false, $error_messages);
@@ -182,3 +183,25 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
      */
     do_action( 'dokan_new_product_wrap_after' );
 ?>
+
+<script>
+    var addNewButton = jQuery('[data-add-new-price-rule]');
+
+    addNewButton.on('click', function (e) {
+        e.preventDefault();
+
+        jQuery('<span data-price-rules-container></span>').insertBefore(jQuery(e.target))
+            .append('<br>')
+            .append('Quantity: <input type="text" name="price_step_qty_wrapper" value="" style="width: 100px !important;"> Price: <input type="text" name="price_step_price_wrapper" value="" style="width: 100px !important;">')
+            .append('<button class="notice-dismiss remove-price-rule" data-remove-price-rule style="margin-left: 10px; vertical-align: middle">-</button></br>');
+    });
+
+    jQuery('body').on('click', '.remove-price-rule', function (e) {
+
+        e.preventDefault();
+        console.log('Pressed');
+        var element = jQuery(e.target.parentElement);
+
+        element.remove();
+    });
+</script>
