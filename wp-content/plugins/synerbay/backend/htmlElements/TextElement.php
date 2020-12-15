@@ -55,6 +55,10 @@ class TextElement extends AbstractElement
 
     public function getPriceStepInput($value = '', array $errorMessages = [])
     {
+        if ($value && !is_array($value) && strlen($value) > 0) {
+            $value = json_decode($value, true);
+        }
+
         $addElementSkeleton = ['qty' => '', 'price' => ''];
 
         $input = '
@@ -91,7 +95,7 @@ class TextElement extends AbstractElement
             </script>
             <label for="price_steps" class="form-label">Price steps:</label>
             <input type="hidden" name="price_steps_skeleton" style="height: 0 !important" value="'.json_encode($addElementSkeleton).'">
-            <input type="hidden" name="price_steps" style="height: 0 !important" value="'.$value.'">
+            <input type="hidden" name="price_steps" style="height: 0 !important" value="'.json_encode($value).'">
             ' . $input . '
             <br>' . $this->inputError('price_steps', $errorMessages) . '
        </div> 

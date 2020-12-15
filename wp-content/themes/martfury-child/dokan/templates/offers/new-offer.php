@@ -55,14 +55,70 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                 <!--check if create-->
                 <?php
                 $error_messages = [];
+                $created = false;
                 if (isset($post_data['add_offer'])) {
                     if (isset($post_data['shipping_to'])) {
                         $post_data['shipping_to'] = json_encode($post_data['shipping_to']);
                     }
+
+                    $post_data['price_steps'] = [
+                        [
+                            'qty' => 5,
+                            'price' => 50,
+                        ],
+                        [
+                            'qty' => 10,
+                            'price' => 45,
+                        ],
+                        [
+                            'qty' => 15,
+                            'price' => 40,
+                        ],
+                        [
+                            'qty' => 20,
+                            'price' => 38,
+                        ],
+                        [
+                            'qty' => 28,
+                            'price' => 37,
+                        ],
+                        [
+                            'qty' => 30,
+                            'price' => 35,
+                        ],
+                        [
+                            'qty' => 35,
+                            'price' => 30,
+                        ],
+                        [
+                            'qty' => 40,
+                            'price' => 28,
+                        ],
+                        [
+                            'qty' => 45,
+                            'price' => 26,
+                        ],
+                        [
+                            'qty' => 50,
+                            'price' => 24,
+                        ],
+                        [
+                            'qty' => 55,
+                            'price' => 20,
+                        ],
+                        [
+                            'qty' => 60,
+                            'price' => 10,
+                        ],
+                    ];
                     $createResponse = apply_filters('synerbay_create_offer', $post_data);
 
-                    if (count($createResponse)) {
+                    if (is_array($createResponse) && count($createResponse)) {
                         $error_messages = $createResponse;
+                    } else {
+                        $created = $createResponse;
+
+                        unset($_POST['add_offer']);
                     }
 
                     if (isset($post_data['shipping_to'])) {
@@ -83,11 +139,12 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 <!--                    </div>-->
 <!--                --><?php //} ?>
 
-                <?php if ( isset( $get_data['created_offer'] ) ): ?>
+                <?php if ( isset( $created ) ): ?>
                     <div class="dokan-alert dokan-alert-success">
                         <a class="dokan-close" data-dismiss="alert">&times;</a>
                         <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>
-                        <?php printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> product', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
+                        <?php printf( __( 'You have successfully created offer', 'dokan-lite' )); ?>
+<!--                        --><?php //printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> offer', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
                     </div>
                 <?php endif ?>
 
@@ -114,7 +171,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         do_action('synerbay_getDokanOfferOrderQTYStepInput', isset($post_data['order_quantity_step']) ? $post_data['order_quantity_step'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferMaxTotalOfferQtyInput', isset($post_data['max_total_offer_qty']) ? $post_data['max_total_offer_qty'] : '', $error_messages);
                                         do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
-                                        do_action('synerbay_getDokanParityTypesSelect', isset($post_data['parity_type']) ? $post_data['parity_type'] : false, $error_messages);
+                                        do_action('synerbay_getDokanParityTypesSelect', isset($post_data['transport_parity']) ? $post_data['transport_parity'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferStartDate', isset($post_data['offer_start_date']) ? $post_data['offer_start_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferEndDate', isset($post_data['offer_end_date']) ? $post_data['offer_end_date'] : '', $error_messages);
