@@ -22,32 +22,35 @@ class CreateOffer extends AbstractForm
             true,
             [
                 'date' => [],
-            ]
+            ],
+            ['startDay']
         ));
 
         $this->addColumn(new Column(
             'offer_end_date',
             true,
             [
-                'date' => [],
+                'date'                  => [],
                 'dateGreaterThenColumn' => ['column' => 'offer_start_date'],
-            ]
+            ],
+            ['endDay']
         ));
 
         $this->addColumn(new Column(
             'delivery_date',
             true,
             [
-                'date' => [],
+                'date'                  => [],
                 'dateGreaterThenColumn' => ['column' => 'offer_end_date'],
-            ]
+            ],
+            ['startDay']
         ));
 
         $this->addColumn(new Column(
             'price_steps',
             true,
             [
-                'isArray' => [],
+                'isArray'   => [],
                 'priceStep' => [],
             ],
             ['priceStep', 'setJSON']

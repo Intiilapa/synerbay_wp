@@ -72,11 +72,17 @@ class SynerBay {
 
 
     public function loadScript() {
-        // load synerbay.js
-        wp_register_script( "synerbay-script", get_stylesheet_directory_uri() . '/synerbay.js');
+        // load daypilot-modal-2.9.js
+        wp_register_script( "custom-modal-script", get_stylesheet_directory_uri() . '/assets/daypilot-modal-2.9.js');
+
+        // load daypilot-modal-2.9.js
+        wp_enqueue_script("custom-modal-script", get_stylesheet_directory_uri() . '/assets/daypilot-modal-2.9.js', ['jquery'], false, true);
 
         // load synerbay.js
-        wp_enqueue_script("synerbay-script", get_stylesheet_directory_uri() . '/synerbay.js', ['jquery'], false, true);
+        wp_register_script( "synerbay-script", get_stylesheet_directory_uri() . '/assets/synerbay.js');
+
+        // load synerbay.js
+        wp_enqueue_script("synerbay-script", get_stylesheet_directory_uri() . '/assets/synerbay.js', ['jquery'], false, true);
 
         // localize the script to your domain name, so that you can reference the url to admin-ajax.php file easily
         wp_localize_script( 'synerbay-script', 'synerbayAjax', array(

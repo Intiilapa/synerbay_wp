@@ -8,3 +8,5 @@ include_once 'SetNull.php';
 include_once 'MysqlSet.php';
 include_once 'SetJSON.php';
 include_once 'PriceStep.php';
+include_once 'StartDay.php';
+include_once 'EndDay.php';

@@ -62,31 +62,35 @@
     }
 
     synerbay.appearOffer= function(offerID) {
-        let productQty = $("input[name=quantity]").val();
+        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+            if (args.result) {
+                let productQty = $("input[name=quantity]").val();
 
-        // console.log(productQty);
-        let response = synerbay.restCall({
-            'offerID': offerID,
-            'productQty': productQty,
-        }, 'appear_offer', true);
+                // console.log(productQty);
+                let response = synerbay.restCall({
+                    'offerID': offerID,
+                    'productQty': productQty,
+                }, 'appear_offer', true);
 
-        if (response.loginRequired === undefined) {
-            location.reload();
-        }
+                if (response.loginRequired === undefined) {
+                    location.reload();
+                }
+            }
+        });
     }
 
     synerbay.disAppearOffer= function(offerID) {
-        // console.log(productQty);
-        if(confirm('Are you sure you want to do this?')){
-            let response = synerbay.restCall({
-                'offerID': offerID
-            }, 'disappear_offer', true);
+        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+            if (args.result) {
+                let response = synerbay.restCall({
+                    'offerID': offerID
+                }, 'disappear_offer', true);
 
-            if (response.loginRequired === undefined) {
-                location.reload();
+                if (response.loginRequired === undefined) {
+                    location.reload();
+                }
             }
-        }
-
+        });
     }
 
     // synerbay.deleteOffer= function(offerID) {
@@ -101,19 +105,19 @@
 
     synerbay.deleteOffer= function(offerID) {
 
-        if(confirm('Are you sure you want to do this?')){
-            let response = synerbay.restCall({
-                        'offerID': offerID
-                    }, 'delete_offer', true);
+        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+            if (args.result) {
+                let response = synerbay.restCall({
+                    'offerID': offerID
+                }, 'delete_offer', true);
 
-            console.log(response);
+                console.log(response);
 
-            if (response.loginRequired === undefined) {
-                        location.reload();
+                if (response.loginRequired === undefined) {
+                    location.reload();
+                }
             }
-        }
-
-        // synerbay.showModal('deleteOfferModal');
+        });
     }
 
     /**

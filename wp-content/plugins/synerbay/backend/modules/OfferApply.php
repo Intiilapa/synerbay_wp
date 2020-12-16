@@ -1,6 +1,7 @@
 <?php
 namespace SynerBay\Module;
 
+use Exception;
 use SynerBay\Traits\Loader;
 
 class OfferApply
@@ -17,32 +18,51 @@ class OfferApply
     public function createAppearOfferForUser(int $userID, int $offerID, int $productQuantity)
     {
         global $wpdb;
-        $table = $wpdb->prefix . 'offer_applies';
-        $data = [
-            'user_id'  => $userID,
-            'offer_id' => $offerID,
-            'qty'      => $productQuantity,
-        ];
-        $format = ['%d', '%d', '%d'];
 
         try {
-            $wpdb->insert($table, $data, $format);
+            if ($offer = $this->offerModule->getOfferData($offerID)) {
+                $currentDateTime = strtotime(date('Y-m-d H:i:s'));
+                if ($currentDateTime < strtotime($offer['offer_start_date'])) {
+                    throw new Exception('The offer is not started!');
+                }
+
+                if ($currentDateTime > strtotime($offer['offer_end_date'])) {
+                    throw new Exception('The offer is finished!');
+                }
+
+                $table = $wpdb->prefix . 'offer_applies';
+                $data = [
+                    'user_id'  => $userID,
+                    'offer_id' => $offerID,
+                    'qty'      => $productQuantity,
+                ];
+                $format = ['%d', '%d', '%d'];
+
+                if($wpdb->insert($table, $data, $format)) {
+                    // TODO REMCO mail-ek kiküldése
+
+                    //        $offerUsers = $this->offerModule->getOfferUsers($offerID);
+                    //
+                    //        foreach ($offerUsers as $offerUser) {
+                    //            if ($offerUser->ID === $userID) {
+                    //                // akkor a usernek megy egy köszönöő mail
+                    //            } else {
+                    //                $this->sendMail($offerUser);
+                    //            }
+                    //        }
+
+                    return true;
+                }
+
+
+                return false;
+            }
+
         } catch (Exception $e) {
             return false;
         }
 
-        // TODO mail-ek kiküldése
-//        $offerUsers = $this->offerModule->getOfferUsers($offerID);
-//
-//        foreach ($offerUsers as $offerUser) {
-//            if ($offerUser->ID === $userID) {
-//                // akkor a usernek megy egy köszönöő mail
-//            } else {
-//                $this->sendMail($offerUser);
-//            }
-//        }
-
-        return $this->offerModule->getOfferData($offerID);
+        return false;
     }
 
     public function deleteAppearOfferForUser(int $userID, int $offerID)
@@ -50,16 +70,28 @@ class OfferApply
         global $wpdb;
 
         try {
-            $wpdb->delete($wpdb->prefix . 'offer_applies', [
-                'offer_id' => $offerID,
-                'user_id' => $userID,
-            ]);
+            if ($offer = $this->offerModule->getOffer($offerID)) {
+                if (strtotime(date('Y-m-d H:i:s')) > strtotime($offer['offer_end_date'])) {
+                    throw new Exception('It cannot be delete because offer is finished!');
+                }
+
+                if($wpdb->delete($wpdb->prefix . 'offer_applies', [
+                    'offer_id' => $offerID,
+                    'user_id' => $userID,
+                ])) {
+                    // TODO REMCO mail-ek kiküldése
+                    return true;
+                }
+
+
+                return false;
+            }
+
         } catch (Exception $e) {
             return false;
         }
 
-        // TODO mail-ek kiküldése
-        return $this->offerModule->getOfferData($offerID);
+        return false;
     }
 
     /**

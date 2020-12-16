@@ -31,8 +31,8 @@ class OfferAppear extends AbstractRest
         $offerID = isset($post_data['offerID']) ? sanitize_text_field($post_data['offerID']) : null;
         $productQty = isset($post_data['productQty']) ? sanitize_text_field($post_data['productQty']) : null;
 
-        $this->responseSuccess($this->offerApplyModule->createAppearOfferForUser($this->getCurrentUserID(), $offerID,
-            $productQty));
+        $this->responseSuccess(['created' => $this->offerApplyModule->createAppearOfferForUser($this->getCurrentUserID(), $offerID,
+            $productQty)]);
     }
 
     /**
@@ -46,6 +46,6 @@ class OfferAppear extends AbstractRest
 
         $offerID = isset($post_data['offerID']) ? sanitize_text_field($post_data['offerID']) : null;
 
-        $this->responseSuccess($this->offerApplyModule->deleteAppearOfferForUser($this->getCurrentUserID(), $offerID));
+        $this->responseSuccess(['deleted' => $this->offerApplyModule->deleteAppearOfferForUser($this->getCurrentUserID(), $offerID)]);
     }
 }
