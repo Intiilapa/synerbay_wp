@@ -27,6 +27,7 @@
         //     }, seconds * 1000);
         // });
 
+
         $modal.on('click', '.close-modal', function (e) {
             e.preventDefault();
             closeModal();
@@ -89,10 +90,18 @@
         let response = synerbay.restCall({
             'offerID': offerID
         }, 'delete_offer', true);
-
         if (response.loginRequired === undefined) {
             location.reload();
         }
+    }
+
+    synerbay.deleteOfferModal= function(offerID) {
+
+        let response = synerbay.restCall({
+            'offerID': offerID
+        }, 'delete_offer', true);
+
+        synerbay.showModal('deleteOfferModal');
     }
 
     /**
@@ -137,6 +146,7 @@
         synerbay.hideLoader();
         return returnData;
     }
+
 
     synerbay.showLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];

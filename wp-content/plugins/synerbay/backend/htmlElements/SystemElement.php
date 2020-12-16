@@ -9,6 +9,7 @@ class SystemElement extends AbstractElement
     {
         $this->addAction('loader');
         $this->addAction('loginModal');
+        $this->addAction('deleteOfferModal');
     }
 
     public function loader()
@@ -33,5 +34,12 @@ class SystemElement extends AbstractElement
         $title = '[angol szöveg!!] popup címe';
         $content = '[angol szöveg!!] A funkciót csak belépés után érhető el!<br>Ugrás a belépés oldalra: <a href="synerbay.com">[Remco kellene a login url - Link]</a>';
         $this->generateModal('login', $title, $content);
+    }
+
+    public function deleteOfferModal()
+    {
+        $title = 'Are you sure you want to delete this offer?';
+        $content = "<a onclick='window.synerbay.deleteOffer(".$offer['id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>Yes</a>";
+        $this->generateModal('deleteOfferModal', $title, $content);
     }
 }

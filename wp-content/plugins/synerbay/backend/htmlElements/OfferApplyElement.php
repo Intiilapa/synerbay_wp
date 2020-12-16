@@ -13,7 +13,6 @@ class OfferApplyElement extends AbstractElement
     {
         $this->offerApplyModule = new OfferApplyModule();
         $this->addAction('offerApplyButton');
-        $this->addAction('disAppearOfferDashBoardButton');
     }
 
     public function offerApplyButton(WC_Product $product)
