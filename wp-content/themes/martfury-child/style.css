@@ -12,3 +12,7 @@ Domain Path: /lang/
 Tags: one-column, two-columns, left-sidebar, right-sidebar, full-width-template, post-formats, theme-options, threaded-comments, translation-ready
 Template: martfury
 */
+
+.mf-newsletter-popup .modal-content{
+    max-width: 320px!important;
+}

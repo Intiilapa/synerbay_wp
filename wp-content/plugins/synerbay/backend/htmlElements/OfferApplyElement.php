@@ -27,9 +27,9 @@ class OfferApplyElement extends AbstractElement
         // jelentekezett máár rá vagy nem?
         // todo Remco színezd meg légyszi a gombokat és a js függvényx bemenő paraméterének kellene az offer id
         if (!get_current_user_id() || (get_current_user_id() && !$this->offerApplyModule->isUserAppliedOffer(get_current_user_id(), $product->get_id()))) {
-            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$product->get_id().")' class='button'>[angol szöveg] jelentkezés</button>";
+            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$product->get_id().")' class='button'>Subscribe to offer</button>";
         } else {
-            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$product->get_id().")' class='button'>[angol szöveg] lejelentkezés</button>";
+            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$product->get_id().")' class='button'>Unsubscribe</button>";
         }
     }
 

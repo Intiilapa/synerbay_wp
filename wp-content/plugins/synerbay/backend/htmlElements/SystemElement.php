@@ -31,8 +31,8 @@ class SystemElement extends AbstractElement
 
     public function loginModal()
     {
-        $title = '[angol szöveg!!] popup címe';
-        $content = '[angol szöveg!!] A funkciót csak belépés után érhető el!<br>Ugrás a belépés oldalra: <a href="synerbay.com">[Remco kellene a login url - Link]</a>';
+        $title = 'Login required';
+        $content = 'In order to subscribe you need to be signed in. Please create or login <a href="/my-account">here</a>';
         $this->generateModal('login', $title, $content);
     }
 
