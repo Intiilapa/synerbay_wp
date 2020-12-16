@@ -7,3 +7,4 @@ include_once 'Integer.php';
 include_once 'SetNull.php';
 include_once 'MysqlSet.php';
 include_once 'SetJSON.php';
+include_once 'PriceStep.php';

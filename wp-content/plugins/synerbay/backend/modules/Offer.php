@@ -30,26 +30,20 @@ class Offer
         'shipping_to'            => '%s',
     ];
 
-    public function createOffer(array $data)
+    public function createOffer(array $filteredData)
     {
         global $wpdb;
         $table = $wpdb->prefix . 'offers';
-        $data['user_id'] = get_current_user_id();
+        $filteredData['user_id'] = get_current_user_id();
 
-        $form = new \SynerBay\Forms\Offer($data);
-
-        if ($form->validate()) {
-            try {
-                $wpdb->insert($table, $this->cleanData($form->getFilteredValues()), $this->getInsertFormat());
-                $lastInsertedID = $wpdb->insert_id;
-            } catch (Exception $e) {
-                return false;
-            }
-
-            return $lastInsertedID;
+        try {
+            $wpdb->insert($table, $this->cleanData($filteredData), $this->getInsertFormat());
+            $lastInsertedID = $wpdb->insert_id;
+        } catch (Exception $e) {
+            return false;
         }
 
-        return $form->errorMessages();
+        return $lastInsertedID;
     }
 
     public function updateOffer(int $offerID, array $data)

@@ -14,6 +14,7 @@ class Column
     private bool $required = false;
     public string $errorMessage;
     private $value;
+    protected array $formValues = [];
 
     public const TEXT = 'text';
     public const SELECT = 'select';
@@ -39,6 +40,18 @@ class Column
         $this->value = $value;
     }
 
+    public function setFormValues(array $formValues = [])
+    {
+        $this->formValues = $formValues;
+
+        if (count($this->validators)) {
+            /** @var AbstractValidator $validator */
+            foreach ($this->validators as $validator) {
+                $validator->setFormValues($formValues);
+            }
+        }
+    }
+
     public function value()
     {
         return $this->value;
@@ -59,8 +72,10 @@ class Column
     public function addValidator($validatorName, array $params = [])
     {
         $validator = 'SynerBay\Forms\Validators\\' . ucfirst($validatorName);
-
-        $this->validators[$validatorName] = new $validator($params);
+        /** @var AbstractValidator $validatorObject */
+        $validatorObject = new $validator($params);
+        $validatorObject->setFormValues($this->formValues);
+        $this->validators[$validatorName] = $validatorObject;
     }
 
     public function addFilters(array $filters)

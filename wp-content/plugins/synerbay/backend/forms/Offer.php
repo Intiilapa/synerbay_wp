@@ -18,32 +18,39 @@ class Offer extends AbstractForm
         ));
 
         $this->addColumn(new Column(
-            'user_id',
-            true,
-            [],
-            ['integer',],
-        ));
-
-        $this->addColumn(new Column(
-            'delivery_date',
-            true,
-        ));
-
-        $this->addColumn(new Column(
             'offer_start_date',
             true,
+            [
+                'date' => [],
+            ]
         ));
 
         $this->addColumn(new Column(
             'offer_end_date',
             true,
+            [
+                'date' => [],
+                'dateGreaterThenColumn' => ['column' => 'offer_start_date'],
+            ]
+        ));
+
+        $this->addColumn(new Column(
+            'delivery_date',
+            true,
+            [
+                'date' => [],
+                'dateGreaterThenColumn' => ['column' => 'offer_end_date'],
+            ]
         ));
 
         $this->addColumn(new Column(
             'price_steps',
             true,
-            ['isArray' => []],
-            ['setJSON']
+            [
+                'isArray' => [],
+                'priceStep' => [],
+            ],
+            ['priceStep', 'setJSON']
         ));
 
         $this->addColumn(new Column(
@@ -70,7 +77,7 @@ class Offer extends AbstractForm
         $this->addColumn(new Column(
             'weight_unit',
             true,
-            [],
+            ['integer' => []],
             ['integer']
         ));
 
@@ -96,8 +103,8 @@ class Offer extends AbstractForm
         $this->addColumn(new Column(
             'shipping_to',
             true,
-            ['stringLength' => ['min' => 3, 'max' => 255]],
-            ['trim']
+            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getDeliveryDestinationsForOffer())]],
+            ['setJSON']
         ));
     }
 

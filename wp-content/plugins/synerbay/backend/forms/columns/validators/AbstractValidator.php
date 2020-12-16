@@ -10,6 +10,8 @@ abstract class AbstractValidator
 {
     protected array $validatorParameters;
 
+    protected array $formValues = [];
+
     public function __construct(array $validatorParameters = [])
     {
         $this->validatorParameters = $validatorParameters;
@@ -22,6 +24,17 @@ abstract class AbstractValidator
         }
 
         return $this->run($value);
+    }
+
+    public function setFormValues(array $formValues = [])
+    {
+        $this->formValues = $formValues;
+
+    }
+
+    protected function getFormValue($key)
+    {
+        return array_key_exists($key, $this->formValues) && $this->formValues[$key] ? $this->formValues[$key] : false;
     }
 
     abstract public function error(): string;

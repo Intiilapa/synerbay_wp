@@ -37,12 +37,12 @@ abstract class AbstractElement
         ';
     }
 
-    protected function generateDokanSelect($name, array $haystack, string $label = '', $selected = false, array $errorMessages = [])
+    protected function generateDokanSelect($name, array $haystack, string $label = '', $selected = false, array $errorMessages = [], string $description = '')
     {
         $skeleton = '<select class="dokan-form-control" name="'.$name.'">%s</select>%s</div>';
 
         if (!empty($label)) {
-            $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' . $skeleton;
+            $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' . $this->setupDescription($description) .$skeleton;
         }
 
         $skeleton = '<div class="dokan-form-group">' . $skeleton;
@@ -57,7 +57,7 @@ abstract class AbstractElement
         echo sprintf($skeleton, $options, $this->inputError($name, $errorMessages));
     }
 
-    protected function generateDokanMultiSelect($name, array $haystack, string $label = '', $selectedHaystack = false, array $errorMessages = [])
+    protected function generateDokanMultiSelect($name, array $haystack, string $label = '', $selectedHaystack = false, array $errorMessages = [], string $description = '')
     {
         if ($selectedHaystack && (!is_array($selectedHaystack) || !count($selectedHaystack))) {
             throw new \Exception('Invalid data in selected haystack, only array allowed!');
@@ -66,7 +66,7 @@ abstract class AbstractElement
         $skeleton = '<select class="dokan-form-control" style="height: 100px !important;" name="'.$name.'[]" multiple>%s</select>%s</div>';
 
         if (!empty($label)) {
-            $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' . $skeleton;
+            $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' . $this->setupDescription($description) .$skeleton;
         }
 
         $skeleton = '<div class="dokan-form-group">' . $skeleton;
@@ -93,26 +93,33 @@ abstract class AbstractElement
         echo sprintf($skeleton, $options, $this->inputError($name, $errorMessages));
     }
 
-    protected function getDokanIntegerInput(string $label, string $name, $value = '', $placeholder = '', array $errorMessages = [])
+    protected function getDokanIntegerInput(string $label, string $name, $value = '', $placeholder = '', array $errorMessages = [], string $description = '')
     {
         echo '
            <div class="dokan-form-group">
                 <label for="'.$name.'" class="form-label">' . $label . ':</label>
+                ' . $this->setupDescription($description) . '
                 <input type="number" class="dokan-form-control dokan-product" name="'.$name.'" placeholder="' .$placeholder. '" id="input_'.$name.'" value="' . $value . '">
                 ' . $this->inputError($name, $errorMessages) . '
            </div> 
         ';
     }
 
-    protected function getDokanDateInput(string $label, string $name, $value = '', string $placeholder = '', array $errorMessages = [])
+    protected function getDokanDateInput(string $label, string $name, $value = '', string $placeholder = '', array $errorMessages = [], string $description = '')
     {
         echo '
            <div class="dokan-form-group">
                 <label for="'.$name.'" class="form-label">' . $label . ':</label>
+                ' . $this->setupDescription($description) . '
                 <input type="date" class="dokan-form-control" name="'.$name.'" placeholder="' .$placeholder. '" id="input_'.$name.'" value="' . $value . '">
                 ' . $this->inputError($name, $errorMessages) . '
            </div> 
         ';
+    }
+
+    protected function setupDescription(string $description = '')
+    {
+        return !empty($description) ? '<br><span style="margin-top: 3px; font-size: 12px;">'.$description.'</span><br>' : '';
     }
 
     protected function inputError($name, $errors)

@@ -9,3 +9,6 @@ include_once 'InArray.php';
 include_once 'IsArray.php';
 include_once 'Integer.php';
 include_once 'Numeric.php';
+include_once 'PriceStep.php';
+include_once 'Date.php';
+include_once 'DateGreaterThenColumn.php';

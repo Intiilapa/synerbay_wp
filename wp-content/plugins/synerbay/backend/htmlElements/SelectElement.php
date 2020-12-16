@@ -24,34 +24,34 @@ class SelectElement extends AbstractElement
         $module = $this->getModule('product');
         $haystack = $module->getMyProductsForSelect();
 
-        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages);
+        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Andris - szöveg');
     }
 
     public function getDokanMaterialTypesSelect($selectedHaystack = [], array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getMaterialTypes();
 
-        $this->generateDokanMultiSelect('material', $haystack, 'Material', $selectedHaystack, $errorMessages);
+        $this->generateDokanMultiSelect('material', $haystack, 'Material', $selectedHaystack, $errorMessages, 'Andris - szöveg');
     }
 
     public function getDokanUnitTypesSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getUnitTypes();
 
-        $this->generateDokanSelect('weight_unit_sign', $haystack, 'Unit type', $selected, $errorMessages);
+        $this->generateDokanSelect('weight_unit_sign', $haystack, 'Unit type', $selected, $errorMessages, 'Andris - szöveg');
     }
 
     public function getDokanParityTypesSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getOfferTransportParityTypes();
 
-        $this->generateDokanSelect('transport_parity', $haystack, 'Parity type', $selected, $errorMessages);
+        $this->generateDokanSelect('transport_parity', $haystack, 'Parity type', $selected, $errorMessages, 'Andris - szöveg');
     }
 
     public function getDokanShippingToOfferSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getDeliveryDestinationsForOffer();
 
-        $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages);
+        $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages, 'Andris - szöveg');
     }
 }

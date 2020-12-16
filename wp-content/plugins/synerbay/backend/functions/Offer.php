@@ -21,6 +21,7 @@ class Offer
         $this->addAction('init_global_offer_by_id', 'initGlobalOffer');
         $this->addAction('init_global_my_offers_for_dashboard', 'initGlobalMyOffers');
         $this->addAction('init_global_my_offer_applies_for_dashboard', 'initGlobalMyOfferApplies');
+        $this->addAction('get_offer_form', 'getOfferForm');
         $this->addAction('create_offer', 'createOffer');
     }
 
@@ -42,9 +43,14 @@ class Offer
         $myOfferApplies = $this->offerApplyModule->getMyOfferAppliesForDashboard();
     }
 
-    public function createOffer($postData)
+    public function getOfferForm($postData)
     {
-        return $this->offerModule->createOffer($postData);
+        return new \SynerBay\Forms\Offer($postData);
+    }
+
+    public function createOffer($filteredData)
+    {
+        return $this->offerModule->createOffer($filteredData);
     }
 
 }

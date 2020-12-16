@@ -20,37 +20,37 @@ class TextElement extends AbstractElement
 
     public function getDokanOfferMinimumOrderQTYInput($value = '', array $errorMessages = [])
     {
-        $this->getDokanIntegerInput('Minimum order quantity', 'minimum_order_quantity', $value, 5, $errorMessages);
+        $this->getDokanIntegerInput('Minimum order quantity', 'minimum_order_quantity', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferOrderQTYStepInput($value = '', array $errorMessages = [])
     {
-        $this->getDokanIntegerInput('Order quantity step', 'order_quantity_step', $value, 1, $errorMessages);
+        $this->getDokanIntegerInput('Order quantity step', 'order_quantity_step', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferMaxTotalOfferQtyInput($value = '', array $errorMessages = [])
     {
-        $this->getDokanIntegerInput('Max total offer quantity / customer', 'max_total_offer_qty', $value, '', $errorMessages);
+        $this->getDokanIntegerInput('Max total offer quantity / customer', 'max_total_offer_qty', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferUnitInput($value = '', array $errorMessages = [])
     {
-        $this->getDokanIntegerInput('Unit', 'weight_unit', $value, 0, $errorMessages);
+        $this->getDokanIntegerInput('Unit', 'weight_unit', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferDeliveryStartDate($value = '', array $errorMessages = [])
     {
-        $this->getDokanDateInput('Delivery start date', 'delivery_date', $value, '', $errorMessages);
+        $this->getDokanDateInput('Delivery start date', 'delivery_date', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferStartDate($value = '', array $errorMessages = [])
     {
-        $this->getDokanDateInput('Offer start date', 'offer_start_date', $value, '', $errorMessages);
+        $this->getDokanDateInput('Offer start date', 'offer_start_date', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getDokanOfferEndDate($value = '', array $errorMessages = [])
     {
-        $this->getDokanDateInput('Offer end date', 'offer_end_date', $value, '', $errorMessages);
+        $this->getDokanDateInput('Offer end date', 'offer_end_date', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
     public function getPriceStepInput($value = '', array $errorMessages = [])
@@ -93,6 +93,7 @@ class TextElement extends AbstractElement
                     ' . sprintf($stepRowHtmlBody, '', '') . '
             </div>
             <label for="price_steps" class="form-label">Price steps:</label>
+            '. $this->setupDescription('Andris - körítő szöveg') .'
             <input type="hidden" id="priceSteps" name="price_steps" style="height: 0 !important" value="'.json_encode($value).'">
             ' . $input . '
             <br>' . $this->inputError('price_steps', $errorMessages) . '

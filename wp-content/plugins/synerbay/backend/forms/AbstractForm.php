@@ -51,6 +51,7 @@ abstract class AbstractForm
             foreach ($this->columns as $column) {
                 if (in_array($column->name, $availableFormValues)) {
                     $column->setValue($this->formValues[$column->name]);
+                    $column->setFormValues($this->formValues);
                 }
             }
         }

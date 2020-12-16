@@ -57,30 +57,19 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                 $error_messages = [];
                 $created = false;
                 if (isset($post_data['add_offer'])) {
-                    if (isset($post_data['shipping_to'])) {
-                        $post_data['shipping_to'] = json_encode($post_data['shipping_to']);
+                    $formData = $post_data;
+
+                    if (isset($formData['price_steps'])) {
+                        $formData['price_steps'] = json_decode($post_data['price_steps'], true);
                     }
 
-                    if (isset($post_data['price_steps'])) {
-                        $post_data['price_steps'] = json_decode($post_data['price_steps'], true);
-                    }
+                    /** @var \SynerBay\Forms\Offer $offerForm */
+                    $offerForm = apply_filters('synerbay_get_offer_form', $formData);
 
-                    $createResponse = apply_filters('synerbay_create_offer', $post_data);
-
-                    if (is_array($createResponse) && count($createResponse)) {
-                        $error_messages = $createResponse;
+                    if ($offerForm->validate()) {
+                        $created = apply_filters('synerbay_create_offer', $offerForm->getFilteredValues());
                     } else {
-                        $created = $createResponse;
-
-                        unset($_POST['add_offer']);
-                    }
-
-                    if (isset($post_data['shipping_to'])) {
-                        $post_data['shipping_to'] = json_decode($post_data['shipping_to'], true);
-                    }
-
-                    if (isset($post_data['price_steps'])) {
-                        $post_data['price_steps'] = json_encode($post_data['price_steps']);
+                        $error_messages = $offerForm->errorMessages();
                     }
                 }
                 ?>
@@ -116,7 +105,6 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                         <form class="dokan-form-container" method="post">
 
                             <div class="product-edit-container dokan-clearfix">
-
                                 <div class="content-half-part dokan-product-meta">
 
                                     <?php
@@ -130,9 +118,9 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         do_action('synerbay_getDokanOfferMaxTotalOfferQtyInput', isset($post_data['max_total_offer_qty']) ? $post_data['max_total_offer_qty'] : '', $error_messages);
                                         do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
                                         do_action('synerbay_getDokanParityTypesSelect', isset($post_data['transport_parity']) ? $post_data['transport_parity'] : false, $error_messages);
-                                        do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferStartDate', isset($post_data['offer_start_date']) ? $post_data['offer_start_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferEndDate', isset($post_data['offer_end_date']) ? $post_data['offer_end_date'] : '', $error_messages);
+                                        do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanShippingToOfferSelect', isset($post_data['shipping_to']) ? $post_data['shipping_to'] : '', $error_messages);
                                     ?>
                                 </div>
