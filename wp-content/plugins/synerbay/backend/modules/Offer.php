@@ -106,12 +106,12 @@ class Offer
                     throw new Exception('It cannot be delete because it has started! ('.$offerID.')');
                 }
 
-                $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
+//                var_dump($offerID);die;
+                return $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
             } catch (Exception $e) {
                 return false;
+//                var_dump($e->getMessage());die;
             }
-
-            return true;
         }
 
         return false;

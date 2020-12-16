@@ -28,6 +28,7 @@
         // });
 
 
+
         $modal.on('click', '.close-modal', function (e) {
             e.preventDefault();
             closeModal();
@@ -76,32 +77,43 @@
 
     synerbay.disAppearOffer= function(offerID) {
         // console.log(productQty);
-        let response = synerbay.restCall({
-            'offerID': offerID
-        }, 'disappear_offer', true);
+        if(confirm('Are you sure you want to do this?')){
+            let response = synerbay.restCall({
+                'offerID': offerID
+            }, 'disappear_offer', true);
 
-        if (response.loginRequired === undefined) {
-            location.reload();
+            if (response.loginRequired === undefined) {
+                location.reload();
+            }
         }
+
     }
+
+    // synerbay.deleteOffer= function(offerID) {
+    //     // console.log(productQty);
+    //     let response = synerbay.restCall({
+    //         'offerID': offerID
+    //     }, 'delete_offer', true);
+    //     if (response.loginRequired === undefined) {
+    //         location.reload();
+    //     }
+    // }
 
     synerbay.deleteOffer= function(offerID) {
-        // console.log(productQty);
-        let response = synerbay.restCall({
-            'offerID': offerID
-        }, 'delete_offer', true);
-        if (response.loginRequired === undefined) {
-            location.reload();
+
+        if(confirm('Are you sure you want to do this?')){
+            let response = synerbay.restCall({
+                        'offerID': offerID
+                    }, 'delete_offer', true);
+
+            console.log(response);
+
+            if (response.loginRequired === undefined) {
+                        location.reload();
+                    }
         }
-    }
 
-    synerbay.deleteOfferModal= function(offerID) {
-
-        let response = synerbay.restCall({
-            'offerID': offerID
-        }, 'delete_offer', true);
-
-        synerbay.showModal('deleteOfferModal');
+        // synerbay.showModal('deleteOfferModal');
     }
 
     /**

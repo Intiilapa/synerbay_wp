@@ -13,7 +13,7 @@ add_action('wp_footer', 'custom_footer_actions');
 function custom_footer_actions(){
     do_action('synerbay_loader');
     do_action('synerbay_loginModal');
-    do_action('synerbay_deleteOfferModal');
+//    do_action('synerbay_deleteOfferModal');
 };
 
 
