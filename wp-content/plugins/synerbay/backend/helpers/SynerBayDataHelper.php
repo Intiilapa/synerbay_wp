@@ -72,4 +72,18 @@ class SynerBayDataHelper
             'Ocean Pacific',
         ]);
     }
+
+    public static function setupDeliveryDestinationsForOfferData(array $deliveryDestinationsSlugs)
+    {
+        $ret = [];
+        $destinations = self::getDeliveryDestinationsForOffer();
+
+        foreach ($deliveryDestinationsSlugs as $slug) {
+            if (array_key_exists($slug, $destinations)) {
+                $ret[] = $destinations[$slug];
+            }
+        }
+
+        return $ret;
+    }
 }

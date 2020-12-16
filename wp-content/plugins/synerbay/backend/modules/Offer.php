@@ -2,6 +2,8 @@
 
 namespace SynerBay\Module;
 
+use SynerBay\Helper\StringHelper;
+use SynerBay\Helper\SynerBayDataHelper;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
 use Exception;
@@ -46,38 +48,34 @@ class Offer
         return $lastInsertedID;
     }
 
-    public function updateOffer(int $offerID, array $data)
+    public function updateOffer(array $filteredData)
     {
         global $wpdb;
 
-        if ($offer = $this->getOfferData($offerID)) {
-            if ($offer['user_id'] != get_current_user_id()) {
-                throw new Exception('Permission denied!');
-            }
+        try {
+            if ($offer = $this->getOfferData($filteredData['offer_id'])) {
+                if ($offer['user_id'] != get_current_user_id()) {
+                    throw new Exception('Permission denied!');
+                }
 
-            if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
-                throw new Exception('It cannot be modified because it has started! ('.$offerID.')');
-            }
+                if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
+                    throw new Exception('It cannot be modified because it has started! ('.$offer['id'].')');
+                }
 
-            if (array_key_exists('price_steps', $data)) {
-                $data['price_steps'] = json_encode($data['price_steps']);
-            }
+                $table = $wpdb->prefix . 'offers';
 
-            $table = $wpdb->prefix . 'offers';
-
-            try {
                 $wpdb->update(
                     $table,
-                    $this->cleanUpdateData($data),
-                    array( 'id' => $offerID ),
-                    $this->getInsertFormat($data),
+                    $this->cleanUpdateData($filteredData),
+                    array( 'id' => $offer['id'] ),
+                    $this->getInsertFormat($filteredData),
                     array( '%d' )
                 );
-            } catch (Exception $e) {
 
+                return true;
             }
-
-            return $offerID;
+        } catch (Exception $e) {
+            return false;
         }
 
         return false;
@@ -114,6 +112,7 @@ class Offer
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
             $offer['price_steps'] = json_decode($offer['price_steps'], true);
+            $offer['shipping_to'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData(StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']] ));
             // todo Remco ide kellene az url generálás
             $offer['url'] = get_site_url() . '/offers/' . $offerID;
 

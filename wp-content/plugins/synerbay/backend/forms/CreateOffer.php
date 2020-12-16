@@ -6,7 +6,7 @@ namespace SynerBay\Forms;
 use SynerBay\Forms\Columns\Column;
 use SynerBay\Helper\SynerBayDataHelper;
 
-class Offer extends AbstractForm
+class CreateOffer extends AbstractForm
 {
     protected function init()
     {

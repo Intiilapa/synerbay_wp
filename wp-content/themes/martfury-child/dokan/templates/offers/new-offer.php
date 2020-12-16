@@ -1,5 +1,6 @@
 <?php
 
+use SynerBay\Forms\CreateOffer;
 use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
     $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
@@ -63,8 +64,8 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                         $formData['price_steps'] = json_decode($post_data['price_steps'], true);
                     }
 
-                    /** @var \SynerBay\Forms\Offer $offerForm */
-                    $offerForm = apply_filters('synerbay_get_offer_form', $formData);
+                    /** @var CreateOffer $offerForm */
+                    $offerForm = apply_filters('synerbay_get_offer_create_form', $formData);
 
                     if ($offerForm->validate()) {
                         $created = apply_filters('synerbay_create_offer', $offerForm->getFilteredValues());
