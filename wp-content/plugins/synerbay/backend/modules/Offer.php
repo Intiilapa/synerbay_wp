@@ -88,7 +88,7 @@ class Offer
         global $wpdb;
         if ($offer = $this->getOfferData($offerID)) {
             try {
-                if ($offer['id'] != $userID) {
+                if ($offer['user_id'] != $userID) {
                     throw new Exception('Permission denied!');
                 }
 
@@ -100,11 +100,9 @@ class Offer
                     throw new Exception('It cannot be delete because it has started! ('.$offerID.')');
                 }
 
-//                var_dump($offerID);die;
                 return $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
             } catch (Exception $e) {
                 return false;
-//                var_dump($e->getMessage());die;
             }
         }
 

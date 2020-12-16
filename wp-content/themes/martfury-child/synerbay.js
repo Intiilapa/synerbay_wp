@@ -110,7 +110,7 @@
 
             if (response.loginRequired === undefined) {
                         location.reload();
-                    }
+            }
         }
 
         // synerbay.showModal('deleteOfferModal');
@@ -140,7 +140,6 @@
             data : callParams,
             success: function(response, textStatus, xhr) {
                 if(response.success !== 'undefined' && response.success)  {
-                    console.log(response);
                     if (returnResponse) {
                         returnData = response.data;
                     }

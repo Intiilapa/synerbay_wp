@@ -50,7 +50,7 @@ class OfferApply
         global $wpdb;
 
         try {
-            $wpdb->delete('sb_offer_applies', [
+            $wpdb->delete($wpdb->prefix . 'offer_applies', [
                 'offer_id' => $offerID,
                 'user_id' => $userID,
             ]);

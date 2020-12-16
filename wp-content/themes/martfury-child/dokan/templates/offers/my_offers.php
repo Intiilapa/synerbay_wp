@@ -43,7 +43,7 @@ do_action( 'dokan_new_product_wrap_before' );
             <thead>
             <tr>
                 <th><?php esc_html_e( 'ID', 'dokan-lite' ); ?></th>
-                <th><?php esc_html_e( 'Offer Name', 'dokan-lite' ); ?></th>
+                <th><?php esc_html_e( 'Product Name', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Delivery Date', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Offer Start Date', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Offer End Date', 'dokan-lite' ); ?></th>
@@ -70,8 +70,8 @@ do_action( 'dokan_new_product_wrap_before' );
              }
 
             echo  '<tr>'
+                . '<td>'. $offer['id'] . '</td>'
                 . '<td>'. $offer['product']['post_title'] . '</td>'
-                . '<td>'. $offer['product_id'] . '</td>'
                 . '<td>'. $offer['delivery_date'] . '</td>'
                 . '<td>'. $offer['offer_start_date'] . '</td>'
                 . '<td>'. $offer['offer_end_date'] . '</td>'
