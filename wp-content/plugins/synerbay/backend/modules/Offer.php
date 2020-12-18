@@ -114,7 +114,7 @@ class Offer
             $offer['price_steps'] = json_decode($offer['price_steps'], true);
             $offer['shipping_to'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData(StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']] ));
             // todo Remco ide kellene az url generálás
-            $offer['url'] = get_site_url() . '/offers/' . $offerID;
+            $offer['url'] = get_site_url() . '/offer/' . $offerID;
 
             if ($withUser) {
                 $offer['vendor'] = dokan_get_vendor($offer['user_id']);

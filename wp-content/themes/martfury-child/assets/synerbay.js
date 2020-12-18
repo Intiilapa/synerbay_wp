@@ -2,8 +2,8 @@
     'use strict';
     var synerbay = synerbay || {};
     synerbay.init = function () {
-        synerbay.$body = $(document.body),
-            synerbay.$window = $(window);
+        synerbay.$body = $(document.body);
+        synerbay.$window = $(window);
     }
 
 
