@@ -31,17 +31,26 @@ class Route
     private $template;
 
     /**
+     * The reverse string for generate url
+     *
+     * @var string
+     */
+    private $reverse;
+
+    /**
      * Constructor.
      *
      * @param string $path
      * @param string $hook
      * @param string $template
+     * @param string $reverse
      */
-    public function __construct($path, $hook = '', $template = '')
+    public function __construct($path, $hook = '', $template = '', $reverse = '')
     {
         $this->hook = $hook;
         $this->path = $path;
         $this->template = $template;
+        $this->reverse = $reverse;
     }
 
     /**
@@ -75,6 +84,16 @@ class Route
     }
 
     /**
+     * Get the reverse
+     *
+     * @return string
+     */
+    public function get_reverse()
+    {
+        return $this->reverse;
+    }
+
+    /**
      * Checks if this route want to call a hook when matched.
      *
      * @return bool
@@ -92,5 +111,15 @@ class Route
     public function has_template()
     {
         return !empty($this->template);
+    }
+
+    /**
+     * Checks if this route has reverse.
+     *
+     * @return bool
+     */
+    public function has_reverse()
+    {
+        return !empty($this->reverse);
     }
 }

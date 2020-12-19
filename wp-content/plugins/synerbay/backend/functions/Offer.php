@@ -4,13 +4,14 @@ namespace SynerBay\Functions;
 use SynerBay\Forms\CreateOffer;
 use SynerBay\Forms\UpdateOffer;
 use SynerBay\Traits\Loader;
+use SynerBay\Traits\Toaster;
 use SynerBay\Traits\WPAction;
 use SynerBay\Module\Offer as OfferModule;
 use SynerBay\Module\OfferApply as OfferApplyModule;
 
 class Offer
 {
-    use WPAction, Loader;
+    use WPAction, Loader, Toaster;
 
     private OfferModule $offerModule;
     private OfferApplyModule $offerApplyModule;

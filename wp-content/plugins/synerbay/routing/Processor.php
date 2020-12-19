@@ -65,14 +65,12 @@ class Processor
      */
     public function call_route_hook()
     {
-        global $wp_query;
-
         if (!$this->matched_route instanceof Route || !$this->matched_route->has_hook()) {
             return;
         }
 
-        if (array_key_exists('page', $wp_query->query_vars)) {
-            do_action($this->matched_route->get_hook(), $wp_query->query_vars['page']);
+        if (@preg_match($this->matched_route->get_path(), $_SERVER['REQUEST_URI'], $data)) {
+            do_action($this->matched_route->get_hook(), count($data) == 2 ? $data[1] : $data);
         } else {
             do_action($this->matched_route->get_hook());
         }
@@ -91,7 +89,11 @@ class Processor
             return $template;
         }
 
-        $route_template = get_query_template($this->matched_route->get_template());
+        if (!is_file($this->matched_route->get_template())) {
+            $route_template = get_query_template($this->matched_route->get_template());
+        } else {
+            $route_template = $this->matched_route->get_template();
+        }
 
         if (!empty($route_template)) {
             $template = $route_template;
@@ -107,7 +109,17 @@ class Processor
      */
     public function match_request(WP $environment)
     {
-        $matched_route = $this->router->match($environment->query_vars);
+        /** @var Route $route */
+        foreach($this->routes as $route_name => $route) {
+            if (@preg_match($route->get_path(), $_SERVER['REQUEST_URI'])) {
+                $matched_route = $this->routes[$route_name];
+                break;
+            }
+        }
+
+        if (!isset($matched_route) || !$matched_route instanceof Route) {
+            $matched_route = $this->router->match($environment->query_vars);
+        }
 
         if ($matched_route instanceof Route) {
             $this->matched_route = $matched_route;

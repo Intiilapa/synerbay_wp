@@ -2,6 +2,7 @@
 
 namespace SynerBay\Module;
 
+use SynerBay\Helper\RouteHelper;
 use SynerBay\Helper\StringHelper;
 use SynerBay\Helper\SynerBayDataHelper;
 use SynerBay\Traits\Loader;
@@ -111,10 +112,10 @@ class Offer
     {
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
-            $offer['price_steps'] = json_decode($offer['price_steps'], true);
+            $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'], true) : [];
             $offer['shipping_to'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData(StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']] ));
-            // todo Remco ide kellene az url generálás
-            $offer['url'] = get_site_url() . '/offer/' . $offerID;
+            $offer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
+            $offer['transport_parity'] = strtoupper($offer['transport_parity']);
 
             if ($withUser) {
                 $offer['vendor'] = dokan_get_vendor($offer['user_id']);
@@ -129,9 +130,6 @@ class Offer
             $offer['applies'] = $offerApplyModule->getAppliesForOffer($offerID, $applyWithCustomerData);
 
             $offer['summary'] = $this->getOfferSummaryData($offer);
-            // format prices
-            $offer['summary']['formatted_actual_product_price'] = wc_price($offer['summary']['actual_product_price']);
-            $offer['summary']['formatted_actual_commission_price'] = wc_price($offer['summary']['actual_commission_price']);
         }
 
         return $offer;
@@ -197,14 +195,18 @@ class Offer
             unset($tmp);
         }
 
+        $actualCommisionPrice = $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
+
         return [
             'actual_product_price' => $actualProductPrice,
             'min_price_step_qty' => $minPriceStep,
             'max_price_step_qty' => $maxPriceStep,
             'actual_price_step_qty' => $actualPriceStepQty,
             'actual_applicant_product_number' => $groupByProductQTYNumber,
-            'actual_commission_price' => $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0,
+            'actual_commission_price' => $actualCommisionPrice,
             'actual_applicant_number' => $actualApplicantNumber,
+            'formatted_actual_product_price' => wc_price($actualProductPrice),
+            'formatted_actual_commission_price' => wc_price($actualCommisionPrice),
         ];
     }
 

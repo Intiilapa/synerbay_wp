@@ -129,7 +129,7 @@ class OfferApply
             }
         }
 
-        return $results;
+        return $results ? $results : [];
     }
 
     public function getMyOfferAppliesForDashboard()

@@ -52,6 +52,11 @@ class Router
         $this->routes[$name] = $route;
     }
 
+    public function get_route($name)
+    {
+        return array_key_exists($name, $this->routes) ? $this->routes[$name] : false;
+    }
+
     /**
      * Compiles the router into WordPress rewrite rules.
      */

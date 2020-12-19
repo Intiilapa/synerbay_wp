@@ -132,13 +132,13 @@ class Test
 //        $orderModule = $this->getModule('order');
 //        $orderModule->createOrdersFromOffer($offerID);
 
-        $this->addInfoToast('Szia');
-        $this->addInfoToast('Heló');
-        $this->addSuccessToast('Remco');
-        $this->addSuccessToast('Son');
-        $this->addWarningToast('Mi');
-        $this->addErrorToast('Újság');
-        $this->addErrorToast('?');
+        $this->addInfoToast('Sziasztok');
+        $this->addInfoToast('Fiúkák');
+        $this->addSuccessToast('most');
+        $this->addSuccessToast('ezt');
+        $this->addWarningToast('lőttem be');
+        $this->addErrorToast('de nagyon');
+        $this->addErrorToast('hogy tudjuk üziket küldeni a usereknek');
         $this->addErrorToast('Ez meg egy hosszú szöveg, de nagyon :D Ez meg egy hosszú szöveg, de nagyon :D Ez meg egy hosszú szöveg, de nagyon :D Ez meg egy hosszú szöveg, de nagyon :D Ez meg egy hosszú szöveg, de nagyon :D ');
 
 //        die;

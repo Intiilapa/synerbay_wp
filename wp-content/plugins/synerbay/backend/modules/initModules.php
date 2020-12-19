@@ -8,10 +8,3 @@ include_once 'Order.php';
 include_once 'RFQ.php';
 include_once 'Invite.php';
 
-new Product();
-new Offer();
-new OfferApply();
-new Order();
-new RFQ();
-new Invite();
-
