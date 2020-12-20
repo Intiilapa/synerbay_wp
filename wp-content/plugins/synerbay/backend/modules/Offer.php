@@ -8,10 +8,11 @@ use SynerBay\Helper\SynerBayDataHelper;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
 use Exception;
+use SynerBay\Traits\Toaster;
 
 class Offer
 {
-    use ModuleTrait, Loader;
+    use ModuleTrait, Loader, Toaster;
 
 //    private $commissionMultiplier = 0.03;
     private $commissionMultiplier = 0;
@@ -46,6 +47,7 @@ class Offer
             return false;
         }
 
+        $this->addSuccessToast('Successful operation');
         return $lastInsertedID;
     }
 
@@ -63,6 +65,8 @@ class Offer
                     throw new Exception('It cannot be modified because it has started! ('.$offer['id'].')');
                 }
 
+                unset($filteredData['offer_id']);
+
                 $table = $wpdb->prefix . 'offers';
 
                 $wpdb->update(
@@ -73,6 +77,7 @@ class Offer
                     array( '%d' )
                 );
 
+                $this->addSuccessToast('Successful operation');
                 return true;
             }
         } catch (Exception $e) {
@@ -99,7 +104,11 @@ class Offer
                     throw new Exception('It cannot be delete because it has started! ('.$offerID.')');
                 }
 
-                return $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
+                $deleted = $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
+
+                if ($deleted) $this->addSuccessToast('Successful operation');
+
+                return $deleted;
             } catch (Exception $e) {
                 return false;
             }
@@ -113,7 +122,8 @@ class Offer
         if ($offer = $this->getOffer($offerID)) {
             $offer['material'] = explode(',', $offer['material']);
             $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'], true) : [];
-            $offer['shipping_to'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData(StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']] ));
+            $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']];
+            $offer['shipping_to_labels'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
             $offer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
             $offer['transport_parity'] = strtoupper($offer['transport_parity']);
 

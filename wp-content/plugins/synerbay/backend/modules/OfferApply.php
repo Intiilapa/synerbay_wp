@@ -3,10 +3,11 @@ namespace SynerBay\Module;
 
 use Exception;
 use SynerBay\Traits\Loader;
+use SynerBay\Traits\Toaster;
 
 class OfferApply
 {
-    use Loader;
+    use Loader, Toaster;
     /** @var Offer $offerModule */
     private Offer $offerModule;
 
@@ -23,10 +24,12 @@ class OfferApply
             if ($offer = $this->offerModule->getOfferData($offerID)) {
                 $currentDateTime = strtotime(date('Y-m-d H:i:s'));
                 if ($currentDateTime < strtotime($offer['offer_start_date'])) {
-                    throw new Exception('The offer is not started!');
+                    $this->addWarningToast('The offer is not started!');
+                    throw new Exception('The offer not started!');
                 }
 
                 if ($currentDateTime > strtotime($offer['offer_end_date'])) {
+                    $this->addWarningToast('The offer finished!');
                     throw new Exception('The offer is finished!');
                 }
 
@@ -50,7 +53,7 @@ class OfferApply
                     //                $this->sendMail($offerUser);
                     //            }
                     //        }
-
+                    $this->addSuccessToast('Successful operation');
                     return true;
                 }
 
@@ -80,6 +83,7 @@ class OfferApply
                     'user_id' => $userID,
                 ])) {
                     // TODO REMCO mail-ek kiküldése
+                    $this->addSuccessToast('Successful operation');
                     return true;
                 }
 

@@ -85,7 +85,7 @@ class Processor
      */
     public function load_route_template($template)
     {
-        if (!$this->matched_route instanceof Route || !$this->matched_route->has_template()) {
+        if (!$this->matched_route instanceof Route || !$this->matched_route->has_template() || !$this->matched_route->load_template()) {
             return $template;
         }
 

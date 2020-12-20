@@ -16,6 +16,7 @@ class TextElement extends AbstractElement
         $this->addAction('getDokanOfferStartDate');
         $this->addAction('getDokanOfferEndDate');
         $this->addAction('getPriceStepInput');
+        $this->addAction('getDokanOfferIDHiddenInput');
     }
 
     public function getDokanOfferMinimumOrderQTYInput($value = '', array $errorMessages = [])
@@ -53,6 +54,11 @@ class TextElement extends AbstractElement
         $this->getDokanDateInput('Offer end date', 'offer_end_date', $value, '', $errorMessages, 'Andris - körítő szöveg');
     }
 
+    public function getDokanOfferIDHiddenInput($value = '', array $errorMessages = [])
+    {
+        $this->getHiddenInput('offer_id', $value, $errorMessages);
+    }
+
     public function getPriceStepInput($value = '', array $errorMessages = [])
     {
         if ($value && !is_array($value) && strlen($value) > 0) {
@@ -62,7 +68,7 @@ class TextElement extends AbstractElement
         $stepRowHtmlBody = '
                     Quantity: <input type="text" name="price_step_qty" onkeyup="initPriceStepsForPost()" value="%s" style="width: 100px !important;">
                     Price: <input type="text" name="price_step_price" onkeyup="initPriceStepsForPost()" value="%s" style="width: 100px !important;">
-                    <button id="remove-step-row" onclick="deleteStepRow(this)" type="button" style="width: 30px !important;height: 30px !important;background: red; color: white; padding-bottom: 10px !important;">-</button>
+                    <button id="remove-step-row" onclick="deleteStepRow(this)" type="button">-</button>
         ';
 
         $valueSteps = '';
@@ -85,7 +91,7 @@ class TextElement extends AbstractElement
 
         $input = '<div id="price_step_wrapper">'
             . $valueSteps .
-            '<button type="button" id="add-new-empty-row" style="width: 30px !important;height: 30px !important;background: green; color: white; padding-bottom: 5px !important; margin-top: 10px;">+</button></div>';
+            '<button type="button" id="add-new-empty-row">+</button></div>';
 
         echo '
             <div class="dokan-form-group">

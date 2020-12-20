@@ -13,7 +13,7 @@ class ToasterNotifications
 
     public function __construct()
     {
-        add_action('wp_footer', [$this, 'generateToasts']);
+        add_action('wp_footer', [$this, 'generateToasts'], 10, 2);
     }
 
     public function generateToasts()

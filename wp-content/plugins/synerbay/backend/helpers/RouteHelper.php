@@ -36,4 +36,15 @@ class RouteHelper
 
         die('invalid route name');
     }
+
+    public static function getRoute(string $routeName)
+    {
+        /** @var Route $route */
+        if ($route = self::$router->get_route($routeName))
+        {
+            return $route;
+        }
+
+        die('invalid route name');
+    }
 }
