@@ -19,6 +19,11 @@ class Processor
     private $matched_route;
 
     /**
+     * @var string
+     */
+    private $matched_route_name = '';
+
+    /**
      * The router.
      *
      * @var Router
@@ -58,6 +63,7 @@ class Processor
         add_action('parse_request', array($self, 'match_request'));
         add_action('template_include', array($self, 'load_route_template'));
         add_action('template_redirect', array($self, 'call_route_hook'));
+        add_action('pre_get_document_title', array($self, 'get_page_title'));
     }
 
     /**
@@ -113,12 +119,14 @@ class Processor
         foreach($this->routes as $route_name => $route) {
             if (@preg_match($route->get_path(), $_SERVER['REQUEST_URI'])) {
                 $matched_route = $this->routes[$route_name];
+                $this->matched_route_name = $route_name;
                 break;
             }
         }
 
         if (!isset($matched_route) || !$matched_route instanceof Route) {
             $matched_route = $this->router->match($environment->query_vars);
+            $this->matched_route_name = $this->router->get_matched_route_name();
         }
 
         if ($matched_route instanceof Route) {
@@ -149,5 +157,20 @@ class Processor
             flush_rewrite_rules();
             update_option('my_plugin_routes_hash', $routes_hash);
         }
+    }
+
+    /**
+     * @param $title
+     * @return string
+     */
+    public function get_page_title($title)
+    {
+        $routeTitle = Route::getTitle($this->matched_route_name);
+
+        if ($routeTitle != 'SynerBay') {
+            $title = $routeTitle;
+        }
+
+        return $title;
     }
 }

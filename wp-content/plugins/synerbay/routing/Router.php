@@ -25,6 +25,8 @@ class Router
      */
     private $route_variable;
 
+    private $matched_route_name = '';
+
     /**
      * Constructor.
      *
@@ -99,6 +101,7 @@ class Router
             return new WP_Error('route_not_found');
         }
 
+        $this->matched_route_name = $route_name;
         return $this->routes[$route_name];
     }
 
@@ -124,5 +127,10 @@ class Router
     private function generate_route_regex(Route $route)
     {
         return '^'.ltrim(trim($route->get_path()), '/').'$';
+    }
+
+    public function get_matched_route_name()
+    {
+        return $this->matched_route_name;
     }
 }
