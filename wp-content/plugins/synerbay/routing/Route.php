@@ -38,19 +38,28 @@ class Route
     private $reverse;
 
     /**
+     * Load template
+     *
+     * @var bool|string
+     */
+    private $loadTemplate;
+
+    /**
      * Constructor.
      *
      * @param string $path
      * @param string $hook
      * @param string $template
      * @param string $reverse
+     * @param string $loadTemplate
      */
-    public function __construct($path, $hook = '', $template = '', $reverse = '')
+    public function __construct($path, $hook = '', $template = '', $reverse = '', $loadTemplate = true)
     {
         $this->hook = $hook;
         $this->path = $path;
         $this->template = $template;
         $this->reverse = $reverse;
+        $this->loadTemplate = $loadTemplate;
     }
 
     /**
@@ -121,5 +130,10 @@ class Route
     public function has_reverse()
     {
         return !empty($this->reverse);
+    }
+
+    public function load_template()
+    {
+        return $this->loadTemplate;
     }
 }

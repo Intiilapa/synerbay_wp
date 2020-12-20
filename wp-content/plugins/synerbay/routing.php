@@ -22,7 +22,9 @@ $router = new Router('route_synerbay');
 $routes = [
     'my_plugin_test' => new Route('/offer/test', 'synerbay_test'),
     'offer_sub_page' => new Route('/^\/offer\/([0-9]+)[\/]?$/', 'synerbay_init_global_offer_sub_page',
-        get_theme_file_path() . '/pages/offerSubPage.php', '/offer/[id]'),
+        get_theme_file_path() . '/pages/single-offer.php', '/offer/[id]'),
+    'edit_offer' => new Route('/^\/dashboard\/edit-offer\/([0-9]+)[\/]?$/', 'synerbay_editOfferSubPage',
+        get_theme_file_path() . '/dokan/templates/offers/edit-offer.php', '/offer/[id]', false),
 ];
 
 function my_plugin_redirect()

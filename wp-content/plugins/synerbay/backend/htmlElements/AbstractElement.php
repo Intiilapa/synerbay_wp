@@ -117,6 +117,12 @@ abstract class AbstractElement
         ';
     }
 
+    protected function getHiddenInput(string $name, $value = '', array $errorMessages = [])
+    {
+        echo '<input type="hidden" name="'.$name.'" id="input_'.$name.'" value="' . $value . '">
+                ' . $this->inputError($name, $errorMessages);
+    }
+
     protected function setupDescription(string $description = '')
     {
         return !empty($description) ? '<br><span style="margin-top: 3px; font-size: 12px;">'.$description.'</span><br>' : '';

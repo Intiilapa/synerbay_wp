@@ -65,7 +65,7 @@ do_action( 'dokan_new_product_wrap_before' );
              $deleteButton = '-';
 
              if ($currentDate < strtotime($offer['offer_start_date'])) {
-                 $updateButton = "<a href='/dashboard/edit-offer/' class='dokan-btn dokan-btn-theme'>Edit</a>";
+                 $updateButton = "<a href='/dashboard/edit-offer/".$offer['id']."' class='dokan-btn dokan-btn-theme'>Edit</a>";
                  $deleteButton = "<a onclick='window.synerbay.deleteOffer(".$offer['id'].")' class='dokan-btn dokan-btn-theme'>Delete</a>";
              }
 
@@ -78,7 +78,7 @@ do_action( 'dokan_new_product_wrap_before' );
                 . '<td>'. $offer['minimum_order_quantity'] . '</td>'
                 . '<td>'. $offer['max_total_offer_qty'] . '</td>'
                 . '<td>'. $offer['transport_parity'] . '</td>'
-                . '<td>'. $offer['shipping_to'] . '</td>'
+                . '<td>'. $offer['shipping_to_labels'] . '</td>'
                 . '<td>'. $offer['created_at'] . '</td>'
                 . '<td>'.'<a target="_blank" href="' . $offer['url'] . '">Details</a></td>'
                 . '<td>'.$updateButton.$deleteButton.'</td>'
