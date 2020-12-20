@@ -104,18 +104,27 @@
     // }
 
     synerbay.deleteOffer= function(offerID) {
-
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
-                let response = synerbay.restCall({
+                synerbay.restCall2({
                     'offerID': offerID
-                }, 'delete_offer', true);
+                }, 'delete_offer').then(function(result) {
+                    if (result.data.deleted !== 'undefined' && result.data.deleted) {
+                        let row = document.getElementById("my_offer_row_" + offerID);
+                        row.parentNode.removeChild(row);
+                    }
 
-                console.log(response);
+                    if (result.data.messages !== 'undefined') {
+                        for (let i in result.data.messages) {
+                            for (let j in result.data.messages[i]) {
+                                window.notification[j]({
+                                    message: result.data.messages[i][j]
+                                });
+                            }
 
-                if (response.loginRequired === undefined) {
-                    location.reload();
-                }
+                        }
+                    }
+                });
             }
         });
     }
@@ -162,6 +171,57 @@
         return returnData;
     }
 
+    synerbay.restCall2 = (data, endpoint) => {
+        return new Promise(function(resolve, reject) {
+            synerbay.showLoader();
+
+            // create form data
+            const formData = new FormData();
+            Object.keys(data).forEach(key => formData.append(key, data[key]));
+
+            let request = new XMLHttpRequest();
+            request.responseType = 'json';
+            request.onreadystatechange = function() {
+                if (request.readyState === XMLHttpRequest.DONE) {
+                    synerbay.hideLoader();
+                    // resolve(request.response, request.status);
+                    if (request.status === 200) {
+                        resolve(request.response);
+                    } else if (request.status === 401) {
+                        synerbay.showModal('login');
+                    } else {
+                        reject(Error(request.status));
+                    }
+                }
+            };
+            request.onerror = function() {
+                synerbay.hideLoader();
+                reject(Error("Network Error"));
+            };
+            request.open('post', synerbayAjax.restURL + 'synerbay/api/v1/' + endpoint, true);
+            request.setRequestHeader('X-WP-Nonce', synerbayAjax.restNonce)
+            request.send(formData);
+        });
+    }
+
+    synerbay.processToastMessages = function(messages, saveToLocalStorage = false) {
+        if (messages !== 'undefined') {
+            if (saveToLocalStorage) {
+
+            }
+        }
+    }
+
+    synerbay.showToastMessagesFromLocalStorage = function() {
+
+    }
+
+    synerbay.showToastMessages = function(messages) {
+        if (messages !== 'undefined') {
+
+        }
+    }
+
 
     synerbay.showLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];
@@ -178,6 +238,7 @@
      */
     $(function () {
         synerbay.init();
+        synerbay.showToastMessagesFromLocalStorage();
         window.synerbay = synerbay;
     });
 })

@@ -42,13 +42,12 @@ class ToasterNotifications
             if (!empty($toasts)) {
                 echo '
                     <script type="text/javascript">
-                        setTimeout(() => { 
+                        setTimeout(() => {
                             ' . $toasts . '
                            }, 500);
                     </script>
                 ';
             }
-
         }
     }
 

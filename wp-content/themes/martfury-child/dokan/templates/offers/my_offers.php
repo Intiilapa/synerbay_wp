@@ -69,7 +69,7 @@ do_action( 'dokan_new_product_wrap_before' );
                  $deleteButton = "<a onclick='window.synerbay.deleteOffer(".$offer['id'].")' class='dokan-btn dokan-btn-theme'>Delete</a>";
              }
 
-            echo  '<tr>'
+            echo  '<tr id="my_offer_row_'.$offer['id'].'">'
                 . '<td>'. $offer['id'] . '</td>'
                 . '<td>'. $offer['product']['post_title'] . '</td>'
                 . '<td>'. $offer['delivery_date'] . '</td>'

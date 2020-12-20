@@ -43,6 +43,11 @@ class AbstractRest
         $this->responseSuccess(['loginRequired' => true]);
     }
 
+    protected function getLoginRequiredResponse()
+    {
+        wp_send_json_error(['loginRequired' => true], 401);
+    }
+
     protected function responseSuccess(array $responseData): void
     {
         wp_send_json_success($responseData, 200);
