@@ -1063,29 +1063,28 @@ class Notification {
       }
     }
   }
-
-
 }
 
-// export default Notification;
-window.notification = new Notification({
+window.onload = function() {
+  // export default Notification;
+  window.notification = new Notification({
 
-  // top-left, top-right, bottom-left, or bottom-right
-  position: "top-right",
+    // top-left, top-right, bottom-left, or bottom-right
+    position: "top-right",
 
-  // left, right, top, bottom, or none
-  thickBorder: "top",
+    // left, right, top, bottom, or none
+    thickBorder: "top",
 
-  // auto dimiss after 5000ms
-  duration: 5000,
+    // auto dimiss after 5000ms
+    duration: 5000,
 
-  // transition speed
-  transition: 200,
+    // transition speed
+    transition: 200,
 
-  // max number of notifications
-  maxActive: 10,
+    // max number of notifications
+    maxActive: 10,
 
-  // path to images
-  // imgPath: "./img/"
-
-});
+    // path to images
+    // imgPath: "./img/"
+  });
+}

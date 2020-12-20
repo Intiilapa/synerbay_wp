@@ -41,9 +41,10 @@ class ToasterNotifications
 
             if (!empty($toasts)) {
                 echo '
-                    <script type="text/javascript" src="'. get_stylesheet_directory_uri() . '/assets/toast/notification_js/src/Notification.js"></script>
                     <script type="text/javascript">
-                        '.$toasts.'
+                        setTimeout(() => { 
+                            ' . $toasts . '
+                           }, 500);
                     </script>
                 ';
             }
@@ -65,7 +66,7 @@ class ToasterNotifications
     private function getToast($type, $message)
     {
         return sprintf('
-            window.notification.%s({ 
+            window.notification.%s({
               message: "%s" 
             });
         '.PHP_EOL, $type, $message);
