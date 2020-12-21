@@ -46,8 +46,11 @@ trait Toaster
             $ret = [];
         }
 
-        unset($_SESSION['toast_messages']);
-
         return $ret;
+    }
+
+    public function clearToastMessages()
+    {
+        $_SESSION['toast_messages'] = [];
     }
 }

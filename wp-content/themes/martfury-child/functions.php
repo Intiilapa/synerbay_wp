@@ -9,11 +9,13 @@ function martfury_child_enqueue_scripts() {
 
 }
 
-add_action('wp_footer', 'custom_footer_actions');
-function custom_footer_actions(){
+add_action('wp_footer', 'custom_synerbay_footer_actions');
+function custom_synerbay_footer_actions() {
     do_action('synerbay_loader');
     do_action('synerbay_loginModal');
+    do_action('synerbay_generateToasts');
 };
+
 
 //add_filter( 'template_include', 'single_offer_template_include', 50, 1 );
 //function single_offer_template_include( $template )

@@ -58,7 +58,6 @@ class OfferApply extends AbstractModule
             }
             throw new Exception('Error! Invalid offer id! Offer not found with id: '.$offerID.'!');
         } catch (Exception $e) {
-            var_dump($e);die;
             $this->addErrorToast($e->getMessage());
             $this->addErrorMsg($e->getMessage());
         }
@@ -81,7 +80,6 @@ class OfferApply extends AbstractModule
                     'user_id' => $userID,
                 ])) {
                     // TODO REMCO mail-ek kiküldése
-                    $this->addSuccessToast('Successful operation');
                     return true;
                 }
 

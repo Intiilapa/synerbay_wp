@@ -118,10 +118,10 @@
     synerbay.deleteOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
-                window.synerbay.restCall({
+                synerbay.restCall({
                     'offerID': offerID
                 }, 'delete_offer').then(function(result) {
-
+                    console.log(result);
                     if (result.data.deleted !== 'undefined' && result.data.deleted) {
                         // synerbay.processToastMessages(result.data.messages, true)
                         synerbay.processToastMessages(result.data.messages)
@@ -157,6 +157,7 @@
                     synerbay.hideLoader();
                     // resolve(request.response, request.status);
                     if (request.status === 200) {
+                        console.log(request);
                         resolve(request.response);
                     } else if (request.status === 401) {
                         synerbay.showModal('login');

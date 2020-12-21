@@ -13,7 +13,7 @@ class ToasterNotifications
 
     public function __construct()
     {
-        add_action('wp_footer', [$this, 'generateToasts'], 10, 2);
+        $this->addAction('generateToasts');
     }
 
     public function generateToasts()
@@ -40,6 +40,7 @@ class ToasterNotifications
             }
 
             if (!empty($toasts)) {
+                $this->clearToastMessages();
                 echo '
                     <script type="text/javascript">
                         setTimeout(() => {
@@ -66,7 +67,7 @@ class ToasterNotifications
     {
         return sprintf('
             window.notification.%s({
-              message: "%s" 
+              message: "%s"
             });
         '.PHP_EOL, $type, $message);
     }

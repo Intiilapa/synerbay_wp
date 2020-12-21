@@ -88,15 +88,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 <!--                --><?php //} ?>
 
                 <?php if ( $created ): ?>
-                    <?php
-                    echo "<script>location.href='/dashboard/my-offers';</script>";
-                    ?>
-                    <div class="dokan-alert dokan-alert-success">
-                        <a class="dokan-close" data-dismiss="alert">&times;</a>
-                        <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>
-                        <?php printf( __( 'You have successfully created offer', 'dokan-lite' )); ?>
-<!--                        --><?php //printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> offer', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
-                    </div>
+                    <?php echo "<script>location.href='/dashboard/my-offers?operation=success';</script>"; ?>
                 <?php endif ?>
 
                 <?php

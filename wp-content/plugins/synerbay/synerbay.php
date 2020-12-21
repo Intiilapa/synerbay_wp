@@ -19,6 +19,9 @@ class SynerBay {
      */
     public function load() {
         add_action( 'wp_enqueue_scripts', [$this, 'loadScript']);
+        add_action('init', [$this, 'registerMySession'], 1);
+        add_action('wp_logout', [$this, 'myEndSession']);
+        add_action('wp_login', [$this, 'myEndSession']);
         // basic init ...
         include_once __DIR__ . '/backend/initPlugin.php';
     }
@@ -45,6 +48,19 @@ class SynerBay {
             'restURL' => rest_url(),
             'restNonce' => wp_create_nonce('wp_rest')
         ));
+    }
+
+    public function registerMySession()
+    {
+        if(!session_id())
+        {
+            session_start();
+        }
+    }
+
+    public function myEndSession()
+    {
+        session_destroy();
     }
 }
 

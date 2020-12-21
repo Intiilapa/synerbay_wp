@@ -83,7 +83,7 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
                 echo '<p>' . __( 'pageview:') . $pageview . '</p>';
             ?>
 
-        <?php do_action('synerbay_offerApplyButton', $product);?>
+<!--        --><?php //do_action('synerbay_offerApplyButton', $product);?>
 <!--        --><?php //do_action('woocommerce_after_add_to_cart_button'); ?>
     </form>
 

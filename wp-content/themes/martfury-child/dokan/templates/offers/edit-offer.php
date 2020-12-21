@@ -65,7 +65,7 @@ do_action( 'dokan_new_product_wrap_before' );
             <?php
             $error_messages = [];
             $updated = false;
-            if (isset($post_data['update_offer'])) {
+            if (isset($post_data['update_offer']) && $post_data['update_offer'] == 'update') {
                 $formData = $post_data;
 
                 if (isset($formData['price_steps'])) {
@@ -97,14 +97,8 @@ do_action( 'dokan_new_product_wrap_before' );
 
             <?php if ( $updated ): ?>
                 <?php
-                echo "<script>location.href='/dashboard/my-offers';</script>";
+                    echo "<script>location.href='/dashboard/my-offers?operation=success';</script>";
                 ?>
-                <div class="dokan-alert dokan-alert-success">
-                    <a class="dokan-close" data-dismiss="alert">&times;</a>
-                    <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>
-                    <?php printf( __( 'You have successfully updated offer', 'dokan-lite' )); ?>
-                    <!--                        --><?php //printf( __( 'You have successfully created <a href="%s"><strong>%s</strong></a> offer', 'dokan-lite' ), esc_url( dokan_edit_product_url( intval( $get_data['created_offer'] ) ) ), get_the_title( intval( $get_data['created_offer'] ) ) ); // phpcs:ignore WordPress.XSS.EscapeOutput.OutputNotEscaped ?>
-                </div>
             <?php endif ?>
 
             <?php

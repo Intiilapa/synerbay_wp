@@ -25,6 +25,13 @@ do_action( 'dokan_new_product_wrap_before' );
         ?>
 
         <div class="product-listing-top dokan-clearfix">
+            <?php if(isset($_GET['operation']) && $_GET['operation'] == 'success'): ?>
+            <div class="dokan-alert dokan-alert-success">
+                <a class="dokan-close" data-dismiss="alert">&times;</a>
+                <strong><?php esc_html_e( 'Success!', 'dokan-lite' ); ?></strong>
+                <?php printf( __( 'Operation successful!', 'dokan-lite' )); ?>
+            </div>
+            <?php endif ?>
             <?php if ( dokan_is_seller_enabled( get_current_user_id() ) ): ?>
                 <span class="dokan-add-product-link">
                         <?php if ( current_user_can( 'dokan_add_product' ) ): ?>

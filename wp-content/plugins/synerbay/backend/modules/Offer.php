@@ -8,11 +8,12 @@ use SynerBay\Helper\SynerBayDataHelper;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
 use Exception;
+use SynerBay\Traits\Redirector;
 use SynerBay\Traits\Toaster;
 
 class Offer extends AbstractModule
 {
-    use ModuleTrait, Loader, Toaster;
+    use ModuleTrait, Loader, Toaster, Redirector;
 
 //    private $commissionMultiplier = 0.03;
     private $commissionMultiplier = 0;
@@ -48,6 +49,8 @@ class Offer extends AbstractModule
         }
 
         $this->addSuccessToast('Successful operation');
+
+//        $this->redirectToUpdateOffer($lastInsertedID);
         return $lastInsertedID;
     }
 
@@ -172,6 +175,7 @@ class Offer extends AbstractModule
         $actualPriceStepQty = 0;
         $minPriceStep = 0;
         $maxPriceStep = 0;
+        $showQuantityInput = true;
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {
@@ -186,6 +190,10 @@ class Offer extends AbstractModule
                 // calculate apply qty
                 foreach ($offerData['applies'] as $apply) {
                     $groupByProductQTYNumber += $apply['qty'];
+
+                    if ($apply['user_id'] == get_current_user_id()) {
+                        $showQuantityInput = false;
+                    }
                 }
 
                 ksort($tmp);
@@ -208,18 +216,19 @@ class Offer extends AbstractModule
             unset($tmp);
         }
 
-        $actualCommisionPrice = $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
+        $actualCommissionPrice = $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
 
         return [
+            'show_quantity_input' => $showQuantityInput,
             'actual_product_price' => $actualProductPrice,
             'min_price_step_qty' => $minPriceStep,
             'max_price_step_qty' => $maxPriceStep,
             'actual_price_step_qty' => $actualPriceStepQty,
             'actual_applicant_product_number' => $groupByProductQTYNumber,
-            'actual_commission_price' => $actualCommisionPrice,
+            'actual_commission_price' => $actualCommissionPrice,
             'actual_applicant_number' => $actualApplicantNumber,
             'formatted_actual_product_price' => wc_price($actualProductPrice),
-            'formatted_actual_commission_price' => wc_price($actualCommisionPrice),
+            'formatted_actual_commission_price' => wc_price($actualCommissionPrice),
         ];
     }
 
