@@ -656,12 +656,12 @@ function save_seller_url($store_user){
         return $query_vars;
     }
 
-    add_action( 'dokan_load_custom_template', 'dokan_load_template_edit_offer' );
-    function dokan_load_template_edit_offer( $query_vars ) {
-        if ( isset( $query_vars['edit-offer'] ) ) {
-            require_once dirname( __FILE__ ). '/dokan/templates/offers/edit-offer.php';
-        }
-    }
+//    add_action( 'dokan_load_custom_template', 'dokan_load_template_edit_offer' );
+//    function dokan_load_template_edit_offer( $query_vars ) {
+//        if ( isset( $query_vars['edit-offer'] ) ) {
+//            require_once dirname( __FILE__ ). '/dokan/templates/offers/edit-offer.php';
+//        }
+//    }
 
     //Add - My offers
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_my_offers' );
