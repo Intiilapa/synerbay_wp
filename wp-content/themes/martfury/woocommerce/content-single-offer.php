@@ -16,8 +16,14 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-
 global $product;
+global $offer;
+global $post;
+$layout = 1;
+
+//print '<pre>';
+//var_dump($offer);
+//die();
 
 /**
  * woocommerce_before_single_product hook.
@@ -32,8 +38,7 @@ if ( post_password_required() ) {
 	return;
 }
 ?>
-<div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
-
+<div id="product-<?php the_ID(); ?>" class="mf-single-product mf-product-layout-1 product type-product">
 
 	<div class="mf-product-detail">
 		<?php
@@ -43,10 +48,39 @@ if ( post_password_required() ) {
 		 * @hooked woocommerce_show_product_sale_flash - 10
 		 * @hooked woocommerce_show_product_images - 20
 		 */
-		do_action( 'woocommerce_before_single_product_summary' );
+
+//        echo '<table><tr>'
+//            . '<td>' . $offer['id'] . '</td>'
+//            . '<td>' . $offer['product']['post_title'] . '</td>'
+//            . '<td>' . $offer['delivery_date'] . '</td>'
+//            . '<td>' . $offer['offer_start_date'] . '</td>'
+//            . '<td>' . $offer['offer_end_date'] . '</td>'
+//            . '<td>' . $offer['minimum_order_quantity'] . '</td>'
+//            . '<td>' . $offer['max_total_offer_qty'] . '</td>'
+//            . '<td>' . $offer['transport_parity'] . '</td>'
+//            . '<td>' . $offer['created_at'] . '</td>'
+//            . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
+//            . '<td>' . $offer['summary']['actual_applicant_product_number'] . '</td>'
+//            . '<td>' . $offer['summary']['actual_applicant_number'] . '</td>'
+//            . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
+//            . '</tr></table>';
+
+        //do_action( 'woocommerce_before_single_product_summary' );
+
 		?>
 
+        <div class="mf-entry-product-header">
+            <div class="mf-product-detail">
+                <div class="entry-left">
+                    <h1 class="product_title entry-title"><?php echo $offer['product']['post_title']?></h1>
+                </div>
+            </div>
+        </div>
+
 		<div class="summary entry-summary">
+            <p class="price">
+                <?php echo $offer['summary']['formatted_actual_product_price'];?>
+            </p>
 
 			<?php
 			/**
@@ -61,14 +95,63 @@ if ( post_password_required() ) {
 			 * @hooked woocommerce_template_single_sharing - 50
 			 * @hooked WC_Structured_Data::generate_product_data() - 60
 			 */
-			do_action( 'woocommerce_single_product_summary' );
-			?>
+			    //do_action( 'woocommerce_single_product_summary' );
+                do_action('woocommerce_single_offer_price');
+
+                //do_action('woocommerce_single_offer_header');
+                //do_action('woocommerce_single_offer_entry_header');
+
+            ?>
+            <?php
+            echo '<table><tr>'
+                        . '<td>' . $offer['id'] . '</td>'
+                        . '<td>' . $offer['product']['post_title'] . '</td>'
+                        . '<td>' . $offer['delivery_date'] . '</td>'
+                        . '<td>' . $offer['offer_start_date'] . '</td>'
+                        . '<td>' . $offer['offer_end_date'] . '</td>'
+                        . '<td>' . $offer['minimum_order_quantity'] . '</td>'
+                        . '<td>' . $offer['max_total_offer_qty'] . '</td>'
+                        . '<td>' . $offer['transport_parity'] . '</td>'
+                        . '<td>' . $offer['created_at'] . '</td>'
+                        . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
+                        . '<td>' . $offer['summary']['actual_applicant_product_number'] . '</td>'
+                        . '<td>' . $offer['summary']['actual_applicant_number'] . '</td>'
+                        . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
+                        . '</tr></table>';
+            ?>
+            <div class='groupbuy-ajax-change'>
+
+                <p class="deal-info">
+                    <span class="min-deals"> <?php _e( 'Minimum:', 'wc_groupbuy' )?> <?php echo !empty($offer['minimum_order_quantity']) ?  $offer['minimum_order_quantity'] : '0' ;?></span>
+                    <span class="current-sold"> <?php _e( 'Deals sold:', 'wc_groupbuy' )?> <?php echo !empty($offer['summary']['actual_applicant_product_number']) ?  $offer['summary']['actual_applicant_product_number'] : '0' ;?></span>
+                </p>
+                <!-- Progress bar -->
+                <div class="wcl-progress-meter">
+                    <span class="zero">0</span>
+                    <span class="max"><?php echo $offer['minimum_order_quantity'] ?></span>
+                    <progress  max="<?php echo $offer['minimum_order_quantity'] ?>" value="<?php echo !empty($offer['summary']['actual_applicant_product_number']) ? $offer['summary']['actual_applicant_product_number'] : '0' ?>"  low="<?php echo $offer['minimum_order_quantity'] ?>"></progress>
+                </div>
+
+            </div>
+
+        <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $offer['product_id'] ?>">
+            <?php
+                if ( ! $product->is_sold_individually() )
+                    woocommerce_quantity_input( array(
+                        'min_value' => apply_filters( 'woocommerce_quantity_input_min', 1, $product ),
+                        'max_value' => apply_filters( 'woocommerce_quantity_input_max',  $product->get_max_purchase_quantity(), $product ),
+                        'step' => 5,
+                    ) ); ?>
+                <!-- Subscribe button -->
+            <?php do_action('synerbay_offerApplyButton', $product);?>
+        </form>
 
 		</div>
 		<!-- .summary -->
 	</div>
 	<div class="summary-sep clear"></div>
-	<div class="mf-product-summary">
+
+    <div class="mf-product-summary">
 		<?php
 		/**
 		 * woocommerce_after_single_product_summary hook.
@@ -77,7 +160,7 @@ if ( post_password_required() ) {
 		 * @hooked woocommerce_upsell_display - 15
 		 * @hooked woocommerce_output_related_products - 20
 		 */
-		do_action( 'woocommerce_after_single_product_summary' );
+		//do_action( 'woocommerce_after_single_product_summary' );
 		?>
 	</div>
 
