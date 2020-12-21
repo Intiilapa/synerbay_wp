@@ -40,13 +40,13 @@ trait Toaster
 
     public function getAndClearToastMessages()
     {
-        if (isset($_SESSION) && array_key_exists('toast_messages', $_SESSION) && count($_SESSION['toast_messages'])) {
+        if (isset($_SESSION['toast_messages']) && count($_SESSION['toast_messages'])) {
             $ret =  $_SESSION['toast_messages'];
         } else {
             $ret = [];
         }
 
-        $_SESSION['toast_messages'] = [];
+        unset($_SESSION['toast_messages']);
 
         return $ret;
     }

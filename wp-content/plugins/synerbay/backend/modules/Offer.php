@@ -10,7 +10,7 @@ use SynerBay\Traits\Module as ModuleTrait;
 use Exception;
 use SynerBay\Traits\Toaster;
 
-class Offer
+class Offer extends AbstractModule
 {
     use ModuleTrait, Loader, Toaster;
 
@@ -81,7 +81,8 @@ class Offer
                 return true;
             }
         } catch (Exception $e) {
-            return false;
+            $this->addErrorToast($e->getMessage());
+            $this->addErrorMsg($e->getMessage());
         }
 
         return false;
@@ -97,7 +98,7 @@ class Offer
                 }
 
                 if (count($offer['applies'])) {
-                    throw new Exception('Active appears in offer!');
+                    throw new Exception('It cannot be delete because it has active applicants!');
                 }
 
                 if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
@@ -110,6 +111,8 @@ class Offer
 
                 return $deleted;
             } catch (Exception $e) {
+                $this->addErrorToast($e->getMessage());
+                $this->addErrorMsg($e->getMessage());
                 return false;
             }
         }

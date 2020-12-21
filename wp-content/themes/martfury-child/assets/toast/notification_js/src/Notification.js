@@ -1065,6 +1065,7 @@ class Notification {
   }
 }
 
+
 window.onload = function() {
   // export default Notification;
   window.notification = new Notification({

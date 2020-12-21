@@ -77,6 +77,11 @@ if ( ! $product->is_purchasable() OR ! $product->is_in_stock() OR $product->is_c
 <!--            <input type="hidden" name="add-to-cart" value="--><?php //echo $product->get_id(); ?><!--" />-->
 <!--            <input type="hidden" name="product_id" value="--><?php //echo esc_attr( $post->ID ); ?><!--" />-->
 <!--        </div>-->
+        <?php
+        echo 'Metadata: ';
+            $pageview = esc_attr( get_post_meta( $post->ID, 'pageview', true ) );
+                echo '<p>' . __( 'pageview:') . $pageview . '</p>';
+            ?>
 
         <?php do_action('synerbay_offerApplyButton', $product);?>
 <!--        --><?php //do_action('woocommerce_after_add_to_cart_button'); ?>

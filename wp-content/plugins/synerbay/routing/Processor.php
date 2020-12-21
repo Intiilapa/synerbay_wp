@@ -75,7 +75,8 @@ class Processor
             return;
         }
 
-        if (@preg_match($this->matched_route->get_path(), $_SERVER['REQUEST_URI'], $data)) {
+        $requestUri = $this->cleanRequestURI();
+        if (@preg_match($this->matched_route->get_path(), $requestUri, $data)) {
             do_action($this->matched_route->get_hook(), count($data) == 2 ? $data[1] : $data);
         } else {
             do_action($this->matched_route->get_hook());
@@ -115,9 +116,11 @@ class Processor
      */
     public function match_request(WP $environment)
     {
+        $requestUri = $this->cleanRequestURI();
+
         /** @var Route $route */
         foreach($this->routes as $route_name => $route) {
-            if (@preg_match($route->get_path(), $_SERVER['REQUEST_URI'])) {
+            if (@preg_match($route->get_path(), $requestUri)) {
                 $matched_route = $this->routes[$route_name];
                 $this->matched_route_name = $route_name;
                 break;
@@ -172,5 +175,10 @@ class Processor
         }
 
         return $title;
+    }
+
+    private function cleanRequestURI()
+    {
+        return parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
     }
 }

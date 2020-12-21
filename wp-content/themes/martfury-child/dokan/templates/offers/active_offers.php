@@ -24,10 +24,10 @@ foreach ($myOfferApplies as $offerApply) {
     $deleteButton = '-';
 
     if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
-        $deleteButton = "<a onclick='window.synerbay.disAppearOffer(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>x</a>";
+        $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>x</a>";
     }
 
-    echo  '<tr>'
+    echo  '<tr id="my_active_offer_row_'.$offerApply['offer_id'].'">'
         . '<td>'. $offerApply['offer_id'] . '</td>'
         . '<td>'. $offerApply['offer']['product']['post_title'] . '</td>'
         . '<td>'. $offerApply['qty'] . '</td>'

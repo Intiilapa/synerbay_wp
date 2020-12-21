@@ -5,7 +5,7 @@ use Exception;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
 
-class OfferApply
+class OfferApply extends AbstractModule
 {
     use Loader, Toaster;
     /** @var Offer $offerModule */
@@ -24,12 +24,10 @@ class OfferApply
             if ($offer = $this->offerModule->getOfferData($offerID)) {
                 $currentDateTime = strtotime(date('Y-m-d H:i:s'));
                 if ($currentDateTime < strtotime($offer['offer_start_date'])) {
-                    $this->addWarningToast('The offer is not started!');
-                    throw new Exception('The offer not started!');
+                    throw new Exception('The offer is not started!');
                 }
 
                 if ($currentDateTime > strtotime($offer['offer_end_date'])) {
-                    $this->addWarningToast('The offer finished!');
                     throw new Exception('The offer is finished!');
                 }
 
@@ -53,16 +51,16 @@ class OfferApply
                     //                $this->sendMail($offerUser);
                     //            }
                     //        }
-                    $this->addSuccessToast('Successful operation');
                     return true;
                 }
 
-
-                return false;
+                throw new Exception('Unable to create, please try again!');
             }
-
+            throw new Exception('Error! Invalid offer id! Offer not found with id: '.$offerID.'!');
         } catch (Exception $e) {
-            return false;
+            var_dump($e);die;
+            $this->addErrorToast($e->getMessage());
+            $this->addErrorMsg($e->getMessage());
         }
 
         return false;
@@ -87,11 +85,12 @@ class OfferApply
                     return true;
                 }
 
-
                 return false;
             }
 
         } catch (Exception $e) {
+            $this->addErrorToast($e->getMessage());
+            $this->addErrorMsg($e->getMessage());
             return false;
         }
 

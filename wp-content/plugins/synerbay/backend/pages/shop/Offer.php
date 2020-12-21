@@ -16,9 +16,9 @@ class Offer extends AbstractPage
         $this->addAction('editOfferSubPage');
     }
 
-    public function subPage(int $offerID) {
+    public function subPage($offerID) {
         global $offer;
-        do_action('synerbay_init_global_offer_by_id', $offerID);
+        do_action('synerbay_init_global_offer_by_id', (int)$offerID);
 
         if (!$offer || !count($offer)) {
             $this->page404();

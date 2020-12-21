@@ -5,8 +5,8 @@
  * Version: 1.0
  * Author: Kristóf Nagy
  */
-
 namespace SynerBay;
+session_start();
 
 if( ! defined( 'ABSPATH' ) ) {
     return;

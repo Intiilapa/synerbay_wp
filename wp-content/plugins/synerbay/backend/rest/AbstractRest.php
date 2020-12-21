@@ -29,18 +29,13 @@ class AbstractRest
     protected function checkLogin()
     {
         if (!$this->getCurrentUserID()) {
-            $this->getPleaseLoginResponse();
+            $this->getLoginRequiredResponse();
         }
     }
 
     protected function getCurrentUserID()
     {
         return get_current_user_id();
-    }
-
-    protected function getPleaseLoginResponse()
-    {
-        $this->responseSuccess(['loginRequired' => true]);
     }
 
     protected function getLoginRequiredResponse()

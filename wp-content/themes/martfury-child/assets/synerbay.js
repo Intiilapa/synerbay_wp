@@ -65,16 +65,18 @@
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
                 let productQty = $("input[name=quantity]").val();
-
-                // console.log(productQty);
-                let response = synerbay.restCall({
+                
+                synerbay.restCall({
                     'offerID': offerID,
                     'productQty': productQty,
-                }, 'appear_offer', true);
-
-                if (response.loginRequired === undefined) {
-                    location.reload();
-                }
+                }, 'appear_offer').then(function(result) {
+                    if (result.data.success !== 'undefined' && result.data.success) {
+                        synerbay.processToastMessages(result.data.messages, true)
+                        location.reload();
+                    } else {
+                        synerbay.processToastMessages(result.data.messages)
+                    }
+                });
             }
         });
     }
@@ -82,47 +84,52 @@
     synerbay.disAppearOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
-                let response = synerbay.restCall({
+                synerbay.restCall({
                     'offerID': offerID
-                }, 'disappear_offer', true);
-
-                if (response.loginRequired === undefined) {
-                    location.reload();
-                }
+                }, 'disappear_offer').then(function(result) {
+                    if (result.data.success !== 'undefined' && result.data.success) {
+                        synerbay.processToastMessages(result.data.messages, true)
+                        location.reload();
+                    } else {
+                        synerbay.processToastMessages(result.data.messages)
+                    }
+                });
             }
         });
     }
 
-    // synerbay.deleteOffer= function(offerID) {
-    //     // console.log(productQty);
-    //     let response = synerbay.restCall({
-    //         'offerID': offerID
-    //     }, 'delete_offer', true);
-    //     if (response.loginRequired === undefined) {
-    //         location.reload();
-    //     }
-    // }
+    synerbay.disAppearOfferDashboard= function(offerID) {
+        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+            if (args.result) {
+                synerbay.restCall({
+                    'offerID': offerID
+                }, 'disappear_offer').then(function(result) {
+                    if (result.data.success !== 'undefined' && result.data.success) {
+                        let row = document.getElementById("my_active_offer_row_" + offerID);
+                        row.parentNode.removeChild(row);
+                    }
+
+                    synerbay.processToastMessages(result.data.messages)
+                });
+            }
+        });
+    }
 
     synerbay.deleteOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
-                synerbay.restCall2({
+                window.synerbay.restCall({
                     'offerID': offerID
                 }, 'delete_offer').then(function(result) {
+
                     if (result.data.deleted !== 'undefined' && result.data.deleted) {
+                        // synerbay.processToastMessages(result.data.messages, true)
+                        synerbay.processToastMessages(result.data.messages)
                         let row = document.getElementById("my_offer_row_" + offerID);
                         row.parentNode.removeChild(row);
-                    }
-
-                    if (result.data.messages !== 'undefined') {
-                        for (let i in result.data.messages) {
-                            for (let j in result.data.messages[i]) {
-                                window.notification[j]({
-                                    message: result.data.messages[i][j]
-                                });
-                            }
-
-                        }
+                        // location.reload();
+                    } else {
+                        synerbay.processToastMessages(result.data.messages)
                     }
                 });
             }
@@ -131,47 +138,11 @@
 
     /**
      *
-     * @param callParams
+     * @param data
      * @param endpoint
-     * @param returnResponse
-     * @param async
-     * @returns {boolean}
+     * @returns {Promise<unknown>}
      */
-    synerbay.restCall = function (callParams, endpoint, returnResponse = false, async = false) {
-        synerbay.showLoader();
-
-        let returnData = true;
-
-        $.ajax({
-            type: "post",
-            dataType: "json",
-            async: async,
-            url : synerbayAjax.restURL + 'synerbay/api/v1/' + endpoint,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-WP-Nonce', synerbayAjax.restNonce)
-            },
-            data : callParams,
-            success: function(response, textStatus, xhr) {
-                if(response.success !== 'undefined' && response.success)  {
-                    if (returnResponse) {
-                        returnData = response.data;
-                    }
-
-                    /**
-                     * Login modal?
-                     */
-                    if (response.data.loginRequired !== undefined && response.data.loginRequired) {
-                        synerbay.showModal('login');
-                    }
-                }
-            }
-        });
-
-        synerbay.hideLoader();
-        return returnData;
-    }
-
-    synerbay.restCall2 = (data, endpoint) => {
+    synerbay.restCall = (data, endpoint) => {
         return new Promise(function(resolve, reject) {
             synerbay.showLoader();
 
@@ -207,21 +178,33 @@
     synerbay.processToastMessages = function(messages, saveToLocalStorage = false) {
         if (messages !== 'undefined') {
             if (saveToLocalStorage) {
-
+                window.localStorage.setItem('toastMessages', JSON.stringify(messages));
+            } else {
+                synerbay.showToastMessages(messages);
             }
         }
     }
 
     synerbay.showToastMessagesFromLocalStorage = function() {
+        let toastMessages = window.localStorage.getItem('toastMessages');
+        window.localStorage.removeItem('toastMessages');
 
+        if (toastMessages !== 'undefined') {
+            synerbay.showToastMessages(JSON.parse(toastMessages));
+        }
     }
 
     synerbay.showToastMessages = function(messages) {
         if (messages !== 'undefined') {
-
+            for (let i in messages) {
+                for (let j in messages[i]) {
+                    window.notification[j]({
+                        message: messages[i][j]
+                    });
+                }
+            }
         }
     }
-
 
     synerbay.showLoader = function() {
         let loader = document.getElementsByClassName('loader')[0];
@@ -238,8 +221,10 @@
      */
     $(function () {
         synerbay.init();
-        synerbay.showToastMessagesFromLocalStorage();
         window.synerbay = synerbay;
+        setTimeout(() => {
+            synerbay.showToastMessagesFromLocalStorage();
+        }, 500);
     });
 })
 (jQuery);
