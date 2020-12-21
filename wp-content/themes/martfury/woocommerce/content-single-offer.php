@@ -17,17 +17,13 @@
 
 defined( 'ABSPATH' ) || exit;
 
-global $product, $offer, $post;
-
-$offer['delivery_date'] = date('Y-m-d', strtotime($offer['delivery_date']));
-$offer['offer_start_date'] = date('Y-m-d', strtotime($offer['offer_start_date']));
-$offer['offer_end_date'] = date('Y-m-d', strtotime($offer['offer_end_date']));
-$offer['offer_id'] = $offer['id'];
-
-//$offer['price_steps'] = implode(',', $offer['price_steps']);
+global $product;
+global $offer;
+global $post;
+$layout = 1;
 
 //print '<pre>';
-//var_dump(implode(',', $offer['price_steps']));
+//var_dump($offer);
 //die();
 
 /**

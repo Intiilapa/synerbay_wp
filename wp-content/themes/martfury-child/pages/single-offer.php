@@ -41,21 +41,6 @@ get_header( 'shop' ); ?>
 	?>
 
 	<?php
-echo  '<table><tr>'
-	. '<td>'. $offer['id'] . '</td>'
-	. '<td>'. $offer['product']['post_title'] . '</td>'
-	. '<td>'. $offer['delivery_date'] . '</td>'
-	. '<td>'. $offer['offer_start_date'] . '</td>'
-	. '<td>'. $offer['offer_end_date'] . '</td>'
-	. '<td>'. $offer['minimum_order_quantity'] . '</td>'
-	. '<td>'. $offer['max_total_offer_qty'] . '</td>'
-	. '<td>'. $offer['transport_parity'] . '</td>'
-	. '<td>'. $offer['created_at'] . '</td>'
-	. '<td>'. $offer['summary']['formatted_actual_product_price'] . '</td>'
-	. '</tr></table>';
-	?>
-
-	<?php
 		wc_get_template_part( 'content', 'single-offer' );
 	?>
 

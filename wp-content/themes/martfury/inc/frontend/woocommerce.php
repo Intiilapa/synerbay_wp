@@ -253,10 +253,13 @@ class Martfury_WooCommerce {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
 
 		add_action( 'woocommerce_single_product_summary', array( $this, 'template_single_summary_header' ), 10 );
+		add_action( 'woocommerce_single_offer_price', array( $this, 'template_single_summary_header' ), 10 );
 
 		// Add single product header
 		add_action( 'woocommerce_before_single_product_summary', array( $this, 'single_product_header' ), 5 );
 		add_action( 'woocommerce_single_product_summary', array( $this, 'single_product_entry_header' ), 5 );
+		add_action( 'woocommerce_single_offer_header', array( $this, 'single_product_header' ), 5 );
+		add_action( 'woocommerce_single_offer_entry_header', array( $this, 'single_product_entry_header' ), 5 );
 
 		// Change HTML for price in single product
 		add_filter( 'woocommerce_get_price_html', array( $this, 'get_product_price_html' ), 20, 2 );
