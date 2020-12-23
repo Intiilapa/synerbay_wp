@@ -677,15 +677,40 @@ function save_seller_url($store_user){
         }
     }
 
-/**
- * NOTE: This code example uses the generic vendor prefix 'prefix_' and omits text domains where
- * the WordPress internationalization functions are used. You should replace 'prefix_' with your
- * own prefix and insert your text domain where appropriate when incorporating this code into your
- * plugin or theme.
- */
 
 /**
- * Adds an 'About' tab to the Dokan settings navigation menu.
+ * Validation add for product cover image
+ *
+ * @param array $errors
+ * @return array $errors
+ */
+function dokan_can_add_product_validation_customized( $errors ) {
+    $postdata = wp_unslash( $_POST );
+    $featured_image = absint( sanitize_text_field( $postdata['feat_image_id'] ) );
+    $_regular_price = absint( sanitize_text_field( $postdata['_regular_price'] ) );
+    if ( empty( $featured_image ) && ! in_array( 'Please upload a product cover image' , $errors ) ) {
+        $errors[] = 'Please upload a product cover image';
+    }
+    if ( empty( $_regular_price ) && ! in_array( 'Please insert product price' , $errors ) ) {
+        $errors[] = 'Please insert product price';
+    }
+    return $errors;
+}
+add_filter( 'dokan_can_add_product', 'dokan_can_add_product_validation_customized', 35, 1 );
+add_filter( 'dokan_can_edit_product', 'dokan_can_add_product_validation_customized', 35, 1 );
+function dokan_new_product_popup_validation_customized( $errors, $data ) {
+    if ( ! $data['_regular_price'] ) {
+        return new WP_Error( 'no-price', __( 'Please insert product price', 'dokan-lite' ) );
+    }
+    if ( ! $data['feat_image_id'] ) {
+        return new WP_Error( 'no-image', __( 'Please select AT LEAST ONE Picture', 'dokan-lite' ) );
+    }
+}
+add_filter( 'dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2 );
+
+
+/**
+ * THIS IS AN EXAMPLE
  *
  * @param array $menu_items
  *

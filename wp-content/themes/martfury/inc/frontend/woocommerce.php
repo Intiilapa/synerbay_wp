@@ -258,6 +258,8 @@ class Martfury_WooCommerce {
 		// Add single product header
 		add_action( 'woocommerce_before_single_product_summary', array( $this, 'single_product_header' ), 5 );
 		add_action( 'woocommerce_single_product_summary', array( $this, 'single_product_entry_header' ), 5 );
+
+		// Add single offer header
 		add_action( 'woocommerce_single_offer_header', array( $this, 'single_product_header' ), 5 );
 		add_action( 'woocommerce_single_offer_entry_header', array( $this, 'single_product_entry_header' ), 5 );
 
@@ -316,6 +318,9 @@ class Martfury_WooCommerce {
 
 		// QuicKview
 		add_action( 'martfury_before_single_product_summary', 'woocommerce_show_product_images', 20 );
+
+		add_action( 'martfury_before_single_offer_summary', 'woocommerce_show_product_images', 20 );
+
 		add_action( 'martfury_single_product_summary', array( $this, 'get_product_quick_view_header' ), 5 );
 		add_action( 'martfury_single_product_summary', 'woocommerce_template_single_price', 10 );
 		add_action( 'martfury_single_product_summary', array( $this, 'template_single_summary_header' ), 15 );
