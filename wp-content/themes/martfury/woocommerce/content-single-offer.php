@@ -24,6 +24,7 @@ $offer['offer_start_date'] = date('Y-m-d', strtotime($offer['offer_start_date'])
 $offer['offer_end_date'] = date('Y-m-d', strtotime($offer['offer_end_date']));
 $offer['offer_id'] = $offer['id'];
 
+//
 //print '<pre>';
 //var_dump($offer);
 //die();
@@ -34,6 +35,10 @@ $offer['offer_id'] = $offer['id'];
  * @hooked wc_print_notices - 10
  */
 do_action( 'woocommerce_before_single_product' );
+
+echo $offer['product']['post_author'];
+echo $offer['product']['post_content'];
+
 
 if ( post_password_required() ) {
     echo get_the_password_form();
@@ -173,6 +178,7 @@ if ( post_password_required() ) {
          * @hooked woocommerce_output_related_products - 20
          */
         //do_action( 'woocommerce_after_single_product_summary' );
+        //do_action( 'woocommerce_after_single_offer_summary' );
         ?>
     </div>
 

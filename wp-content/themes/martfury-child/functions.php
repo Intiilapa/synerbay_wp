@@ -573,17 +573,35 @@ function save_seller_url($store_user){
     * @package dokan
     *
     */
-    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu' );
-    function dokan_load_document_menu( $query_vars ) {
+    add_filter( 'dokan_query_var_filter', 'dokan_load_offer_menu' );
+    function dokan_load_offer_menu( $query_vars ) {
         $query_vars['offer'] = 'offer';
         return $query_vars;
     }
+
     add_filter( 'dokan_get_dashboard_nav', 'dokan_add_offer_menu' );
     function dokan_add_offer_menu( $urls ) {
         $urls['offer'] = array(
             'title' => __( 'Offers', 'dokan'),
-            'icon'  => '<i class="fa fa-user"></i>',
+            'icon'  => '<i class="fa fa-bookmark"></i>',
             'url'   => dokan_get_navigation_url( 'offer' ),
+            'pos'   => 51
+        );
+        return $urls;
+    }
+
+    add_filter( 'dokan_query_var_filter', 'dokan_load_my_offer_menu' );
+    function dokan_load_my_offer_menu( $query_vars ) {
+        $query_vars['my-offers'] = 'my-offers';
+        return $query_vars;
+    }
+
+    add_filter( 'dokan_get_dashboard_nav', 'dokan_add_my_offer_menu' );
+    function dokan_add_my_offer_menu( $urls ) {
+        $urls['my-offers'] = array(
+            'title' => __( 'My Offers', 'dokan'),
+            'icon'  => '<i class="fa fa-bullhorn"></i>',
+            'url'   => dokan_get_navigation_url( 'my-offers' ),
             'pos'   => 51
         );
         return $urls;
@@ -591,13 +609,13 @@ function save_seller_url($store_user){
 
     /*
      *  Add actions to Offers
-     *
+     *  Assign templates
      * @since 3.0.16
      * @package dokan
      *
      */
 
-    //Main file
+    //Add main offer page
     add_action( 'dokan_load_custom_template', 'dokan_load_template' );
     function dokan_load_template( $query_vars ) {
         if ( isset( $query_vars['offer'] ) ) {
@@ -605,37 +623,37 @@ function save_seller_url($store_user){
         }
     }
 
-    //Header
+    //Add header
     add_action('dokan_offer_header', 'render_header_offers');
     function render_header_offers(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/header.php';
     }
 
-    //Filter(tabs)
+    //Add tabs
     add_action('dokan_offer_filter', 'render_filter_offers');
     function render_filter_offers(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/status-filter.php';
     }
 
-    //Content
+    //Add basic template structure
     add_action('dokan_main_content', 'render_content_offers');
     function render_content_offers(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/content.php';
     }
 
-    //Active Table
+    //Add Active offer
     add_action('dokan_active_offer_table', 'render_active_offer_table');
     function render_active_offer_table(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/active_offers.php';
     }
 
-    //Active Table
+    //Add My offers
     add_action('dokan_my_offer_table', 'render_my_offer_table');
     function render_my_offer_table(){
         require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
     }
 
-    //Add - Create new offer template
+    //Add new offer
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_offer' );
     function dokan_load_document_menu_offer( $query_vars ) {
         $query_vars['new-offer'] = 'new-offer';
@@ -649,7 +667,7 @@ function save_seller_url($store_user){
         }
     }
 
-    //Add - Edit offer template
+    //Add Edit offer
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_edit_offer' );
     function dokan_load_document_menu_edit_offer( $query_vars ) {
         $query_vars['edit-offer'] = 'edit-offer';
@@ -663,10 +681,10 @@ function save_seller_url($store_user){
 //        }
 //    }
 
-    //Add - My offers
+    //Add My offer
     add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_my_offers' );
     function dokan_load_document_menu_my_offers( $query_vars ) {
-        $query_vars['/my-offers'] = 'my-offers';
+        $query_vars['my-offers'] = 'my-offers';
         return $query_vars;
     }
 
@@ -679,20 +697,30 @@ function save_seller_url($store_user){
 
 
 /**
- * Validation add for product cover image
+ * Validation for new product
  *
  * @param array $errors
  * @return array $errors
  */
+
 function dokan_can_add_product_validation_customized( $errors ) {
     $postdata = wp_unslash( $_POST );
     $featured_image = absint( sanitize_text_field( $postdata['feat_image_id'] ) );
     $_regular_price = absint( sanitize_text_field( $postdata['_regular_price'] ) );
+    $weight_unit = absint( sanitize_text_field( $postdata['weight_unit'] ) );
+    $material = absint( isset($postdata['material']) ? $postdata['material'] : []);
+
     if ( empty( $featured_image ) && ! in_array( 'Please upload a product cover image' , $errors ) ) {
         $errors[] = 'Please upload a product cover image';
     }
     if ( empty( $_regular_price ) && ! in_array( 'Please insert product price' , $errors ) ) {
         $errors[] = 'Please insert product price';
+    }
+    if ( empty( $weight_unit ) && ! in_array( 'Please insert product weight unit' , $errors ) ) {
+        $errors[] = 'Please insert product weight unit';
+    }
+    if ( empty( $material ) && ! in_array( 'Please insert product material' , $errors ) ) {
+        $errors[] = 'Please insert product material';
     }
     return $errors;
 }
@@ -705,191 +733,11 @@ function dokan_new_product_popup_validation_customized( $errors, $data ) {
     if ( ! $data['feat_image_id'] ) {
         return new WP_Error( 'no-image', __( 'Please select AT LEAST ONE Picture', 'dokan-lite' ) );
     }
+    if ( ! $data['weight_unit'] ) {
+        return new WP_Error( 'no-weight-unit', __( 'Please insert product weight unit', 'dokan-lite' ) );
+    }
+    if ( ! $data['material'] ) {
+        return new WP_Error( 'no-material', __( 'Please insert product material', 'dokan-lite' ) );
+    }
 }
 add_filter( 'dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2 );
-
-
-/**
- * THIS IS AN EXAMPLE
- *
- * @param array $menu_items
- *
- * @return array
- */
-function sb_add_about_tab( $menu_items ) {
-    $menu_items['about'] = [
-        'title'      => __( 'About' ),
-        'icon'       => '<i class="fa fa-user-circle"></i>',
-        'url'        => dokan_get_navigation_url( 'settings/about' ),
-        'pos'        => 90,
-        'permission' => 'dokan_view_store_settings_menu',
-    ];
-
-    return $menu_items;
-}
-
-add_filter( 'dokan_get_dashboard_settings_nav', 'sb_add_about_tab' );
-
-/**
- * Sets the title for the 'About' settings tab.
- *
- * @param string $title
- * @param string $tab
- *
- * @return string Title for tab with slug $tab
- */
-function sb_set_about_tab_title( $title, $tab ) {
-    if ( 'about' === $tab ) {
-        $title = __( 'About Me' );
-    }
-
-    return $title;
-}
-
-add_filter( 'dokan_dashboard_settings_heading_title', 'sb_set_about_tab_title', 10, 2 );
-
-/**
- * Sets the help text for the 'About' settings tab.
- *
- * @param string $help_text
- * @param string $tab
- *
- * @return string Help text for tab with slug $tab
- */
-function sb_set_about_tab_help_text( $help_text, $tab ) {
-    if ( 'about' === $tab ) {
-        $help_text = __( 'Personalize your store page by telling customers a little about yourself.' );
-    }
-
-    return $help_text;
-}
-
-add_filter( 'dokan_dashboard_settings_helper_text', 'sb_set_about_tab_help_text', 10, 2 );
-
-/**
- * Outputs the content for the 'About' settings tab.
- *
- * @param array $query_vars WP query vars
- */
-function sb_output_help_tab_content( $query_vars ) {
-    if ( isset( $query_vars['settings'] ) && 'about' === $query_vars['settings'] ) {
-        if ( ! current_user_can( 'dokan_view_store_settings_menu' ) ) {
-            dokan_get_template_part ('global/dokan-error', '', [
-                'deleted' => false,
-                'message' => __( 'You have no permission to view this page', 'dokan-lite' )
-            ] );
-        } else {
-            $user_id        = get_current_user_id();
-            $bio            = get_user_meta( $user_id, 'sb_bio', true );
-            $birthdate      = get_user_meta( $user_id, 'sb_birthdate', true );
-            $favorite_color = get_user_meta( $user_id, 'sb_favorite_color', true );
-
-            ?>
-            <form method="post" id="settings-form"  action="" class="dokan-form-horizontal">
-                <?php wp_nonce_field( 'dokan_about_settings_nonce' ); ?>
-
-                <div class="dokan-form-group">
-                    <label class="dokan-w3 dokan-control-label" for="bio">
-                        <?php esc_html_e( 'Bio' ); ?>
-                    </label>
-                    <div class="dokan-w5">
-                        <textarea class="dokan-form-control" name="bio" id="bio" placeholder="<?php esc_attr_e( 'Tell your story' ); ?>"><?php echo esc_html( $bio ); ?></textarea>
-                        <p class="help-block"><?php esc_html_e( 'Tell your customers a little about yourself.' ); ?></p>
-                    </div>
-                </div>
-
-                <div class="dokan-form-group">
-                    <label class="dokan-w3 dokan-control-label" for="birthdate">
-                        <?php esc_html_e( 'Birthdate' ); ?>
-                    </label>
-                    <div class="dokan-w5">
-                        <input class="dokan-form-control" type="date" name="birthdate" id="birthdate" value="<?php echo esc_attr( $birthdate ); ?>">
-                    </div>
-                </div>
-
-                <div class="dokan-form-group">
-                    <label class="dokan-w3 dokan-control-label" for="favorite_color">
-                        <?php esc_html_e( 'Favorite Color' ); ?>
-                    </label>
-                    <div class="dokan-w5">
-                        <select class="dokan-form-control" name="favorite_color" id="favorite_color">
-                            <?php
-                            $colors = [
-                                ''       => __( 'Select a color' ),
-                                'red'    => __( 'Red' ),
-                                'orange' => __( 'Orange' ),
-                                'yellow' => __( 'Yellow' ),
-                                'green'  => __( 'Green' ),
-                                'blue'   => __( 'Blue' ),
-                                'other'  => __( 'Other' ),
-                            ];
-
-                            foreach ( $colors as $value => $label ) {
-                                printf(
-                                    '<option value="%s" %s>%s</option>',
-                                    $value,
-                                    selected( $value, $favorite_color, false ),
-                                    $label
-                                );
-                            }
-                            ?>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="dokan-form-group">
-                    <div class="dokan-w4 ajax_prev dokan-text-left" style="margin-left: 25%">
-                        <input type="submit" name="dokan_update_about_settings" class="dokan-btn dokan-btn-danger dokan-btn-theme" value="<?php esc_attr_e( 'Update Settings' ); ?>">
-                    </div>
-                </div>
-            </form>
-
-            <style>
-                #settings-form p.help-block {
-                    margin-bottom: 0;
-                }
-            </style>
-            <?php
-        }
-    }
-}
-
-add_action( 'dokan_render_settings_content', 'sb_output_help_tab_content' );
-
-/**
- * Saves the settings on the 'About' tab.
- *
- * Hooked with priority 5 to run before WeDevs\Dokan\Dashboard\Templates::ajax_settings()
- */
-function sb_save_about_settings() {
-    $user_id   = dokan_get_current_user_id();
-    $post_data = wp_unslash( $_POST );
-    $nonce     = isset( $post_data['_wpnonce'] ) ? $post_data['_wpnonce'] : '';
-
-    // Bail if another settings tab is being saved
-    if ( ! wp_verify_nonce( $nonce, 'dokan_about_settings_nonce' ) ) {
-        return;
-    }
-
-    $bio            = sanitize_text_field( $post_data['bio'] );
-    $birthdate      = sanitize_text_field( $post_data['birthdate'] );
-    $favorite_color = sanitize_text_field( $post_data['favorite_color'] );
-
-    // Require that the user is 18 years of age or older
-    $eighteen_years_ago = strtotime( '-18 years 00:00:00' );
-
-    if ( $birthdate && strtotime( $birthdate ) > $eighteen_years_ago ) {
-        wp_send_json_error( __( 'You must be at least eighteen years old - is your birthdate correct?' ) );
-    }
-
-    update_user_meta( $user_id, 'sb_bio', $bio );
-    update_user_meta( $user_id, 'sb_birthdate', $birthdate );
-    update_user_meta( $user_id, 'sb_favorite_color', $favorite_color );
-
-    wp_send_json_success( array(
-        'msg' => __( 'Your information has been saved successfully' ),
-    ) );
-}
-
-add_action( 'wp_ajax_dokan_settings', 'sb_save_about_settings', 5 );
-
