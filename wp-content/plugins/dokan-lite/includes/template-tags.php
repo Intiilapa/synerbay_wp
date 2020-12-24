@@ -339,7 +339,7 @@ function dokan_get_dashboard_nav() {
             'permission' => 'dokan_view_overview_menu',
         ),
         'products' => array(
-            'title'      => __( 'Products', 'dokan-lite' ),
+            'title'      => __( 'Catalogue', 'dokan-lite' ),
             'icon'       => '<i class="fa fa-briefcase"></i>',
             'url'        => dokan_get_navigation_url( 'products' ),
             'pos'        => 30,

@@ -93,7 +93,7 @@ do_action( 'dokan_new_product_wrap_before' );
         }
 
             if (!$myOffers){
-                echo  '<td colspan="11">No offers found</td>';
+                echo  '<td colspan="12">No offers found</td>';
             }
         ?>
             </thead>
