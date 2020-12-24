@@ -136,7 +136,7 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
          <div class="dokan-w5">
                  <select class="dokan-form-control" name="vendor_shipping_to" id="vendor_shipping_to">
                      <?php
-                     $countries = array
+                     $countries_shipping = array
                      (
                          '' => __( 'Select shipping to' ),
                          'Worldwide' => 'Wordwide',
@@ -395,7 +395,7 @@ add_filter( 'dokan_settings_form_bottom', 'extra_fields', 10, 2);
                      );
 
 
-                     foreach ( $countries as $value => $label ) {
+                     foreach ( $countries_shipping as $value => $label ) {
                          printf(
                              '<option value="%s" %s>%s</option>',
                              $value,

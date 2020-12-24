@@ -202,14 +202,14 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask vat -->
                 <th scope="row"><label for="vendor_vat"><?php esc_html_e( 'VAT Number', 'dokan-lite' ); ?></label></th>
                     <td>
-                        <input type="text" class="dokan-form-control input-md valid" name="vendor_vat" id="reg_seller_url" value="<?php echo $vendor_vat; ?>" />
+                        <input type="text" required="required" class="dokan-form-control input-md valid" name="vendor_vat" id="reg_seller_url" value="<?php echo $vendor_vat; ?>" />
                     </td>
                 <tr>
 
                 <!-- Ask Industry -->
                 <th scope="row"><label for="vendor_industry"><?php esc_html_e( 'Industry', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select class="wc-enhanced-select" name="vendor_industry" id="vendor_industry">
+                    <select required="required" class="wc-enhanced-select" name="vendor_industry" id="vendor_industry">
                         <?php
                         $industries = [
                             '' => __( 'Select industry' ),
@@ -242,7 +242,7 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask Company Type -->
                 <th scope="row"><label for="vendor_type"><?php esc_html_e( 'Company Type', 'dokan-lite' ); ?></label></th>
                     <td>
-                        <select class="wc-enhanced-select" name="vendor_type" id="vendor_type">
+                        <select required="required" class="wc-enhanced-select" name="vendor_type" id="vendor_type">
                             <?php
                             $company_types = [
                                 '' => __( 'Select company type' ),
@@ -268,9 +268,9 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask where company ships -->
                 <th scope="row"><label for="vendor_revenue"><?php esc_html_e( 'Shipping to', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select class="wc-enhanced-select" name="vendor_shipping_to" id="vendor_shipping_to">
+                    <select required="required" class="wc-enhanced-select" name="vendor_shipping_to" id="vendor_shipping_to">
                         <?php
-                        $countries = array
+                        $countries_shipping = array
                         (
                             '' => __( 'Select shipping to' ),
                             'Worldwide' => 'Wordwide',
@@ -529,7 +529,7 @@ class SetupWizard extends DokanSetupWizard {
                         );
 
 
-                        foreach ( $countries as $value => $label ) {
+                        foreach ( $countries_shipping as $value => $label ) {
                             printf(
                                 '<option value="%s" %s>%s</option>',
                                 $value,
@@ -545,7 +545,7 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask for Annual rev -->
                 <th scope="row"><label for="vendor_revenue"><?php esc_html_e( 'Annual Revenue', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select class="wc-enhanced-select" name="vendor_revenue" id="vendor_revenue">
+                    <select required="required" class="wc-enhanced-select" name="vendor_revenue" id="vendor_revenue">
                         <?php
                         $revenues = [
                             '' => __( 'Select annual revenue' ),
@@ -574,7 +574,7 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask employees -->
                 <th scope="row"><label for="vendor_employees"><?php esc_html_e( 'Employees', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select class="wc-enhanced-select" name="vendor_employees" id="vendor_employees">
+                    <select required="required" class="wc-enhanced-select" name="vendor_employees" id="vendor_employees">
                         <?php
                         $employees = [
                             '' => __( 'Select employees count' ),
@@ -602,7 +602,7 @@ class SetupWizard extends DokanSetupWizard {
                 <!-- Ask Product range -->
                 <th scope="row"><label for="vendor_product_range"><?php esc_html_e( 'Product Range', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select class="wc-enhanced-select" name="vendor_product_range" id="vendor_product_range">
+                    <select required="required" class="wc-enhanced-select" name="vendor_product_range" id="vendor_product_range">
                         <?php
                         $product_ranges = [
                             '' => __( 'Select a product range' ),
@@ -630,7 +630,7 @@ class SetupWizard extends DokanSetupWizard {
                 <tr>
                     <th scope="row"><label for="address[street_1]"><?php esc_html_e( 'Street', 'dokan-lite' ); ?></label></th>
                     <td>
-                        <input type="text" id="address[street_1]" name="address[street_1]" value="<?php echo esc_attr( $address_street1 ); ?>" />
+                        <input required="required" type="text" id="address[street_1]" name="address[street_1]" value="<?php echo esc_attr( $address_street1 ); ?>" />
                     </td>
                 </tr>
 
@@ -644,19 +644,19 @@ class SetupWizard extends DokanSetupWizard {
                 <tr>
                     <th scope="row"><label for="address[city]"><?php esc_html_e( 'City', 'dokan-lite' ); ?></label></th>
                     <td>
-                        <input type="text" id="address[city]" name="address[city]" value="<?php echo esc_attr( $address_city ); ?>" />
+                        <input required="required" type="text" id="address[city]" name="address[city]" value="<?php echo esc_attr( $address_city ); ?>" />
                     </td>
                 </tr>
                 <th scope="row"><label for="address[zip]"><?php esc_html_e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <input type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
+                    <input required="required" type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
                 </td>
                 <tr>
                 </tr>
 
                 <th scope="row"><label for="address[country]"><?php esc_html_e( 'Country', 'dokan-lite' ); ?></label></th>
                 <td>
-                    <select name="address[country]" class="wc-enhanced-select country_to_state" id="address[country]">
+                    <select required="required" name="address[country]" class="wc-enhanced-select country_to_state" id="address[country]">
                         <?php dokan_country_dropdown( $countries, $address_country, false ); ?>
                     </select>
                 </td>
@@ -665,7 +665,7 @@ class SetupWizard extends DokanSetupWizard {
                 <tr>
                     <th scope="row"><label for="calc_shipping_state"><?php esc_html_e( 'State', 'dokan-lite' ); ?></label></th>
                     <td>
-                        <input type="text" id="calc_shipping_state" name="address[state]" value="<?php echo esc_attr( $address_state ); ?>" / placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>">
+                        <input required="required" type="text" id="calc_shipping_state" name="address[state]" value="<?php echo esc_attr( $address_state ); ?>" / placeholder="<?php esc_attr_e( 'State Name', 'dokan-lite' ); ?>">
                     </td>
                 </tr>
 
