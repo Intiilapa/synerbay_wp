@@ -28,9 +28,6 @@ class Offer extends AbstractModule
         'minimum_order_quantity' => '%d',
         'order_quantity_step'    => '%d',
         'max_total_offer_qty'    => '%d',
-        'weight_unit'            => '%d',
-        'weight_unit_sign'       => '%s',
-        'material'               => '%s',
         'transport_parity'       => '%s',
         'shipping_to'            => '%s',
     ];
@@ -126,7 +123,6 @@ class Offer extends AbstractModule
     public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
     {
         if ($offer = $this->getOffer($offerID)) {
-            $offer['material'] = explode(',', $offer['material']);
             $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'], true) : [];
             $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']];
             $offer['shipping_to_labels'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
@@ -175,7 +171,7 @@ class Offer extends AbstractModule
         $actualPriceStepQty = 0;
         $minPriceStep = 0;
         $maxPriceStep = 0;
-        $showQuantityInput = true;
+        $showQuantityInput = $offerData['user_id'] != get_current_user_id();
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {

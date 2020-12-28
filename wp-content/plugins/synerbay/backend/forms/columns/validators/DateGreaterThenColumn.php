@@ -6,11 +6,11 @@ namespace SynerBay\Forms\Validators;
 
 class DateGreaterThenColumn extends AbstractValidator
 {
-    private string $columnDate;
+    private string $columnValue;
 
     public function error(): string
     {
-        return sprintf('Date must be greater than %s!', $this->columnDate);
+        return sprintf('Date must be greater than %s!', $this->columnValue);
     }
 
     protected function run($value)
@@ -19,10 +19,10 @@ class DateGreaterThenColumn extends AbstractValidator
         $dateValidator = new Date();
         $columnValue = $this->getFormValue($this->validatorParameters['column']);
 
-        $ret =  $requiredValidator->run($columnValue) && $dateValidator->run($columnValue) && strtotime($columnValue) < strtotime($value);
+        $ret = $requiredValidator->run($columnValue) && $dateValidator->run($columnValue) && strtotime($columnValue) < strtotime($value);
 
         if (!$ret) {
-            $this->columnDate = $columnValue;
+            $this->columnValue = $columnValue;
         }
 
         return $ret;

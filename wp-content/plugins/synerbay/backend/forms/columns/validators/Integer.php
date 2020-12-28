@@ -14,6 +14,13 @@ class Integer extends AbstractValidator
 
     protected function run($value)
     {
-        return ctype_digit($value) && $value > 0;
+        $ret = true;
+        $requiredValidator = new Required();
+
+        if (!$requiredValidator->run($value)) {
+            $ret = ctype_digit($value) && $value > 0;
+        }
+
+        return $ret;
     }
 }

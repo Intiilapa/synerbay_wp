@@ -20,6 +20,14 @@ defined( 'ABSPATH' ) || exit;
 global $product;
 global $offer;
 
+$minimum_order_quantity = $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1;
+$max_total_offer_qty = $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : -1;
+$order_quantity_step = $offer['order_quantity_step'] ? $offer['order_quantity_step'] :1;
+
+$offer['minimum_order_quantity'] = $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1;
+$offer['max_total_offer_qty'] = $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : '-';
+$offer['order_quantity_step'] = $offer['order_quantity_step'] ? $offer['order_quantity_step'] : 1;
+
 /**
  * woocommerce_before_single_product hook.
  *
@@ -99,11 +107,17 @@ if ( post_password_required() ) {
             <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
                 if ($offer['summary']['show_quantity_input']) {
-                    woocommerce_quantity_input( array(
-                        'min_value' => apply_filters( 'woocommerce_quantity_input_min', isset($offer['minimum_order_quantity']) && $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1, $product ),
-                        'max_value' => apply_filters( 'woocommerce_quantity_input_max', isset($offer['max_total_offer_qty']) && $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : -1, $product ),
-                        'step' => isset($offer['order_quantity_step']) ? $offer['order_quantity_step'] : 1,
-                    ) );
+                ?>
+                    <div class="quantity">
+                        <label class="screen-reader-text" for="quantity_5fea39601a52d">Quantity</label>
+                        <label class="label" for="quantity_5fea39601a52d">Quantity</label>
+                        <div class="qty-box">
+                            <span class="decrease  icon_minus-06"></span>
+                            <input type="number" id="quantity_5fea39601a52d" class="input-text qty text" step="<?php echo $order_quantity_step; ?>" min="<?php echo $minimum_order_quantity; ?>" max="<?php echo $max_total_offer_qty; ?>" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric" readonly="readonly">
+                            <span class="increase icon_plus"></span>
+                        </div>
+                    </div>
+                <?php
                 }
                 ?>
 

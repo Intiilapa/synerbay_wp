@@ -12,3 +12,4 @@ include_once 'Numeric.php';
 include_once 'PriceStep.php';
 include_once 'Date.php';
 include_once 'DateGreaterThenColumn.php';
+include_once 'NumericGreaterThenColumn.php';

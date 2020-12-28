@@ -59,7 +59,9 @@ class CreateOffer extends AbstractForm
         $this->addColumn(new Column(
             'minimum_order_quantity',
             true,
-            [],
+            [
+                'integer' => []
+            ],
             ['integer']
         ));
 
@@ -73,29 +75,32 @@ class CreateOffer extends AbstractForm
         $this->addColumn(new Column(
             'max_total_offer_qty',
             false,
-            [],
+            [
+                'integer' => [],
+                'numericGreaterThenColumn' => ['column' => 'minimum_order_quantity'],
+            ],
             ['integer']
         ));
 
-        $this->addColumn(new Column(
-            'weight_unit',
-            true,
-            ['integer' => []],
-            ['integer']
-        ));
-
-        $this->addColumn(new Column(
-            'weight_unit_sign',
-            true,
-            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getUnitTypes())]],
-        ));
-
-        $this->addColumn(new Column(
-            'material',
-            true,
-            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getMaterialTypes())]],
-            ['mysqlSet']
-        ));
+//        $this->addColumn(new Column(
+//            'weight_unit',
+//            true,
+//            ['integer' => []],
+//            ['integer']
+//        ));
+//
+//        $this->addColumn(new Column(
+//            'weight_unit_sign',
+//            true,
+//            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getUnitTypes())]],
+//        ));
+//
+//        $this->addColumn(new Column(
+//            'material',
+//            true,
+//            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getMaterialTypes())]],
+//            ['mysqlSet']
+//        ));
 
         $this->addColumn(new Column(
             'transport_parity',
