@@ -16,7 +16,9 @@
  */
 global $offer;
 global $product;
-$product = $offer['product']['wc_product'];
+global $post;
+$product = $post = $offer['product']['wc_product'];
+$post = get_post($offer['product_id']);
 //print '<pre>';
 //var_dump($product);
 //die;
