@@ -43,11 +43,11 @@ $is_discount            = !empty( $_sale_price ) ? true : false;
 $_sale_price_dates_from = get_post_meta( $post_id, '_sale_price_dates_from', true );
 $_sale_price_dates_to   = get_post_meta( $post_id, '_sale_price_dates_to', true );
 
-$_weight_unit   = get_post_meta( $post_id, '_weight_unit', true );
-$_weight_unit_type   = get_post_meta( $post_id, '_weight_unit_type', true );
-$_materials = get_post_meta( $post_id, '_material', true );
+$_weight_unit = !isset($post_data['weight_unit']) ? get_post_meta( $post_id, '_weight_unit', true ) : $post_data['weight_unit'];
+$_weight_unit_type = !isset($post_data['weight_unit_type']) ? get_post_meta( $post_id, '_weight_unit_type', true ) : $post_data['weight_unit_type'];
+$_materials = !isset($post_data['material']) ? get_post_meta( $post_id, '_material', true ) : $post_data['material'];
 
-if ($_materials) {
+if ($_materials && !is_array($_materials)) {
     $_materials = explode(',', $_materials);
 }
 
