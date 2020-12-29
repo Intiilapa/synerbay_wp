@@ -17,18 +17,14 @@
 global $offer;
 global $product;
 global $post;
-$product = $post = $offer['product']['wc_product'];
-$post = get_post($offer['product_id']);
-//print '<pre>';
-//var_dump($product);
-//die;
+global $wp_query;
 
-//print '<pre>';
-//var_dump($offer);die;
+$product = wc_get_product($offer['product_id']);
+$wp_query->post = $post = get_post($offer['product_id']);
+$wp_query->is_singular = true;
+$wp_query->is_404 = false;
+$wp_query->is_single = true;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
 
 get_header( 'shop' ); ?>
 

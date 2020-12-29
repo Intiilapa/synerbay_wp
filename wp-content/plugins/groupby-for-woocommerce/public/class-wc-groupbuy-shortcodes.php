@@ -10,6 +10,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 				// Regular shortcodes
 				add_shortcode( 'groupbuys', array( $this, 'groupbuys' ) );
 				add_shortcode( 'recent_groupbuys', array( $this, 'recent_groupbuys' ) );
+				add_shortcode( 'recent_offers_groupbuys', array( $this, 'recent_offers_groupbuys' ) );
 				add_shortcode( 'featured_groupbuys', array( $this, 'featured_groupbuys' ) );
 		        add_shortcode( 'ending_soon_groupbuys', array( $this, 'ending_soon_groupbuys' ) );
 		        add_shortcode( 'future_groupbuys', array( $this, 'future_groupbuys' ) );
@@ -167,7 +168,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
 				<?php while ( $products->have_posts() ) : $products->the_post(); ?>
 
-					<?php wc_get_template_part( 'content', 'product' ); ?>
+					<?php wc_get_template_part( 'content', 'offer' ); ?>
 
 				<?php endwhile; // end of the loop. ?>
 
@@ -181,6 +182,81 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
 		return '<div class="woocommerce">' . ob_get_clean() . '</div>';
 	}
+
+    /**
+     * Recent offers shortcode
+     *
+     * @access public
+     * @param array $atts
+     * @return string
+     */
+    public function recent_offers_groupbuys( $atts ) {
+
+        global $woocommerce_loop, $woocommerce;
+
+        extract(shortcode_atts(array(
+            'per_page' 	=> '12',
+            'columns' 	=> '4',
+            'orderby' => 'date',
+            'order' => 'desc'
+        ), $atts));
+
+        $meta_query = $woocommerce->query->get_meta_query();
+
+        $args = array(
+            'post_type'	=> 'product',
+            'post_status' => 'publish',
+            'product_tag' => 'offer',
+			'ignore_sticky_posts'	=> 1,
+			'posts_per_page' => $per_page,
+			'orderby' => $orderby,
+			'order' => $order,
+            'meta_query' => $meta_query,
+//			'tax_query' => array(array('taxonomy' => 'product_type' , 'field' => 'slug', 'terms' => 'groupbuy')),
+//			'is_groupbuy_archive' => TRUE
+        );
+
+        ob_start();
+
+        $products = new WP_Query( $args );
+        if ( $products->have_posts() ) {
+            $current_language= apply_filters( 'wpml_current_language', NULL );
+            if ( $current_language ) {
+                $default_languag = apply_filters( 'wpml_default_language', NULL );
+                if($default_languag !== $current_language ){
+                    $post_ids = wp_list_pluck( $products->posts, 'ID' );
+                    $query_args                        = array('posts_per_page' => $number, 'no_found_rows' => 1, 'post_status' => 'publish', 'post_type' => 'product', 'post__in' => $post_ids, 'orderby' => 'post__in');
+                    $query_args['is_groupbuy_archive'] = TRUE;
+                    $query_args['suppress_filters'] = false;
+                    $query_args [ 'show_future_groupbuy' ] = true;
+                    $query_args [ 'show_past_groupbuy' ] = true;
+                    $products = new WP_Query($query_args);
+                }
+            }
+        }
+
+        $woocommerce_loop['columns'] = $columns;
+
+        if ( $products->have_posts() ) : ?>
+
+            <?php woocommerce_product_loop_start(); ?>
+
+            <?php while ( $products->have_posts() ) : $products->the_post(); ?>
+
+                <?php wc_get_template_part( 'content', 'offer' ); ?>
+
+            <?php endwhile; // end of the loop. ?>
+
+            <?php woocommerce_product_loop_end(); ?>
+        <?php else : ?>
+            <?php wc_get_template( 'loop/no-products-found.php' ); ?>
+
+        <?php endif;
+
+        wp_reset_postdata();
+
+        return '<div class="woocommerce">' . ob_get_clean() . '</div>';
+    }
 
 /**
 	 * List multiple groupbuys shortcode

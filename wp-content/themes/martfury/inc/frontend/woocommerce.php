@@ -147,6 +147,7 @@ class Martfury_WooCommerce {
 		// Add product thumbnail
 		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail' );
 		add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'product_content_thumbnail' ) );
+		add_action( 'woocommerce_before_shop_loop_offer_title', array( $this, 'product_content_offer_thumbnail' ) );
 
 		// Add product detail
 		add_action( 'woocommerce_shop_loop_item_title', array( $this, 'open_product_details' ), 5 );
@@ -793,6 +794,79 @@ class Martfury_WooCommerce {
 
 	}
 
+    /**
+     * WooCommerce Loop Offer Content Thumbs
+     *
+     * @since  1.0
+     *
+     * @return string
+     */
+    function product_content_offer_thumbnail() {
+        global $product, $post, $offer;
+
+        printf( '<div class="mf-product-thumbnail">' );
+
+        printf( '<a href="%s">', esc_url( get_the_permalink() ) );
+
+        $image_size = 'shop_catalog';
+        if ( has_post_thumbnail() ) {
+            $thumbnail_class   = apply_filters( 'martfury_product_thumbnail_classes', '' );
+            $post_thumbnail_id = get_post_thumbnail_id( $post );
+            echo martfury_get_image_html( $post_thumbnail_id, $image_size, $thumbnail_class );
+
+        } elseif ( function_exists( 'woocommerce_get_product_thumbnail' ) ) {
+            echo woocommerce_get_product_thumbnail();
+        }
+
+        if ( intval( martfury_get_option( 'show_badges' ) ) ) {
+            $this->product_ribbons();
+
+        }
+
+        echo '</a>';
+
+        $icons = martfury_get_option( 'catalog_featured_icons' );
+
+        $show_icons = true;
+
+        if ( is_customize_preview() ) {
+            $show_icons = apply_filters( 'martfury_preview_featured_icons', false );
+        }
+
+        if ( ! empty( $icons ) && $show_icons ) {
+            echo '<div class="footer-button">';
+
+            foreach ( $icons as $icon ) {
+                if ( 'cart' == $icon ) {
+
+                    if ( martfury_get_option( 'product_loop_hover' ) == '1' && function_exists( 'woocommerce_template_loop_add_to_cart' ) ) {
+                        woocommerce_template_loop_add_to_cart();
+                    }
+                }
+
+                if ( 'qview' == $icon ) {
+                    echo '<a href="' . $product->get_permalink() . '" data-id="' . esc_attr( $product->get_id() ) . '"  class="mf-product-quick-view"><i class="p-icon icon-eye" title="' . esc_attr__( 'Quick View', 'martfury' ) . '" data-rel="tooltip"></i></a>';
+                }
+
+                if ( 'wishlist' == $icon ) {
+                    if ( shortcode_exists( 'yith_wcwl_add_to_wishlist' ) ) {
+                        echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
+                    }
+                }
+
+                if ( 'compare' == $icon ) {
+                    $this->product_compare();
+                }
+            }
+
+            echo '</div>';
+
+        }
+
+
+        echo '</div>';
+
+    }
 
 	/**
 	 * WooCommerce Loop Product Content Thumbs

@@ -17,17 +17,17 @@
 
 defined( 'ABSPATH' ) || exit;
 
-global $offer, $product, $post;
-$product = $post = $offer['product']['wc_product'];
-
-$offer['delivery_date'] = date('Y-m-d', strtotime($offer['delivery_date']));
-$offer['offer_start_date'] = date('Y-m-d', strtotime($offer['offer_start_date']));
-$offer['offer_end_date'] = date('Y-m-d', strtotime($offer['offer_end_date']));
-$offer['offer_id'] = $offer['id'];
-//
-//print '<pre>';
+global $product;
+global $offer;
 //var_dump($offer);
-//die();
+
+$minimum_order_quantity = $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1;
+$max_total_offer_qty = $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : -1;
+$order_quantity_step = $offer['order_quantity_step'] ? $offer['order_quantity_step'] :1;
+
+$offer['minimum_order_quantity'] = $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1;
+$offer['max_total_offer_qty'] = $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : '-';
+$offer['order_quantity_step'] = $offer['order_quantity_step'] ? $offer['order_quantity_step'] : 1;
 
 /**
  * woocommerce_before_single_product hook.
@@ -36,17 +36,14 @@ $offer['offer_id'] = $offer['id'];
  */
 do_action( 'woocommerce_before_single_product' );
 
-echo $offer['product']['post_author'];
-echo $offer['product']['post_content'];
-
-
 if ( post_password_required() ) {
     echo get_the_password_form();
 
     return;
 }
 ?>
-<div id="product-<?php echo $offer['product_id']; ?>" class="mf-single-product mf-product-layout-1 product type-product post-<?php echo $offer['product_id']; ?> status-publish first instock product_cat-access-control-systems-products product_cat-agriculture product_cat-test product_tag-test has-post-thumbnail taxable shipping-taxable purchasable product-type-groupbuy" ?>
+<div id="product-<?php the_ID(); ?>" <?php wc_product_class( '', $product ); ?>>
+
 
     <div class="mf-product-detail">
         <?php
@@ -56,59 +53,15 @@ if ( post_password_required() ) {
          * @hooked woocommerce_show_product_sale_flash - 10
          * @hooked woocommerce_show_product_images - 20
          */
-
         do_action( 'woocommerce_before_single_product_summary' );
         ?>
 
         <div class="summary entry-summary">
             <?php if($offer['summary']['actual_product_price'] != 0): ?>
-            <p class="price">
-                <?php echo $offer['summary']['formatted_actual_product_price'];?>
-            </p>
+                <p class="price">
+                    <?php echo $offer['summary']['formatted_actual_product_price'];?>
+                </p>
             <?php endif;?>
-
-            <?php
-            /**
-             * woocommerce_single_product_summary hook.
-             *
-             * @hooked woocommerce_template_single_title - 5
-             * @hooked woocommerce_template_single_rating - 10
-             * @hooked woocommerce_template_single_price - 10
-             * @hooked woocommerce_template_single_excerpt - 20
-             * @hooked woocommerce_template_single_add_to_cart - 30
-             * @hooked woocommerce_template_single_meta - 40
-             * @hooked woocommerce_template_single_sharing - 50
-             * @hooked WC_Structured_Data::generate_product_data() - 60
-             */
-
-             //do_action( 'woocommerce_single_product_summary' );
-
-//            do_action('woocommerce_single_offer_price');
-//            do_action('woocommerce_single_offer_header');
-//            do_action('woocommerce_single_offer_entry_header');
-//            do_action( 'martfury_before_single_offer_summary' );
-            ?>
-            <?php
-//            echo '<table><tr>'
-//                . '<td>' . $offer['id'] . '</td>'
-//                . '<td>' . $offer['product']['post_title'] . '</td>'
-//                . '<td>' . $offer['delivery_date'] . '</td>'
-//                . '<td>' . $offer['offer_start_date'] . '</td>'
-//                . '<td>' . $offer['offer_end_date'] . '</td>'
-//                . '<td>' . $offer['minimum_order_quantity'] . '</td>'
-//                . '<td>' . $offer['max_total_offer_qty'] . '</td>'
-//                . '<td>' . $offer['transport_parity'] . '</td>'
-//                . '<td>' . $offer['created_at'] . '</td>'
-//                . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
-//                . '<td>' . $offer['summary']['actual_applicant_product_number'] . '</td>'
-//                . '<td>' . $offer['summary']['actual_applicant_number'] . '</td>'
-//                . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
-//                . '<td>' . $offer['summary']['max_price_step_qty'] . '</td>'
-//                . '<td>' . $offer['summary']['min_price_step_qty'] . '</td>'
-//                . '</tr></table>';
-            //var_dump($offer['summary']['actual_applicant_product_number']);
-            //die();
-            ?>
 
             <!-- Basic info -->
             <strong>Offer details:</strong>
@@ -117,10 +70,12 @@ if ( post_password_required() ) {
                 <span class="current_subscribed"> <?php _e( 'Amount subscribers:', 'synerbay' )?> <?php echo $offer['summary']['actual_applicant_product_number'];?></span>
                 <span class="offer-start-date"> <?php _e( 'Start date:', 'synerbay' )?> <?php echo $offer['offer_start_date'];?></span>
                 <span class="offer-end-date"> <?php _e( 'End date:', 'synerbay' )?> <?php echo $offer['offer_end_date'];?></span>
+                <span class="offer-qty-min"> <?php _e( 'Min. product qty:', 'synerbay' )?> <?php echo $offer['minimum_order_quantity'];?></span>
+                <span class="offer-qty-max"> <?php _e( 'Max. product qty/user:', 'synerbay' )?> <?php echo $offer['max_total_offer_qty'];?></span>
+                <span class="offer-qty-step"> <?php _e( 'Quantity step:', 'synerbay' )?> <?php echo $offer['order_quantity_step'];?></span>
                 <br>
                 <span><?php _e( 'Transport parity:', 'synerbay' )?> <?php echo $offer['transport_parity'];?></span>
                 <span><?php _e( 'Delivery date:', 'synerbay' )?> <?php echo $offer['delivery_date'];?></span>
-                <span><?php _e( 'Created at:', 'synerbay' )?> <?php echo $offer['created_at'];?></span>
             </p>
 
             <!-- Progress bar -->
@@ -137,10 +92,10 @@ if ( post_password_required() ) {
                 <strong>Price steps:</strong>
             <table width="100%">
                 <thead>
-                    <tr>
-                        <td>Quantity</td>
-                        <td>Price</td>
-                    </tr>
+                <tr>
+                    <td>Quantity</td>
+                    <td>Price</td>
+                </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($offer['price_steps'] as $price_step){
@@ -153,12 +108,21 @@ if ( post_password_required() ) {
             <!-- Add to cart section -->
             <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
-                if ( ! $product->is_sold_individually() && $offer['summary']['show_quantity_input'])
-                    woocommerce_quantity_input( array(
-                        'min_value' => apply_filters( 'woocommerce_quantity_input_min', $offer['minimum_order_quantity'], $product ),
-                        'max_value' => apply_filters( 'woocommerce_quantity_input_max', $offer['max_total_offer_qty'], $product ),
-                        'step' => $offer['order_quantity_step'],
-                    ) ); ?>
+                if ($offer['summary']['show_quantity_input']) {
+                    ?>
+                    <div class="quantity">
+                        <label class="screen-reader-text" for="quantity_5fea39601a52d">Quantity</label>
+                        <label class="label" for="quantity_5fea39601a52d">Quantity</label>
+                        <div class="qty-box">
+                            <span class="decrease  icon_minus-06"></span>
+                            <input type="number" id="quantity_5fea39601a52d" class="input-text qty text" step="<?php echo $order_quantity_step; ?>" min="<?php echo $minimum_order_quantity; ?>" max="<?php echo $max_total_offer_qty; ?>" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric" readonly="readonly">
+                            <span class="increase icon_plus"></span>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+
                 <!-- Subscribe button -->
                 <?php do_action('synerbay_offerApplyButton', $offer);?>
             </form>
@@ -167,7 +131,6 @@ if ( post_password_required() ) {
         <!-- .summary -->
     </div>
     <div class="summary-sep clear"></div>
-
     <div class="mf-product-summary">
         <?php
         /**
@@ -177,8 +140,7 @@ if ( post_password_required() ) {
          * @hooked woocommerce_upsell_display - 15
          * @hooked woocommerce_output_related_products - 20
          */
-        //do_action( 'woocommerce_after_single_product_summary' );
-        //do_action( 'woocommerce_after_single_offer_summary' );
+        do_action( 'woocommerce_after_single_product_summary' );
         ?>
     </div>
 
