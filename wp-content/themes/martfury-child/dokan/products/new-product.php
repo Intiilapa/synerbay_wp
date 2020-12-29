@@ -73,27 +73,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                     </div>
                 <?php endif ?>
 
-
                 <?php
-                //TODO - Kristof, itt debug kellene mert nem menti at a synerbay dolgokat. A create nem sikerul
-                $error_messages = [];
-                $created = false;
-                if (isset($post_data['add_product'])) {
-                    $formData = $post_data;
-
-                    /** @var CreateOffer $offerForm */
-                    $offerForm = apply_filters('synerbay_get_offer_create_form', $formData);
-
-                    if ($offerForm->validate()) {
-                        $created = apply_filters('synerbay_create_offer', $offerForm->getFilteredValues());
-                    } else {
-                        $error_messages = $offerForm->errorMessages();
-                    }
-                }
-                ?>
-
-                <?php
-
                 $can_sell = apply_filters( 'dokan_can_post', true );
 
                 if ( $can_sell ) {
@@ -172,51 +152,19 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
                                     <div class="dokan-form-group">
                                         <div class="dokan-form-group dokan-clearfix dokan-price-container">
-                                            <div class="content-half-part">
                                                 <label for="_regular_price" class="dokan-form-label"><?php esc_html_e( 'Price', 'dokan-lite' ); ?></label>
                                                 <div class="dokan-input-group">
                                                     <span class="dokan-input-group-addon"><?php echo esc_attr__( get_woocommerce_currency_symbol() ); ?></span>
                                                     <input type="text" class="dokan-form-control wc_input_price dokan-product-regular-price" name="_regular_price" placeholder="0.00" id="_regular_price" value="<?php echo esc_attr( dokan_posted_input( '_regular_price' ) ) ?>">
                                                 </div>
-                                            </div>
-
-                                            <div class="content-half-part sale-price">
-                                                <label for="_sale_price" class="form-label">
-                                                    <?php esc_html_e( 'Discounted Price', 'dokan-lite' ); ?>
-                                                    <a href="#" class="sale_schedule"><?php esc_html_e( 'Schedule', 'dokan-lite' ); ?></a>
-                                                    <a href="#" class="cancel_sale_schedule dokan-hide"><?php esc_html_e( 'Cancel', 'dokan-lite' ); ?></a>
-                                                </label>
-
-                                                <div class="dokan-input-group">
-                                                    <span class="dokan-input-group-addon"><?php echo esc_attr__( get_woocommerce_currency_symbol() ); ?></span>
-                                                    <input type="text" class="dokan-form-control wc_input_price dokan-product-sales-price" name="_sale_price" placeholder="0.00" id="_sale_price" value="<?php echo esc_attr( dokan_posted_input( '_sale_price' ) ) ?>">
-                                                </div>
-                                            </div>
                                         </div>
-
-                                        <div class="dokan-hide sale-schedule-container sale_price_dates_fields dokan-clearfix dokan-form-group">
-                                            <div class="content-half-part from">
-                                                <div class="dokan-input-group">
-                                                    <span class="dokan-input-group-addon"><?php esc_html_e( 'From', 'dokan-lite' ); ?></span>
-                                                    <input type="text" name="_sale_price_dates_from" class="dokan-form-control datepicker sale_price_dates_from" maxlength="10" value="<?php echo esc_attr( dokan_posted_input('_sale_price_dates_from') ); ?>" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" placeholder="<?php esc_attr_e( 'YYYY-MM-DD', 'dokan-lite' ); ?>">
-                                                </div>
-                                            </div>
-
-                                            <div class="content-half-part to">
-                                                <div class="dokan-input-group">
-                                                    <span class="dokan-input-group-addon"><?php esc_html_e( 'To', 'dokan-lite' ); ?></span>
-                                                    <input type="text" name="_sale_price_dates_to" class="dokan-form-control datepicker sale_price_dates_to" value="<?php echo esc_attr( dokan_posted_input('_sale_price_dates_to') ); ?>" maxlength="10" pattern="[0-9]{4}-(0[1-9]|1[012])-(0[1-9]|1[0-9]|2[0-9]|3[01])" placeholder="<?php esc_attr_e( 'YYYY-MM-DD', 'dokan-lite' ); ?>">
-                                                </div>
-                                            </div>
-                                        </div><!-- .sale-schedule-container -->
                                     </div>
 
                                     <?php
-                                    //form elements ...
-                                        do_action('synerbay_getDokanOfferUnitInput', isset($post_data['weight_unit']) ? $post_data['weight_unit'] : '', $error_messages);
-                                        do_action('synerbay_getDokanUnitTypesSelect', isset($post_data['unit_type']) ? $post_data['unit_type'] : false, $error_messages);
-                                        do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
-                                        do_action('synerbay_getDokanParityTypesSelect', isset($post_data['transport_parity']) ? $post_data['transport_parity'] : false, $error_messages);
+                                        //custom form elements ...
+                                        do_action('synerbay_getDokanOfferUnitInput', esc_attr( dokan_posted_input( 'weight_unit' ) ), []);
+                                        do_action('synerbay_getDokanUnitTypesSelect', dokan_posted_input( 'unit_type', true ), []);
+                                        do_action('synerbay_getDokanMaterialTypesSelect', dokan_posted_input( 'material', true ), []);
                                     ?>
 
                                     <div class="dokan-form-group">
@@ -247,8 +195,6 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                     <?php elseif ( dokan_get_option( 'product_category_style', 'dokan_selling', 'single' ) == 'multiple' ): ?>
                                         <div class="dokan-form-group">
                                             <?php
-
-                                            include_once DOKAN_LIB_DIR.'/class.taxonomy-walker.php';
 
                                             $selected_cat  = dokan_posted_input( 'product_cat', true );
                                             $selected_cat  = empty( $selected_cat ) ? array() : $selected_cat;
