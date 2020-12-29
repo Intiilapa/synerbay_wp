@@ -63,26 +63,6 @@ if ( ! $from_shortcode ) {
 if ( ! empty( $_GET['errors'] ) ) {
     dokan()->dashboard->templates->products->set_errors( array_map( 'sanitize_text_field', wp_unslash( $_GET['errors'] ) ) );
 }
-//TODO - Kristof, itt legyszives checkold, ha a new-product.php sikerult es menti a dolgokat, hogy akkor itt is megjelenik helyesen
-
-$error_messages = [];
-$updated = false;
-if (isset($post_data['update_offer'])) {
-    $formData = $post_data;
-
-    if (isset($formData['price_steps'])) {
-        $formData['price_steps'] = json_decode($post_data['price_steps'], true);
-    }
-
-    /** @var UpdateOffer $offerForm */
-    $offerForm = apply_filters('synerbay_get_offer_update_form', $formData);
-
-    if ($offerForm->validate()) {
-        $updated = apply_filters('synerbay_update_offer', $offerForm->getFilteredValues());
-    } else {
-        $error_messages = $offerForm->errorMessages();
-    }
-}
 
 /**
  *  dokan_dashboard_wrap_before hook
@@ -269,9 +249,9 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
 
                                     <?php
                                     //form elements ...
-                                        do_action('synerbay_getDokanOfferUnitInput', isset($post_data['weight_unit']) ? $post_data['weight_unit'] : '', $error_messages);
-                                        do_action('synerbay_getDokanUnitTypesSelect', isset($post_data['unit_type']) ? $post_data['unit_type'] : false, $error_messages);
-                                        do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
+                                        do_action('synerbay_getDokanOfferUnitInput', isset($post_data['weight_unit']) ? $post_data['weight_unit'] : '', []);
+                                        do_action('synerbay_getDokanUnitTypesSelect', isset($post_data['unit_type']) ? $post_data['unit_type'] : false, []);
+                                        do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], []);
                                     ?>
 
                                     <?php do_action( 'dokan_product_edit_after_pricing', $post, $post_id ); ?>
