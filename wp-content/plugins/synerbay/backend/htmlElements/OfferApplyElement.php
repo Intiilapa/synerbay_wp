@@ -25,9 +25,9 @@ class OfferApplyElement extends AbstractElement
         } else if ($currentDate < strtotime($offer['offer_start_date']) || strtotime($offer['offer_start_date']) > $currentDate) {
             echo '';
         } else if (!get_current_user_id() || (get_current_user_id() && !$this->offerApplyModule->isUserAppliedOffer(get_current_user_id(), $offer['id']))) {
-            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$offer['id'].")' class='button'>Subscribe to offer</button>";
+            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$offer['id'].")' class='button'>Place order need</button>";
         } else {
-            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$offer['id'].")' class='button'>Unsubscribe</button>";
+            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$offer['id'].")' class='button'>Delete order need</button>";
         }
     }
 }

@@ -24,14 +24,14 @@ class SelectElement extends AbstractElement
         $module = $this->getModule('product');
         $haystack = $module->getMyProductsForSelect();
 
-        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Andris - szöveg');
+        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Select the product you want to offer');
     }
 
     public function getDokanMaterialTypesSelect($selectedHaystack = [], array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getMaterialTypes();
 
-        $this->generateDokanMultiSelect('material', $haystack, 'Material', $selectedHaystack, $errorMessages, 'Andris - szöveg');
+        $this->generateDokanMultiSelect('material', $haystack, 'Material', $selectedHaystack, $errorMessages, 'Add material');
     }
 
     public function getDokanUnitTypesSelect($selected = false, array $errorMessages = []) {
@@ -45,13 +45,13 @@ class SelectElement extends AbstractElement
 
         $haystack = SynerBayDataHelper::getOfferTransportParityTypes();
 
-        $this->generateDokanSelect('transport_parity', $haystack, 'Parity type', $selected, $errorMessages, 'Andris - szöveg');
+        $this->generateDokanSelect('transport_parity', $haystack, 'Delivery terms', $selected, $errorMessages, 'Choose shipping parity');
     }
 
     public function getDokanShippingToOfferSelect($selected = false, array $errorMessages = []) {
 
         $haystack = SynerBayDataHelper::getDeliveryDestinationsForOffer();
 
-        $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages, 'Andris - szöveg');
+        $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages, 'Choose the locations you ship to');
     }
 }
