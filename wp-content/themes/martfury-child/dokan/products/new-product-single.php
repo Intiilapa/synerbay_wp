@@ -4,6 +4,7 @@ use WeDevs\Dokan\Walkers\CategoryDropdownSingle;
 use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
 global $post;
+$post_data = wp_unslash( $_POST );
 
 $from_shortcode = false;
 
@@ -41,6 +42,14 @@ $_sale_price            = get_post_meta( $post_id, '_sale_price', true );
 $is_discount            = !empty( $_sale_price ) ? true : false;
 $_sale_price_dates_from = get_post_meta( $post_id, '_sale_price_dates_from', true );
 $_sale_price_dates_to   = get_post_meta( $post_id, '_sale_price_dates_to', true );
+
+$_weight_unit   = get_post_meta( $post_id, '_weight_unit', true );
+$_weight_unit_type   = get_post_meta( $post_id, '_weight_unit_type', true );
+$_materials = get_post_meta( $post_id, '_material', true );
+
+if ($_materials) {
+    $_materials = explode(',', $_materials);
+}
 
 $_sale_price_dates_from = !empty( $_sale_price_dates_from ) ? date_i18n( 'Y-m-d', $_sale_price_dates_from ) : '';
 $_sale_price_dates_to   = !empty( $_sale_price_dates_to ) ? date_i18n( 'Y-m-d', $_sale_price_dates_to ) : '';
@@ -248,10 +257,12 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                     </div>
 
                                     <?php
-                                    //form elements ...
-                                        do_action('synerbay_getDokanOfferUnitInput', isset($post_data['weight_unit']) ? $post_data['weight_unit'] : '', []);
-                                        do_action('synerbay_getDokanUnitTypesSelect', isset($post_data['unit_type']) ? $post_data['unit_type'] : false, []);
-                                        do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], []);
+                                    echo 'current: ' . $_weight_unit;
+
+                                    do_action('synerbay_getDokanOfferUnitInput', $_weight_unit);
+                                    do_action('synerbay_getDokanUnitTypesSelect', $_weight_unit_type);
+                                    do_action('synerbay_getDokanMaterialTypesSelect', $_materials);
+
                                     ?>
 
                                     <?php do_action( 'dokan_product_edit_after_pricing', $post, $post_id ); ?>
