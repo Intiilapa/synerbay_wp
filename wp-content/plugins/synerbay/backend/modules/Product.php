@@ -51,7 +51,7 @@ class Product
         global $wpdb;
         $table = $wpdb->prefix . 'posts';
         $ret = [];
-        $results = $wpdb->get_results('select ID, post_title from ' . $table . ' where post_author = '. get_current_user_id(). ' and post_type = "product"', ARRAY_A);
+        $results = $wpdb->get_results('select ID, post_title from ' . $table . ' where post_author = '. get_current_user_id(). ' and post_type = "product" and post_status = "publish"', ARRAY_A);
 
         if (count($results)) {
             foreach ($results as $result) {

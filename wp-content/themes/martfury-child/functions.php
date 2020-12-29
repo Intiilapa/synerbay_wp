@@ -1,4 +1,8 @@
 <?php
+
+use SynerBay\Forms\CreateProduct as CreateProductForm;
+use SynerBay\Forms\Validators\Required as RequiredValidator;
+
 add_action( 'wp_enqueue_scripts', 'martfury_child_enqueue_scripts', 20 );
 function martfury_child_enqueue_scripts() {
     wp_enqueue_style( 'martfury-child-style', get_stylesheet_uri() );
@@ -704,26 +708,41 @@ function save_seller_url($store_user){
  */
 
 function dokan_can_add_product_validation_customized( $errors ) {
-    $postdata = wp_unslash( $_POST );
-    $featured_image = absint( sanitize_text_field( $postdata['feat_image_id'] ) );
-    $_regular_price = absint( sanitize_text_field( $postdata['_regular_price'] ) );
-    $weight_unit = absint( sanitize_text_field( $postdata['weight_unit'] ) );
-    $material = absint( isset($postdata['material']) ? $postdata['material'] : []);
+    $postData = wp_unslash( $_POST );
+    $featured_image = absint( sanitize_text_field( $postData['feat_image_id'] ) );
+    $_regular_price = absint( sanitize_text_field( $postData['_regular_price'] ) );
 
     if ( empty( $featured_image ) && ! in_array( 'Please upload a product cover image' , $errors ) ) {
         $errors[] = 'Please upload a product cover image';
     }
-    if ( empty( $_regular_price ) && ! in_array( 'Please insert product price' , $errors ) ) {
+
+    $form = new CreateProductForm($postData);
+
+    if (!$form->validate()) {
+        $formErrors = $form->errorMessages();
+
+        $colMap = [
+            'weight_unit' => 'Unit',
+            'weight_unit_type' => 'Unit Type',
+            'material' => 'Material',
+        ];
+
+        foreach ($formErrors as $col => &$error) {
+            $error = $colMap[$col] .': '. $error;
+        }
+
+        $errors = array_merge($errors, $formErrors);
+    }
+
+    $validator = new RequiredValidator();
+
+    if (!$validator->run($_regular_price)) {
         $errors[] = 'Please insert product price';
     }
-    if ( empty( $weight_unit ) && ! in_array( 'Please insert product weight unit' , $errors ) ) {
-        $errors[] = 'Please insert product weight unit';
-    }
-    if ( empty( $material ) && ! in_array( 'Please insert product material' , $errors ) ) {
-        $errors[] = 'Please insert product material';
-    }
+
     return $errors;
 }
+
 add_filter( 'dokan_can_add_product', 'dokan_can_add_product_validation_customized', 35, 1 );
 add_filter( 'dokan_can_edit_product', 'dokan_can_add_product_validation_customized', 35, 1 );
 function dokan_new_product_popup_validation_customized( $errors, $data ) {
@@ -740,4 +759,5 @@ function dokan_new_product_popup_validation_customized( $errors, $data ) {
         return new WP_Error( 'no-material', __( 'Please insert product material', 'dokan-lite' ) );
     }
 }
+
 add_filter( 'dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2 );

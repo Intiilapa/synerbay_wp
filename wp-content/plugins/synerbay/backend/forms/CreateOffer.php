@@ -82,26 +82,6 @@ class CreateOffer extends AbstractForm
             ['integer']
         ));
 
-//        $this->addColumn(new Column(
-//            'weight_unit',
-//            true,
-//            ['integer' => []],
-//            ['integer']
-//        ));
-//
-//        $this->addColumn(new Column(
-//            'weight_unit_sign',
-//            true,
-//            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getUnitTypes())]],
-//        ));
-//
-//        $this->addColumn(new Column(
-//            'material',
-//            true,
-//            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getMaterialTypes())]],
-//            ['mysqlSet']
-//        ));
-
         $this->addColumn(new Column(
             'transport_parity',
             true,

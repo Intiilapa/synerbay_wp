@@ -8,7 +8,7 @@ use SynerBay\Helper\IntegrityHelper;
 
 class Required extends AbstractValidator
 {
-    protected function run($value)
+    public function run($value)
     {
         return !IntegrityHelper::isEmptyValue($value);
     }
