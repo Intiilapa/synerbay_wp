@@ -710,7 +710,7 @@ function save_seller_url($store_user){
 function dokan_can_add_product_validation_customized( $errors ) {
     $postData = wp_unslash( $_POST );
     $featured_image = absint( sanitize_text_field( $postData['feat_image_id'] ) );
-    $_regular_price = absint( sanitize_text_field( $postData['_regular_price'] ) );
+    //$_regular_price = absint( sanitize_text_field( $postData['_regular_price'] ) );
 
     if ( empty( $featured_image ) && ! in_array( 'Please upload a product cover image' , $errors ) ) {
         $errors[] = 'Please upload a product cover image';
@@ -736,19 +736,12 @@ function dokan_can_add_product_validation_customized( $errors ) {
 
     $validator = new RequiredValidator();
 
-    if (!$validator->run($_regular_price)) {
-        $errors[] = 'Please insert product price';
-    }
-
     return $errors;
 }
 
 add_filter( 'dokan_can_add_product', 'dokan_can_add_product_validation_customized', 35, 1 );
-add_filter( 'dokan_can_edit_product', 'dokan_can_add_product_validation_customized', 35, 1 );
+//add_filter( 'dokan_can_edit_product', 'dokan_can_add_product_validation_customized', 35, 1 );
 function dokan_new_product_popup_validation_customized( $errors, $data ) {
-    if ( ! $data['_regular_price'] ) {
-        return new WP_Error( 'no-price', __( 'Please insert product price', 'dokan-lite' ) );
-    }
     if ( ! $data['feat_image_id'] ) {
         return new WP_Error( 'no-image', __( 'Please select AT LEAST ONE Picture', 'dokan-lite' ) );
     }
@@ -761,3 +754,33 @@ function dokan_new_product_popup_validation_customized( $errors, $data ) {
 }
 
 add_filter( 'dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2 );
+
+/**
+ * Add custom metafields to default product page
+ *
+ */
+
+add_action('woocommerce_single_product_summary','product_custom_details',13);
+function product_custom_details(){
+    global $product;
+
+    if ( empty( $product ) ) {
+        return;
+    }
+    $weight_unit = get_post_meta( $product->get_id(), '_weight_unit', true );
+    $weight_unit_type = get_post_meta( $product->get_id(), '_weight_unit_type', true );
+    $material = get_post_meta( $product->get_id(), '_material', true );
+    if ( ! empty( $weight_unit ) ) {
+        ?><span class="custom_details"><?php echo esc_attr__( 'Unit: ', 'dokan-lite' ); ?><?php echo esc_attr( $weight_unit ); ?></span></br>
+        <?php
+    }
+    if ( ! empty( $weight_unit_type ) ) {
+        ?><span class="custom_details"><?php echo esc_attr__( 'Unit type: ', 'dokan-lite' ); ?><?php echo esc_attr( $weight_unit_type ); ?></span></br>
+        <?php
+    }
+    if ( ! empty( $material ) ) {
+        ?><span class="custom_details"><?php echo esc_attr__( 'Material: ', 'dokan-lite' ); ?><?php echo esc_attr( $material ); ?></span></br>
+        <?php
+    }
+    echo '<hr>';
+}

@@ -6,6 +6,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
     $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
     $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
 
+
     /**
      *  dokan_new_product_wrap_before hook
      *
@@ -150,7 +151,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                         <input class="dokan-form-control" name="post_title" id="post-title" type="text" placeholder="<?php esc_attr_e( 'Product name..', 'dokan-lite' ); ?>" value="<?php echo esc_attr( dokan_posted_input( 'post_title' ) ); ?>">
                                     </div>
 
-                                    <div class="dokan-form-group">
+                                    <div style="display:none" class="dokan-form-group">
                                         <div class="dokan-form-group dokan-clearfix dokan-price-container">
                                                 <label for="_regular_price" class="dokan-form-label"><?php esc_html_e( 'Price', 'dokan-lite' ); ?></label>
                                                 <div class="dokan-input-group">
