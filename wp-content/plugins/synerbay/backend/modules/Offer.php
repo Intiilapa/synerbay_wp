@@ -164,7 +164,7 @@ class Offer extends AbstractModule
      */
     private function getOfferSummaryData(array $offerData)
     {
-        $actualProductPrice = $offerData['product']['meta']['_regular_price'];
+        $actualProductPrice = isset($offerData['product']['meta']['_regular_price']) ? $offerData['product']['meta']['_regular_price'] : '-';
         $priceSteps = $offerData['price_steps'];
         $groupByProductQTYNumber = 0;
         $actualApplicantNumber = 0;
