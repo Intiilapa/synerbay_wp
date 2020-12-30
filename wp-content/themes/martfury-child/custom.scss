@@ -31,4 +31,30 @@ $primary-color : #ff004e;
   display: none;
 }
 
+#add-new-empty-row{
 
+}
+.downloadable-checkbox{
+  display:none;
+}
+.virtual-checkbox{
+  display: none;
+}
+
+/*
+*
+* Dokan dahboard
+*
+ */
+
+.dokan-form-control{
+  border-radius: 5px;
+}
+
+.select2-container--default .select2-selection--single{
+  border-radius: 5px;
+}
+
+.woocommerce form .form-row .input-text{
+  border-radius: 5px;
+}

@@ -184,7 +184,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                     <?php endif; ?>
 
                                     <?php if ( is_array( $product_types ) ): ?>
-                                        <div class="dokan-form-group">
+                                        <div style="display: none;" class="dokan-form-group">
                                             <label for="product_type" class="form-label"><?php esc_html_e( 'Product Type', 'dokan-lite' ); ?> <i class="fa fa-question-circle tips" aria-hidden="true" data-title="<?php esc_html_e( 'Choose Variable if your product has multiple attributes - like sizes, colors, quality etc', 'dokan-lite' ); ?>"></i></label>
                                             <select name="product_type" class="dokan-form-control" id="product_type">
                                                 <?php foreach ( $product_types as $key => $value ) { ?>
@@ -198,7 +198,7 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
 
                                     <div class="show_if_simple dokan-clearfix">
 
-                                        <div class="dokan-form-group dokan-clearfix dokan-price-container">
+                                        <div style="display:none;" class="dokan-form-group dokan-clearfix dokan-price-container">
 
                                             <div class="content-half-part regular-price">
                                                 <label for="_regular_price" class="form-label"><?php esc_html_e( 'Price', 'dokan-lite' ); ?>
@@ -257,12 +257,9 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                     </div>
 
                                     <?php
-                                    echo 'current: ' . $_weight_unit;
-
                                     do_action('synerbay_getDokanOfferUnitInput', $_weight_unit);
                                     do_action('synerbay_getDokanUnitTypesSelect', $_weight_unit_type);
                                     do_action('synerbay_getDokanMaterialTypesSelect', $_materials);
-
                                     ?>
 
                                     <?php do_action( 'dokan_product_edit_after_pricing', $post, $post_id ); ?>

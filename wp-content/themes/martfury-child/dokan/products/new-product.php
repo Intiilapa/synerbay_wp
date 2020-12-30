@@ -6,6 +6,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
     $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
     $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
 
+
     /**
      *  dokan_new_product_wrap_before hook
      *
@@ -116,7 +117,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                                     <?php
                                                         if ( isset( $post_data['product_image_gallery'] ) ) { // WPCS: CSRF ok, input var ok.
                                                             $product_images = $post_data['product_image_gallery']; // WPCS: CSRF ok, input var ok.
-                                                            $gallery        = explode( ',', $product_images );
+                                                            $gallery        = explode( ',', $product_images, 10 );
 
                                                             if ( $gallery ) {
                                                                 foreach ( $gallery as $image_id ) {
@@ -139,6 +140,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                                         <a href="#" class="add-product-images"><i class="fa fa-plus" aria-hidden="true"></i></a>
                                                     </li>
                                                 </ul>
+                                                <p>You can add up to 10 images</p>
                                                 <input type="hidden" id="product_image_gallery" name="product_image_gallery" value="">
                                             </div>
                                         </div>
@@ -147,10 +149,11 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
                                 <div class="content-half-part dokan-product-meta">
                                     <div class="dokan-form-group">
-                                        <input class="dokan-form-control" name="post_title" id="post-title" type="text" placeholder="<?php esc_attr_e( 'Product name..', 'dokan-lite' ); ?>" value="<?php echo esc_attr( dokan_posted_input( 'post_title' ) ); ?>">
+                                        <label for="product_name" class="form-label"><?php esc_html_e( 'Product name', 'dokan-lite' ); ?></label>
+                                        <input class="dokan-form-control" name="post_title" id="post-title" type="text" placeholder="<?php esc_attr_e( 'Product name', 'dokan-lite' ); ?>" value="<?php echo esc_attr( dokan_posted_input( 'post_title' ) ); ?>">
                                     </div>
 
-                                    <div class="dokan-form-group">
+                                    <div style="display:none" class="dokan-form-group">
                                         <div class="dokan-form-group dokan-clearfix dokan-price-container">
                                                 <label for="_regular_price" class="dokan-form-label"><?php esc_html_e( 'Price', 'dokan-lite' ); ?></label>
                                                 <div class="dokan-input-group">

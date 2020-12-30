@@ -29,6 +29,8 @@ $offer['minimum_order_quantity'] = $offer['minimum_order_quantity'] ? $offer['mi
 $offer['max_total_offer_qty'] = $offer['max_total_offer_qty'] ? $offer['max_total_offer_qty'] : '-';
 $offer['order_quantity_step'] = $offer['order_quantity_step'] ? $offer['order_quantity_step'] : 1;
 
+$time_remaining = strtotime($offer['offer_end_date'])-  (get_option( 'gmt_offset' )*3600);
+
 /**
  * woocommerce_before_single_product hook.
  *
@@ -63,10 +65,15 @@ if ( post_password_required() ) {
                 </p>
             <?php endif;?>
 
+            <div class='groupbuy-ajax-change'>
+                <div class="groupbuy-time" id="countdown"><?php echo apply_filters('time_text', __( 'Time left:', 'wc_groupbuy' ), $product); ?>
+                    <div class="main-groupbuy groupbuy-time-countdown" data-time="<?php echo $time_remaining ?>" data-groupbuyid="<?php echo $product->get_id() ?>" data-format="<?php echo get_option( 'simple_groupbuy_countdown_format' ) ?>"></div>
+                </div>
+            </div>
+            </br>
             <!-- Basic info -->
             <strong>Offer details:</strong>
             <p class="deal-info">
-                <span class="min-deals"> <?php _e( 'To succeed:', 'synerbay' )?> <?php echo !empty($offer['summary']['max_price_step_qty']) ?  $offer['summary']['max_price_step_qty'] : '0' ;?></span>
                 <span class="current_subscribed"> <?php _e( 'Amount subscribers:', 'synerbay' )?> <?php echo $offer['summary']['actual_applicant_product_number'];?></span>
                 <span class="offer-start-date"> <?php _e( 'Start date:', 'synerbay' )?> <?php echo $offer['offer_start_date'];?></span>
                 <span class="offer-end-date"> <?php _e( 'End date:', 'synerbay' )?> <?php echo $offer['offer_end_date'];?></span>
@@ -110,15 +117,13 @@ if ( post_password_required() ) {
                 <?php
                 if ($offer['summary']['show_quantity_input']) {
                     ?>
-                    <div class="quantity">
-                        <label class="screen-reader-text" for="quantity_5fea39601a52d">Quantity</label>
-                        <label class="label" for="quantity_5fea39601a52d">Quantity</label>
-                        <div class="qty-box">
-                            <span class="decrease  icon_minus-06"></span>
-                            <input type="number" id="quantity_5fea39601a52d" class="input-text qty text" step="<?php echo $order_quantity_step; ?>" min="<?php echo $minimum_order_quantity; ?>" max="<?php echo $max_total_offer_qty; ?>" name="quantity" value="1" title="Qty" size="4" placeholder="" inputmode="numeric" readonly="readonly">
-                            <span class="increase icon_plus"></span>
-                        </div>
-                    </div>
+                    <?php
+                        woocommerce_quantity_input( array(
+                        'min_value' => apply_filters( 'woocommerce_quantity_input_min', $minimum_order_quantity, $product ),
+                        'max_value' => apply_filters( 'woocommerce_quantity_input_max',  $max_total_offer_qty, $product ),
+                        'step' => apply_filters( 'woocommerce_quantity_input_step', $order_quantity_step ),
+                        ) );
+                    ?>
                     <?php
                 }
                 ?>
