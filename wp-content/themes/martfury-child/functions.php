@@ -648,13 +648,13 @@ function save_seller_url($store_user){
     //Add Active offer
     add_action('dokan_active_offer_table', 'render_active_offer_table');
     function render_active_offer_table(){
-        require_once dirname( __FILE__ ). '/dokan/templates/offers/active_offers.php';
+        require_once dirname(__FILE__) . '/dokan/templates/offers/active-offers.php';
     }
 
     //Add My offers
     add_action('dokan_my_offer_table', 'render_my_offer_table');
     function render_my_offer_table(){
-        require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
+        require_once dirname(__FILE__) . '/dokan/templates/offers/my-offers.php';
     }
 
     //Add new offer
@@ -695,7 +695,7 @@ function save_seller_url($store_user){
     add_action( 'dokan_load_custom_template', 'dokan_load_template_my_offers' );
     function dokan_load_template_my_offers( $query_vars ) {
         if ( isset( $query_vars['my-offers'] ) ) {
-            require_once dirname( __FILE__ ). '/dokan/templates/offers/my_offers.php';
+            require_once dirname(__FILE__) . '/dokan/templates/offers/my-offers.php';
         }
     }
 

@@ -56,7 +56,6 @@ if ( post_password_required() ) {
          * @hooked woocommerce_show_product_images - 20
          */
         do_action( 'woocommerce_before_single_product_summary' );
-        //do_action('synerbay_offer_time_remaining');
         ?>
 
         <div class="summary entry-summary">
@@ -75,7 +74,6 @@ if ( post_password_required() ) {
             <!-- Basic info -->
             <strong>Offer details:</strong>
             <p class="deal-info">
-                <span class="min-deals"> <?php _e( 'To succeed:', 'synerbay' )?> <?php echo !empty($offer['summary']['max_price_step_qty']) ?  $offer['summary']['max_price_step_qty'] : '0' ;?></span>
                 <span class="current_subscribed"> <?php _e( 'Amount subscribers:', 'synerbay' )?> <?php echo $offer['summary']['actual_applicant_product_number'];?></span>
                 <span class="offer-start-date"> <?php _e( 'Start date:', 'synerbay' )?> <?php echo $offer['offer_start_date'];?></span>
                 <span class="offer-end-date"> <?php _e( 'End date:', 'synerbay' )?> <?php echo $offer['offer_end_date'];?></span>

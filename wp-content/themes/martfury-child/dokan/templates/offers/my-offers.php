@@ -36,7 +36,7 @@ do_action( 'dokan_new_product_wrap_before' );
                 <span class="dokan-add-product-link">
                         <?php if ( current_user_can( 'dokan_add_product' ) ): ?>
                             <a href="<?php echo esc_url( dokan_get_navigation_url( 'new-offer' ) ); ?>" class="dokan-btn dokan-btn-theme <?php echo ( 'on' == dokan_get_option( 'disable_product_popup', 'dokan_selling', 'off' ) ) ? '' : 'dokan-add-new-product'; ?>">
-                                <i class="fa fa-briefcase">&nbsp;</i>
+                                <i class="fa fa-bullhorn">&nbsp;</i>
                                 <?php esc_html_e( 'Add new Offer', 'dokan-lite' ); ?>
                             </a>
                         <?php endif ?>
