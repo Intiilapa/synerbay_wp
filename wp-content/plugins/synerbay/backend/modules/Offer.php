@@ -245,4 +245,17 @@ class Offer extends AbstractModule
         return $ret;
 
     }
+
+    public function prepareOffers($offerIds = [], bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
+    {
+        $data = [];
+
+        if (count($offerIds)) {
+            foreach ($offerIds as $queryResult) {
+                $data[] = $this->getOfferData($queryResult['id'], $withUser, $withApplies, $applyWithCustomerData, $withWCProduct);
+            }
+        }
+
+        return $data;
+    }
 }

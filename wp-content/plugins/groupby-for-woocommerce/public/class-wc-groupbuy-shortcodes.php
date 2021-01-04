@@ -1,4 +1,8 @@
 <?php
+
+use SynerBay\Module\Offer;
+use SynerBay\Search\OfferSearch;
+
 /**
  * WooCommerce Group Buy Shortcodes
  *
@@ -194,64 +198,29 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
         global $woocommerce_loop, $woocommerce;
 
-        extract(shortcode_atts(array(
-            'per_page' 	=> '12',
-            'columns' 	=> '4',
-            'orderby' => 'date',
-            'order' => 'desc'
-        ), $atts));
+        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => 'id', 'direction' => 'desc']]);
 
-        $meta_query = $woocommerce->query->get_meta_query();
+        // TODO 8-al méé nem megy, na majd holnap :D  (Remco ha van kedved akkor csekkold meg)
+        $offerIds = $offerSearch->paginate(9);
 
-        $args = array(
-            'post_type'	=> 'product',
-            'post_status' => 'publish',
-            'product_tag' => 'offer',
-			'ignore_sticky_posts'	=> 1,
-			'posts_per_page' => $per_page,
-			'orderby' => $orderby,
-			'order' => $order,
-            'meta_query' => $meta_query,
-//			'tax_query' => array(array('taxonomy' => 'product_type' , 'field' => 'slug', 'terms' => 'groupbuy')),
-//			'is_groupbuy_archive' => TRUE
-        );
+        if (count($offerIds)) {
 
-        ob_start();
+            $offerModule = new Offer();
+            $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
 
-        $products = new WP_Query( $args );
-        if ( $products->have_posts() ) {
-            $current_language= apply_filters( 'wpml_current_language', NULL );
-            if ( $current_language ) {
-                $default_languag = apply_filters( 'wpml_default_language', NULL );
-                if($default_languag !== $current_language ){
-                    $post_ids = wp_list_pluck( $products->posts, 'ID' );
-                    $query_args                        = array('posts_per_page' => $number, 'no_found_rows' => 1, 'post_status' => 'publish', 'post_type' => 'product', 'post__in' => $post_ids, 'orderby' => 'post__in');
-                    $query_args['is_groupbuy_archive'] = TRUE;
-                    $query_args['suppress_filters'] = false;
-                    $query_args [ 'show_future_groupbuy' ] = true;
-                    $query_args [ 'show_past_groupbuy' ] = true;
-                    $products = new WP_Query($query_args);
-                }
+            woocommerce_product_loop_start();
+
+            global $offer;
+            foreach ($offers as $offer) {
+
+                wc_get_template_part( 'content', 'offer' );
+
+                $offer = [];
             }
+            woocommerce_product_loop_end();
+        } else {
+            wc_get_template( 'loop/no-products-found.php' );
         }
-
-        $woocommerce_loop['columns'] = $columns;
-
-        if ( $products->have_posts() ) : ?>
-
-            <?php woocommerce_product_loop_start(); ?>
-
-            <?php while ( $products->have_posts() ) : $products->the_post(); ?>
-
-                <?php wc_get_template_part( 'content', 'offer' ); ?>
-
-            <?php endwhile; // end of the loop. ?>
-
-            <?php woocommerce_product_loop_end(); ?>
-        <?php else : ?>
-            <?php wc_get_template( 'loop/no-products-found.php' ); ?>
-
-        <?php endif;
 
         wp_reset_postdata();
 

@@ -7,6 +7,7 @@ class SynerBayDataHelper
     public static function getMaterialTypes()
     {
         return ArrayHelper::reKeyBySlugFromValue([
+            '-',
             'Wood',
             'Metal',
             'Plastic',
@@ -34,7 +35,7 @@ class SynerBayDataHelper
 
     public static function getUnitTypes()
     {
-        return ArrayHelper::reKeyBySlugFromValue(['mg', 'g', 'dg', 'kg', 'ml', 'cl', 'dl', 'l']);
+        return ArrayHelper::reKeyBySlugFromValue(['piece', 'mg', 'g', 'dg', 'kg', 'ml', 'cl', 'dl', 'l']);
     }
 
     public static function getOfferTransportParityTypes()

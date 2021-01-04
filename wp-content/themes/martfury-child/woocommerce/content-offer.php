@@ -17,7 +17,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-global $product;
+global $offer, $product;
+$product = $offer['product']['wc_product'];
 
 // Ensure visibility.
 if ( empty( $product ) || ! $product->is_visible() ) {
