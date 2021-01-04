@@ -147,7 +147,7 @@ class Martfury_WooCommerce {
 		// Add product thumbnail
 		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail' );
 		add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'product_content_thumbnail' ) );
-		add_action( 'woocommerce_before_shop_loop_offer_title', array( $this, 'product_content_offer_thumbnail' ) );
+        add_action( 'woocommerce_before_shop_loop_offer_title', array( $this, 'product_content_offer_thumbnail' ) );
 
 		// Add product detail
 		add_action( 'woocommerce_shop_loop_item_title', array( $this, 'open_product_details' ), 5 );
@@ -254,15 +254,10 @@ class Martfury_WooCommerce {
 		remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
 
 		add_action( 'woocommerce_single_product_summary', array( $this, 'template_single_summary_header' ), 10 );
-		add_action( 'woocommerce_single_offer_price', array( $this, 'template_single_summary_header' ), 10 );
 
 		// Add single product header
 		add_action( 'woocommerce_before_single_product_summary', array( $this, 'single_product_header' ), 5 );
 		add_action( 'woocommerce_single_product_summary', array( $this, 'single_product_entry_header' ), 5 );
-
-		// Add single offer header
-		add_action( 'woocommerce_single_offer_header', array( $this, 'single_product_header' ), 5 );
-		add_action( 'woocommerce_single_offer_entry_header', array( $this, 'single_product_entry_header' ), 5 );
 
 		// Change HTML for price in single product
 		add_filter( 'woocommerce_get_price_html', array( $this, 'get_product_price_html' ), 20, 2 );
@@ -319,8 +314,6 @@ class Martfury_WooCommerce {
 
 		// QuicKview
 		add_action( 'martfury_before_single_product_summary', 'woocommerce_show_product_images', 20 );
-
-		add_action( 'martfury_before_single_offer_summary', 'woocommerce_show_product_images', 20 );
 
 		add_action( 'martfury_single_product_summary', array( $this, 'get_product_quick_view_header' ), 5 );
 		add_action( 'martfury_single_product_summary', 'woocommerce_template_single_price', 10 );
@@ -801,12 +794,19 @@ class Martfury_WooCommerce {
      *
      * @return string
      */
+    /**
+     * WooCommerce Loop Offer Content Thumbs
+     *
+     * @since  1.0
+     *
+     * @return string
+     */
     function product_content_offer_thumbnail() {
         global $product, $post, $offer;
 
         printf( '<div class="mf-product-thumbnail">' );
 
-        printf( '<a href="%s">', esc_url( get_the_permalink() ) );
+        printf( '<a href="%s" target="_blank">', esc_url( $offer['url'] ) );
 
         $image_size = 'shop_catalog';
         if ( has_post_thumbnail() ) {
@@ -867,7 +867,6 @@ class Martfury_WooCommerce {
         echo '</div>';
 
     }
-
 	/**
 	 * WooCommerce Loop Product Content Thumbs
 	 *

@@ -56,21 +56,25 @@ do_action( 'dokan_new_product_wrap_before' );
                 <th><?php esc_html_e( 'Offer End Date', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Transport Parity' ); ?></th>
                 <th><?php esc_html_e( 'Shipping To' ); ?></th>
-                <th><?php esc_html_e( 'Created At' ); ?></th>
-                <th><?php esc_html_e( 'Actions', 'dokan-lite' ); ?></th>
+                <th style="width: 100px;"><?php esc_html_e( 'Created At' ); ?></th>
+                <th style="width: 130px;"><?php esc_html_e( 'Actions', 'dokan-lite' ); ?></th>
             </tr>
 
         <?php
         $currentDate = strtotime(date('Y-m-d H:i:s'));
 
          foreach ($myOffers as $offer) {
-
-             $updateButton = '-';
-             $deleteButton = '-';
+             $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $offer['url'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View offer"><i class="fa fa-eye">&nbsp;</i></a>';
+             $updateButton = '';
+             $deleteButton = '';
+             //TODO Kristof, lehet itt van szebb megoldas hogy a csak Y-m-d legyen a tobbiek?
+             $date = $offer['created_at'];
+             $createOfferDate = new DateTime($date);
+             $interval = $createOfferDate->diff(new DateTime());
 
              if ($currentDate < strtotime($offer['offer_start_date'])) {
-                 $updateButton = "<a href='/dashboard/edit-offer/".$offer['id']."' class='dokan-btn dokan-btn-theme'>Edit</a>";
-                 $deleteButton = "<a onclick='window.synerbay.deleteOffer(".$offer['id'].")' class='dokan-btn dokan-btn-theme'>Delete</a>";
+                 $updateButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' href='/dashboard/edit-offer/".$offer['id']."' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit offer'><i class='fa fa-pencil'>&nbsp;</i></a>";
+                 $deleteButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' onclick='window.synerbay.deleteOffer(".$offer['id'].")' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete offer'><i class='fa fa-times'>&nbsp;</i></a>";
              }
 
              echo  '<tr id="my_offer_row_'.$offer['id'].'">'
@@ -81,8 +85,8 @@ do_action( 'dokan_new_product_wrap_before' );
                 . '<td>'. $offer['offer_end_date'] . '</td>'
                 . '<td>'. $offer['transport_parity'] . '</td>'
                 . '<td>'. $offer['shipping_to_labels'] . '</td>'
-                . '<td>'. $offer['created_at'] . '</td>'
-                . '<td>'.'<a target="_blank" href="' . $offer['url'] . '">Details</a>'.$updateButton.$deleteButton.'</td>'
+                . '<td>'. $createOfferDate->format('Y-m-d') .'</td>'
+                . '<td class="dokan-order-action">'. $updateButton.$viewButton.$deleteButton .'</td>'
                 . '</tr>';
         }
 
@@ -92,6 +96,33 @@ do_action( 'dokan_new_product_wrap_before' );
         ?>
             </thead>
         </table>
+
+        <?php
+        //TODO Fix pagination
+        $paged          = isset( $_GET['pagenum'] ) ? absint( $_GET['pagenum'] ) : 1;
+        $num_of_pages = 2;
+
+        $base_url  = dokan_get_navigation_url( 'my-offers' );
+
+        if ( $num_of_pages > 1 ) {
+        echo '<div class="pagination-wrap">';
+            $page_links = paginate_links( array(
+            'current'   => $paged,
+            'total'     => $num_of_pages,
+            'base'      => $base_url. '%_%',
+            'format'    => '?pagenum=%#%',
+            'add_args'  => false,
+            'type'      => 'array',
+            ) );
+
+            echo "<ul class='pagination'>\n\t<li>";
+                    echo join("</li>\n\t<li>", $page_links);
+                    echo "</li>\n</ul>\n";
+            echo '</div>';
+        }
+        ?>
+
+
         <?php
 
         /**

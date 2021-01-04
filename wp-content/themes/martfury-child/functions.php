@@ -14,13 +14,14 @@ function martfury_child_enqueue_scripts() {
 }
 
 // include parent classes ...
-function myThemeIncludes() {
-    require_once __DIR__ . '/inc/frontend/woocommerce.php';
+//function myThemeIncludes() {
+//    require_once __DIR__ . '/inc/frontend/woocommerce.php';
+//
+//    new Martfury_Child_WooCommerce();
+//}
+//
+//add_action( 'after_setup_theme', 'myThemeIncludes' );
 
-    new Martfury_Child_WooCommerce();
-}
-
-add_action( 'after_setup_theme', 'myThemeIncludes' );
 // end include parent classes
 
 add_action('wp_footer', 'custom_footer_actions');
@@ -566,13 +567,52 @@ add_action( 'dokan_store_header_info_fields', 'save_seller_url', 10);
 function save_seller_url($store_user){
     $store_info    = dokan_get_store_info( $store_user); ?>
     <?php if ( isset( $store_info['vendor_vat'] ) && !empty( $store_info['vendor_vat'] ) ) { ?>
-        <i class="fa fa-globe"></i>
-        <a href="<?php echo esc_html( $store_info['vendor_vat'] ); ?>"><?php echo esc_html( $store_info['vendor_vat'] ); ?></a>
+       <li>
+            <i class="fa fa-legal"></i>
+            <a href="<?php echo esc_html( $store_info['vendor_vat'] ); ?>"><?php echo esc_html( $store_info['vendor_vat'] ); ?></a>
+       </li>
     <?php } ?>
 
     <?php if ( isset( $store_info['vendor_type'] ) && !empty( $store_info['vendor_type'] ) ) { ?>
-        <i class="fa fa-address-book"></i>
-        <a href="<?php echo esc_html( $store_info['vendor_type'] ); ?>"><?php echo esc_html( $store_info['vendor_type'] ); ?></a>
+        <li>
+            <i class="fa fa-globe"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_type'] ); ?>"><?php echo esc_html( $store_info['vendor_type'] ); ?></a>
+        </li>
+    <?php } ?>
+
+    <?php if ( isset( $store_info['vendor_industry'] ) && !empty( $store_info['vendor_industry'] ) ) { ?>
+        <li>
+            <i class="fa fa-industry"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_industry'] ); ?>"><?php echo esc_html( $store_info['vendor_industry'] ); ?></a>
+        </li>
+    <?php } ?>
+
+    <?php if ( isset( $store_info['vendor_shipping_to'] ) && !empty( $store_info['vendor_shipping_to'] ) ) { ?>
+        <li>
+            <i class="fa fa-map-o"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_shipping_to'] ); ?>"><?php echo esc_html( $store_info['vendor_shipping_to'] ); ?></a>
+        </li>
+    <?php } ?>
+
+    <?php if ( isset( $store_info['vendor_revenue'] ) && !empty( $store_info['vendor_revenue'] ) ) { ?>
+        <li>
+            <i class="fa fa-money"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_shipping_to'] ); ?>"><?php echo esc_html( $store_info['vendor_revenue'] ); ?></a>
+        </li>
+    <?php } ?>
+
+    <?php if ( isset( $store_info['vendor_employees'] ) && !empty( $store_info['vendor_employees'] ) ) { ?>
+        <li>
+            <i class="fa fa-users"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_shipping_to'] ); ?>"><?php echo esc_html( $store_info['vendor_employees'] ); ?></a>
+        </li>
+    <?php } ?>
+
+    <?php if ( isset( $store_info['vendor_product_range'] ) && !empty( $store_info['vendor_product_range'] ) ) { ?>
+        <li>
+            <i class="fa fa-sliders"></i>
+            <a style="text-transform: capitalize" href="<?php echo esc_html( $store_info['vendor_product_range'] ); ?>"><?php echo esc_html( $store_info['vendor_product_range'] ); ?></a>
+        </li>
     <?php } ?>
 
 
