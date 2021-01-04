@@ -13,6 +13,16 @@ function martfury_child_enqueue_scripts() {
 
 }
 
+// include parent classes ...
+function myThemeIncludes() {
+    require_once __DIR__ . '/inc/frontend/woocommerce.php';
+
+    new Martfury_Child_WooCommerce();
+}
+
+add_action( 'after_setup_theme', 'myThemeIncludes' );
+// end include parent classes
+
 add_action('wp_footer', 'custom_footer_actions');
 function custom_footer_actions(){
     do_action('synerbay_loader');

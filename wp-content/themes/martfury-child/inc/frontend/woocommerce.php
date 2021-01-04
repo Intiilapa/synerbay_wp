@@ -5,7 +5,7 @@
  *
  * @version 1.0
  */
-class Martfury_WooCommerce {
+class Martfury_Child_WooCommerce {
 	/**
 	 * @var string Layout of current page
 	 */
@@ -806,7 +806,7 @@ class Martfury_WooCommerce {
 
         printf( '<div class="mf-product-thumbnail">' );
 
-        printf( '<a href="%s">', esc_url( get_the_permalink() ) );
+        printf( '<a href="%s" target="_blank">', esc_url( $offer['url'] ) );
 
         $image_size = 'shop_catalog';
         if ( has_post_thumbnail() ) {
@@ -4327,15 +4327,15 @@ class Martfury_WooCommerce {
 }
 
 
-add_filter( 'loop_shop_columns', 'martfury_loop_shop_columns' );
-function martfury_loop_shop_columns( $columns ) {
-	$catalog_layout = martfury_get_catalog_layout();
-	if ( empty( $catalog_layout ) ) {
-		return $columns;
-	}
-
-
-	$columns = intval( martfury_get_option( 'products_columns_' . $catalog_layout ) );
-
-	return apply_filters( 'martfury_shop_columns', $columns );
-}
+//add_filter( 'loop_shop_columns', 'martfury_loop_shop_columns' );
+//function martfury_loop_shop_columns( $columns ) {
+//	$catalog_layout = martfury_get_catalog_layout();
+//	if ( empty( $catalog_layout ) ) {
+//		return $columns;
+//	}
+//
+//
+//	$columns = intval( martfury_get_option( 'products_columns_' . $catalog_layout ) );
+//
+//	return apply_filters( 'martfury_shop_columns', $columns );
+//}
