@@ -54,12 +54,9 @@ do_action( 'dokan_new_product_wrap_before' );
                 <th><?php esc_html_e( 'Delivery Date', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Offer Start Date', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Offer End Date', 'dokan-lite' ); ?></th>
-                <th><?php esc_html_e( 'Min. Order Quantity' ); ?></th>
-                <th><?php esc_html_e( 'Max Total Offer Quantity' ); ?></th>
                 <th><?php esc_html_e( 'Transport Parity' ); ?></th>
                 <th><?php esc_html_e( 'Shipping To' ); ?></th>
                 <th><?php esc_html_e( 'Created At' ); ?></th>
-                <th><?php esc_html_e( 'Details', 'dokan-lite' ); ?></th>
                 <th><?php esc_html_e( 'Actions', 'dokan-lite' ); ?></th>
             </tr>
 
@@ -82,18 +79,15 @@ do_action( 'dokan_new_product_wrap_before' );
                 . '<td>'. $offer['delivery_date'] . '</td>'
                 . '<td>'. $offer['offer_start_date'] . '</td>'
                 . '<td>'. $offer['offer_end_date'] . '</td>'
-                . '<td>'. $offer['minimum_order_quantity'] . '</td>'
-                . '<td>'. $offer['max_total_offer_qty'] . '</td>'
                 . '<td>'. $offer['transport_parity'] . '</td>'
                 . '<td>'. $offer['shipping_to_labels'] . '</td>'
                 . '<td>'. $offer['created_at'] . '</td>'
-                . '<td>'.'<a target="_blank" href="' . $offer['url'] . '">Details</a></td>'
-                . '<td>'.$updateButton.$deleteButton.'</td>'
+                . '<td>'.'<a target="_blank" href="' . $offer['url'] . '">Details</a>'.$updateButton.$deleteButton.'</td>'
                 . '</tr>';
         }
 
             if (!$myOffers){
-                echo  '<td colspan="12">No offers found</td>';
+                echo  '<td colspan="9">No offers found</td>';
             }
         ?>
             </thead>

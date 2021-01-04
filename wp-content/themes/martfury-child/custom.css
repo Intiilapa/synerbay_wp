@@ -38,9 +38,30 @@
 
 /*
 *
+* Edit product
+*
+*/
+.item-inline-edit {
+  display: none !important;
+}
+
+.dokan-product-inventory {
+  display: none !important;
+}
+
+.dokan-product-shipping-tax {
+  display: none !important;
+}
+
+.dokan-discount-options {
+  display: none !important;
+}
+
+/*
+*
 * Dokan dahboard
 *
- */
+*/
 .dokan-form-control {
   border-radius: 5px;
 }

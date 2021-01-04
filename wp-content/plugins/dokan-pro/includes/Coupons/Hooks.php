@@ -32,7 +32,7 @@ class Hooks {
         add_action( 'dokan_coupon_content', array( $this, 'render_coupon_content_template' ), 10 );
         add_action( 'template_redirect', array( $this, 'handle_coupons' ) );
 
-        add_filter( 'dokan_get_dashboard_nav', array( $this, 'add_coupon_menu' ) );
+        //add_filter( 'dokan_get_dashboard_nav', array( $this, 'add_coupon_menu' ) );
         add_filter( 'woocommerce_coupon_validate_minimum_amount', array( $this, 'validate_coupon_minimum_amount' ), 10, 2 );
     }
 

@@ -15,5 +15,8 @@
         <li class="<?php if (strpos($_SERVER['REQUEST_URI'], 'my-offers/') !== false){ echo 'active'; }?>">
             <a href="/dashboard/my-offers">My Offers</a>
         </li>
+        <li class="<?php if (strpos($_SERVER['REQUEST_URI'], 'show-offers/') !== false){ echo 'active'; }?>">
+            <a href="/dashboard/show-offers">Show Offers</a>
+        </li>
     </ul>
 </div>

@@ -555,23 +555,22 @@ add_action( 'dokan_store_header_info_fields', 'save_seller_url', 10);
 
 function save_seller_url($store_user){
     $store_info    = dokan_get_store_info( $store_user); ?>
-<!--
     <?php if ( isset( $store_info['vendor_vat'] ) && !empty( $store_info['vendor_vat'] ) ) { ?>
         <i class="fa fa-globe"></i>
         <a href="<?php echo esc_html( $store_info['vendor_vat'] ); ?>"><?php echo esc_html( $store_info['vendor_vat'] ); ?></a>
     <?php } ?>
 
     <?php if ( isset( $store_info['vendor_type'] ) && !empty( $store_info['vendor_type'] ) ) { ?>
-        <i class="fa fa-globe"></i>
+        <i class="fa fa-address-book"></i>
         <a href="<?php echo esc_html( $store_info['vendor_type'] ); ?>"><?php echo esc_html( $store_info['vendor_type'] ); ?></a>
     <?php } ?>
--->
+
 
     <?php }
 
     /*
     *
-    * Add offers to dashboard
+    * Add offers to Dokan dashboard
     *
     * @since 3.0.16
     * @package dokan
@@ -589,23 +588,6 @@ function save_seller_url($store_user){
             'title' => __( 'Offers', 'dokan'),
             'icon'  => '<i class="fa fa-bookmark"></i>',
             'url'   => dokan_get_navigation_url( 'offer' ),
-            'pos'   => 51
-        );
-        return $urls;
-    }
-
-    add_filter( 'dokan_query_var_filter', 'dokan_load_my_offer_menu' );
-    function dokan_load_my_offer_menu( $query_vars ) {
-        $query_vars['my-offers'] = 'my-offers';
-        return $query_vars;
-    }
-
-    add_filter( 'dokan_get_dashboard_nav', 'dokan_add_my_offer_menu' );
-    function dokan_add_my_offer_menu( $urls ) {
-        $urls['my-offers'] = array(
-            'title' => __( 'My Offers', 'dokan'),
-            'icon'  => '<i class="fa fa-bullhorn"></i>',
-            'url'   => dokan_get_navigation_url( 'my-offers' ),
             'pos'   => 51
         );
         return $urls;
@@ -696,6 +678,20 @@ function save_seller_url($store_user){
     function dokan_load_template_my_offers( $query_vars ) {
         if ( isset( $query_vars['my-offers'] ) ) {
             require_once dirname(__FILE__) . '/dokan/templates/offers/my-offers.php';
+        }
+    }
+
+    //Show offer applies
+    add_filter( 'dokan_query_var_filter', 'dokan_load_document_menu_show_offers' );
+    function dokan_load_document_menu_show_offers( $query_vars ) {
+        $query_vars['show-offers'] = 'show-offers';
+        return $query_vars;
+    }
+
+    add_action( 'dokan_load_custom_template', 'dokan_load_template_show_offers' );
+    function dokan_load_template_show_offers( $query_vars ) {
+        if ( isset( $query_vars['show-offers'] ) ) {
+            require_once dirname(__FILE__) . '/dokan/templates/offers/show-offers.php';
         }
     }
 
