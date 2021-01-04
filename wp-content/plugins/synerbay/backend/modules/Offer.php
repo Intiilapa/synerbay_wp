@@ -251,6 +251,7 @@ class Offer extends AbstractModule
         $data = [];
 
         if (count($offerIds)) {
+
             foreach ($offerIds as $queryResult) {
                 $data[] = $this->getOfferData($queryResult['id'], $withUser, $withApplies, $applyWithCustomerData, $withWCProduct);
             }

@@ -196,12 +196,18 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
      */
     public function recent_offers_groupbuys( $atts ) {
 
-        global $woocommerce_loop, $woocommerce;
+        extract(shortcode_atts($atts, array(
+            'per_page' 	=> '12',
+            'columns' 	=> '4',
+            'orderby' => 'id',
+            'order' => 'desc'
+        )));
 
-        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => 'id', 'direction' => 'desc']]);
 
-        // TODO 8-al méé nem megy, na majd holnap :D  (Remco ha van kedved akkor csekkold meg)
-        $offerIds = $offerSearch->paginate(9);
+        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
+
+        // TODO 8-al méé nem megy, na majd holnap :D  (Remco ha van kedved akkor csekkold meg, 12 elemet ad vissza, de csak 11-et jelenít meg. WUUUUUT? :D )
+        $offerIds = $offerSearch->paginate($per_page);
 
         if (count($offerIds)) {
 
@@ -217,6 +223,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
                 $offer = [];
             }
+
             woocommerce_product_loop_end();
         } else {
             wc_get_template( 'loop/no-products-found.php' );
@@ -224,7 +231,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
         wp_reset_postdata();
 
-        return '<div class="woocommerce">' . ob_get_clean() . '</div>';
+//        return '<div class="woocommerce">' . ob_get_clean() . '</div>';
     }
 
 /**

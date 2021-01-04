@@ -24,11 +24,14 @@ abstract class AbstractSearch
 
         $this->processOrderBy();
 
+//        var_dump($this->query);die;
+
         return $wpdb->get_results($this->query, $output);
     }
 
     public function paginate($limit, $page = 1, $output = ARRAY_A)
     {
+
         $this->processOrderBy();
 
         $this->query .= " LIMIT $limit";
@@ -59,7 +62,7 @@ abstract class AbstractSearch
                 $direction = $orderData['direction'];
             }
 
-            $this->query .= "ORDER BY $columnName $direction";
+            $this->query .= " ORDER BY $columnName $direction";
 
             $this->orderByProcessed = true;
         }
