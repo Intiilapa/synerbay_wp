@@ -3,6 +3,7 @@ namespace SynerBay\Functions;
 
 use SynerBay\Forms\CreateOffer;
 use SynerBay\Forms\UpdateOffer;
+use SynerBay\Search\OfferSearch;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
 use SynerBay\Traits\WPAction;
@@ -31,7 +32,10 @@ class Offer
     public function initGlobalMyOffers()
     {
         global $myOffers;
-        $myOffers = $this->getModule('offer')->getMyOffersForDashboard();
+        $offerSearch = new OfferSearch(['my_offers' => true, 'order' => ['columnName' => 'id', 'direction' => 'desc']]);
+        $offerIds = $offerSearch->paginate(25, isset($_GET['pagenum']) ? $_GET['pagenum'] : 1);
+
+        $myOffers = $this->getModule('offer')->prepareOffers(array_values($offerIds), true, true, true, true);
     }
 
     public function initGlobalMyOfferApplies()

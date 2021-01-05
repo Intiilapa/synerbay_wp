@@ -6,42 +6,61 @@ namespace SynerBay\Search;
 
 abstract class AbstractSearch
 {
-    protected $query;
+    protected string $query;
 
-    private bool $orderByProcessed = false;
+    protected bool $paginationMode = false;
+
+    protected array $columns = ['*'];
+
+    protected array $join = [];
+
+    protected array $whereParameters = [];
 
     protected array $searchAttributes = [];
+
+    private bool $orderByProcessed = false;
 
     public function __construct(array $searchAttributes = [])
     {
         $this->searchAttributes = $searchAttributes;
         $this->prepareQuery();
-    }
-
-    public function search($output = ARRAY_A)
-    {
-        global $wpdb;
-
-        $this->processOrderBy();
-
-//        var_dump($this->query);die;
-
-        return $wpdb->get_results($this->query, $output);
+        $this->buildQuery($this->columns);
     }
 
     public function paginate($limit, $page = 1, $output = ARRAY_A)
     {
+        global $rowPerPage, $currentPage, $allRow, $lastPage;
+        $rowPerPage = $limit;
+        $currentPage = $page;
+
+        $this->paginationMode = true;
+
+        $this->buildQuery($this->columns);
 
         $this->processOrderBy();
 
         $this->query .= " LIMIT $limit";
 
         if ($page && $page !== 1) {
-            $offset = $page * $limit;
+            $offset = ($page * $limit) - $limit;
             $this->query .= " OFFSET $offset";
         }
 
-        return $this->search($output);
+        $searchResult = $this->search($output);
+
+        $allRow = $this->getAllResultRowNum();
+        $lastPage = ceil($allRow / $rowPerPage);
+
+        return $searchResult;
+    }
+
+    private function getAllResultRowNum()
+    {
+        global $wpdb;
+
+        $rows = $wpdb->get_results('SELECT FOUND_ROWS() as rowNumber', ARRAY_A);
+
+        return (int)$rows[0]['rowNumber'];
     }
 
     private function processOrderBy()
@@ -68,5 +87,114 @@ abstract class AbstractSearch
         }
     }
 
+    public function search($output = ARRAY_A)
+    {
+        global $wpdb;
+
+        $this->processOrderBy();
+
+        return $wpdb->get_results($this->query, $output);
+    }
+
+    protected function addWhereParameter(string $where, $arg, string $connectionType = 'and')
+    {
+        $this->whereParameters[] = [
+            'where'          => $where,
+            'arg'            => $arg,
+            'connectionType' => $connectionType,
+        ];
+    }
+
+    protected function addJoin($command)
+    {
+        $this->join[] = $command;
+    }
+
+    private function buildQuery($cols = ['*'])
+    {
+        global $wpdb;
+
+        $columns = '';
+
+        if ($this->paginationMode) {
+            $columns = 'SQL_CALC_FOUND_ROWS ';
+        }
+
+        $columns .= implode(', ', $cols);
+
+        $query = 'SELECT '.$columns.' FROM ';
+
+        $query .= $this->getBaseTable();
+        $query .= $this->buildJoins();
+        $query .= $this->buildWhereString();
+        $whereParameters = $this->buildWhereParameters();
+
+        $this->query =  $wpdb->prepare($query, ...$whereParameters);
+    }
+
+    private function buildJoins()
+    {
+        $ret = '';
+
+        if (count($this->join)) {
+            $ret = sprintf(' %s ', implode(' ', $this->join));
+        }
+
+        return $ret;
+    }
+
+    private function buildWhereString()
+    {
+        $ret = [];
+
+        if (count($this->whereParameters)) {
+            $i = 0;
+            foreach ($this->whereParameters as $parameter) {
+                $tmp = $parameter['where'];
+
+                if ($i != 0 && $i < count($this->whereParameters)) {
+                    if (empty($parameter['connectionType'])) {
+                        continue;
+                    }
+
+                    $tmp = $parameter['connectionType'] . ' ' . $tmp;
+                }
+
+                $ret[] = $tmp;
+                $i++;
+            }
+        }
+
+        $retTmp = '';
+
+        if (count($ret)) {
+            $retTmp = sprintf(' WHERE %s', implode(' ', $ret));
+            unset($ret);
+        }
+
+        return $retTmp;
+    }
+
+    private function buildWhereParameters()
+    {
+        $ret = [];
+
+        if (count($this->whereParameters)) {
+            foreach ($this->whereParameters as $parameter) {
+                $ret[] = $parameter['arg'];
+            }
+        }
+
+        return $ret;
+    }
+
+    private function getBaseTable()
+    {
+        global $wpdb;
+
+        return $wpdb->prefix . $this->getBaseTableName();
+    }
+
     abstract protected function prepareQuery();
+    abstract protected function getBaseTableName();
 }

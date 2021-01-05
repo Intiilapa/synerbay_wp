@@ -30,8 +30,7 @@ class Offer extends AbstractRest
 
         $offerID = isset($postData['offerID']) ? sanitize_text_field($postData['offerID']) : null;
 
-//        $deleted = $this->offerModule->deleteOffer($this->getCurrentUserID(), $offerID);
-        $deleted = true;
+        $deleted = $this->offerModule->deleteOffer($this->getCurrentUserID(), $offerID);
 
         $message = $deleted ? ['success' => 'Successfully deleted!'] : ['error' => 'Something went wrong! Please try again!'];
 
