@@ -62,7 +62,7 @@ class Offer extends AbstractModule
                 }
 
                 if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
-                    throw new Exception('It cannot be modified because it has started! ('.$offer['id'].')');
+                    throw new Exception('It cannot be modified because it has started! (' . $offer['id'] . ')');
                 }
 
                 unset($filteredData['offer_id']);
@@ -72,12 +72,13 @@ class Offer extends AbstractModule
                 $wpdb->update(
                     $table,
                     $this->cleanUpdateData($filteredData),
-                    array( 'id' => $offer['id'] ),
+                    ['id' => $offer['id']],
                     $this->getInsertFormat($filteredData),
-                    array( '%d' )
+                    ['%d']
                 );
 
                 $this->addSuccessToast('Successful operation');
+
                 return true;
             }
         } catch (Exception $e) {
@@ -88,44 +89,20 @@ class Offer extends AbstractModule
         return false;
     }
 
-    public function deleteOffer(int $userID, int $offerID): bool
-    {
-        global $wpdb;
-        if ($offer = $this->getOfferData($offerID)) {
-            try {
-                if ($offer['user_id'] != $userID) {
-                    throw new Exception('Permission denied!');
-                }
-
-                if (count($offer['applies'])) {
-                    throw new Exception('It cannot be delete because it has active applicants!');
-                }
-
-                if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
-                    throw new Exception('It cannot be delete because it has started! ('.$offerID.')');
-                }
-
-                $deleted = $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
-
-                if ($deleted) $this->addSuccessToast('Successful operation');
-
-                return $deleted;
-            } catch (Exception $e) {
-                $this->addErrorToast($e->getMessage());
-                $this->addErrorMsg($e->getMessage());
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    public function getOfferData(int $offerID, bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
-    {
+    public function getOfferData(
+        int $offerID,
+        bool $withUser = false,
+        bool $withApplies = true,
+        bool $applyWithCustomerData = false,
+        bool $withWCProduct = false
+    ) {
         if ($offer = $this->getOffer($offerID)) {
-            $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'], true) : [];
-            $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']];
-            $offer['shipping_to_labels'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
+            $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'],
+                true) : [];
+            $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'],
+                true) : [$offer['shipping_to']];
+            $offer['shipping_to_labels'] = implode(', ',
+                SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
             $offer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
             $offer['transport_parity'] = strtoupper($offer['transport_parity']);
 
@@ -155,7 +132,8 @@ class Offer extends AbstractModule
     public function getOffer(int $offerID, $output = ARRAY_A)
     {
         global $wpdb;
-        return $wpdb->get_row('select * from '.$wpdb->prefix.'offers where id = ' . $offerID, $output);
+
+        return $wpdb->get_row('select * from ' . $wpdb->prefix . 'offers where id = ' . $offerID, $output);
     }
 
     /**
@@ -164,6 +142,7 @@ class Offer extends AbstractModule
      */
     private function getOfferSummaryData(array $offerData)
     {
+        $currentDate = strtotime(date('Y-m-d H:i:s'));
         $actualProductPrice = isset($offerData['product']['meta']['_regular_price']) ? $offerData['product']['meta']['_regular_price'] : '-';
         $priceSteps = $offerData['price_steps'];
         $groupByProductQTYNumber = 0;
@@ -171,7 +150,10 @@ class Offer extends AbstractModule
         $actualPriceStepQty = 0;
         $minPriceStep = 0;
         $maxPriceStep = 0;
-        $showQuantityInput = $offerData['user_id'] != get_current_user_id();
+        $myOffer = $offerData['user_id'] == get_current_user_id();
+        $active = $currentDate >= strtotime($offerData['offer_start_date']) || $currentDate <= strtotime($offerData['offer_end_date']);
+        $currentUserHaveApply = false;
+        $currentUserApplyQty = 0;
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {
@@ -188,7 +170,8 @@ class Offer extends AbstractModule
                     $groupByProductQTYNumber += $apply['qty'];
 
                     if ($apply['user_id'] == get_current_user_id()) {
-                        $showQuantityInput = false;
+                        $currentUserHaveApply = true;
+                        $currentUserApplyQty = $apply['qty'];
                     }
                 }
 
@@ -215,17 +198,55 @@ class Offer extends AbstractModule
         $actualCommissionPrice = $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
 
         return [
-            'show_quantity_input' => $showQuantityInput,
-            'actual_product_price' => $actualProductPrice,
-            'min_price_step_qty' => $minPriceStep,
-            'max_price_step_qty' => $maxPriceStep,
-            'actual_price_step_qty' => $actualPriceStepQty,
-            'actual_applicant_product_number' => $groupByProductQTYNumber,
-            'actual_commission_price' => $actualCommissionPrice,
-            'actual_applicant_number' => $actualApplicantNumber,
-            'formatted_actual_product_price' => wc_price($actualProductPrice),
+            'is_active'                         => $active,
+            'my_offer'                          => $myOffer,
+            'current_user_have_apply'           => $currentUserHaveApply,
+            'current_user_apply_qty'            => $currentUserApplyQty,
+            'actual_product_price'              => $actualProductPrice,
+            'min_price_step_qty'                => $minPriceStep,
+            'max_price_step_qty'                => $maxPriceStep,
+            'actual_price_step_qty'             => $actualPriceStepQty,
+            'actual_applicant_product_number'   => $groupByProductQTYNumber,
+            'actual_commission_price'           => $actualCommissionPrice,
+            'actual_applicant_number'           => $actualApplicantNumber,
+            'formatted_actual_product_price'    => wc_price($actualProductPrice),
             'formatted_actual_commission_price' => wc_price($actualCommissionPrice),
         ];
+    }
+
+    public function deleteOffer(int $userID, int $offerID): bool
+    {
+        global $wpdb;
+        if ($offer = $this->getOfferData($offerID)) {
+            try {
+                if ($offer['user_id'] != $userID) {
+                    throw new Exception('Permission denied!');
+                }
+
+                if (count($offer['applies'])) {
+                    throw new Exception('It cannot be delete because it has active applicants!');
+                }
+
+                if (strtotime($offer['offer_start_date']) <= strtotime(date('Y-m-d H:i:s'))) {
+                    throw new Exception('It cannot be delete because it has started! (' . $offerID . ')');
+                }
+
+                $deleted = $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
+
+                if ($deleted) {
+                    $this->addSuccessToast('Successful operation');
+                }
+
+                return $deleted;
+            } catch (Exception $e) {
+                $this->addErrorToast($e->getMessage());
+                $this->addErrorMsg($e->getMessage());
+
+                return false;
+            }
+        }
+
+        return false;
     }
 
     public function getMyOffersForDashboard()
@@ -234,7 +255,8 @@ class Offer extends AbstractModule
 
         $ret = [];
 
-        $results = $wpdb->get_results('select id from '.$wpdb->prefix.'offers where user_id = ' . get_current_user_id() . ' order by id desc', ARRAY_A);
+        $results = $wpdb->get_results('select id from ' . $wpdb->prefix . 'offers where user_id = ' . get_current_user_id() . ' order by id desc',
+            ARRAY_A);
 
         if (count($results)) {
             foreach ($results as $result) {
@@ -246,14 +268,20 @@ class Offer extends AbstractModule
 
     }
 
-    public function prepareOffers($offerIds = [], bool $withUser = false, bool $withApplies = true, bool $applyWithCustomerData = false, bool $withWCProduct = false)
-    {
+    public function prepareOffers(
+        $offerIds = [],
+        bool $withUser = false,
+        bool $withApplies = true,
+        bool $applyWithCustomerData = false,
+        bool $withWCProduct = false
+    ) {
         $data = [];
 
         if (count($offerIds)) {
 
             foreach ($offerIds as $queryResult) {
-                $data[] = $this->getOfferData($queryResult['id'], $withUser, $withApplies, $applyWithCustomerData, $withWCProduct);
+                $data[] = $this->getOfferData($queryResult['id'], $withUser, $withApplies, $applyWithCustomerData,
+                    $withWCProduct);
             }
         }
 

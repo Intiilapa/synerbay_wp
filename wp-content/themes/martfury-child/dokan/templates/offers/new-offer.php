@@ -48,6 +48,11 @@ use SynerBay\Forms\CreateOffer;
                 <h1 class="entry-title">
                     <?php esc_html_e( 'Create new Offer', 'dokan-lite' ); ?>
                 </h1>
+                <span style="font-size: 16px; color: red;">
+                    Andris, ide kellene valami olyan szöveg, hogy ha elindul az offer, akkor nem törölhető, voiszont addig azt csinálsz vele amit akarsz!<br>
+                    Remco ide a részedről az kellene, hogy milyen UTC!
+                </span>
+                <hr>
             </header><!-- .entry-header -->
 
 

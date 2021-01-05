@@ -206,10 +206,13 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
         $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
 
-        // TODO 8-al méé nem megy, na majd holnap :D  (Remco ha van kedved akkor csekkold meg, 12 elemet ad vissza, de csak 11-et jelenít meg. WUUUUUT? :D )
-        $offerIds = $offerSearch->paginate($per_page);
+        $offerIds = $offerSearch->search();
 
         if (count($offerIds)) {
+
+            shuffle($offerIds);
+
+            $offerIds = array_slice($offerIds, 0, $per_page);
 
             $offerModule = new Offer();
             $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
@@ -231,7 +234,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
         wp_reset_postdata();
 
-//        return '<div class="woocommerce">' . ob_get_clean() . '</div>';
+        //return '<div class="woocommerce">' . ob_get_clean() . '</div>';
     }
 
 /**

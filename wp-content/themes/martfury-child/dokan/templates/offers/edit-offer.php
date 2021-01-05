@@ -57,6 +57,11 @@ do_action( 'dokan_new_product_wrap_before' );
             <h1 class="entry-title">
                 <?php esc_html_e( 'Update Offer', 'dokan-lite' ); ?>
             </h1>
+            <span style="font-size: 16px; color: red;">
+                    UA kell, mint a create-nél!!<br>Andris, ide kellene valami olyan szöveg, hogy ha elindul az offer, akkor nem törölhető, voiszont addig azt csinálsz vele amit akarsz!<br>
+                    Remco ide a részedről az kellene, hogy milyen UTC!
+                </span>
+            <hr>
         </header><!-- .entry-header -->
 
 

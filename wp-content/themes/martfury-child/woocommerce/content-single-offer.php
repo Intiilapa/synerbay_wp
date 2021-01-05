@@ -129,7 +129,7 @@ if ( post_password_required() ) {
             <!-- Add to cart section -->
             <form class="buy-now cart" method="post" enctype='multipart/form-data' data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
-                if ($offer['summary']['show_quantity_input']) {
+                if ($offer['summary']['is_active'] && !$offer['summary']['current_user_have_apply'] && !$offer['summary']['my_offer']) {
                     ?>
                     <?php
                         woocommerce_quantity_input( array(
