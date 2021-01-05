@@ -60,7 +60,7 @@ do_action('dokan_new_product_wrap_before');
                     <th><?php esc_html_e('Transport Parity'); ?></th>
                     <th><?php esc_html_e('Shipping To'); ?></th>
                     <th style="width: 100px;"><?php esc_html_e('Created At'); ?></th>
-                    <th style="width: 130px;"><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+                    <th style="width: 175px;"><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
                 </tr>
 
                 <?php
@@ -68,7 +68,8 @@ do_action('dokan_new_product_wrap_before');
 
                 if (count($myOffers)) {
                     foreach ($myOffers as $offer) {
-                        $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $offer['url'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View offer"><i class="fa fa-eye">&nbsp;</i></a>';
+                        $viewOfferButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $offer['url'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View offer"><i class="fa fa-eye">&nbsp;</i></a>';
+                        $showButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="/dashboard/show-offers/' . $offer['id'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="Show"><i class="fa fa-users">&nbsp;</i></a>';
                         $updateButton = '';
                         $deleteButton = '';
 
@@ -86,7 +87,7 @@ do_action('dokan_new_product_wrap_before');
                             . '<td>' . $offer['transport_parity'] . '</td>'
                             . '<td>' . $offer['shipping_to_labels'] . '</td>'
                             . '<td>' . date('Y-m-d', strtotime($offer['created_at'])) . '</td>'
-                            . '<td class="dokan-order-action">' . $updateButton . $viewButton . $deleteButton . '</td>'
+                            . '<td class="dokan-order-action">' . $updateButton . $viewOfferButton . $showButton . $deleteButton . '</td>'
                             . '</tr>';
                     }
                 } else {
