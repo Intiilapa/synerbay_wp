@@ -172,7 +172,7 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
 
 				<?php while ( $products->have_posts() ) : $products->the_post(); ?>
 
-					<?php wc_get_template_part( 'content', 'offer' ); ?>
+					<?php wc_get_template_part( 'content', product ); ?>
 
 				<?php endwhile; // end of the loop. ?>
 

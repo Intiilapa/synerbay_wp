@@ -794,13 +794,6 @@ class Martfury_WooCommerce {
      *
      * @return string
      */
-    /**
-     * WooCommerce Loop Offer Content Thumbs
-     *
-     * @since  1.0
-     *
-     * @return string
-     */
     function product_content_offer_thumbnail() {
         global $product, $post, $offer;
 
@@ -838,7 +831,6 @@ class Martfury_WooCommerce {
 
             foreach ( $icons as $icon ) {
                 if ( 'cart' == $icon ) {
-
                     if ( martfury_get_option( 'product_loop_hover' ) == '1' && function_exists( 'woocommerce_template_loop_add_to_cart' ) ) {
                         woocommerce_template_loop_add_to_cart();
                     }
@@ -858,14 +850,13 @@ class Martfury_WooCommerce {
                     $this->product_compare();
                 }
             }
-
             echo '</div>';
-
         }
 
-
         echo '</div>';
-
+        wc_get_template( 'loop/groupbuy-badge.php' );
+        wc_get_template( 'loop/offer-progress.php' );
+        wc_get_template( 'loop/offer-countdown.php' );
     }
 	/**
 	 * WooCommerce Loop Product Content Thumbs
