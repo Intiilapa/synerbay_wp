@@ -1,7 +1,10 @@
 <?php
 namespace SynerBay\Module;
 
+use Dokan_Vendor;
 use Exception;
+use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
+use SynerBay\Emails\Service\TestEmail;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
 
@@ -21,7 +24,7 @@ class OfferApply extends AbstractModule
         global $wpdb;
 
         try {
-            if ($offer = $this->offerModule->getOfferData($offerID)) {
+            if ($offer = $this->offerModule->getOfferData($offerID, true)) {
                 $currentDateTime = strtotime(date('Y-m-d H:i:s'));
                 if ($currentDateTime < strtotime($offer['offer_start_date'])) {
                     throw new Exception('The offer is not started!');
@@ -40,6 +43,9 @@ class OfferApply extends AbstractModule
                 $format = ['%d', '%d', '%d'];
 
                 if($wpdb->insert($table, $data, $format)) {
+//                    $mail = new TestEmail();
+//                    $mail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
+
                     // TODO REMCO mail-ek kiküldése
 
                     //        $offerUsers = $this->offerModule->getOfferUsers($offerID);
@@ -51,6 +57,18 @@ class OfferApply extends AbstractModule
                     //                $this->sendMail($offerUser);
                     //            }
                     //        }
+
+                    /**
+                     * send email to vendor
+                     */
+                    /** @var Dokan_Vendor $vendor */
+                    $vendor = $offer['vendor'];
+                    $vendorMail = new ApplyCreated($offer);
+                    $vendorMail->send($vendor->get_name(), $vendor->get_email());
+                    // todo megszerelni a többszöri küldést a classon keresztül, mert 2.-nál már nem jó a style (megint csak WUT??)
+//                    $vendorMail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
+//                    $vendorMail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
+
                     return true;
                 }
 
@@ -121,7 +139,7 @@ class OfferApply extends AbstractModule
     {
         global $wpdb;
 
-        $results = $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID, $output);
+        $results = $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID . ' order by id desc', $output);
 
         if (count($results) && $withCustomerData) {
             foreach ($results as &$result) {

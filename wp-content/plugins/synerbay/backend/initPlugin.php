@@ -13,4 +13,5 @@ include_once __DIR__ . '/htmlElements/initHTMLElements.php';
 include_once __DIR__ . '/rest/initRest.php';
 include_once __DIR__ . '/pages/initPages.php';
 include_once __DIR__ . '/search/initSearch.php';
+include_once __DIR__ . '/email/initEmail.php';
 

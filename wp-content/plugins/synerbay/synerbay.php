@@ -12,6 +12,8 @@ if( ! defined( 'ABSPATH' ) ) {
     return;
 }
 
+define( 'SYNERBAY_DIR', __DIR__ );
+
 class SynerBay {
     /**
      * Loading all dependencies

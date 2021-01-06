@@ -1,18 +1,5 @@
 <?php
-
-use SynerBay\Forms\UpdateOffer;
-
 global $offer;
-$get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
-$post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
-
-if (!count($post_data)) {
-    $post_data = $offer;
-    $post_data['delivery_date'] = date('Y-m-d', strtotime($post_data['delivery_date']));
-    $post_data['offer_start_date'] = date('Y-m-d', strtotime($post_data['offer_start_date']));
-    $post_data['offer_end_date'] = date('Y-m-d', strtotime($post_data['offer_end_date']));
-    $post_data['offer_id'] = $post_data['id'];
-}
 
 /**
  *  dokan_new_product_wrap_before hook
@@ -43,128 +30,85 @@ do_action( 'dokan_new_product_wrap_before' );
 
     <div class="dokan-dashboard-content">
 
-        <?php
-
-        /**
-         *  dokan_before_new_product_inside_content_area hook
-         *
-         *  @since 2.4
-         */
-        do_action( 'dokan_before_new_product_inside_content_area' );
-        ?>
-
         <header class="dokan-dashboard-header dokan-clearfix">
             <h1 class="entry-title">
-                <?php esc_html_e( 'Update Offer', 'dokan-lite' ); ?>
+                <?php esc_html_e( 'Show Offer', 'dokan-lite' ); ?> (<?php echo $offer['id'];?>)
             </h1>
-        </header><!-- .entry-header -->
+        </header>
+        <span style="font-size: medium">Offer data:</span>
+        <hr>
+        <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
+               id="dokan-product-list-table">
+            <thead>
+            <tr>
+                <th><?php esc_html_e('Product Name', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Current price', 'dokan-lite'); ?></th>
+                <th style="width: 100px;"><?php esc_html_e('Start Date', 'dokan-lite'); ?></th>
+                <th style="width: 100px;"><?php esc_html_e('End Date', 'dokan-lite'); ?></th>
+                <th style="width: 130px;"><?php esc_html_e('Delivery Date', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Transport Parity'); ?></th>
+                <th><?php esc_html_e('Shipping To'); ?></th>
+                <th style="width: 100px;"><?php esc_html_e('Created At'); ?></th>
+            </tr>
 
-
-        <div class="dokan-new-product-area">
-            <!--check if create-->
             <?php
-            $error_messages = [];
-            $updated = false;
-            if (isset($post_data['update_offer']) && $post_data['update_offer'] == 'update') {
-                $formData = $post_data;
 
-                if (isset($formData['price_steps'])) {
-                    $formData['price_steps'] = json_decode($post_data['price_steps'], true);
-                }
+                echo '<tr id="my_offer_row_' . $offer['id'] . '">'
+                    . '<td>' . $offer['product']['post_title'] . '</td>'
+                    . '<td>' . $offer['summary']['formatted_actual_product_price'] . '</td>'
+                    . '<td>' . date('Y-m-d', strtotime($offer['offer_start_date'])) . '</td>'
+                    . '<td>' . date('Y-m-d', strtotime($offer['offer_end_date'])) . '</td>'
+                    . '<td>' . date('Y-m-d', strtotime($offer['delivery_date'])) . '</td>'
+                    . '<td>' . $offer['transport_parity'] . '</td>'
+                    . '<td>' . $offer['shipping_to_labels'] . '</td>'
+                    . '<td>' . date('Y-m-d', strtotime($offer['created_at'])) . '</td>'
+                    . '</tr>';
 
-                /** @var UpdateOffer $offerForm */
-                $offerForm = apply_filters('synerbay_get_offer_update_form', $formData);
-
-                if ($offerForm->validate()) {
-                    $updated = apply_filters('synerbay_update_offer', $offerForm->getFilteredValues());
-                } else {
-                    $error_messages = $offerForm->errorMessages();
-                }
-            }
             ?>
+            </thead>
+        </table>
+        <hr>
+        <span style="font-size: medium">Applicant data:</span>
+        <hr>
 
-            <!--                --><?php //if ( count($error_messages) ) { ?>
-            <!--                    <div class="dokan-alert dokan-alert-danger">-->
-            <!--                        <a class="dokan-close" data-dismiss="alert">&times;</a>-->
-            <!---->
-            <!--                        --><?php //foreach ( $error_messages as $key => $error) { ?>
-            <!---->
-            <!--                            <strong>--><?php //esc_html_e( 'Error!', 'dokan-lite' ); ?><!--</strong> --><?php //echo $key . ' - ' . $error; ?><!--.<br>-->
-            <!---->
-            <!--                        --><?php //} ?>
-            <!--                    </div>-->
-            <!--                --><?php //} ?>
-
-            <?php if ( $updated ): ?>
-                <?php
-                    echo "<script>location.href='/dashboard/my-offers?operation=success';</script>";
-                ?>
-            <?php endif ?>
+        <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
+               id="dokan-product-list-table">
+            <thead>
+            <tr>
+                <th><?php esc_html_e('Vendor name', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Contact name', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Contact e-mail', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Contact phone', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('QTY'); ?></th>
+                <th style="width: 160px;"><?php esc_html_e('Apply date'); ?></th>
+                <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+            </tr>
 
             <?php
+            if (count($offer['applies'])) {
+                foreach ($offer['applies'] as $apply) {
+                    /** @var Dokan_Vendor $dokanCustomer */
+                    $dokanCustomer = $apply['customer'];
 
-            $can_sell = apply_filters( 'dokan_can_post', true );
+                    $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $dokanCustomer->get_shop_url() . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View vendor"><i class="fa fa-eye">&nbsp;</i></a>';
 
-            if ( $can_sell ) {
-                if ( dokan_is_seller_enabled( get_current_user_id() ) ) { ?>
+                    echo '<tr id="my_offer_apply_row_' . $apply['id'] . '">'
+                        . '<td>' . $dokanCustomer->get_shop_name() . '</td>'
+                        . '<td>' . $dokanCustomer->get_name() . '</td>'
+                        . '<td>' . $dokanCustomer->get_email() . '</td>'
+                        . '<td>' . $dokanCustomer->get_phone() . '</td>'
+                        . '<td>' . $apply['qty'] . '</td>'
+                        . '<td>' . $apply['created_at'] . '</td>'
+                        . '<td class="dokan-order-action">' . $viewButton . '</td>'
+                        . '</tr>';
+                }
+            } else {
+                echo '<td colspan="9">No applicant found</td>';
+            }
 
-                    <form class="dokan-form-container" method="post">
-
-                        <div class="product-edit-container dokan-clearfix">
-                            <div class="content-half-part dokan-product-meta">
-
-                                <?php
-                                //form elements ...
-                                do_action('synerbay_getDokanOfferIDHiddenInput', isset($post_data['offer_id']) ? $post_data['offer_id'] : false, $error_messages);
-                                do_action('synerbay_getDokanMyProductsSelect', isset($post_data['product_id']) ? $post_data['product_id'] : false, $error_messages);
-                                do_action('synerbay_getPriceStepInput', isset($post_data['price_steps']) ? $post_data['price_steps'] : false, $error_messages);
-//                                do_action('synerbay_getDokanOfferUnitInput', isset($post_data['weight_unit']) ? $post_data['weight_unit'] : '', $error_messages);
-//                                do_action('synerbay_getDokanUnitTypesSelect', isset($post_data['unit_type']) ? $post_data['unit_type'] : false, $error_messages);
-                                do_action('synerbay_getDokanOfferMinimumOrderQTYInput', isset($post_data['minimum_order_quantity']) ? $post_data['minimum_order_quantity'] : '', $error_messages);
-                                do_action('synerbay_getDokanOfferOrderQTYStepInput', isset($post_data['order_quantity_step']) ? $post_data['order_quantity_step'] : '', $error_messages);
-                                do_action('synerbay_getDokanOfferMaxTotalOfferQtyInput', isset($post_data['max_total_offer_qty']) ? $post_data['max_total_offer_qty'] : '', $error_messages);
-//                                do_action('synerbay_getDokanMaterialTypesSelect', isset($post_data['material']) ? $post_data['material'] : [], $error_messages);
-                                do_action('synerbay_getDokanParityTypesSelect', isset($post_data['transport_parity']) ? $post_data['transport_parity'] : false, $error_messages);
-                                do_action('synerbay_getDokanOfferStartDate', isset($post_data['offer_start_date']) ? $post_data['offer_start_date'] : '', $error_messages);
-                                do_action('synerbay_getDokanOfferEndDate', isset($post_data['offer_end_date']) ? $post_data['offer_end_date'] : '', $error_messages);
-                                do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
-                                do_action('synerbay_getDokanShippingToOfferSelect', isset($post_data['shipping_to']) ? $post_data['shipping_to'] : '', $error_messages);
-                                ?>
-                            </div>
-                        </div>
-
-                        <?php do_action( 'dokan_new_product_form' ); ?>
-
-                        <hr>
-
-                        <div class="dokan-form-group dokan-left">
-                            <button type="submit" name="update_offer" class="dokan-btn dokan-btn-default dokan-btn-theme" value="update"><?php esc_attr_e( 'Update offer', 'dokan-lite' ); ?></button>
-                        </div>
-
-                    </form>
-
-                <?php } else { ?>
-
-                    <?php dokan_seller_not_enabled_notice(); ?>
-
-                <?php } ?>
-
-            <?php } else { ?>
-
-                <?php do_action( 'dokan_can_post_notice' ); ?>
-
-            <?php } ?>
-        </div>
-
-        <?php
-
-        /**
-         *  dokan_after_new_product_inside_content_area hook
-         *
-         *  @since 2.4
-         */
-        do_action( 'dokan_after_new_product_inside_content_area' );
-        ?>
+            ?>
+            </thead>
+        </table>
 
     </div> <!-- #primary .content-area -->
 
@@ -183,18 +127,3 @@ do_action( 'dokan_new_product_wrap_before' );
 </div><!-- .dokan-dashboard-wrap -->
 
 <?php do_action( 'dokan_dashboard_wrap_end' ); ?>
-
-<?php
-
-/**
- *  dokan_new_product_wrap_after hook
- *
- *  @since 2.4
- */
-do_action( 'dokan_new_product_wrap_after' );
-?>
-
-<?php
-// js
-do_action('synerbay_getPriceStepDokanJS');
-?>

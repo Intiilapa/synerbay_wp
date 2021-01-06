@@ -13,6 +13,7 @@ class Offer extends AbstractPage
     {
         parent::init();
         $this->addAction('init_global_offer_sub_page', 'subPage');
+        $this->addAction('init_dashboard_offer_sub_page', 'dashboardShowPage');
         $this->addAction('editOfferSubPage');
     }
 
@@ -21,6 +22,15 @@ class Offer extends AbstractPage
         do_action('synerbay_init_global_offer_by_id', (int)$offerID);
 
         if (!$offer || !count($offer)) {
+            $this->page404();
+        }
+    }
+
+    public function dashboardShowPage($offerID) {
+        global $offer;
+        do_action('synerbay_init_global_offer_by_id', (int)$offerID);
+
+        if (!$offer || !count($offer) || $offer['user_id'] != get_current_user_id()) {
             $this->page404();
         }
     }

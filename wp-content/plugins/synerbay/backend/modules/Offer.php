@@ -195,7 +195,7 @@ class Offer extends AbstractModule
             unset($tmp);
         }
 
-        $actualCommissionPrice = $actualApplicantNumber > 0 ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
+        $actualCommissionPrice = $actualApplicantNumber > 0 && $actualProductPrice != '-' ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
 
         return [
             'is_active'                         => $active,
