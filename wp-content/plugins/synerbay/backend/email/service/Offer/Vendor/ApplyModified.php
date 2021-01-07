@@ -5,19 +5,18 @@ namespace SynerBay\Emails\Service\Offer\Vendor;
 use SynerBay\Emails\Service\AbstractEmail;
 use SynerBay\Helper\RouteHelper;
 
-class ApplyCreated extends AbstractEmail
+class ApplyModified extends AbstractEmail
 {
     protected function getMessageParams(): array
     {
         return [
-            'message'      => 'Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, Vendor message, ',
             'dashboardUrl' => RouteHelper::generateRoute('show_offer', ['id' => $this->params['id']]),
         ];
     }
 
     protected function getTemplateName(): string
     {
-        return 'offer/vendorApplyCreated';
+        return 'offer/vendorApplyModified';
     }
 
     protected function getSubject(): string
@@ -29,6 +28,4 @@ class ApplyCreated extends AbstractEmail
     {
         return 'Offer apply created';
     }
-
-
 }

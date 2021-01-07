@@ -6,5 +6,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 do_action( 'woocommerce_email_header', $emailHeading, $email ); ?>
 
 <p>
-    Dear <?php echo $consigneeName;?>!
+    Dear [consigneeName]!
 </p>

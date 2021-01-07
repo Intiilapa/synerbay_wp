@@ -5,7 +5,6 @@
  * @package Martfury
  */
 
-
 /**
  * Get Menu extra Account
  *
@@ -521,6 +520,7 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
 				$depth = intval( martfury_get_option( 'custom_categories_depth' ) );
 			}
 
+
 			$args = array(
 				'name'            => 'product_cat',
 				'taxonomy'        => 'product_cat',
@@ -853,7 +853,6 @@ if ( ! function_exists( 'martfury_get_hot_words' ) ) :
 		return $words_html;
 	}
 endif;
-
 
 /**
  * Returns CSS for the color schemes.

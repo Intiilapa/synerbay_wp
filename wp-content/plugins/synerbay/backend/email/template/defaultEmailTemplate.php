@@ -1,7 +1,7 @@
-<?php include_once $headerPartialFile;?>
+<?php require $headerPartialFile;?>
 
     <p>
         <?php echo $message; ?>
     </p>
 
-<?php include_once $footerPartialFile;?>
+<?php require $footerPartialFile;?>

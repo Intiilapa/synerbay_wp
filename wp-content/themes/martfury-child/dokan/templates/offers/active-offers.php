@@ -22,10 +22,10 @@ $currentDate = strtotime(date('Y-m-d H:i:s'));
 foreach ($myOfferApplies as $offerApply) {
 
     $deleteButton = '';
-    $showOfferButton = "<a onclick='window.synerbay.disAppearOfferDashboard(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
+    $showOfferButton = "<a href='". $offerApply['offer']['url'] ."' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
 
     if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
-        $deleteButton = "<a href='". $offerApply['offer']['url'] ."' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
+        $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
     }
 
     echo  '<tr id="my_active_offer_row_'.$offerApply['offer_id'].'">'

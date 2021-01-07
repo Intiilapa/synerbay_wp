@@ -3,7 +3,8 @@
 
 namespace SynerBay\Emails\Service;
 
-
+use ReflectionClass;
+use ReflectionException;
 use WC_Email;
 
 abstract class AbstractEmail
@@ -18,19 +19,37 @@ abstract class AbstractEmail
 
     private WC_Email $WCEmail;
 
+    private ?string $body = '';
+
     /**
      * AbstractEmail constructor.
      *
      * @info javasolt a paramokat és az msg paramokat kulcsozott tömbben átadni
      *
      * @param array $params
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function __construct(array $params = [])
     {
-        $this->id = (new \ReflectionClass($this))->getShortName();
+        $this->id = (new ReflectionClass($this))->getShortName();
         $this->WCEmail = new WC_Email();
         $this->params = $params;
+    }
+
+    public function send($consigneeName, $consigneeEmailAddress): void
+    {
+        $this->addWPFilters();
+
+        $customData = [
+            'consigneeName'         => $consigneeName,
+            'consigneeEmailAddress' => $consigneeEmailAddress,
+        ];
+
+        $message = apply_filters('woocommerce_mail_content', $this->renderBody($customData));
+
+        wp_mail($consigneeEmailAddress, $this->getSubject(), $message, $this->buildHeaders());
+
+        $this->removeWPFilters();
     }
 
     private function addWPFilters()
@@ -39,34 +58,25 @@ abstract class AbstractEmail
         add_filter('wp_mail_from_name', [$this, 'getSenderName']);
     }
 
-    public function send($consigneeName, $consigneeEmailAddress): void
+    private function renderBody(array $customData = [])
     {
-        $this->addWPFilters();
+        $body = $this->body;
+        if (empty($body)) {
+            $this->body = $body = $this->WCEmail->style_inline($this->getContentHtml());
+        }
 
-        $userData = [
-            'consigneeName' => $consigneeName,
-            'consigneeEmailAddress' => $consigneeEmailAddress,
-        ];
+        foreach ($customData as $replaceKey => $value) {
+            $body = str_replace(sprintf('[%s]', $replaceKey), $value, $body);
+        }
 
-        $message = apply_filters( 'woocommerce_mail_content', $this->WCEmail->style_inline( $this->getContentHtml($userData) ) );
-
-        wp_mail($consigneeEmailAddress, $this->getSubject(), $message, $this->buildHeaders());
-
-        $this->removeWPFilters();
+        return $body;
     }
 
-    abstract protected function getSubject(): string;
-
-    public function getContentHtml(array $customData = array())
+    public function getContentHtml()
     {
         if (!is_file($this->getTemplateBasePath() . $this->getTemplateFullName())) {
             die('Missing template file!');
         }
-
-        // kell a wc mail-nek, hogy betegye a dolgokat és szép legyen
-        $settings = $this->WCEmail->settings;
-        $settings['email_type'] = 'html';
-        $this->WCEmail->settings = $settings;
 
         ob_start();
 
@@ -74,25 +84,19 @@ abstract class AbstractEmail
             $this->getTemplateFullName(),
             array_merge(
                 [
-                    'id' => $this->id . '_' . rand(1, 1000),
-                    'email' => $this,
-                    'emailHeading' => $this->getEmailHead(),
+                    'id'                => $this->id,
+                    'email'             => $this,
+                    'emailHeading'      => $this->getEmailHead(),
                     'footerPartialFile' => $this->getTemplateBasePath() . 'partials/footer.php',
                     'headerPartialFile' => $this->getTemplateBasePath() . 'partials/header.php',
                 ],
                 $this->params,
-                $this->getMessageParams(),
-                $customData
+                $this->getMessageParams()
             ),
             'synerbay/',
             $this->getTemplateBasePath());
 
         return ob_get_clean();
-    }
-
-    protected function getEmailHead()
-    {
-        return $this->getSubject();
     }
 
     private function getTemplateBasePath()
@@ -109,6 +113,13 @@ abstract class AbstractEmail
     {
         return 'defaultEmailTemplate';
     }
+
+    protected function getEmailHead()
+    {
+        return $this->getSubject();
+    }
+
+    abstract protected function getSubject(): string;
 
     protected function getMessageParams(): array
     {
@@ -133,7 +144,7 @@ abstract class AbstractEmail
 
     public function getSenderName(): string
     {
-        return 'Support';
+        return 'SynerBay';
     }
 
     public function getSenderMailAddress(): string

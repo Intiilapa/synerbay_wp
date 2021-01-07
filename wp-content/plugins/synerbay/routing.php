@@ -17,7 +17,6 @@ require __DIR__ . '/routing/Router.php';
 require __DIR__ . '/backend/helpers/RouteHelper.php';
 
 // init routes
-/** @var Router $router */
 $router = new Router('route_synerbay');
 $routes = [
     'my_plugin_test' => new Route('/offer/test', 'synerbay_test'),

@@ -3,8 +3,9 @@ namespace SynerBay\Module;
 
 use Dokan_Vendor;
 use Exception;
-use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
-use SynerBay\Emails\Service\TestEmail;
+use SynerBay\Emails\Service\Offer\Vendor\ApplyModified;
+use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
+use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModified;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
 
@@ -24,7 +25,7 @@ class OfferApply extends AbstractModule
         global $wpdb;
 
         try {
-            if ($offer = $this->offerModule->getOfferData($offerID, true)) {
+            if ($offer = $this->offerModule->getOfferData($offerID, true, true, true)) {
                 $currentDateTime = strtotime(date('Y-m-d H:i:s'));
                 if ($currentDateTime < strtotime($offer['offer_start_date'])) {
                     throw new Exception('The offer is not started!');
@@ -43,32 +44,31 @@ class OfferApply extends AbstractModule
                 $format = ['%d', '%d', '%d'];
 
                 if($wpdb->insert($table, $data, $format)) {
-//                    $mail = new TestEmail();
-//                    $mail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
+                    // send mails
+                    // a jelentkezőnek
+                    /** @var Dokan_Vendor $customer */
+                    $customer = dokan_get_vendor($userID);
+                    $vendorMail = new CustomerApplyCreated($offer);
+                    $vendorMail->send($customer->get_name(), $customer->get_email());
 
-                    // TODO REMCO mail-ek kiküldése
+                    // az eddig jelentkezők értesítése
+                    if (count($offer['applies'])) {
+                        $vendorOfferModifiedMail = new CustomerApplyModified($offer);
 
-                    //        $offerUsers = $this->offerModule->getOfferUsers($offerID);
-                    //
-                    //        foreach ($offerUsers as $offerUser) {
-                    //            if ($offerUser->ID === $userID) {
-                    //                // akkor a usernek megy egy köszönöő mail
-                    //            } else {
-                    //                $this->sendMail($offerUser);
-                    //            }
-                    //        }
+                        foreach ($offer['applies'] as $applyUser) {
+                            /** @var Dokan_Vendor $customer */
+                            $customer = $applyUser['customer'];
+                            $vendorOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                        }
+                    }
 
                     /**
-                     * send email to vendor
+                     * az eladónak
                      */
                     /** @var Dokan_Vendor $vendor */
                     $vendor = $offer['vendor'];
-                    $vendorMail = new ApplyCreated($offer);
+                    $vendorMail = new ApplyModified($offer);
                     $vendorMail->send($vendor->get_name(), $vendor->get_email());
-                    // todo megszerelni a többszöri küldést a classon keresztül, mert 2.-nál már nem jó a style (megint csak WUT??)
-//                    $vendorMail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
-//                    $vendorMail->send('Kristóf', 'nagy.kristof.janos@gmail.com');
-
                     return true;
                 }
 
@@ -88,7 +88,7 @@ class OfferApply extends AbstractModule
         global $wpdb;
 
         try {
-            if ($offer = $this->offerModule->getOffer($offerID)) {
+            if ($offer = $this->offerModule->getOfferData($offerID, true, true, true)) {
                 if (strtotime(date('Y-m-d H:i:s')) > strtotime($offer['offer_end_date'])) {
                     throw new Exception('It cannot be delete because offer is finished!');
                 }
@@ -97,7 +97,26 @@ class OfferApply extends AbstractModule
                     'offer_id' => $offerID,
                     'user_id' => $userID,
                 ])) {
-                    // TODO REMCO mail-ek kiküldése
+                    // send mails
+                    // az eddig jelentkezők értesítése
+                    if (count($offer['applies'])) {
+                        $vendorOfferModifiedMail = new CustomerApplyModified($offer);
+
+                        foreach ($offer['applies'] as $applyUser) {
+                            /** @var Dokan_Vendor $customer */
+                            $customer = $applyUser['customer'];
+                            $vendorOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                        }
+                    }
+
+                    /**
+                     * az eladónak
+                     */
+                    /** @var Dokan_Vendor $vendor */
+                    $vendor = $offer['vendor'];
+                    $vendorMail = new ApplyModified($offer);
+                    $vendorMail->send($vendor->get_name(), $vendor->get_email());
+
                     return true;
                 }
 

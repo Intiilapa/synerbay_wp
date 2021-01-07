@@ -1,7 +1,7 @@
-<?php include_once $headerPartialFile;?>
+<?php require $headerPartialFile;?>
 
     <p>
-        <?php echo $message; ?>
+        Az ajánlatod állapota megváltozott!
     </p>
     <p>
         View offer: <?php echo $url?>
@@ -10,4 +10,4 @@
         Go to dashboard: <?php echo $dashboardUrl?>
     </p>
 
-<?php include_once $footerPartialFile;?>
+<?php require $footerPartialFile;?>

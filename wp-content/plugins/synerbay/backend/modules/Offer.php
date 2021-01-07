@@ -143,7 +143,7 @@ class Offer extends AbstractModule
     private function getOfferSummaryData(array $offerData)
     {
         $currentDate = strtotime(date('Y-m-d H:i:s'));
-        $actualProductPrice = isset($offerData['product']['meta']['_regular_price']) ? $offerData['product']['meta']['_regular_price'] : '-';
+        $actualProductPrice = isset($offerData['product']['meta']['_regular_price']) ? $offerData['product']['meta']['_regular_price'] : 0;
         $priceSteps = $offerData['price_steps'];
         $groupByProductQTYNumber = 0;
         $actualApplicantNumber = 0;
@@ -154,6 +154,7 @@ class Offer extends AbstractModule
         $active = $currentDate >= strtotime($offerData['offer_start_date']) || $currentDate <= strtotime($offerData['offer_end_date']);
         $currentUserHaveApply = false;
         $currentUserApplyQty = 0;
+        $actualCommissionPrice = 0;
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {
@@ -195,7 +196,9 @@ class Offer extends AbstractModule
             unset($tmp);
         }
 
-        $actualCommissionPrice = $actualApplicantNumber > 0 && $actualProductPrice != '-' ? (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier) : 0;
+        if ($actualProductPrice > 0 && $actualApplicantNumber > 0) {
+            $actualCommissionPrice = (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier);
+        }
 
         return [
             'is_active'                         => $active,

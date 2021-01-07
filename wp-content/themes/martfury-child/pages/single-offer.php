@@ -25,7 +25,6 @@ $wp_query->is_singular = true;
 $wp_query->is_404 = false;
 $wp_query->is_single = true;
 
-
 get_header( 'shop' ); ?>
 
 	<?php
