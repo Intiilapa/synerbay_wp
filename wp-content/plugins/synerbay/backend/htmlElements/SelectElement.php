@@ -24,6 +24,10 @@ class SelectElement extends AbstractElement
         $module = $this->getModule('product');
         $haystack = $module->getMyProductsForSelect();
 
+        if (!count($haystack)) {
+            $haystack = ['' => 'Please create product'];
+        }
+
         $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Select the product you want to offer');
     }
 

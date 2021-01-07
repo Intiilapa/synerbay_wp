@@ -12,8 +12,9 @@ global $myOfferApplies;
         <th><?php esc_html_e( 'Offer ID', 'dokan-lite' ); ?></th>
         <th><?php esc_html_e( 'Product name', 'dokan-lite' ); ?></th>
         <th><?php esc_html_e( 'Quantity', 'dokan-lite' ); ?></th>
-        <th><?php esc_html_e( 'Current Price', 'dokan-lite' ); ?></th>
+        <th><?php esc_html_e( 'Current price', 'dokan-lite' ); ?></th>
         <th><?php esc_html_e( 'Current quantity', 'dokan-lite' ); ?></th>
+        <th><?php esc_html_e( 'Offer end date', 'dokan-lite' ); ?></th>
         <th><?php esc_html_e( 'Actions', 'dokan-lite' ); ?></th>
     </tr>
 
@@ -25,7 +26,7 @@ foreach ($myOfferApplies as $offerApply) {
     $showOfferButton = "<a href='". $offerApply['offer']['url'] ."' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
 
     if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
-        $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
+        $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(".$offerApply['offer_id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
     }
 
     echo  '<tr id="my_active_offer_row_'.$offerApply['offer_id'].'">'
@@ -34,6 +35,7 @@ foreach ($myOfferApplies as $offerApply) {
         . '<td>'. $offerApply['qty'] . '</td>'
         . '<td><b>'. $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
         . '<td><b>'. $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
+        . '<td><b>'. $offerApply['offer']['offer_end_date'] . '</b></td>'
         . '<td>'. $deleteButton. $showOfferButton.'</td>'
         . '</tr>';
 }
