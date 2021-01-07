@@ -63,7 +63,7 @@ abstract class AbstractElement
             throw new \Exception('Invalid data in selected haystack, only array allowed!');
         }
 
-        $skeleton = '<select class="dokan-form-control" style="height: 100px !important;" name="'.$name.'[]" multiple>%s</select>%s</div>';
+        $skeleton = '<select class="dokan-form-control" style="height: 150px !important;" name="'.$name.'[]" multiple>%s</select>%s</div>';
 
         if (!empty($label)) {
             $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' . $this->setupDescription($description) .$skeleton;

@@ -20,12 +20,9 @@ $offer['max_total_offer_qty'] = $offer['max_total_offer_qty'] ? $offer['max_tota
 $offer['order_quantity_step'] = $offer['order_quantity_step'] ? $offer['order_quantity_step'] : 1;
 ?>
 
-<?php if ( method_exists( $product, 'get_type') && $product->get_type() == 'groupbuy' ) : ?>
-
-	<div class="wcl-progress-meter progresbar-<?php echo $product->get_id(); ?> <?php if($product->is_groupbuy_max_deals_met()) {echo 'full';} if(!$product->is_groupbuy_min_deals_met()) {echo 'no-min';} ?>">
-        <span class="zero"><?php echo $offer['summary']['min_price_step_qty'] ?></span>
-        <span class="max"><?php echo $offer['summary']['max_price_step_qty'] ?></span>
-        <progress  max="<?php echo $offer['summary']['max_price_step_qty'] ?>" value="<?php echo !empty($offer['summary']['actual_applicant_product_number'
-        ]) ? $offer['summary']['actual_applicant_product_number'] : '0' ?>"  low="<?php echo $offer['summary']['min_price_step_qty'] ?>"></progress>
-	</div>
-<?php endif;
+<div class="wcl-progress-meter progresbar">
+    <span class="zero"><?php echo $offer['summary']['min_price_step_qty'] ?></span>
+    <span class="max"><?php echo $offer['summary']['max_price_step_qty'] ?></span>
+    <progress  max="<?php echo $offer['summary']['max_price_step_qty'] ?>" value="<?php echo !empty($offer['summary']['actual_applicant_product_number'
+    ]) ? $offer['summary']['actual_applicant_product_number'] : '0' ?>"  low="<?php echo $offer['summary']['min_price_step_qty'] ?>"></progress>
+</div>

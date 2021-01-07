@@ -36,6 +36,16 @@
   display: none;
 }
 
+tr th {
+  background-color: #242424;
+  color: white !important;
+  font-weight: 500 !important;
+}
+
+.dokan_tabs li a {
+  color: black !important;
+}
+
 /*
 *
 * Edit product
@@ -80,8 +90,24 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
 
 /*
 *
-* Dokan Store page
+* Offer cart (product loop)
 *
 */
+.groupbuy-ajax-change {
+  margin-top: 5px !important;
+}
+
+/*
+*
+* Offer page
+*
+*/
+.details-title {
+  border-bottom: 2px solid darkgrey;
+}
+
+.offer-list li {
+  margin-bottom: 0;
+}
 
 /*# sourceMappingURL=custom.css.map */

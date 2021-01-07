@@ -68,39 +68,42 @@ if ( post_password_required() ) {
                 </p>
             <?php endif;?>
 
+            </br>
+            <!-- Basic info -->
+            <strong class="details-title">Offer details:</strong>
+            <ul class="offer-list">
+                <li><span class="current_subscribed"> <?php _e( 'Amount subscribers:', 'synerbay' )?> <?php echo $offer['summary']['actual_applicant_product_number'];?></span></li>
+                <li><span class="offer-start-date"> <?php _e( 'Start date:', 'synerbay' )?> <?php echo $offer['offer_start_date'];?></span></li>
+                <li><span class="offer-end-date"> <?php _e( 'End date:', 'synerbay' )?> <?php echo $offer['offer_end_date'];?></span></li>
+                <li><span class="offer-qty-min"> <?php _e( 'Min. product qty:', 'synerbay' )?> <?php echo $offer['minimum_order_quantity'];?></span></li>
+                <li><span class="offer-qty-max"> <?php _e( 'Max. product qty/user:', 'synerbay' )?> <?php echo $offer['max_total_offer_qty'];?></span></li>
+                <li><span class="offer-qty-step"> <?php _e( 'Quantity step:', 'synerbay' )?> <?php echo $offer['order_quantity_step'];?></span></li>
+            </ul>
+
+            <ul class="offer-list">
+                <li><span><?php _e( 'Transport parity:', 'synerbay' )?> <?php echo $offer['transport_parity'];?></span></li>
+                <li><span><?php _e( 'Delivery date:', 'synerbay' )?> <?php echo $offer['delivery_date'];?></span></li>
+            </ul>
+
             <?php if($currentDate > strtotime($offer['offer_start_date'])) : ?>
 
-                <div class='groupbuy-ajax-change'>
-                    <div class="groupbuy-time" id="countdown"><?php echo apply_filters('time_text', __( 'Time left:', 'wc_groupbuy' ), $product); ?>
+                <div style="padding-bottom: 10px" class='groupbuy-ajax-change'>
+                    <div class="groupbuy-time" id="countdown">
+                        <strong class="details-title">Time left:</strong>
                         <div class="main-groupbuy groupbuy-time-countdown" data-time="<?php echo $time_remaining ?>" data-groupbuyid="<?php echo $product->get_id() ?>" data-format="<?php echo get_option( 'simple_groupbuy_countdown_format' ) ?>"></div>
                     </div>
                 </div>
 
             <?php elseif($currentDate < strtotime($offer['offer_start_date'])) : ?>
 
-                <div class="groupbuy-time future" id="countdown"><?php echo  __( 'Offer starts in:', 'wc_groupbuy' ) ?>
+                <div class="groupbuy-time future" id="countdown">
+                    <strong class="details-title">Offer start in:</strong>
                     <div class="groupbuy-time-countdown future" data-time="<?php echo $time_for_start ?>" data-format="<?php echo get_option( 'simple_groupbuy_countdown_format' ) ?>"></div>
                 </div>
 
             <?php endif; ?>
 
-            </br>
-            <!-- Basic info -->
-            <strong>Offer details:</strong>
-            <p class="deal-info">
-                <span class="current_subscribed"> <?php _e( 'Amount subscribers:', 'synerbay' )?> <?php echo $offer['summary']['actual_applicant_product_number'];?></span>
-                <span class="offer-start-date"> <?php _e( 'Start date:', 'synerbay' )?> <?php echo $offer['offer_start_date'];?></span>
-                <span class="offer-end-date"> <?php _e( 'End date:', 'synerbay' )?> <?php echo $offer['offer_end_date'];?></span>
-                <span class="offer-qty-min"> <?php _e( 'Min. product qty:', 'synerbay' )?> <?php echo $offer['minimum_order_quantity'];?></span>
-                <span class="offer-qty-max"> <?php _e( 'Max. product qty/user:', 'synerbay' )?> <?php echo $offer['max_total_offer_qty'];?></span>
-                <span class="offer-qty-step"> <?php _e( 'Quantity step:', 'synerbay' )?> <?php echo $offer['order_quantity_step'];?></span>
-                <br>
-                <span><?php _e( 'Transport parity:', 'synerbay' )?> <?php echo $offer['transport_parity'];?></span>
-                <span><?php _e( 'Delivery date:', 'synerbay' )?> <?php echo $offer['delivery_date'];?></span>
-            </p>
-
             <!-- Progress bar -->
-            <strong>Progress:</strong>
             <div class="wcl-progress-meter">
                 <span class="zero"><?php echo $offer['summary']['min_price_step_qty'] ?></span>
                 <span class="max"><?php echo $offer['summary']['max_price_step_qty'] ?></span>
@@ -110,7 +113,7 @@ if ( post_password_required() ) {
 
             <!-- Table -->
             <p class="deal-info">
-                <strong>Price steps:</strong>
+                <strong class="details-title">Price steps:</strong>
             <table width="100%">
                 <thead>
                 <tr>

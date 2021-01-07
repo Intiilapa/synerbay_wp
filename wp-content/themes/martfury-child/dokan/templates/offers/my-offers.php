@@ -53,7 +53,7 @@ do_action('dokan_new_product_wrap_before');
                 <thead>
                 <tr>
                     <th><?php esc_html_e('ID', 'dokan-lite'); ?></th>
-                    <th><?php esc_html_e('Product Name', 'dokan-lite'); ?></th>
+                    <th style="width: 130px;"><?php esc_html_e('Product Name', 'dokan-lite'); ?></th>
                     <th style="width: 100px;"><?php esc_html_e('Start Date', 'dokan-lite'); ?></th>
                     <th style="width: 100px;"><?php esc_html_e('End Date', 'dokan-lite'); ?></th>
                     <th style="width: 130px;"><?php esc_html_e('Delivery Date', 'dokan-lite'); ?></th>
