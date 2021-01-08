@@ -56,9 +56,9 @@ class OfferApply extends AbstractModule
                         $vendorOfferModifiedMail = new CustomerApplyModified($offer);
 
                         foreach ($offer['applies'] as $applyUser) {
-                            /** @var Dokan_Vendor $customer */
-                            $customer = $applyUser['customer'];
-                            $vendorOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                            /** @var Dokan_Vendor $user */
+                            $user = $applyUser['customer'];
+                            $vendorOfferModifiedMail->send($user->get_name(), $user->get_email());
                         }
                     }
 
@@ -100,12 +100,16 @@ class OfferApply extends AbstractModule
                     // send mails
                     // az eddig jelentkezők értesítése
                     if (count($offer['applies'])) {
-                        $vendorOfferModifiedMail = new CustomerApplyModified($offer);
+                        $customerOfferModifiedMail = new CustomerApplyModified($offer);
 
                         foreach ($offer['applies'] as $applyUser) {
+                            if ($applyUser['user_id'] == $userID) {
+                                continue;
+                            }
+
                             /** @var Dokan_Vendor $customer */
                             $customer = $applyUser['customer'];
-                            $vendorOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                            $customerOfferModifiedMail->send($customer->get_name(), $customer->get_email());
                         }
                     }
 
@@ -145,7 +149,6 @@ class OfferApply extends AbstractModule
         $result = $wpdb->get_results('select count(id) as count from sb_offer_applies WHERE user_id = ' . $userID . ' and offer_id = ' . $offerID);
 
         return (bool)$result[0]->count;
-
     }
 
     /**
