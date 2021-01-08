@@ -3,13 +3,13 @@ namespace SynerBay\Traits;
 
 trait WPAction
 {
-    public function addAction($functionName, $methodName = '')
+    public function addAction($functionName, $methodName = '', $priority = 10, $accepted_args = 1)
     {
         if (empty($methodName)) {
             $methodName = $functionName;
         }
 
-        add_action('synerbay_' . $functionName, [$this, $methodName], 10, 2);
+        add_action('synerbay_' . $functionName, [$this, $methodName], $priority, $accepted_args);
     }
 
     public function addRestRoute(string $callback, string $endpointName, $methods = 'POST', $permissionCallback = 'defaultPermissionCallback')

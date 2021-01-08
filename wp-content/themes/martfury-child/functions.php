@@ -828,5 +828,7 @@ function product_custom_details(){
         ?><span class="custom_details"><?php echo esc_attr__( 'Material: ', 'dokan-lite' ); ?><?php echo esc_attr( $material ); ?></span></br>
         <?php
     }
+
+    do_action('synerbay_product_buttons');
     echo '<hr>';
 }

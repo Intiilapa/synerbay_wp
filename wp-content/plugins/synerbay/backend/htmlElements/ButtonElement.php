@@ -1,18 +1,17 @@
 <?php
+
+
 namespace SynerBay\HTMLElement;
 
-use SynerBay\Module\OfferApply as OfferApplyModule;
-use WC_Product;
 
-class OfferApplyElement extends AbstractElement
+class ButtonElement extends AbstractElement
 {
-    /** @var OfferApplyModule $offerApply */
-    private OfferApplyModule $offerApplyModule;
-
-    public function init()
+    protected function init()
     {
-        $this->offerApplyModule = new OfferApplyModule();
         $this->addAction('offerApplyButton');
+        $this->addAction('rfqButton');
+        $this->addAction('productInviteButton');
+        $this->addAction('gotoOfferButton');
     }
 
     public function offerApplyButton($offer)
@@ -25,5 +24,20 @@ class OfferApplyElement extends AbstractElement
         } else {
             echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$offer['id'].")' class='button'>Delete order need (". $offer['summary']['current_user_apply_qty'] ." pc)</button>";
         }
+    }
+
+    public function rfqButton()
+    {
+        echo 'rfq';
+    }
+
+    public function productInviteButton()
+    {
+        echo 'invite';
+    }
+
+    public function gotoOfferButton($url)
+    {
+        echo '<a href="'.$url.'" target="_blank">View Offer</a>';
     }
 }

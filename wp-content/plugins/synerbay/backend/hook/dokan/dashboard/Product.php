@@ -8,7 +8,8 @@ class Product
 {
     public function __construct()
     {
-        add_filter( 'dokan_product_row_actions', array( $this, 'product_row_action' ), 11, 2 );
+        // dokan / dashboard / cataloge / row action buttons hook
+        add_filter( 'dokan_product_row_actions', [$this, 'product_row_action'], 11, 2 );
     }
 
     public function product_row_action( $row_action, $post ) {

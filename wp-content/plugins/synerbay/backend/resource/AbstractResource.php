@@ -6,15 +6,24 @@ namespace SynerBay\Resource;
 
 abstract class AbstractResource
 {
-    public static function collection($searchResult)
+    public function toArray($row)
+    {
+        if (!$row || !is_array($row) || !count($row)) {
+            return [];
+        }
+
+        return $this->prepare($row);
+    }
+
+    public function collection($searchResult)
     {
 
     }
 
-    protected static function beforeCreateCollection($searchResult)
+    protected function beforeCreateCollection($searchResult)
     {
 
     }
 
-    abstract public function toArray();
+    abstract protected function prepare($row): array;
 }

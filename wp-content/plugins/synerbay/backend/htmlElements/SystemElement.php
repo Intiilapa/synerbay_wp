@@ -9,7 +9,6 @@ class SystemElement extends AbstractElement
     {
         $this->addAction('loader');
         $this->addAction('loginModal');
-//        $this->addAction('deleteOfferModal');
     }
 
     public function loader()
@@ -35,11 +34,4 @@ class SystemElement extends AbstractElement
         $content = 'In order to subscribe you need to be signed in. Please create or login <a href="/my-account">here</a>';
         $this->generateModal('login', $title, $content);
     }
-
-//    public function deleteOfferModal()
-//    {
-//        $title = 'Are you sure you want to delete this offer?';
-//        $content = "<a onclick='window.synerbay.deleteOffer(".$offer['id'].")' class='dokan-btn dokan-btn-default dokan-btn-sm tips'>Yes</a>";
-//        $this->generateModal('deleteOfferModal', $title, $content);
-//    }
 }

@@ -20,6 +20,6 @@ class ProductRepository extends AbstractRepository
     {
         global $wpdb;
 
-        return count($wpdb->get_results('SELECT id FROM ' . $wpdb->prefix. 'offers where product_id = ' . $productId . ' limit 1', ARRAY_A));
+        return $wpdb->get_row('SELECT id FROM ' . $wpdb->prefix. 'offers where product_id = ' . $productId . ' limit 1', ARRAY_A);
     }
 }
