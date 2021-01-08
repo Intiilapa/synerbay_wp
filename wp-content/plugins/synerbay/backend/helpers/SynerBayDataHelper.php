@@ -35,7 +35,27 @@ class SynerBayDataHelper
 
     public static function getUnitTypes()
     {
-        return ArrayHelper::reKeyBySlugFromValue(['piece', 'mg', 'g', 'dg', 'kg', 'ml', 'cl', 'dl', 'l']);
+        return ArrayHelper::reKeyBySlugFromValue([
+            'piece',
+            'mm',
+            'cm',
+            'm',
+            'km',
+            'ft',
+            'in',
+            'mg',
+            'g',
+            'dg',
+            'kg',
+            'ml',
+            'cl',
+            'dl',
+            'l',
+            'mm2',
+            'cm2',
+            'm2',
+            'km2',
+        ]);
     }
 
     public static function getOfferTransportParityTypes()
@@ -60,20 +80,6 @@ class SynerBayDataHelper
         ];
     }
 
-    public static function getDeliveryDestinationsForOffer()
-    {
-        return ArrayHelper::reKeyBySlugFromValue([
-            'Worldwide',
-            'Africa',
-            'North America',
-            'South America',
-            'Europe',
-            'Asia',
-            'Middle East',
-            'Ocean Pacific',
-        ]);
-    }
-
     public static function setupDeliveryDestinationsForOfferData(array $deliveryDestinationsSlugs)
     {
         $ret = [];
@@ -86,5 +92,19 @@ class SynerBayDataHelper
         }
 
         return $ret;
+    }
+
+    public static function getDeliveryDestinationsForOffer()
+    {
+        return ArrayHelper::reKeyBySlugFromValue([
+            'Worldwide',
+            'Africa',
+            'North America',
+            'South America',
+            'Europe',
+            'Asia',
+            'Middle East',
+            'Ocean Pacific',
+        ]);
     }
 }
