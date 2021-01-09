@@ -26,6 +26,8 @@ $routes = [
         get_theme_file_path() . '/dokan/templates/offers/edit-offer.php', '/offer/[id]', false),
     'show_offer' => new Route('/^\/dashboard\/show-offers\/([0-9]+)[\/]?$/', 'synerbay_init_dashboard_offer_sub_page',
         get_theme_file_path() . '/dokan/templates/offers/show-offers.php', '/show-offers/[id]', false),
+    'offer_listing' => new Route('/^\/offers[\/]?$/', 'synerbay_offerSearch',
+        get_theme_file_path() . '/pages/offer/search.php', '/offers'),
 ];
 
 function my_plugin_redirect()

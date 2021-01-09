@@ -15,6 +15,7 @@ class Offer extends AbstractPage
         $this->addAction('init_global_offer_sub_page', 'subPage');
         $this->addAction('init_dashboard_offer_sub_page', 'dashboardShowPage');
         $this->addAction('editOfferSubPage');
+        $this->addAction('offerSearch');
     }
 
     public function subPage($offerID) {
@@ -45,6 +46,13 @@ class Offer extends AbstractPage
 
         // dokan hook
         add_action('dokan_load_custom_template', [$this, 'dokanCustomTemplateUpdateOffer']);
+    }
+
+    public function offerSearch() {
+        global $offers;
+        global $searchParameters;
+        $offers = [];
+        $searchParameters = $_GET;
     }
 
     /**

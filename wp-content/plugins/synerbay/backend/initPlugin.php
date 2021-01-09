@@ -18,3 +18,5 @@ include_once __DIR__ . '/hook/initHooks.php';
 include_once __DIR__ . '/repository/initRepository.php';
 include_once __DIR__ . '/resource/initResource.php';
 
+include_once __DIR__ . '/function/initFunction.php';
+

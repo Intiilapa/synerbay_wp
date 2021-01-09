@@ -6,6 +6,11 @@
         synerbay.$window = $(window);
     }
 
+    synerbay.processGlobalSearchInput = function(selectObject) {
+        var selectedOption = selectObject.options[selectObject.selectedIndex];
+        document.getElementById('global-search-form').action = selectedOption.dataset.rewrite;
+        document.getElementById('global-search-input').name = selectedOption.dataset.param;
+    }
 
     // MOCK
     synerbay.showModal = function(name) {

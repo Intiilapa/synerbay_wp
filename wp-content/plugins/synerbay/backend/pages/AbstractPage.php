@@ -12,7 +12,18 @@ abstract class AbstractPage
 
     public function __construct()
     {
+        $this->disableWP404();
         $this->init();
+    }
+
+    protected function disableWP404()
+    {
+        add_filter( 'pre_handle_404', function() {
+            # you can do anything you want here but the easiest and safest is
+            # wp_redirect( 'your url with query parameters from the failing 404 url' );
+            # exit();
+            return FALSE;
+        } );
     }
 
     protected function page404()
