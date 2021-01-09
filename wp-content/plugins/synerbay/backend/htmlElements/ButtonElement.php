@@ -28,16 +28,16 @@ class ButtonElement extends AbstractElement
 
     public function rfqButton()
     {
-        echo 'rfq';
+        echo '<a class="button rfq">rfq</a>';
     }
 
     public function productInviteButton()
     {
-        echo 'invite';
+        echo '<a class="button invite">Invite</a>';
     }
 
     public function gotoOfferButton($url)
     {
-        echo '<a href="'.$url.'" target="_blank">View Offer</a>';
+        echo '<a class="button view-offer" href="'.$url.'" target="_blank">View Offer</a>';
     }
 }

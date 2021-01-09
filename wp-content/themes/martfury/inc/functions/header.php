@@ -144,13 +144,13 @@ if ( ! function_exists( 'martfury_vendor_navigation_url' ) ) :
 		$vendor   = array();
 		$vendor[] = '<ul>';
 		if ( function_exists( 'dokan_get_navigation_url' ) && in_array( 'seller', $author->roles ) ) {
-			$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url() ), esc_html__( 'Dashboard', 'martfury' ) );
-			$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url( 'products' ) ), esc_html__( 'Catalogue', 'martfury' ) );
-			$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url( 'orders' ) ), esc_html__( 'Orders', 'martfury' ) );
-			$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url( 'offer' ) ), esc_html__( 'Offers', 'martfury' ) );
-			$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url( 'edit-account' ) ), esc_html__( 'Settings', 'martfury' ) );
+			$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-tachometer"></i>%s</a></li>', esc_url( dokan_get_navigation_url() ), esc_html__( ' Dashboard', 'martfury' ) );
+			$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-briefcase"></i>%s</a></li>', esc_url( dokan_get_navigation_url( 'products' ) ), esc_html__( ' Catalogue', 'martfury' ) );
+			$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-shopping-cart"></i>%s</a></li>', esc_url( dokan_get_navigation_url( 'orders' ) ), esc_html__( ' Orders', 'martfury' ) );
+			$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-bookmark"></i>%s</a></li>', esc_url( dokan_get_navigation_url( 'offer' ) ), esc_html__( ' Offers', 'martfury' ) );
+			$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-cog"></i>%s</a></li>', esc_url( dokan_get_navigation_url( 'edit-account' ) ), esc_html__( ' Settings', 'martfury' ) );
 			if ( function_exists( 'dokan_get_store_url' ) ) {
-				$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_store_url( get_current_user_id() ) ), esc_html__( 'Visit Store', 'martfury' ) );
+				$vendor[] = sprintf( '<li><a href="%s"><i class="fa fa-external-link"></i>%s</a></li>', esc_url( dokan_get_store_url( get_current_user_id() ) ), esc_html__( ' Visit Store', 'martfury' ) );
 			}
 			//$vendor[] = sprintf( '<li><a href="%s">%s</a></li>', esc_url( dokan_get_navigation_url( 'withdraw' ) ), esc_html__( 'Withdraw', 'martfury' ) );
 		} elseif ( class_exists( 'WCVendors_Pro' ) && in_array( 'vendor', $author->roles ) ) {
@@ -500,6 +500,7 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
 	function martfury_extra_search_form( $show_cat = true ) {
 
 		$cats_text   = martfury_get_option( 'custom_categories_text' );
+		$vendor_text   = 'Vendor';
 		$search_text = martfury_get_option( 'custom_search_text' );
 		$button_text = martfury_get_option( 'custom_search_button' );
 		$search_type = martfury_get_option( 'search_content_type' );
@@ -520,7 +521,6 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
 				$depth = intval( martfury_get_option( 'custom_categories_depth' ) );
 			}
 
-
 			$args = array(
 				'name'            => 'product_cat',
 				'taxonomy'        => 'product_cat',
@@ -530,7 +530,7 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
 				'echo'            => 0,
 				'value_field'     => 'slug',
 				'class'           => 'product-cat-dd',
-				'show_option_all' => esc_html( $cats_text ),
+				'show_option_all' => esc_html( $cats_text),
 				'depth'           => $depth,
 				'id'              => 'header-search-product-cat',
 			);
@@ -549,6 +549,8 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
 
 			$cat = wp_dropdown_categories( $args );
 		}
+
+
 		$item_class     = empty( $cat ) ? 'no-cats' : '';
 		$post_type_html = '';
 		if ( $search_type == 'product' ) {
@@ -574,15 +576,28 @@ if ( ! function_exists( 'martfury_extra_search_form' ) ) :
             </form>',
 			esc_url( home_url( '/' ) ),
 			esc_attr( $item_class ),
-			esc_html( $cats_text ),
+			esc_html( $cats_text),
 			$cat,
 			esc_html( $search_text ),
 			$post_type_html,
 			wp_kses( $button_text, wp_kses_allowed_html( 'post' ) )
 		);
 
+
 	}
 endif;
+
+add_filter( 'wp_dropdown_cats', 'add_custom_option', 10, 2 );
+
+function add_custom_option( $output, $r ){
+    $output = str_replace( '</select>','',$output ); // remove closing select tag
+    $output .= '<option class="level-0" value="vendor"> Vendor </option>'; // custom option.
+    $output .= '<option class="level-1" value="offer"> Offer </option>'; // custom option.
+    $output .= '<option class="level-2" value="product"> Product </option>'; // custom option.
+    $output .= '</select>'; // add closing select tag
+    return $output;
+}
+
 
 /**
  * Get header menu

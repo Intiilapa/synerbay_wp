@@ -3,17 +3,8 @@
 *  Color pallet
 *
 */
-.hide_pricing {
-  color: #ff004e;
-  font-weight: 700;
-}
-
 .site-header .main-menu {
   border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
-}
-
-.price-rule-active .amount {
-  color: black !important;
 }
 
 /*
@@ -97,17 +88,42 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
   margin-top: 5px !important;
 }
 
+.sold-by-label a {
+  font-weight: 700;
+}
+
 /*
 *
 * Offer page
 *
 */
+.modal_default_main {
+  border-radius: 10px;
+  border-color: #ff004e !important;
+}
+
 .details-title {
   border-bottom: 2px solid darkgrey;
 }
 
 .offer-list li {
   margin-bottom: 0;
+}
+
+.button {
+  border-radius: 5px !important;
+}
+
+.button.invite {
+  margin: 0 5px !important;
+}
+
+.button.rfq {
+  margin: 0 5px !important;
+}
+
+.button.view-offer {
+  margin: 0 0 5px 0 !important;
 }
 
 /*# sourceMappingURL=custom.css.map */

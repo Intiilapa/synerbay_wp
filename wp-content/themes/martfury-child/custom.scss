@@ -6,19 +6,10 @@
 
 $primary-color : #ff004e;
 
-
-.hide_pricing{
-  color: $primary-color;
-  font-weight: 700;
-}
-
 .site-header .main-menu{
   border-top: 1px solid rgb(255,255,255,0.3)!important;
 }
 
-.price-rule-active .amount{
-  color: black!important;
-}
 /*
 *
 * Dokan Dashboard
@@ -61,6 +52,7 @@ tr{
 * Edit product
 *
 */
+
 .item-inline-edit{
   display: none!important;
 }
@@ -109,7 +101,11 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 .groupbuy-ajax-change{
   margin-top: 5px!important;
 }
-
+.sold-by-label{
+  a{
+    font-weight: 700;
+  }
+}
 
 /*
 *
@@ -117,6 +113,11 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 *
 */
 
+//modal
+.modal_default_main{
+  border-radius: 10px;
+  border-color: $primary-color!important;
+}
 .details-title{
   border-bottom: 2px solid darkgrey;
 }
@@ -125,4 +126,19 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   li{
     margin-bottom: 0;
   }
+}
+
+//buttons
+.button{
+  border-radius: 5px!important;
+}
+
+.button.invite{
+  margin: 0 5px!important;
+}
+.button.rfq{
+  margin: 0 5px!important;
+}
+.button.view-offer{
+  margin: 0 0 5px 0!important;
 }

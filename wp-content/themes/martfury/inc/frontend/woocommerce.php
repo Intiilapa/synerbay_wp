@@ -854,7 +854,7 @@ class Martfury_WooCommerce {
         }
 
         echo '</div>';
-        wc_get_template( 'loop/groupbuy-badge.php' );
+        wc_get_template( 'loop/offer-badge.php' );
         wc_get_template( 'loop/offer-progress.php' );
         wc_get_template( 'loop/offer-countdown.php' );
     }
@@ -4315,7 +4315,6 @@ class Martfury_WooCommerce {
 		}
 	}
 }
-
 
 add_filter( 'loop_shop_columns', 'martfury_loop_shop_columns' );
 function martfury_loop_shop_columns( $columns ) {
