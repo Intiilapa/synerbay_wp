@@ -220,8 +220,9 @@ class WC_Shortcode_groupbuy extends WC_Shortcodes {
             woocommerce_product_loop_start();
 
             global $offer;
+            global $post;
             foreach ($offers as $offer) {
-
+                $post = get_post($offer['product']['ID']);
                 wc_get_template_part( 'content', 'offer' );
 
                 $offer = [];
