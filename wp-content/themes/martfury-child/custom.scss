@@ -48,6 +48,48 @@ tr{
 }
 
 /*
+* Dokan Dashboard
+*/
+
+#vendor_email{
+  display: none!important;
+}
+
+
+/*
+* Create new product template
+*/
+
+//remove bulk
+select#bulk-product-action-selector {
+  display: none;
+}
+input#bulk-product-action {
+  display: none;
+}
+.dokan-product-select{
+  display: none!important;
+}
+#cb {
+  display: none !important;
+}
+
+//order bulk
+.dokan-order-select{
+  display: none!important;
+}
+#bulk-order-action-selector{
+  display: none!important;
+}
+#bulk-order-action{
+  display: none!important;
+}
+
+.col-check{
+  display: none!important;
+}
+
+/*
 *
 * Edit product
 *
@@ -72,7 +114,7 @@ tr{
 
 /*
 *
-* Dokan dahboard
+* Dokan dashboard
 *
 */
 
@@ -107,16 +149,55 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   }
 }
 
+.woocommerce ul.products li.product .mf-product-details-hover .sold-by-meta .sold-by-label{
+  display: block!important;
+}
+.product-title{
+  font-weight: 600!important;
+  font-size: 15px!important;
+  color: black!important;
+}
+
+.groupbuy-bage{
+  background: white;
+  top: 12px!important;
+  right: 7px!important;
+  border-radius: 20px;
+  font-size: 27px!important;
+}
+
+.groupbuy-time{
+  padding-bottom: 10px;
+}
+
+.woocommerce ul.products li.product a img{
+  border-radius: 5px;
+}
+
+
 /*
 *
 * Offer page
 *
 */
 
+strong{
+  color:black;
+}
+
+.error404 .site-content{
+  background-color: white!important;
+}
+
+.woocommerce div.product .social-links a{
+  border-radius: 5px;
+}
+
 //modal
 .modal_default_main{
   border-radius: 10px;
   border-color: $primary-color!important;
+  font-size: 27px!important;
 }
 .details-title{
   border-bottom: 2px solid darkgrey;

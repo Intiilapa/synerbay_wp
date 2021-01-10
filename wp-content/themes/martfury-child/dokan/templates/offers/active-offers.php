@@ -35,7 +35,7 @@ foreach ($myOfferApplies as $offerApply) {
         . '<td>'. $offerApply['qty'] . '</td>'
         . '<td><b>'. $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
         . '<td><b>'. $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
-        . '<td><b>'. $offerApply['offer']['offer_end_date'] . '</b></td>'
+        . '<td><b>'. date('Y-m-d', strtotime($offerApply['offer']['offer_end_date'])) . '</b></td>'
         . '<td>'. $deleteButton. $showOfferButton.'</td>'
         . '</tr>';
 }

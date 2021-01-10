@@ -1,5 +1,7 @@
 <?php
 
+use SynerBay\Repository\ProductRepository;
+
 /**
  * Class for all WooCommerce template modification
  *
@@ -585,9 +587,13 @@ class Martfury_WooCommerce {
 	 *
 	 * @return array
 	 */
-	function products_title() {
-		printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
-	}
+	function products_title($hasOffer) {
+	    if ($hasOffer){
+		 printf( '<h2 class="product-title"><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
+	    } else{
+         printf( '<h2 class="product-title"><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
+	    }
+    }
 
 	/**
 	 * Display orders tile

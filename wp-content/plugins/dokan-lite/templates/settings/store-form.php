@@ -151,7 +151,7 @@
             </div>
         </div>
 
-        <div class="dokan-form-group">
+        <div id="vendor_email" class="dokan-form-group">
             <label class="dokan-w3 dokan-control-label"><?php esc_html_e( 'Email', 'dokan-lite' ); ?></label>
             <div class="dokan-w5 dokan-text-left">
                 <div class="checkbox">
