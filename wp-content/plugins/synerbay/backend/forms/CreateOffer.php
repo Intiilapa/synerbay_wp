@@ -94,6 +94,20 @@ class CreateOffer extends AbstractForm
             ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getDeliveryDestinationsForOffer())]],
             ['setJSON']
         ));
+
+        $this->addColumn(new Column(
+            'default_price',
+            true,
+            [
+                'numeric' => [],
+            ],
+        ));
+
+        $this->addColumn(new Column(
+            'visible',
+            true,
+            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getYesNo())]],
+        ));
     }
 
 }

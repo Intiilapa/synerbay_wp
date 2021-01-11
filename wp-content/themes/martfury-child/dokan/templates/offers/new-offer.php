@@ -102,6 +102,7 @@ use SynerBay\Forms\CreateOffer;
                 if ( $can_sell ) {
                     if ( dokan_is_seller_enabled( get_current_user_id() ) ) { ?>
 
+
                         <form class="dokan-form-container" method="post">
 
                             <div class="product-edit-container dokan-clearfix">
@@ -110,6 +111,7 @@ use SynerBay\Forms\CreateOffer;
                                     <?php
                                         //form elements ...
                                         do_action('synerbay_getDokanMyProductsSelect', isset($post_data['post_id']) ? $post_data['post_id'] : false, $error_messages);
+                                        do_action('synerbay_getDokanOfferDefaultPrice', isset($post_data['default_price']) ? $post_data['default_price'] : 0, $error_messages);
                                         do_action('synerbay_getPriceStepInput', isset($post_data['price_steps']) ? $post_data['price_steps'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferMinimumOrderQTYInput', isset($post_data['minimum_order_quantity']) ? $post_data['minimum_order_quantity'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferOrderQTYStepInput', isset($post_data['order_quantity_step']) ? $post_data['order_quantity_step'] : '', $error_messages);
@@ -119,6 +121,7 @@ use SynerBay\Forms\CreateOffer;
                                         do_action('synerbay_getDokanOfferEndDate', isset($post_data['offer_end_date']) ? $post_data['offer_end_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanOfferDeliveryStartDate', isset($post_data['delivery_date']) ? $post_data['delivery_date'] : '', $error_messages);
                                         do_action('synerbay_getDokanShippingToOfferSelect', isset($post_data['shipping_to']) ? $post_data['shipping_to'] : '', $error_messages);
+                                        do_action('synerbay_getDokanVisibleSelect', isset($post_data['visible']) ? $post_data['visible'] : '', $error_messages);
                                     ?>
                                 </div>
                             </div>

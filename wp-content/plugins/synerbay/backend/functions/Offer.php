@@ -3,6 +3,7 @@ namespace SynerBay\Functions;
 
 use SynerBay\Forms\CreateOffer;
 use SynerBay\Forms\UpdateOffer;
+use SynerBay\Resource\Offer\FullOfferResource;
 use SynerBay\Search\OfferSearch;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
@@ -26,7 +27,7 @@ class Offer
     public function initGlobalOffer(int $offerID)
     {
         global $offer;
-        $offer = $this->getModule('offer')->getOfferData($offerID, true, true, true, true);
+        $offer = (new FullOfferResource)->toArray($this->getModule('offer')->getOffer($offerID));
     }
 
     public function initGlobalMyOffers()

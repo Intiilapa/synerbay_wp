@@ -3,6 +3,7 @@ create table sb_offers
     id bigint unsigned auto_increment,
     product_id bigint unsigned not null,
     user_id bigint unsigned not null,
+    default_price float(20, 2) unsigned not null,
     delivery_date datetime default current_timestamp not null,
     offer_start_date datetime default current_timestamp not null,
     offer_end_date datetime default current_timestamp not null,
@@ -13,6 +14,8 @@ create table sb_offers
     transport_parity enum('exw', 'fca', 'cpt', 'cip', 'dpu', 'dap', 'ddp', 'fas', 'fob', 'cfr', 'cif', 'daf', 'dat', 'des', 'deq', 'ddu') not null,
     shipping_to varchar(255) not null,
     created_at datetime default CURRENT_TIMESTAMP null,
+    visible enum('yes', 'no') default 'yes',
+    status enum('pending', 'started', 'closed') default 'pending',
     constraint sb_offers_pk
         primary key (id),
     constraint sb_offers_sb_posts_ID_fk
@@ -41,4 +44,13 @@ create index offer_shipping_to_index
 
 create index offer_transport_parity_index
     on sb_offers (transport_parity);
+
+create index offer_default_price_index
+    on sb_offers (default_price);
+
+create index offer_visible_index
+    on sb_offers (visible);
+
+create index offer_status_index
+    on sb_offers (status);
 

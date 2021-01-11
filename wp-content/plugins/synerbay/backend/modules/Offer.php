@@ -5,6 +5,8 @@ namespace SynerBay\Module;
 use SynerBay\Helper\RouteHelper;
 use SynerBay\Helper\StringHelper;
 use SynerBay\Helper\SynerBayDataHelper;
+use SynerBay\Resource\Offer\DefaultOfferResource;
+use SynerBay\Resource\Offer\FullOfferResource;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
 use Exception;
@@ -20,6 +22,7 @@ class Offer extends AbstractModule
 
     private $dataMap = [
         'product_id'             => '%d',
+        'default_price'          => '%s',
         'user_id'                => '%d',
         'delivery_date'          => '%s',
         'offer_start_date'       => '%s',
@@ -30,6 +33,7 @@ class Offer extends AbstractModule
         'max_total_offer_qty'    => '%d',
         'transport_parity'       => '%s',
         'shipping_to'            => '%s',
+        'visible'                => '%s',
     ];
 
     public function createOffer(array $filteredData)
@@ -97,28 +101,7 @@ class Offer extends AbstractModule
         bool $withWCProduct = false
     ) {
         if ($offer = $this->getOffer($offerID)) {
-            $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'],
-                true) : [];
-            $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'],
-                true) : [$offer['shipping_to']];
-            $offer['shipping_to_labels'] = implode(', ',
-                SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
-            $offer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
-            $offer['transport_parity'] = strtoupper($offer['transport_parity']);
-
-            if ($withUser) {
-                $offer['vendor'] = dokan_get_vendor($offer['user_id']);
-            }
-
-            /** @var Product $productModule */
-            $productModule = $this->getModule('product');
-            $offer['product'] = $productModule->getProductData($offer['product_id'], $withWCProduct);
-
-            /** @var OfferApply $offerApplyModule */
-            $offerApplyModule = $this->getModule('offerApply');
-            $offer['applies'] = $offerApplyModule->getAppliesForOffer($offerID, $applyWithCustomerData);
-
-            $offer['summary'] = $this->getOfferSummaryData($offer);
+            $offer = (new FullOfferResource)->toArray($offer);
         }
 
         return $offer;
@@ -140,10 +123,10 @@ class Offer extends AbstractModule
      * @param array $offerData
      * @return array
      */
-    private function getOfferSummaryData(array $offerData)
+    public function getOfferSummaryData(array $offerData)
     {
         $currentDate = strtotime(date('Y-m-d H:i:s'));
-        $actualProductPrice = isset($offerData['product']['meta']['_regular_price']) ? $offerData['product']['meta']['_regular_price'] : 0;
+        $actualProductPrice = $offerData['default_price'];
         $priceSteps = $offerData['price_steps'];
         $groupByProductQTYNumber = 0;
         $actualApplicantNumber = 0;
@@ -258,12 +241,13 @@ class Offer extends AbstractModule
 
         $ret = [];
 
-        $results = $wpdb->get_results('select id from ' . $wpdb->prefix . 'offers where user_id = ' . get_current_user_id() . ' order by id desc',
+        $results = $wpdb->get_results('select * from ' . $wpdb->prefix . 'offers where user_id = ' . get_current_user_id() . ' order by id desc',
             ARRAY_A);
 
         if (count($results)) {
+            $resource = new DefaultOfferResource();
             foreach ($results as $result) {
-                $ret[] = $this->getOfferData($result['id']);
+                $ret[] = $resource->toArray($result);
             }
         }
 
