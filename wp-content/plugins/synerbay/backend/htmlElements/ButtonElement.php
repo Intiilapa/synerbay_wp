@@ -4,13 +4,17 @@
 namespace SynerBay\HTMLElement;
 
 
+use SynerBay\Helper\RouteHelper;
+
 class ButtonElement extends AbstractElement
 {
     protected function init()
     {
         $this->addAction('offerApplyButton');
         $this->addAction('rfqButton');
+        $this->addAction('synerBayInviteButton');
         $this->addAction('productInviteButton');
+        $this->addAction('offerInviteButton');
         $this->addAction('gotoOfferButton');
     }
 
@@ -31,9 +35,22 @@ class ButtonElement extends AbstractElement
         echo '<a class="button rfq">rfq</a>';
     }
 
-    public function productInviteButton()
+    public function synerBayInviteButton()
     {
-        echo '<a class="button invite">Invite</a>';
+        $url = RouteHelper::addInviteCodeToUrl(get_site_url());
+        echo '<a class="button invite" onclick=\'synerbay.inviteUser("'.$url.'")\'>Invite</a>';
+    }
+
+    public function productInviteButton($productID)
+    {
+        $url = RouteHelper::addInviteCodeToUrl(get_permalink($productID));
+        echo '<a class="button invite" onclick=\'synerbay.inviteUser("'.$url.'")\'>Invite</a>';
+    }
+
+    public function offerInviteButton($offer)
+    {
+        $url = RouteHelper::addInviteCodeToUrl($offer['url']);
+        echo '<a class="button invite" onclick=\'synerbay.inviteUser("'.$url.'")\'>Invite</a>';
     }
 
     public function gotoOfferButton($url)

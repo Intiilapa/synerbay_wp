@@ -47,4 +47,14 @@ class RouteHelper
 
         die('invalid route name');
     }
+
+    public static function addInviteCodeToUrl($url)
+    {
+        if (get_current_user_id() && $inviteCode = get_user_meta( get_current_user_id(), '_invite_code', true )) {
+            $url .= '?invite='.$inviteCode;
+        }
+
+        return $url;
+    }
+
 }

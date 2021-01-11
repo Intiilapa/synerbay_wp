@@ -126,7 +126,6 @@
                 synerbay.restCall({
                     'offerID': offerID
                 }, 'delete_offer').then(function(result) {
-                    console.log(result);
                     if (result.data.deleted !== 'undefined' && result.data.deleted) {
                         // synerbay.processToastMessages(result.data.messages, true)
                         synerbay.processToastMessages(result.data.messages)
@@ -136,6 +135,27 @@
                     } else {
                         synerbay.processToastMessages(result.data.messages)
                     }
+                });
+            }
+        });
+    }
+
+    synerbay.inviteUser = function(inviteUrl)
+    {
+        var form = [
+            {name: "Name", id: "name"},
+            {name: "E-mail", id: "email"},
+        ];
+
+        DayPilot.Modal.form(form, {}, {message: 'Please add a valid e-mail.'}).then(function(args) {
+            if (args.result) {
+                console.log(args.result);
+                synerbay.restCall({
+                    'inviteUrl': inviteUrl,
+                    'email': args.result.email,
+                    'name': args.result.name,
+                }, 'invite').then(function(result) {
+                    synerbay.processToastMessages(result.data.messages)
                 });
             }
         });

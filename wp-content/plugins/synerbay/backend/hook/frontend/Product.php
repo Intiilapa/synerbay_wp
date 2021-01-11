@@ -26,7 +26,7 @@ class Product
                 do_action('synerbay_gotoOfferButton', $offer['url']);
             }
 
-            do_action('synerbay_productInviteButton');
+            do_action('synerbay_productInviteButton', $product->get_id());
 
             // todo rfq button
         }
