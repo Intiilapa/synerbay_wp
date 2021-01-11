@@ -47,9 +47,9 @@ class ButtonElement extends AbstractElement
         echo '<a class="button invite" onclick=\'synerbay.inviteUser("'.$url.'")\'>Invite</a>';
     }
 
-    public function offerInviteButton($offer)
+    public function offerInviteButton($offerUrl)
     {
-        $url = RouteHelper::addInviteCodeToUrl($offer['url']);
+        $url = RouteHelper::addInviteCodeToUrl($offerUrl);
         echo '<a class="button invite" onclick=\'synerbay.inviteUser("'.$url.'")\'>Invite</a>';
     }
 
