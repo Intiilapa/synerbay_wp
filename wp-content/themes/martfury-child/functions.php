@@ -827,64 +827,84 @@ function product_custom_details(){
         ?><span class="custom_details"><?php echo esc_attr__( 'Material: ', 'dokan-lite' ); ?><?php echo esc_attr( $material ); ?></span></br>
         <?php
     }
+    //Show RFQ
+    global $post;
+    $current_user = wp_get_current_user();
+    $product_author_id = $current_user->ID;
+    if ( is_product() && $product_author_id == $post->post_author) {
+        add_filter('woocommerce_product_tabs', 'rfq_product_tab');
+        function rfq_product_tab($tabs)
+        {
+            $tabs['rfq'] = array(
+                'title' => __('RFQ', 'woocommerce'),
+                'priority' => 100,
+                'callback' => '_rfq_product_tab_content'
+            );
+            return $tabs;
+        }
 
+        function _rfq_product_tab_content()
+        {
+            // The new tab content
+            //TODO -> itt mehet az RFQ tablazat/adatokat
+            echo '<h2>RFQ</h2>';
+        }
+    }
     do_action('synerbay_product_buttons');
     echo '<hr>';
 }
-
-
 
 /*
 * Adding extra field on New product popup/without popup form
 */
 
-add_action( 'dokan_new_product_after_product_tags','upload_product_file',10 );
-
-function upload_product_file(){ ?>
-    <div class="dokan-form-group">
-        <input name="product_doc" type="file" id="docpicker" placeholder="Product documentation"
-               accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">
-    </div>
-    <?php
-}
+//add_action( 'dokan_new_product_after_product_tags','upload_product_file',10 );
+//
+//function upload_product_file(){ ?>
+<!--    <div class="dokan-form-group">-->
+<!--        <input name="product_doc" type="file" id="docpicker" placeholder="Product documentation"-->
+<!--               accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document">-->
+<!--    </div>-->
+<!--    --><?php
+//}
 
 /*
 * Saving product field data for edit and update
 */
 
-add_action( 'dokan_new_product_added','save_add_product_meta', 10, 2 );
-add_action( 'dokan_product_updated', 'save_add_product_meta', 10, 2 );
-
-function save_add_product_meta($product_id, $postdata){
-
-    if ( ! dokan_is_user_seller( get_current_user_id() ) ) {
-        return;
-    }
-
-    if ( ! empty( $postdata['product_doc'] ) ) {
-        update_post_meta( $product_id, 'product_doc', $postdata['product_doc'] );
-    }
-}
+//add_action( 'dokan_new_product_added','save_add_product_meta', 10, 2 );
+//add_action( 'dokan_product_updated', 'save_add_product_meta', 10, 2 );
+//
+//function save_add_product_meta($product_id, $postdata){
+//
+//    if ( ! dokan_is_user_seller( get_current_user_id() ) ) {
+//        return;
+//    }
+//
+//    if ( ! empty( $postdata['product_doc'] ) ) {
+//        update_post_meta( $product_id, 'product_doc', $postdata['product_doc'] );
+//    }
+//}
 
 /*
 * Showing field data on product edit page
 */
 
-add_action('dokan_product_edit_after_product_tags','show_on_edit_page',99,2);
-
-function show_on_edit_page($post, $post_id){
-    $product_doc         = get_post_meta( $post_id, 'product_doc', true );
-    ?>
-    <div class="dokan-form-group">
-        <input type="hidden" name="product_doc" id="dokan-edit-product-id" value="<?php echo esc_attr( $post_id ); ?>"/>
-        <label for="product_doc" class="form-label"><?php esc_html_e( 'Product Code', 'dokan-lite' ); ?></label>
-        <?php dokan_post_input_box( $post_id, 'product_doc', array( 'placeholder' => __( 'product code', 'dokan-lite' ), 'value' => $product_doc ) ); ?>
-        <div class="dokan-product-title-alert dokan-hide">
-            <?php esc_html_e( 'Please enter product code!', 'dokan-lite' ); ?>
-        </div>
-    </div> <?php
-
-}
+//add_action('dokan_product_edit_after_product_tags','show_on_edit_page',99,2);
+//
+//function show_on_edit_page($post, $post_id){
+//    $product_doc         = get_post_meta( $post_id, 'product_doc', true );
+//    ?>
+<!--    <div class="dokan-form-group">-->
+<!--        <input type="hidden" name="product_doc" id="dokan-edit-product-id" value="--><?php //echo esc_attr( $post_id ); ?><!--"/>-->
+<!--        <label for="product_doc" class="form-label">--><?php //esc_html_e( 'Product Code', 'dokan-lite' ); ?><!--</label>-->
+<!--        --><?php //dokan_post_input_box( $post_id, 'product_doc', array( 'placeholder' => __( 'product code', 'dokan-lite' ), 'value' => $product_doc ) ); ?>
+<!--        <div class="dokan-product-title-alert dokan-hide">-->
+<!--            --><?php //esc_html_e( 'Please enter product code!', 'dokan-lite' ); ?>
+<!--        </div>-->
+<!--    </div> --><?php
+//
+//}
 
 /**
  * Generate a string of random characters
