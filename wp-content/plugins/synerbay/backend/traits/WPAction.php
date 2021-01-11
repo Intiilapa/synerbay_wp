@@ -3,7 +3,7 @@ namespace SynerBay\Traits;
 
 trait WPAction
 {
-    public function addAction($functionName, $methodName = '', $priority = 10, $accepted_args = 1)
+    public function addAction($functionName, $methodName = '', $priority = 10, $accepted_args = 2)
     {
         if (empty($methodName)) {
             $methodName = $functionName;

@@ -107,4 +107,12 @@ class SynerBayDataHelper
             'Ocean Pacific',
         ]);
     }
+
+    public static function getYesNo()
+    {
+        return ArrayHelper::reKeyBySlugFromValue([
+            'Yes',
+            'No',
+        ]);
+    }
 }

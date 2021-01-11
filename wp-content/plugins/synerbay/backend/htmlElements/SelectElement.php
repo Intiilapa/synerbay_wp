@@ -16,6 +16,7 @@ class SelectElement extends AbstractElement
         $this->addAction('getDokanUnitTypesSelect');
         $this->addAction('getDokanParityTypesSelect');
         $this->addAction('getDokanShippingToOfferSelect');
+        $this->addAction('getDokanVisibleSelect');
     }
 
     public function getDokanMyProductsSelect($selected = false, array $errorMessages = []) {
@@ -57,5 +58,12 @@ class SelectElement extends AbstractElement
         $haystack = SynerBayDataHelper::getDeliveryDestinationsForOffer();
 
         $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages, 'Choose the locations you ship to');
+    }
+
+    public function getDokanVisibleSelect($selected = false, array $errorMessages = []) {
+
+        $haystack = SynerBayDataHelper::getYesNo();
+
+        $this->generateDokanSelect('visible', $haystack, 'Visible', $selected, $errorMessages, 'Offer visible before start?');
     }
 }
