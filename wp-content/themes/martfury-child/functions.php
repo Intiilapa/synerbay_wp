@@ -855,7 +855,15 @@ function product_custom_details(){
             // The new tab content
             //TODO -> itt mehet az RFQ tablazat/adatokat
             echo '<h2>RFQ</h2>';
+            echo '
+            <p>
+                Andris:<br>Ide le kell írnunk, hogy amennyiben az adott termékből offer készül, akkor annak elindulásakor minden egyes igénylőt 
+                kiértesítünk e-mail-ben, majd töröljük az igényét a termékről.<br>
+                <strong>Információ</strong>: nem csak az igénylőket, hanem a személyes követőidet is kiértsítjük minden egyes esetben, amikor egy általad 
+                készített ajánlat elindul, viszont ebben az esetben értelemszerűen nem kerülnek törlésre a követések.
+            </p>';
             if (count($rfqs)) {
+                print '<pre>';
                 var_dump($rfqs);
             } else {
                 echo '<br>Remco, kérdezd meg az Andristól, hogy mi legyen a szöveg, ha tök üres, nincs mit megjeleníteni!';
