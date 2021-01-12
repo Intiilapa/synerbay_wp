@@ -17,7 +17,15 @@ abstract class AbstractResource
 
     public function collection($searchResult)
     {
+        $ret = [];
 
+        if (count($searchResult)) {
+            foreach ($searchResult as $result) {
+                $ret[] = $this->toArray($result);
+            }
+        }
+
+        return $ret;
     }
 
     protected function beforeCreateCollection($searchResult)

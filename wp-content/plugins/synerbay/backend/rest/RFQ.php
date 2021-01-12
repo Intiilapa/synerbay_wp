@@ -1,6 +1,8 @@
 <?php
+
 namespace SynerBay\Rest;
 
+use SynerBay\Forms\Validators\Integer;
 use SynerBay\Module\RFQ as RFQModule;
 
 class RFQ extends AbstractRest
@@ -10,6 +12,10 @@ class RFQ extends AbstractRest
     public function __construct()
     {
         $this->rfqModule = new RFQModule();
+
+        $this->addRestRoute('requestForQuotation', 'request_for_quotation');
+
+        $this->addRestRoute('deleteRequestForQuotation', 'delete_request_for_quotation');
     }
 
     public function requestForQuotation()
@@ -18,9 +24,32 @@ class RFQ extends AbstractRest
 
         $post_data = wp_unslash($_POST);
 
-        $productID = isset($post_data['productID']) ? sanitize_text_field($post_data['productID']) : null;
+        $message = [];
+        $successfulOperation = false;
 
-        $this->responseSuccess($this->rfqModule->appear($this->getCurrentUserID(), $productID));
+        $productID = isset($post_data['productID']) ? sanitize_text_field($post_data['productID']) : null;
+        $qty = isset($post_data['qty']) ? sanitize_text_field($post_data['qty']) : null;
+
+        if (empty($qty)) {
+            $message = ['error' => 'Quantity input is required! Please try again!'];
+        }
+
+        if (!(new Integer())->validate($qty)) {
+            $message = ['error' => 'Invalid quantity value! PLease try again!'];
+        }
+
+        if (!count($message)) {
+            $successfulOperation = $this->rfqModule->create($this->getCurrentUserID(), (int)$productID, (int)$qty);
+
+            $message = $successfulOperation ? ['success' => 'Thank you for your RFQ!'] : ['error' => 'Something went wrong! Please try again!'];
+        }
+
+        $responseData = [
+            'success'  => $successfulOperation,
+            'messages' => [$message],
+        ];
+
+        $this->responseSuccess($responseData);
     }
 
     public function deleteRequestForQuotation()
@@ -29,8 +58,17 @@ class RFQ extends AbstractRest
 
         $post_data = wp_unslash($_POST);
 
-        $productID = isset($post_data['productID']) ? sanitize_text_field($post_data['productID']) : null;
+        $rfqID = isset($post_data['rfqID']) ? sanitize_text_field($post_data['rfqID']) : null;
 
-        $this->responseSuccess($this->rfqModule->disappear($this->getCurrentUserID(), $productID));
+        $successfulOperation = $this->rfqModule->delete($rfqID, $this->getCurrentUserID());
+
+        $message = $successfulOperation ? ['success' => 'Successfully deleted!'] : ['error' => 'Something went wrong! Please try again!'];
+
+        $responseData = [
+            'success'  => $successfulOperation,
+            'messages' => [$message],
+        ];
+
+        $this->responseSuccess($responseData);
     }
 }

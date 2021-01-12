@@ -19,8 +19,26 @@ abstract class AbstractElement
 
     protected function generateModal($name, $title, $content)
     {
+//        echo '
+//            <div id="mf-quick-view-modal" class="mf-quick-view-modal martfury-modal woocommerce" aria-hidden="true">
+//            <div class="mf-modal-overlay"></div>
+//                <div class="modal-content">
+//                <div class="modal-header" style="padding-left: 20px;">
+//                    <h5 class="modal-title">'.$title.'</h5>
+//                </div>
+//                <a href="#" class="close-modal">
+//                    <i class="icon-cross"></i>
+//                </a>
+//                <div class="product-modal-content" style="margin-bottom: 30px;">
+//                    '. $content .'
+//                </div>
+//                </div>
+//            <div class="mf-loading"></div>
+//            </div>
+//        ';
+
         echo '
-            <div id="mf-'. $name .'-popup" class="martfury-modal mf-'.$name.'-popup mf-newsletter-popup" tabindex="-1" aria-hidden="true">
+            <div id="mf-'. $name .'-popup" class="martfury-modal mf-'.$name.'-popup mf-newsletter-popup woocommerce" tabindex="-1" aria-hidden="true">
                 <div class="mf-modal-overlay"></div>
                 <div class="modal-content">
                 <div class="modal-header" style="padding-left: 20px;">
@@ -29,8 +47,8 @@ abstract class AbstractElement
                 <a href="#" class="close-modal">
                     <i class="icon-cross"></i>
                 </a>
-                <div class="newletter-content" style="margin-bottom: 30px;">
-                    '. $content .'
+                <div class="newletter-content" style="margin-bottom: 30px; margin-top: -30px;">
+                        '. $content .'
                 </div>
                 </div>
             </div>
@@ -100,6 +118,18 @@ abstract class AbstractElement
                 <label for="'.$name.'" class="form-label">' . $label . ':</label>
                 ' . $this->setupDescription($description) . '
                 <input type="number" class="dokan-form-control dokan-product" name="'.$name.'" placeholder="' .$placeholder. '" id="input_'.$name.'" value="' . $value . '">
+                ' . $this->inputError($name, $errorMessages) . '
+           </div> 
+        ';
+    }
+
+    protected function getDokanFloatInput(string $label, string $name, $value = '', $placeholder = '', array $errorMessages = [], string $description = '')
+    {
+        echo '
+           <div class="dokan-form-group">
+                <label for="'.$name.'" class="form-label">' . $label . ':</label>
+                ' . $this->setupDescription($description) . '
+                <input type="number" step="0.01" class="dokan-form-control dokan-product" name="'.$name.'" placeholder="' .$placeholder. '" id="input_'.$name.'" value="' . $value . '">
                 ' . $this->inputError($name, $errorMessages) . '
            </div> 
         ';

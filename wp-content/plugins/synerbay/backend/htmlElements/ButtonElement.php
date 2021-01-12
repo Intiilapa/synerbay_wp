@@ -11,7 +11,8 @@ class ButtonElement extends AbstractElement
     protected function init()
     {
         $this->addAction('offerApplyButton');
-        $this->addAction('rfqButton');
+        $this->addAction('createRFQButton');
+        $this->addAction('deleteRFQButton');
         $this->addAction('synerBayInviteButton');
         $this->addAction('productInviteButton');
         $this->addAction('offerInviteButton');
@@ -24,15 +25,20 @@ class ButtonElement extends AbstractElement
         if ($offer['summary']['my_offer'] || !$offer['summary']['is_active']) {
             echo '';
         } else if (!get_current_user_id() || !$offer['summary']['current_user_have_apply']) {
-            echo  "<button type='button' style='background-color: green !important;' onclick='window.synerbay.appearOffer(".$offer['id'].")' class='button'>Place order need</button>";
+            echo  "<button type='button' style='background-color: green !important;' onclick='synerbay.appearOffer(".$offer['id'].")' class='button'>Place order need</button>";
         } else {
-            echo  "<button type='button' onclick='window.synerbay.disAppearOffer(".$offer['id'].")' class='button'>Delete order need (". $offer['summary']['current_user_apply_qty'] ." pc)</button>";
+            echo  "<button type='button' onclick='synerbay.disAppearOffer(".$offer['id'].")' class='button'>Delete order need (". $offer['summary']['current_user_apply_qty'] ." pc)</button>";
         }
     }
 
-    public function rfqButton()
+    public function createRFQButton($productID)
     {
-        echo '<a class="button rfq">rfq</a>';
+        echo '<a class="button rfq" style="background-color: green !important;" onclick="synerbay.createRFQ('.$productID.')">Create RFQ</a>';
+    }
+
+    public function deleteRFQButton($rfqID)
+    {
+        echo '<a class="button" onclick="synerbay.deleteRFQ('.$rfqID.')">Delete RFQ</a>';
     }
 
     public function synerBayInviteButton()

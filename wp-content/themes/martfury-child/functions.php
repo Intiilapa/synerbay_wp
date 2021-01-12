@@ -30,6 +30,10 @@ function custom_footer_actions(){
     do_action('synerbay_loginModal');
 };
 
+add_action('wp_head', 'custom_header_actions');
+function custom_header_actions(){
+    //do_action('synerbay_synerBayInviteButton');
+};
 //add_filter( 'template_include', 'single_offer_template_include', 50, 1 );
 //function single_offer_template_include( $template )
 //{
@@ -807,11 +811,15 @@ add_filter( 'dokan_new_product_popup_args', 'dokan_new_product_popup_validation_
 
 add_action('woocommerce_single_product_summary','product_custom_details',13);
 function product_custom_details(){
-    global $product;
+    global $product, $post, $rfqa;
 
     if ( empty( $product ) ) {
         return;
     }
+
+    // init product rfqa to global
+    do_action('synerbay_product_rfqs', $product->get_id());
+
     $weight_unit = get_post_meta( $product->get_id(), '_weight_unit', true );
     $weight_unit_type = get_post_meta( $product->get_id(), '_weight_unit_type', true );
     $material = get_post_meta( $product->get_id(), '_material', true );
@@ -827,11 +835,9 @@ function product_custom_details(){
         ?><span class="custom_details"><?php echo esc_attr__( 'Material: ', 'dokan-lite' ); ?><?php echo esc_attr( $material ); ?></span></br>
         <?php
     }
+
     //Show RFQ
-    global $post;
-    $current_user = wp_get_current_user();
-    $product_author_id = $current_user->ID;
-    if ( is_product() && $product_author_id == $post->post_author) {
+    if ( is_product() && get_current_user_id() == $post->post_author) {
         add_filter('woocommerce_product_tabs', 'rfq_product_tab');
         function rfq_product_tab($tabs)
         {
@@ -845,9 +851,15 @@ function product_custom_details(){
 
         function _rfq_product_tab_content()
         {
+            global $rfqs;
             // The new tab content
             //TODO -> itt mehet az RFQ tablazat/adatokat
             echo '<h2>RFQ</h2>';
+            if (count($rfqs)) {
+                var_dump($rfqs);
+            } else {
+                echo '<br>Remco, kérdezd meg az Andristól, hogy mi legyen a szöveg, ha tök üres, nincs mit megjeleníteni!';
+            }
         }
     }
     do_action('synerbay_product_buttons');

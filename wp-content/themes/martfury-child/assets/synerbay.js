@@ -140,22 +140,57 @@
         });
     }
 
-    synerbay.inviteUser = function(inviteUrl)
-    {
-        var form = [
+    synerbay.inviteUser = function(inviteUrl) {
+        let form = [
             {name: "Name", id: "name"},
             {name: "E-mail", id: "email"},
         ];
 
         DayPilot.Modal.form(form, {}, {message: 'Please add a valid e-mail.'}).then(function(args) {
             if (args.result) {
-                console.log(args.result);
                 synerbay.restCall({
                     'inviteUrl': inviteUrl,
                     'email': args.result.email,
                     'name': args.result.name,
                 }, 'invite').then(function(result) {
                     synerbay.processToastMessages(result.data.messages)
+                });
+            }
+        });
+    }
+
+    synerbay.createRFQ = function(productID) {
+        let form = [
+            {name: "Quantity", id: "qty"},
+        ];
+
+        DayPilot.Modal.form(form, {}, {message: 'Mennyi kell belőle?'}).then(function(args) {
+            if (args.result) {
+                synerbay.restCall({
+                    'productID': productID,
+                    'qty': args.result.qty,
+                }, 'request_for_quotation').then(function(result) {
+                    synerbay.processToastMessages(result.data.messages, result.data.success)
+
+                    if (result.data.success) {
+                        location.reload();
+                    }
+                });
+            }
+        });
+    }
+
+    synerbay.deleteRFQ = function(rfqID) {
+        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+            if (args.result) {
+                synerbay.restCall({
+                    'rfqID': rfqID
+                }, 'delete_request_for_quotation').then(function(result) {
+                    synerbay.processToastMessages(result.data.messages, result.data.success)
+
+                    if (result.data.success) {
+                        location.reload();
+                    }
                 });
             }
         });
