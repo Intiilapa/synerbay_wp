@@ -5,7 +5,7 @@ namespace SynerBay\Emails\Service\Offer\Vendor;
 use SynerBay\Emails\Service\AbstractEmail;
 use SynerBay\Helper\RouteHelper;
 
-class ApplyModified extends AbstractEmail
+class ApplyCreated extends AbstractEmail
 {
     protected function getMessageParams(): array
     {
@@ -16,7 +16,7 @@ class ApplyModified extends AbstractEmail
 
     protected function getTemplateName(): string
     {
-        return 'offer/vendorApplyModified';
+        return 'offer/vendorApplyCreated';
     }
 
     protected function getSubject(): string
@@ -26,6 +26,6 @@ class ApplyModified extends AbstractEmail
 
     protected function getEmailHead()
     {
-        return 'Offer modified';
+        return 'Offer apply created';
     }
 }

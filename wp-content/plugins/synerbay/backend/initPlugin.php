@@ -15,6 +15,7 @@ include_once __DIR__ . '/pages/initPages.php';
 include_once __DIR__ . '/search/initSearch.php';
 include_once __DIR__ . '/email/initEmail.php';
 include_once __DIR__ . '/hook/initHooks.php';
+include_once __DIR__ . '/model/initModel.php';
 include_once __DIR__ . '/repository/initRepository.php';
 include_once __DIR__ . '/resource/initResource.php';
 include_once __DIR__ . '/function/initFunction.php';

@@ -3,9 +3,17 @@ namespace SynerBay\Module;
 
 use Dokan_Vendor;
 use Exception;
+use SynerBay\Emails\Service\Offer\Customer\ApplyAccepted;
+use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyModified;
 use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
 use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModified;
+use SynerBay\Repository\OfferApplyRepository;
+use SynerBay\Repository\OfferRepository;
+use SynerBay\Resource\AbstractResource;
+use SynerBay\Resource\OfferApply\DefaultOfferApplyResource;
+use SynerBay\Resource\OfferApply\FullOfferApplyResource;
+use SynerBay\Resource\OfferApply\OfferApplyResourceWithCustomer;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
 
@@ -67,7 +75,7 @@ class OfferApply extends AbstractModule
                      */
                     /** @var Dokan_Vendor $vendor */
                     $vendor = $offer['vendor'];
-                    $vendorMail = new ApplyModified($offer);
+                    $vendorMail = new ApplyCreated($offer);
                     $vendorMail->send($vendor->get_name(), $vendor->get_email());
                     return true;
                 }
@@ -136,6 +144,65 @@ class OfferApply extends AbstractModule
         return false;
     }
 
+    public function accept(int $id)
+    {
+        global $wpdb;
+
+        if ($offerApplyRow = (new OfferApplyRepository())->getRowByPrimaryKey($id)) {
+
+            $offer = (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id']);
+
+            if ($offer['user_id'] != get_current_user_id()) {
+                return false;
+            }
+
+            if ($wpdb->update(
+                $wpdb->prefix . 'offer_applies',
+                ['status' => \SynerBay\Model\OfferApply::STATUS_ACTIVE],
+                ['id' => $id],
+                ['%s'],
+                ['%d']
+            )) {
+                /** @var Dokan_Vendor $customer */
+                $customer = dokan_get_vendor($offerApplyRow['user_id']);
+                $vendorMail = new ApplyAccepted($offer);
+                $vendorMail->send($customer->get_name(), $customer->get_email());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function reject(int $id, string $reason = '')
+    {
+        global $wpdb;
+
+        if ($offerApplyRow = (new OfferApplyRepository())->getRowByPrimaryKey($id)) {
+            $offer = (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id']);
+
+            if ($offer['user_id'] != get_current_user_id()) {
+                return false;
+            }
+
+            if ($wpdb->update(
+                $wpdb->prefix . 'offer_applies',
+                ['status' => \SynerBay\Model\OfferApply::STATUS_DENIED],
+                ['id' => $id],
+                ['%s'],
+                ['%d']
+            )) {
+                /** @var Dokan_Vendor $customer */
+                $customer = dokan_get_vendor($offerApplyRow['user_id']);
+                $vendorMail = new ApplyAccepted(array_merge($offer, ['reason' => $reason]));
+                $vendorMail->send($customer->get_name(), $customer->get_email());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * A user már jelentkezett az ajánlatra?
      *
@@ -154,39 +221,34 @@ class OfferApply extends AbstractModule
     /**
      * @param int    $offerID
      * @param bool   $withCustomerData
-     * @param string $output
      * @return array|object|null
      */
-    public function getAppliesForOffer(int $offerID, bool $withCustomerData = false, $output = ARRAY_A)
+    public function getAppliesForOffer(int $offerID, bool $withCustomerData = false)
     {
-        global $wpdb;
+        $searchParams = [
+            'offer_id' => $offerID,
+            'order' => [
+                'columnName' => 'id',
+                'direction' => 'desc'
+            ]
+        ];
 
-        $results = $wpdb->get_results('select * from sb_offer_applies WHERE offer_id = ' . $offerID . ' order by id desc', $output);
+        /** @var AbstractResource $resource */
+        $resource = $withCustomerData ? new OfferApplyResourceWithCustomer() : new DefaultOfferApplyResource();
 
-        if (count($results) && $withCustomerData) {
-            foreach ($results as &$result) {
-                $userID = $output == ARRAY_A ? $result['user_id'] : $result->user_id;
-                $result['customer'] = dokan_get_vendor($userID);
-            }
-        }
-
-        return $results ? $results : [];
+        return $resource->collection((new OfferApplyRepository())->search($searchParams));
     }
 
     public function getMyOfferAppliesForDashboard()
     {
-        global $wpdb;
+        $searchParams = [
+            'user_id' => get_current_user_id(),
+            'order' => [
+                'columnName' => 'id',
+                'direction' => 'desc'
+            ]
+        ];
 
-        $ret = [];
-        $results = $wpdb->get_results('select * from sb_offer_applies WHERE user_id = ' . get_current_user_id() . ' order by id desc', ARRAY_A);
-
-        if (count($results)) {
-            foreach ($results as &$result) {
-                $result['offer'] = $this->offerModule->getOfferData($result['offer_id']);
-            }
-            $ret = $results;
-        }
-
-        return $ret;
+        return (new FullOfferApplyResource())->collection((new OfferApplyRepository())->search($searchParams));
     }
 }

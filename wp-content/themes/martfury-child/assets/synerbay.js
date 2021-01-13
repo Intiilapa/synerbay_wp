@@ -66,6 +66,7 @@
         }
     }
 
+    // customer
     synerbay.appearOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
@@ -86,6 +87,7 @@
         });
     }
 
+    // customer
     synerbay.disAppearOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
@@ -103,6 +105,7 @@
         });
     }
 
+    // customer
     synerbay.disAppearOfferDashboard= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {
@@ -120,6 +123,49 @@
         });
     }
 
+    // vendor
+    synerbay.acceptApply= function(id) {
+        DayPilot.Modal.confirm("Are you sure?<br><br><strong>Fontos:</strong> Amennyiben nem ismered a vevőt, javasolt minden esetben ellenőrizni a valódiságát.").then(function(args) {
+            if (args.result) {
+                synerbay.restCall({
+                    'id': id,
+                }, 'accept_apply').then(function(result) {
+                    console.log(result);
+                    if (result.data.success !== 'undefined' && result.data.success) {
+                        synerbay.processToastMessages(result.data.messages, true)
+                        location.reload();
+                    } else {
+                        synerbay.processToastMessages(result.data.messages)
+                    }
+                });
+            }
+        });
+    }
+
+    // vendor
+    synerbay.rejectApply= function(id) {
+        let form = [
+            {name: "Reason", id: "reason"},
+        ];
+
+        DayPilot.Modal.form(form, {}, {message: 'Biztos elutasítod?<br><br>Amennyiben fontosnak tartod pár szóban indokolhatod döntésed.'}).then(function(args) {
+            if (args.result) {
+                synerbay.restCall({
+                    'id': id,
+                    'reason': args.result.reason,
+                }, 'reject_apply').then(function(result) {
+                    if (result.data.success !== 'undefined' && result.data.success) {
+                        synerbay.processToastMessages(result.data.messages, true)
+                        location.reload();
+                    } else {
+                        synerbay.processToastMessages(result.data.messages)
+                    }
+                });
+            }
+        });
+    }
+
+    // vendor
     synerbay.deleteOffer= function(offerID) {
         DayPilot.Modal.confirm("Are you sure?").then(function(args) {
             if (args.result) {

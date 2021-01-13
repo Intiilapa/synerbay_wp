@@ -27,11 +27,15 @@ abstract class AbstractEmail
      * @info javasolt a paramokat és az msg paramokat kulcsozott tömbben átadni
      *
      * @param array $params
-     * @throws ReflectionException
      */
     public function __construct(array $params = [])
     {
-        $this->id = (new ReflectionClass($this))->getShortName();
+        try {
+            $this->id = (new ReflectionClass($this))->getShortName();
+        } catch (ReflectionException $e) {
+            $this->id = get_called_class();
+        }
+
         $this->WCEmail = new WC_Email();
         $this->params = $params;
     }
