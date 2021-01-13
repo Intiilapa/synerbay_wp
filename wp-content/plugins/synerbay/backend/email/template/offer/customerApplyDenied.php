@@ -1,11 +1,11 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Jelentkezésed az eladó elutasította!>
+        Jelentkezésed az eladó elutasította!
     </p>
     <?php
         if (!empty($reason)) {
-            echo '<p>'.$reason.'</p>';
+            echo '<p><strong>Eladó indoka:</strong><br>'.$reason.'</p>';
         }
     ?>
     <p>

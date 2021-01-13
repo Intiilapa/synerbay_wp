@@ -11,13 +11,12 @@ class DefaultOfferResource extends AbstractResource
 {
     protected function prepare($row): array
     {
-        $offer = $row;
-        $offer['price_steps'] = StringHelper::isJson($offer['price_steps']) ? json_decode($offer['price_steps'], true) : [];
-        $offer['shipping_to'] = StringHelper::isJson($offer['shipping_to']) ? json_decode($offer['shipping_to'], true) : [$offer['shipping_to']];
-        $offer['shipping_to_labels'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData($offer['shipping_to']));
-        $offer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
-        $offer['transport_parity'] = strtoupper($offer['transport_parity']);
+        $row['price_steps'] = StringHelper::isJson($row['price_steps']) ? json_decode($row['price_steps'], true) : [];
+        $row['shipping_to'] = StringHelper::isJson($row['shipping_to']) ? json_decode($row['shipping_to'], true) : [$row['shipping_to']];
+        $row['shipping_to_labels'] = implode(', ', SynerBayDataHelper::setupDeliveryDestinationsForOfferData($row['shipping_to']));
+        $row['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $row['id']]);
+        $row['transport_parity'] = strtoupper($row['transport_parity']);
 
-        return $offer;
+        return $row;
     }
 }

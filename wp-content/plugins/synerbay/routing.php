@@ -23,9 +23,9 @@ $routes = [
     'offer_sub_page' => new Route('/^\/offer\/([0-9]+)[\/]?$/', 'synerbay_init_global_offer_sub_page',
         get_theme_file_path() . '/pages/single-offer.php', '/offer/[id]'),
     'edit_offer' => new Route('/^\/dashboard\/edit-offer\/([0-9]+)[\/]?$/', 'synerbay_editOfferSubPage',
-        get_theme_file_path() . '/dokan/templates/offers/edit-offer.php', '/offer/[id]', false),
+        get_theme_file_path() . '/dokan/templates/offers/edit-offer.php', '/dashboard/edit-offer/[id]', false),
     'show_offer' => new Route('/^\/dashboard\/show-offers\/([0-9]+)[\/]?$/', 'synerbay_init_dashboard_offer_sub_page',
-        get_theme_file_path() . '/dokan/templates/offers/show-offers.php', '/show-offers/[id]', false),
+        get_theme_file_path() . '/dokan/templates/offers/show-offers.php', '/dashboard/show-offers/[id]', false),
     'offer_listing' => new Route('/^\/offers[\/]?$/', 'synerbay_offerSearch',
         get_theme_file_path() . '/pages/offer/search.php', '/offers'),
 ];

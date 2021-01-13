@@ -6,6 +6,9 @@ global $offer;
  *
  *  @since 2.4
  */
+
+use SynerBay\Model\OfferApply;
+
 do_action( 'dokan_new_product_wrap_before' );
 ?>
 
@@ -69,6 +72,7 @@ do_action( 'dokan_new_product_wrap_before' );
         </table>
         <hr>
         <span style="font-size: medium">Applicant data:</span>
+        <span style="font-size: small">A pending státuszra ki kell találni a szöveget!! (Andris?) Ha pendingben marad, akkor nem fog részt venni az ajánlatban és nem is szerepel az árképzésben</span>
         <hr>
 
         <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
@@ -93,7 +97,7 @@ do_action( 'dokan_new_product_wrap_before' );
 
                     $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $dokanCustomer->get_shop_url() . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View vendor"><i class="fa fa-eye">&nbsp;</i></a>';
 
-                    if ($apply['status'] == \SynerBay\Model\OfferApply::STATUS_PENDING) {
+                    if ($apply['status'] == OfferApply::STATUS_PENDING) {
                         $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.acceptApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Accept"><i class="fa fa-check">&nbsp;</i></a>';
                         $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.rejectApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reject"><i class="fa fa-trash">&nbsp;</i></a>';
                     }

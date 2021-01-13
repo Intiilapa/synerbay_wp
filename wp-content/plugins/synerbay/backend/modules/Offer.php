@@ -141,8 +141,6 @@ class Offer extends AbstractModule
 
         // clean steps
         if (count($priceSteps) && count($offerData['applies'])) {
-            $actualApplicantNumber = count($offerData['applies']);
-
             $tmp = [];
             foreach ($priceSteps as $stepData) {
                 $tmp[$stepData['qty']] = $stepData['price'];
@@ -151,11 +149,14 @@ class Offer extends AbstractModule
             if (count($tmp)) {
                 // calculate apply qty
                 foreach ($offerData['applies'] as $apply) {
-                    $groupByProductQTYNumber += $apply['qty'];
-
                     if ($apply['user_id'] == get_current_user_id()) {
                         $currentUserHaveApply = true;
                         $currentUserApplyQty = $apply['qty'];
+                    }
+
+                    if ($apply['status'] == \SynerBay\Model\OfferApply::STATUS_ACTIVE) {
+                        $actualApplicantNumber++;
+                        $groupByProductQTYNumber += $apply['qty'];
                     }
                 }
 

@@ -1,7 +1,7 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Jelentkezésed jóváhagyásra került!>
+        Jelentkezésed jóváhagyásra került!
     </p>
     <p>
         View offer: <?php echo $url?>

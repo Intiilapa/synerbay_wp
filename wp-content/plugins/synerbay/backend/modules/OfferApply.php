@@ -4,6 +4,7 @@ namespace SynerBay\Module;
 use Dokan_Vendor;
 use Exception;
 use SynerBay\Emails\Service\Offer\Customer\ApplyAccepted;
+use SynerBay\Emails\Service\Offer\Customer\ApplyDenied;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyModified;
 use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
@@ -11,6 +12,7 @@ use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModifie
 use SynerBay\Repository\OfferApplyRepository;
 use SynerBay\Repository\OfferRepository;
 use SynerBay\Resource\AbstractResource;
+use SynerBay\Resource\Offer\DefaultOfferResource;
 use SynerBay\Resource\OfferApply\DefaultOfferApplyResource;
 use SynerBay\Resource\OfferApply\FullOfferApplyResource;
 use SynerBay\Resource\OfferApply\OfferApplyResourceWithCustomer;
@@ -150,7 +152,9 @@ class OfferApply extends AbstractModule
 
         if ($offerApplyRow = (new OfferApplyRepository())->getRowByPrimaryKey($id)) {
 
-            $offer = (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id']);
+            $offer = (new DefaultOfferResource())->toArray(
+                (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id'])
+            );
 
             if ($offer['user_id'] != get_current_user_id()) {
                 return false;
@@ -179,7 +183,9 @@ class OfferApply extends AbstractModule
         global $wpdb;
 
         if ($offerApplyRow = (new OfferApplyRepository())->getRowByPrimaryKey($id)) {
-            $offer = (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id']);
+            $offer = (new DefaultOfferResource())->toArray(
+                (new OfferRepository())->getRowByPrimaryKey($offerApplyRow['offer_id'])
+            );
 
             if ($offer['user_id'] != get_current_user_id()) {
                 return false;
@@ -194,7 +200,7 @@ class OfferApply extends AbstractModule
             )) {
                 /** @var Dokan_Vendor $customer */
                 $customer = dokan_get_vendor($offerApplyRow['user_id']);
-                $vendorMail = new ApplyAccepted(array_merge($offer, ['reason' => $reason]));
+                $vendorMail = new ApplyDenied(array_merge($offer, ['reason' => $reason]));
                 $vendorMail->send($customer->get_name(), $customer->get_email());
                 return true;
             }

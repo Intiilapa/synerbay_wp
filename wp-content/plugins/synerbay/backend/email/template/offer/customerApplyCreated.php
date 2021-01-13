@@ -1,7 +1,7 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Köszönjük a jelentkezésed!>
+        Köszönjük a jelentkezésed!
     </p>
     <p>
         Az eladót értesítettük. Amint jóváhagyásra kerül a jelentkezésed, akkor veszel részt az ajánlatban. A továbbiakról e-mail-ben értesítünk!
