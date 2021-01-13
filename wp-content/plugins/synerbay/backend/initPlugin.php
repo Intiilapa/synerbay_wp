@@ -20,4 +20,5 @@ include_once __DIR__ . '/repository/initRepository.php';
 include_once __DIR__ . '/resource/initResource.php';
 include_once __DIR__ . '/function/initFunction.php';
 include_once __DIR__ . '/cron/initCron.php';
+include_once __DIR__ . '/woocommerce/initWoocommerce.php';
 

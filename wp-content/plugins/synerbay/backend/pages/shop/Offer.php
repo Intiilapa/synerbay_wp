@@ -51,6 +51,7 @@ class Offer extends AbstractPage
     public function offerSearch() {
         global $offers;
         global $searchParameters;
+
         $offers = [];
         $searchParameters = $_GET;
     }
