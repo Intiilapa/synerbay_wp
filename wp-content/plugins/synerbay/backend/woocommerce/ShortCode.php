@@ -3,8 +3,11 @@
 
 namespace SynerBay\WooCommerce;
 
+use SynerBay\Module\Offer;
+use SynerBay\Search\OfferSearch;
+use WC_Shortcodes;
 
-class ShortCode
+class ShortCode extends WC_Shortcodes
 {
     public function __construct()
     {
@@ -13,7 +16,7 @@ class ShortCode
     }
 
     /**
-     * Új ajánlatok
+     * Új ajánlatok (főoldal)
      *
      * @param $attributes
      */
@@ -29,7 +32,7 @@ class ShortCode
 
         $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
 
-        $offerIds = $offerSearch->search();
+        $offerIds = $offerSearch->paginate(2 * (int)$per_page, 1);
 
         if (count($offerIds)) {
 
@@ -37,6 +40,7 @@ class ShortCode
 
             $offerIds = array_slice($offerIds, 0, $per_page);
 
+            /** @var Offer $offerModule */
             $offerModule = new Offer();
             $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
 
@@ -61,7 +65,7 @@ class ShortCode
 
 
     /**
-     * Nemsokára végetérő ajánlatok
+     * Nemsokára végetérő ajánlatok (főoldal)
      *
      * @param $attributes
      */
@@ -71,22 +75,16 @@ class ShortCode
             'per_page' 	=> '12',
             'columns' 	=> '4',
             'orderby' => 'offer_end_date',
-            'order' => 'desc'
+            'order' => 'asc'
         )));
-
 
         $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
 
-        $offerIds = $offerSearch->search();
+        $offerIds = $offerSearch->paginate($per_page, 1);
 
         if (count($offerIds)) {
 
-            shuffle($offerIds);
-
-            $offerIds = array_slice($offerIds, 0, $per_page);
-
-            $offerModule = new Offer();
-            $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
+            $offers = (new Offer())->prepareOffers(array_values($offerIds), true, true, true, true);
 
             woocommerce_product_loop_start();
 
