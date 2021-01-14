@@ -7,3 +7,4 @@ include_once 'SynerBayDataHelper.php';
 include_once 'IntegrityHelper.php';
 include_once 'StringHelper.php';
 include_once 'RouteHelper.php';
+include_once 'Database.php';

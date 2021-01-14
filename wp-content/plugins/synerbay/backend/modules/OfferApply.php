@@ -9,6 +9,7 @@ use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyModified;
 use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
 use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModified;
+use SynerBay\Helper\Database;
 use SynerBay\Repository\OfferApplyRepository;
 use SynerBay\Repository\OfferRepository;
 use SynerBay\Resource\AbstractResource;
@@ -25,9 +26,13 @@ class OfferApply extends AbstractModule
     /** @var Offer $offerModule */
     private Offer $offerModule;
 
+    /** @var OfferRepository $offerRepository */
+    private OfferRepository $offerRepository;
+
     public function __construct()
     {
         $this->offerModule = $this->getModule('offer');
+        $this->offerRepository = new OfferRepository();
     }
 
     public function createAppearOfferForUser(int $userID, int $offerID, int $productQuantity)
@@ -97,6 +102,9 @@ class OfferApply extends AbstractModule
     {
         global $wpdb;
 
+        $ret = false;
+        Database::beginTransaction();
+
         try {
             if ($offer = $this->offerModule->getOfferData($offerID, true, true, true)) {
                 if (strtotime(date('Y-m-d H:i:s')) > strtotime($offer['offer_end_date'])) {
@@ -107,48 +115,66 @@ class OfferApply extends AbstractModule
                     'offer_id' => $offerID,
                     'user_id' => $userID,
                 ])) {
+                    $ret = true;
                     // send mails
                     // az eddig jelentkezők értesítése
                     if (count($offer['applies'])) {
                         $customerOfferModifiedMail = new CustomerApplyModified($offer);
+                        $deletedApply = false;
 
                         foreach ($offer['applies'] as $applyUser) {
                             if ($applyUser['user_id'] == $userID) {
+                                $deletedApply = $applyUser;
                                 continue;
                             }
 
-                            /** @var Dokan_Vendor $customer */
-                            $customer = $applyUser['customer'];
-                            $customerOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                            if ($applyUser['status'] == \SynerBay\Model\OfferApply::STATUS_ACTIVE) {
+                                /** @var Dokan_Vendor $customer */
+                                $customer = $applyUser['customer'];
+                                $customerOfferModifiedMail->send($customer->get_name(), $customer->get_email());
+                            }
+                        }
+
+                        // amennyiben active a státusza akkor csökkentjük az offer qty-t
+                        if ($deletedApply && $deletedApply['status'] == \SynerBay\Model\OfferApply::STATUS_ACTIVE) {
+                            $ret = $this->offerRepository->decreaseQty($offerID, $offer['current_quantity'], $deletedApply['qty']);
                         }
                     }
 
-                    /**
-                     * az eladónak
-                     */
-                    /** @var Dokan_Vendor $vendor */
-                    $vendor = $offer['vendor'];
-                    $vendorMail = new ApplyModified($offer);
-                    $vendorMail->send($vendor->get_name(), $vendor->get_email());
-
-                    return true;
+                    if ($ret) {
+                        /**
+                         * az eladónak
+                         */
+                        /** @var Dokan_Vendor $vendor */
+                        $vendor = $offer['vendor'];
+                        $vendorMail = new ApplyModified($offer);
+                        $vendorMail->send($vendor->get_name(), $vendor->get_email());
+                    }
+                } else {
+                    $ret = false;
                 }
-
-                return false;
             }
 
         } catch (Exception $e) {
             $this->addErrorToast($e->getMessage());
             $this->addErrorMsg($e->getMessage());
-            return false;
+            $ret = false;
         }
 
-        return false;
+
+        if ($ret) {
+            Database::commitTransaction();
+        } else {
+            Database::rollbackTransaction();
+        }
+
+        return $ret;
     }
 
     public function accept(int $id)
     {
         global $wpdb;
+        $ret = false;
 
         if ($offerApplyRow = (new OfferApplyRepository())->getRowByPrimaryKey($id)) {
 
@@ -160,6 +186,8 @@ class OfferApply extends AbstractModule
                 return false;
             }
 
+            Database::beginTransaction();
+
             if ($wpdb->update(
                 $wpdb->prefix . 'offer_applies',
                 ['status' => \SynerBay\Model\OfferApply::STATUS_ACTIVE],
@@ -167,15 +195,24 @@ class OfferApply extends AbstractModule
                 ['%s'],
                 ['%d']
             )) {
-                /** @var Dokan_Vendor $customer */
-                $customer = dokan_get_vendor($offerApplyRow['user_id']);
-                $vendorMail = new ApplyAccepted($offer);
-                $vendorMail->send($customer->get_name(), $customer->get_email());
-                return true;
+                $ret = true;
+
+                if ($this->offerRepository->increaseQty($offer['id'], $offer['current_quantity'], $offerApplyRow['qty'])) {
+                    Database::commitTransaction();
+                    /** @var Dokan_Vendor $customer */
+                    $customer = dokan_get_vendor($offerApplyRow['user_id']);
+                    $vendorMail = new ApplyAccepted($offer);
+                    $vendorMail->send($customer->get_name(), $customer->get_email());
+                } else {
+                    Database::rollbackTransaction();
+                    $ret = false;
+                }
+            } else {
+                Database::rollbackTransaction();
             }
         }
 
-        return false;
+        return $ret;
     }
 
     public function reject(int $id, string $reason = '')

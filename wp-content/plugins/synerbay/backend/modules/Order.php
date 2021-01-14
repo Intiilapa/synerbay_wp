@@ -29,8 +29,6 @@ class Order
                 return true;
             }
 
-            var_dump($offerData['summary']);
-
             // create orders
             foreach ($offerData['applies'] as $applyUser) {
 //                var_dump($applyUser);die;

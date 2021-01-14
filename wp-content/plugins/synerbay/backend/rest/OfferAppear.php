@@ -38,7 +38,7 @@ class OfferAppear extends AbstractRest
         $message = $success ? ['success' => 'Successful operation!'] : ['error' => $module->getErrorMessage()];
 
         $responseData = [
-            'success' => $success,
+            'success'  => $success,
             'messages' => [$message],
         ];
 
@@ -63,7 +63,7 @@ class OfferAppear extends AbstractRest
         $message = $success ? ['success' => 'Successful operation!'] : ['error' => $module->getErrorMessage()];
 
         $responseData = [
-            'success' => $success,
+            'success'  => $success,
             'messages' => [$message],
         ];
 
@@ -88,7 +88,7 @@ class OfferAppear extends AbstractRest
         $message = $success ? ['success' => 'Successful operation!'] : ['error' => 'Something went wrong, please try again!'];
 
         $responseData = [
-            'success' => $success,
+            'success'  => $success,
             'messages' => [$message],
         ];
 
@@ -115,7 +115,7 @@ class OfferAppear extends AbstractRest
         $message = $success ? ['success' => 'Successful operation!'] : ['error' => 'Something went wrong, please try again!'];
 
         $responseData = [
-            'success' => $success,
+            'success'  => $success,
             'messages' => [$message],
         ];
 

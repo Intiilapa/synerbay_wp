@@ -23,15 +23,18 @@ class ShortCode extends WC_Shortcodes
      */
     public function recentOffers($attributes)
     {
-        extract(shortcode_atts($attributes, array(
-            'per_page' 	=> '12',
-            'columns' 	=> '4',
-            'orderby' => 'id',
-            'order' => 'desc'
-        )));
+        extract(shortcode_atts($attributes, [
+            'per_page' => '12',
+            'columns'  => '4',
+            'orderby'  => 'id',
+            'order'    => 'desc',
+        ]));
 
 
-        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
+        $offerSearch = new OfferSearch([
+            'recent_offers' => true,
+            'order'         => ['columnName' => $orderby, 'direction' => $order],
+        ]);
 
         $offerIds = $offerSearch->paginate(2 * (int)$per_page, 1);
 
@@ -51,14 +54,14 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part( 'content', 'offer' );
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template( 'loop/no-products-found.php' );
+            wc_get_template('loop/no-products-found.php');
         }
 
         wp_reset_postdata();
@@ -72,14 +75,17 @@ class ShortCode extends WC_Shortcodes
      */
     public function almostFinishedOffers($attributes)
     {
-        extract(shortcode_atts($attributes, array(
-            'per_page' 	=> '12',
-            'columns' 	=> '4',
-            'orderby' => 'offer_end_date',
-            'order' => 'asc'
-        )));
+        extract(shortcode_atts($attributes, [
+            'per_page' => '12',
+            'columns'  => '4',
+            'orderby'  => 'offer_end_date',
+            'order'    => 'asc',
+        ]));
 
-        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
+        $offerSearch = new OfferSearch([
+            'recent_offers' => true,
+            'order'         => ['columnName' => $orderby, 'direction' => $order],
+        ]);
 
         $offerIds = $offerSearch->paginate($per_page, 1);
 
@@ -93,14 +99,14 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part( 'content', 'offer' );
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template( 'loop/no-products-found.php' );
+            wc_get_template('loop/no-products-found.php');
         }
 
         wp_reset_postdata();
@@ -113,14 +119,17 @@ class ShortCode extends WC_Shortcodes
      */
     public function almostFinishedOffersQuantity($attributes)
     {
-        extract(shortcode_atts($attributes, array(
-            'per_page' 	=> '12',
-            'columns' 	=> '4',
-            'orderby' => 'offer_end_date',
-            'order' => 'asc'
-        )));
+        extract(shortcode_atts($attributes, [
+            'per_page' => '12',
+            'columns'  => '4',
+            'orderby'  => 'current_quantity',
+            'order'    => 'desc',
+        ]));
 
-        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
+        $offerSearch = new OfferSearch([
+            'recent_offers' => true,
+            'order'         => ['columnName' => $orderby, 'direction' => $order],
+        ]);
 
         $offerIds = $offerSearch->paginate($per_page, 1);
 
@@ -134,14 +143,14 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part( 'content', 'offer' );
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template( 'loop/no-products-found.php' );
+            wc_get_template('loop/no-products-found.php');
         }
 
         wp_reset_postdata();

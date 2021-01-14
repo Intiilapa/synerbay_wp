@@ -18,11 +18,37 @@ class OfferRepository extends AbstractRepository
             where 
             product_id = ' . $productID . ' 
             and 
-            offer_start_date <= "'. $currentDate .'"
+            offer_start_date <= "' . $currentDate . '"
             and 
-            offer_end_date >= "'. $currentDate .'"
+            offer_end_date >= "' . $currentDate . '"
             order by id desc limit 1',
             ARRAY_A);
+    }
+
+    public function increaseQty(int $offerID, int $currentOfferQty = 0, int $increaseQty = 0)
+    {
+        global $wpdb;
+
+        return $wpdb->update(
+            $wpdb->prefix . 'offers',
+            ['current_quantity' => $currentOfferQty + $increaseQty],
+            ['id' => $offerID],
+            ['%d'],
+            ['%d']
+        );
+    }
+
+    public function decreaseQty(int $offerID, int $currentOfferQty = 0, int $decreaseQty = 0)
+    {
+        global $wpdb;
+
+        return $wpdb->update(
+            $wpdb->prefix . 'offers',
+            ['current_quantity' => $currentOfferQty - $decreaseQty],
+            ['id' => $offerID],
+            ['%d'],
+            ['%d']
+        );
     }
 
     protected function prepareQuery(array $searchAttributes = [])

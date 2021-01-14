@@ -16,6 +16,7 @@ create table sb_offers
     created_at datetime default CURRENT_TIMESTAMP null,
     visible enum('yes', 'no') default 'yes',
     status enum('pending', 'started', 'closed') default 'pending',
+    current_quantity bigint unsigned not null default 0,
     constraint sb_offers_pk
         primary key (id),
     constraint sb_offers_sb_posts_ID_fk
@@ -53,4 +54,7 @@ create index offer_visible_index
 
 create index offer_status_index
     on sb_offers (status);
+
+create index offer_current_quantity_index
+    on sb_offers (current_quantity);
 

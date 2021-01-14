@@ -2,6 +2,7 @@
 
 namespace SynerBay\Module;
 
+use SynerBay\Emails\Service\Offer\Customer\ApplyAccepted;
 use SynerBay\Helper\RouteHelper;
 use SynerBay\Helper\StringHelper;
 use SynerBay\Helper\SynerBayDataHelper;

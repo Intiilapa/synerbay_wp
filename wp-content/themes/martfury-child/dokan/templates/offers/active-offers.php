@@ -4,7 +4,8 @@ do_action('synerbay_init_global_my_offer_applies_for_dashboard');
 global $myOfferApplies;
 
 ?>
-
+<span style="font-size: small">A pending státuszra ki kell találni a szöveget!! (Andris?) Ha pendingben marad, akkor nem fog részt venni az ajánlatban és nem is szerepel az árképzésben</span>
+<hr>
 <button class="dokan-btn dokan-btn-theme" onClick="window.location.reload();"><i class="fa fa-refresh">&nbsp;</i> Refresh active offers</button></br></br>
 <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table" id="dokan-product-list-table">
     <thead>

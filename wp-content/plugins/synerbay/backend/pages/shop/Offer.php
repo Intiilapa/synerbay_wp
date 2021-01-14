@@ -52,6 +52,7 @@ class Offer extends AbstractPage
         global $offers;
         global $searchParameters;
 
+        // todo csak a visible offerek legyenek megjelenítve
         $offers = [];
         $searchParameters = $_GET;
     }
