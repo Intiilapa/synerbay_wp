@@ -150,8 +150,8 @@ if (typeof(DayPilot) === 'undefined') {
     sheet.add(".modal_default_form_item input", "width: 100%;");
     sheet.add(".modal_default_form_item_label", "margin: 2px 0px;");
     sheet.add(".modal_default_background", "opacity: 0.3; background-color: #000;");
-    sheet.add(".modal_default_ok", "padding: 3px; width: 80px;");
-    sheet.add(".modal_default_cancel", "padding: 3px; width: 80px;");
+    sheet.add(".modal_default_ok", "padding: 3px; width: auto;");
+    sheet.add(".modal_default_cancel", "padding: 3px; width: auto;");
 
     sheet.add(".modal_min_main", "border: 1px solid #ccc; max-width: 90%;");
     sheet.add(".modal_min_background", "opacity: 0.3; background-color: #000;");
@@ -178,8 +178,8 @@ if (typeof(DayPilot) === 'undefined') {
         this.zIndex = 99999;
 
         this.left = null;  // will be centered if null
-        this.width = 600;
-        this.top = 20;
+        this.width = 300;
+        this.top = 250;
         this.height = 200;  // see also autoStretch
 
         // event handler

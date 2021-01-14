@@ -600,7 +600,7 @@ function product_custom_details(){
             global $rfqs;
             // The new tab content
             //TODO -> itt mehet az RFQ tablazat/adatokat
-            echo '<h2>RFQ</h2>';
+            echo '<h2>Request for quotations</h2>';
             echo '
             <p>
                 Andris:<br>Ide le kell írnunk, hogy amennyiben az adott termékből offer készül, akkor annak elindulásakor minden egyes igénylőt 
@@ -609,28 +609,30 @@ function product_custom_details(){
                 készített ajánlat elindul, viszont ebben az esetben értelemszerűen nem kerülnek törlésre a követések.
             </p>';
             if (count($rfqs)) {
-                print '<pre>';
-                var_dump($rfqs);
+//                print '<pre>';
+//                var_dump($rfqs);
 
             } else {
                 echo '<br>Remco, kérdezd meg az Andristól, hogy mi legyen a szöveg, ha tök üres, nincs mit megjeleníteni!';
             }
             ?>
-
-            <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table" id="dokan-product-list-table">
+            <table class="dokan-table dokan-table-striped rfq" id="rfq-table">
                 <thead>
                 <tr>
-                    <th><?php esc_html_e( 'User', 'dokan-lite' ); ?></th>
+                    <th><?php esc_html_e( 'Vendor', 'dokan-lite' ); ?></th>
                     <th><?php esc_html_e( 'Quantity', 'dokan-lite' ); ?></th>
                     <th><?php esc_html_e( 'Created', 'dokan-lite' ); ?></th>
+                    <th><?php esc_html_e( 'Actions', 'dokan-lite' ); ?></th>
                 </tr>
 
                 <?php
                 foreach ($rfqs as $rfq) {
+                    $showOffer = "<a href='". $rfq['vendor']->get_shop_url() ."' class='dokan-btn dokan-btn-default dokan-btn-sm btn-rfq' data-toggle='tooltip' data-placement='top' title='' data-original-title='Show vendor'><i class='fa fa-eye'>&nbsp;</i></a>";
                     echo  '<tr id="rfq_row_'.$rfq['user_id'].'">'
                         . '<td>'. $rfq['vendor']->get_name() . '</td>'
-                        . '<td>'. $rfq['qty'] . '</td>'
-                        . '<td><b>'. date('Y-m-d', strtotime($rfq['created_at'])) . '</b></td>'
+                        . '<td><b>'. $rfq['qty'] . '</b></td>'
+                        . '<td>'. date('Y-m-d', strtotime($rfq['created_at'])) . '</td>'
+                        . '<td>'. $showOffer . '</td>'
                         . '</tr>';
                 }
                 ?>

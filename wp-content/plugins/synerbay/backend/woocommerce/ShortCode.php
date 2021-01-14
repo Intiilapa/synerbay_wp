@@ -13,6 +13,7 @@ class ShortCode extends WC_Shortcodes
     {
         add_shortcode('recent_offers', [$this, 'recentOffers']);
         add_shortcode('almost_finished_offers', [$this, 'almostFinishedOffers']);
+        add_shortcode('almost_finished_offers_quantity', [$this, 'almostFinishedOffersQuantity']);
     }
 
     /**
@@ -70,6 +71,47 @@ class ShortCode extends WC_Shortcodes
      * @param $attributes
      */
     public function almostFinishedOffers($attributes)
+    {
+        extract(shortcode_atts($attributes, array(
+            'per_page' 	=> '12',
+            'columns' 	=> '4',
+            'orderby' => 'offer_end_date',
+            'order' => 'asc'
+        )));
+
+        $offerSearch = new OfferSearch(['recent_offers' => true, 'order' => ['columnName' => $orderby, 'direction' => $order]]);
+
+        $offerIds = $offerSearch->paginate($per_page, 1);
+
+        if (count($offerIds)) {
+
+            $offers = (new Offer())->prepareOffers(array_values($offerIds), true, true, true, true);
+
+            woocommerce_product_loop_start();
+
+            global $offer;
+            global $post;
+            foreach ($offers as $offer) {
+                $post = get_post($offer['product']['ID']);
+                wc_get_template_part( 'content', 'offer' );
+
+                $offer = [];
+            }
+
+            woocommerce_product_loop_end();
+        } else {
+            wc_get_template( 'loop/no-products-found.php' );
+        }
+
+        wp_reset_postdata();
+    }
+
+    /**
+     * Nemsokára végetérő ajánlatok mennyiseg alapjan (főoldal)
+     *
+     * @param $attributes
+     */
+    public function almostFinishedOffersQuantity($attributes)
     {
         extract(shortcode_atts($attributes, array(
             'per_page' 	=> '12',

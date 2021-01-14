@@ -669,6 +669,7 @@ if ( ! function_exists( 'martfury_header_bar' ) ) :
 			if ( is_active_sidebar( $sidebar ) ) {
 				dynamic_sidebar( $sidebar );
 			}
+			do_action('synerbay_synerBayInviteButton');
 			?>
         </div>
 		<?php

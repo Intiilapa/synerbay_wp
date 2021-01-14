@@ -68,7 +68,7 @@
 
     // customer
     synerbay.appearOffer= function(offerID) {
-        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 let productQty = $("input[name=quantity]").val();
                 
@@ -89,7 +89,7 @@
 
     // customer
     synerbay.disAppearOffer= function(offerID) {
-        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'offerID': offerID
@@ -107,7 +107,7 @@
 
     // customer
     synerbay.disAppearOfferDashboard= function(offerID) {
-        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?", {theme:"modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'offerID': offerID
@@ -125,7 +125,7 @@
 
     // vendor
     synerbay.acceptApply= function(id) {
-        DayPilot.Modal.confirm("Are you sure?<br><br><strong>Fontos:</strong> Amennyiben nem ismered a vevőt, javasolt minden esetben ellenőrizni a valódiságát.").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?<br><br><strong>Fontos:</strong> Amennyiben nem ismered a vevőt, javasolt minden esetben ellenőrizni a valódiságát.", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'id': id,
@@ -148,7 +148,7 @@
             {name: "Reason", id: "reason"},
         ];
 
-        DayPilot.Modal.form(form, {}, {message: 'Biztos elutasítod?<br><br>Amennyiben fontosnak tartod pár szóban indokolhatod döntésed.'}).then(function(args) {
+        DayPilot.Modal.form(form, {}, {message: 'Biztos elutasítod?<br><br>Amennyiben fontosnak tartod pár szóban indokolhatod döntésed.', theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'id': id,
@@ -167,7 +167,7 @@
 
     // vendor
     synerbay.deleteOffer= function(offerID) {
-        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'offerID': offerID
@@ -192,7 +192,7 @@
             {name: "E-mail", id: "email"},
         ];
 
-        DayPilot.Modal.form(form, {}, {message: 'Please add a valid e-mail.'}).then(function(args) {
+        DayPilot.Modal.form(form, {}, {message: 'Please add a valid e-mail.', theme: "modal_rounded" }).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'inviteUrl': inviteUrl,
@@ -210,7 +210,7 @@
             {name: "Quantity", id: "qty"},
         ];
 
-        DayPilot.Modal.form(form, {}, {message: 'Mennyi kell belőle?'}).then(function(args) {
+        DayPilot.Modal.form(form, {}, {message: 'Mennyi kell belőle?', theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'productID': productID,
@@ -227,7 +227,7 @@
     }
 
     synerbay.deleteRFQ = function(rfqID) {
-        DayPilot.Modal.confirm("Are you sure?").then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'rfqID': rfqID
@@ -314,13 +314,19 @@
     }
 
     synerbay.showLoader = function() {
-        let loader = document.getElementsByClassName('loader')[0];
+        let loader = document.getElementsByClassName('sb-chase')[0];
         loader.style.display = "";
+
+        let backgroundLoader = document.getElementsByClassName('martfury-loader')[0];
+        backgroundLoader.style.display = "block";
     }
 
     synerbay.hideLoader = function() {
-        let loader = document.getElementsByClassName('loader')[0];
+        let loader = document.getElementsByClassName('sb-chase')[0];
         loader.style.display = "none";
+
+        let backgroundLoader = document.getElementsByClassName('martfury-loader')[0];
+        backgroundLoader.style.display = "none";
     }
 
     /**
