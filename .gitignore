@@ -20,4 +20,8 @@
 /wp-content/uploads/
 /wp-content/fonts/
 /wp-content/upgrade/
+/wp-content/plugins/elementor
+/wp-content/plugins/wp-mail-smtp
+/wp-content/plugins/martfury-addons
+/wp-content/plugins/kirki
 .idea
