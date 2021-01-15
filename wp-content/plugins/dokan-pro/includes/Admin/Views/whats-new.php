@@ -1,6 +1,385 @@
 <?php
 $changelog = array(
     array(
+        'version'  => 'Version 3.1.4',
+        'released' => '2021-01-11',
+        'changes'  => array(
+            array(
+                'title'       => 'Added Disconnect Button and Some Issues Fixed [Vendor Analytics]',
+                'type'        => 'Improvement',
+                'description' => 'Added disconnect button on dokan admin setting page, also fixed some issues.',
+            ),
+            array(
+                'title'       => 'Product Add-on Module Template Override [Product Addon]',
+                'type'        => 'Improvement',
+                'description' => 'Product add-on module template override does not work with theme folder issue fixed.',
+            ),
+            array(
+                'title'       => 'Changed Social Login Sign in URL Change [Vendor Social Login]',
+                'type'        => 'Improvement',
+                'description' => 'Changed social login sign in URL from dokan_reg to vendor_social_reg  on query param.',
+            ),
+            array(
+                'title'       => 'Import Option Allows Vendors to Create Categories',
+                'type'        => 'Fix',
+                'description' => 'Import option allows vendors to create categories issue fixed, now vendor not able to create new category when import csv.',
+            ),
+            array(
+                'title'       => 'If Admin Commission for Flat Type Commission is Set to Zero Was Showing Not Set [Vendor Commission]',
+                'type'        => 'Fix',
+                'description' => 'If admin commission for flat type commission is set to zero it was showing not set.',
+            ),
+            array(
+                'title'       => 'Text-domain Missing on Confirmation Alert',
+                'type'        => 'Fix',
+                'description' => 'Text-domain missing on confirmation alert. Now it fixed all alert confirmation on vendor dashboard.',
+            ),
+            array(
+                'title'       => 'Default Attribute Was Not Displaying [Vendor Product Update]',
+                'type'        => 'Fix',
+                'description' => 'Default attribute was not displaying when variation product edit from vendor dashboard issue fixed.',
+            ),
+            array(
+                'title'       => 'Vendor Details Admin Commission Label Changed',
+                'type'        => 'Fix',
+                'description' => 'Vendor details admin commission label changed to commission rate on the admin area dokan vendor details page.',
+            ),
+            array(
+                'title'       => 'Fixed Vendor Staff Was Not Receiving New Order Email [Vendor Staff]',
+                'type'        => 'Fix',
+                'description' => 'Fixed vendor staff was not receiving new order email issue fixed now.',
+            ),
+            array(
+                'title'       => 'Fixed Variations Was Not Saving Correctly [Vendor Product]',
+                'type'        => 'Fix',
+                'description' => 'Fixed Variations was not saving correctly from vendor dashboard when try to use multiples attributes.',
+            ),
+            array(
+                'title'       => 'Fixed Store Support Form Showing Wrong With Elementor [Elementor]',
+                'type'        => 'Fix',
+                'description' => 'Fixed store support form showing wrong with Elementor if still have logged out users.',
+            ),
+            array(
+                'title'       => 'Replaced WP SEO Deprecated Functions [Product SEO]',
+                'type'        => 'Fix',
+                'description' => 'Replaced WP SEO deprecated functions, now product seo capable with latest wp seo plugin.',
+            ),
+            array(
+                'title'       => 'Fixed Product Location Mismatch [Geolocation]',
+                'type'        => 'Fix',
+                'description' => 'Fixed product location mismatch if created from admin and try to reassign a vendor on a product.',
+            ),
+            array(
+                'title'       => 'Auction Product SKU is Not Updating [Auction]',
+                'type'        => 'Fix',
+                'description' => 'Auction product SKU is not updating or saving now fixed.',
+            ),
+            array(
+                'title'       => 'Single Product Multiple Vendor Redirection [Auction]',
+                'type'        => 'Fix',
+                'description' => 'Single Product Multiple Vendor redirection for auction and booking type product.',
+            ),
+            array(
+                'title'       => 'Updated Stripe Codebase and Fixed Some Issues [Dokan Stripe]',
+                'type'        => 'Fix',
+                'description' => 'Updated stripe codebase and fixed some issues with Stripe modules.',
+            ),
+            array(
+                'title'       => 'Responsive Dashboard Product and Order Table',
+                'type'        => 'Fix',
+                'description' => 'Responsive dashboard product and order table now fixed.',
+            ),
+            array(
+                'title'       => 'Removed Addon Validation for Dokan Subscription [Dokan Subscription]',
+                'type'        => 'Fix',
+                'description' => 'Removed addon validation for Dokan Subscription product.',
+            ),
+            array(
+                'title'       => 'Vendor Updates Other Vendor Product',
+                'type'        => 'Fix',
+                'description' => 'Vendor updates other vendor product if SKU/ID is same, instead of creating a new product for requesting vendor.',
+            ),
+            array(
+                'title'       => 'Make Product Status Draft After a Vendor Cancels Their Subscriptions [Dokan Subscriptions]',
+                'type'        => 'Fix',
+                'description' => 'Make product status draft after a vendor/admin immediately cancels their subscriptions.',
+            ),
+        ),
+    ),
+    array(
+        'version'  => 'Version 3.1.3',
+        'released' => '2020-12-17',
+        'changes'  => array(
+            array(
+                'title'       => 'Added Tax/Discount for Vendor Subscriptions [WireCard]',
+                'type'        => 'Improvement',
+                'description' => 'Added tax/discount for Vendor Subscriptions, previously only actual product price was sent to API.',
+            ),
+            array(
+                'title'       => 'Added a New Exception if Vendor Account [WireCard]',
+                'type'        => 'Improvement',
+                'description' => 'Added a new exception if vendor account is not linked with wire card, now the user will get proper error messages instead of Something went wrong.',
+            ),
+            array(
+                'title'       => 'Refund and Announcement Page Loading Problem [Dokan Admin]',
+                'type'        => 'Fix',
+                'description' => 'Refund and announcement listing loading problem and text-domain issue fixed.',
+            ),
+            array(
+                'title'       => 'Booking Addon Options are Missing [Dokan Booking]',
+                'type'        => 'Fix',
+                'description' => 'Booking addon options are missing on the Booking type product edit panel.',
+            ),
+            array(
+                'title'       => 'Variable Product Image Upload Issue with Yoast SEO [Vendor Product SEO]',
+                'type'        => 'Fix',
+                'description' => 'Variable product image upload when yoast seo plugin is active.',
+            ),
+            array(
+                'title'       => 'Added Tax Fields for Vendor Subscription [Vendor Subscription Product]',
+                'type'        => 'Fix',
+                'description' => 'Added tax fields for vendor subscription type product.',
+            ),
+            array(
+                'title'       => 'Booking Simple Product to Virtual Product [Dokan Booking]',
+                'type'        => 'Fix',
+                'description' => 'Booking simple product changes to virtual product when create a booking product from vendor area.',
+            ),
+            array(
+                'title'       => 'Stripe Recurring Issue With 3ds [Dokan Stripe]',
+                'type'        => 'Fix',
+                'description' => 'Fixed Dokan Stripe 3ds recurring issue with vendor subscription products.',
+            ),
+            array(
+                'title'       => 'Dokan Order Discount Mismatch When Recalculate',
+                'type'        => 'Fix',
+                'description' => 'Dokan order discount mismatch when recalculate from admin panel order details page.',
+            ),
+            array(
+                'title'       => 'Fixed Cart Coupon Option Disabled Multi Vendors',
+                'type'        => 'Fix',
+                'description' => 'Fixed cart coupon option disabled for multi vendors, it will be work only when single seller mode enabled form dokan settings.',
+            ),
+            array(
+                'title'       => 'Added Some New Exceptions to Display Formatted [WireCard]',
+                'type'        => 'Fix',
+                'description' => 'Added some new exceptions to display formatted errors to users.',
+            ),
+            array(
+                'title'       => 'Fixed Product Pack End Date for Vendor Subscription [WireCard]',
+                'type'        => 'Fix',
+                'description' => 'Fixed product pack end date for vendor subscription, previously this was causing subscription to get canceled automatically before subscriptions actual end date.',
+            ),
+            array(
+                'title'       => 'Fixed Decimal Issues on Product Price [WireCard]',
+                'type'        => 'Fix',
+                'description' => 'Fixed decimal issues on product price, this was causing API error due to mismatch order total.',
+            ),
+            array(
+                'title'       => 'Removed rmccue/requests Library From Vendor Folder [WireCard]',
+                'type'        => 'Fix',
+                'description' => 'Removed rmccue/requests library from vendor folder, WordPress already has this library preinstalled. This was causing a fatal error on some installations.',
+            ),
+            array(
+                'title'       => 'Fixed Limit Your Zone Selected by Default [Dokan Vendor Shipping]',
+                'type'        => 'Fix',
+                'description' => 'Limit your zone selected by default when zone created with a country.',
+            ),
+            array(
+                'title'       => 'Vendor Verification Upload Documents Folder Disallow',
+                'type'        => 'Fix',
+                'description' => 'Disallow direct access vendor verification uploaded documents folder.',
+            ),
+            array(
+                'title'       => 'Fixed Dokan Stripe Resource Missing API',
+                'type'        => 'Fix',
+                'description' => 'Fixed Dokan Stripe resource missing api error for empty source provided via api call.',
+            ),
+        ),
+    ),
+    array(
+        'version'  => 'Version 3.1.2',
+        'released' => '2020-12-01',
+        'changes'  => array(
+            array(
+                'title'       => 'Vendor Gets Error With PayPal',
+                'type'        => 'Fix',
+                'description' => 'Vendor gets error while purchasing products if they purchased a vendor subscription product with PayPal in checkout page.',
+            ),
+            array(
+                'title'       => 'Multi Vendor Product Showing Others Vendor',
+                'type'        => 'Fix',
+                'description' => 'Single product multi vendor products showing others vendor area issue when SPMV product duplicated.',
+            ),
+            array(
+                'title'       => 'Admin Commission Set 0 by Default',
+                'type'        => 'Fix',
+                'description' => 'Admin commission set 0 by default when create/update vendor form admin area.',
+            ),
+            array(
+                'title'       => 'Enabling Vacation Mode is Hiding Products',
+                'type'        => 'Fix',
+                'description' => 'Enabling vacation mode is hiding products from vendor dashboard, vendor is not able to see the products.',
+            ),
+            array(
+                'title'       => 'Vendor Staff Is Not Able To Manage Product',
+                'type'        => 'Fix',
+                'description' => 'Vendor staff is not able to add/edit any product on vendor dashboard, also fixed capabilities issue.',
+            ),
+            array(
+                'title'       => 'Vendor Shipping Settings Page Console Error',
+                'type'        => 'Fix',
+                'description' => 'Vendor shipping settings page showing js error issue when try to add/update any shipping zone.',
+            ),
+            array(
+                'title'       => 'Update Vendor Review REST API',
+                'type'        => 'Fix',
+                'description' => 'Update vendor review REST API and fixed some errors.',
+            ),
+            array(
+                'title'       => 'SMS verification Error Message Translation',
+                'type'        => 'Fix',
+                'description' => 'SMS verification error message translation was not available.',
+            ),
+            array(
+                'title'       => 'SMS Verification Error Handling',
+                'type'        => 'Fix',
+                'description' => 'SMS verification error handling for vendors.',
+            ),
+            array(
+                'title'       => 'Booking Product Virtual Option Not Saving',
+                'type'        => 'Fix',
+                'description' => 'Booking product virtual option not saving while 1st time create form vendor dashboard.',
+            ),
+            array(
+                'title'       => 'Coupon Minimum Amount Not Working',
+                'type'        => 'Fix',
+                'description' => 'Coupon minimum amount not working with variation products issue fixed.',
+            ),
+            array(
+                'title'       => 'Vendor Product Addon Appears on Other Vendors',
+                'type'        => 'Fix',
+                'description' => 'Vendor product addon appears in every product in marketplace when that vendor is logged in.',
+            ),
+            array(
+                'title'       => 'Product Wise Commission Issue In Subscription Product',
+                'type'        => 'Fix',
+                'description' => 'Product wise Commission is not working in subscription product on admin area product edit page.',
+            ),
+            array(
+                'title'       => 'Report CSV Header Mismatch',
+                'type'        => 'Fix',
+                'description' => 'Report csv header mismatch issue fixed.',
+            ),
+            array(
+                'title'       => 'Stripe Dashboard Tax Issue',
+                'type'        => 'Fix',
+                'description' => 'Stripe Dashboard does not show the price including the tax for vendors.',
+            ),
+            array(
+                'title'       => 'SKU Data Not importing with CSV',
+                'type'        => 'Fix',
+                'description' => 'SKU data not importing when CSV import on vendor dashboard.',
+            ),
+            array(
+                'title'       => 'Booking Single Day Data Issue',
+                'type'        => 'Fix',
+                'description' => 'Booking single day no data showing, responsiveness issue fixes form vendor dashboard booking details page.',
+            ),
+            array(
+                'title'       => 'Product Seo Default Meta Field Issue',
+                'type'        => 'Fix',
+                'description' => 'Product seo default meta description removed from vendor dashboard product edit page.',
+            ),
+            array(
+                'title'       => 'Variable product gets extra fields of variable subscription product',
+                'type'        => 'Fix',
+                'description' => 'When a vendor wants to create a variable product, extra field added from the vendor subscription product.',
+            ),
+            array(
+                'title'       => 'Check End Date Before Cancelling Vendor Subscriptions',
+                'type'        => 'Fix',
+                'description' => 'Check subscription product pack end date matched with stored end date before cancelling vendor subscriptions. If both value does not match, update end date value.',
+            ),
+            array(
+                'title'       => 'Downloads files showing multiple entries when have suborder',
+                'type'        => 'Fix',
+                'description' => 'Downloads files showing multiple entries when have suborder.',
+            ),
+            array(
+                'title'       => 'Gateway fee paid by admin if empty',
+                'type'        => 'Fix',
+                'description' => 'If the processing fee is not 0 and if the dokan_gateway_fee_paid_by meta is blank then the processing fee is paid by the admin.',
+            ),
+            array(
+                'title'       => 'Booking by day view which is missing in Booking calendar',
+                'type'        => 'Fix',
+                'description' => 'Bookable Product: Booking by day view which is missing in Booking calender.',
+            ),
+        ),
+    ),
+    array(
+        'version'  => 'Version 3.1.1',
+        'released' => '2020-11-14',
+        'changes'  => array(
+            array(
+                'title'       => 'Refactored Stripe Connect Module',
+                'type'        => 'Fix',
+                'description' => 'Refactored and fixed stripe connect module. Here fixed multiples dokan and vendor product subscription issues.',
+            ),
+            array(
+                'title'       => 'Vendor Subscription Product Cancel Not Showing on Vendor Dashboard',
+                'type'        => 'Fix',
+                'description' => 'When a customer canceled their subscription then last status not showing vendor dashboard.',
+            ),
+            array(
+                'title'       => 'Wholesale Product Checkbox Not Working',
+                'type'        => 'Fix',
+                'description' => 'Wholesale product checkbox not working when product status pending in vendor product edit page',
+            ),
+            array(
+                'title'       => 'Product Wise Commission Not Working Comma Decimal',
+                'type'        => 'Fix',
+                'description' => 'Product wise commission not working when use comma decimal separator issue fixed',
+            ),
+            array(
+                'title'       => 'Dokan Modules Section Active/Inactive Tab Issue',
+                'type'        => 'Fix',
+                'description' => 'Dokan modules section active/inactive tab section not work correctly',
+            ),
+            array(
+                'title'       => 'Product Addon Select Field Options Issue with Price Field Blank',
+                'type'        => 'Fix',
+                'description' => 'When a vendor try to add a product addon select field with price field blank then the option not saving',
+            ),
+            array(
+                'title'       => 'Required Minimum PHP Version Set to 7.0.0',
+                'type'        => 'Fix',
+                'description' => 'PHP 5.6 Compatibility, update required minimum php version is set to 7.0.0 on Dokan',
+            ),
+            array(
+                'title'       => 'Vendor Not Able to Duplicate Product',
+                'type'        => 'Fix',
+                'description' => 'Duplicate product not working when try any product duplicate from vendor dashboard',
+            ),
+            array(
+                'title'       => 'Fixed translation Issue for Dokan pro',
+                'type'        => 'Fix',
+                'description' => 'Fixed multiple translation issues for Dokan amdin settings pages',
+            ),
+            array(
+                'title'       => 'Refactored Dokan Admin Modules Page',
+                'type'        => 'Fix',
+                'description' => 'Modules url changed on title and image in dokan admin modules page',
+            ),
+            array(
+                'title'       => 'Dokan Booking Calendar Issue on Single day',
+                'type'        => 'Fix',
+                'description' => 'Dokan booking calendar only shows one booking on a single day on vendor dashboard booking details page',
+            ),
+        ),
+    ),
+    array(
         'version'  => 'Version 3.1',
         'released' => '2020-10-20',
         'changes'  => array(

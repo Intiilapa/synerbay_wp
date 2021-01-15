@@ -9,12 +9,19 @@ class Assets {
 
     private $script_version;
 
+    private $suffix;
+
     public function __construct() {
         $this->script_version = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : DOKAN_PRO_PLUGIN_VERSION;
+
+        // Use minified libraries if SCRIPT_DEBUG is turned off
+        $this->suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
+
 
         if ( is_admin() ) {
             add_action( 'admin_enqueue_scripts', [ $this, 'register' ], 5 );
             add_action( 'dokan-vue-admin-scripts', [ $this, 'enqueue_admin_scripts' ] );
+            add_filter( 'dokan_admin_localize_script', [ $this, 'add_localized_data' ], 5 );
         } else {
             add_action( 'wp_enqueue_scripts', [ $this, 'register' ], 5 );
             add_action( 'dokan_enqueue_scripts', [ $this, 'enqueue_frontend_scripts' ], 5 );
@@ -39,6 +46,18 @@ class Assets {
     }
 
     /**
+     * This method will enqueue dokan pro localize data
+     *
+     * @since 3.1.1
+     * @param array $data
+     * @return array
+     */
+    public function add_localized_data( $data ) {
+        $data['dokan_pro_i18n'] = array( 'dokan' => dokan_get_jed_locale_data( 'dokan', DOKAN_PRO_DIR . '/languages/' ) );
+        return $data;
+    }
+
+    /**
      * Enqueue forntend scripts
      *
      * @since 2.8.0
@@ -48,7 +67,7 @@ class Assets {
     public function enqueue_frontend_scripts() {
         global $wp;
 
-        if ( isset( $wp->query_vars['settings'] ) && $wp->query_vars['settings'] == 'shipping' ) {
+        if ( isset( $wp->query_vars['settings'] ) && $wp->query_vars['settings'] === 'shipping' ) {
             wp_enqueue_style( 'dokan-vue-bootstrap' );
             wp_enqueue_style( 'dokan-pro-vue-frontend-shipping' );
             wp_enqueue_script( 'dokan-pro-vue-frontend-shipping' );
@@ -60,7 +79,7 @@ class Assets {
                 'states'            => WC()->countries->get_states(),
                 'shipping_class'    => WC()->shipping->get_shipping_classes(),
                 'i18n'              => array( 'dokan' => dokan_get_jed_locale_data( 'dokan' ) ),
-                'processing_time'   => dokan_get_shipping_processing_times()
+                'processing_time'   => dokan_get_shipping_processing_times(),
             );
 
             wp_localize_script( 'dokan-pro-vue-frontend-shipping', 'dokanShipping', $localize_array );
@@ -118,17 +137,17 @@ class Assets {
     public function get_scripts() {
         $scripts = [
             'dokan-pro-vue-admin' => [
-                'src'       => DOKAN_PRO_PLUGIN_ASSEST . '/js/vue-pro-admin.js',
+                'src'       => DOKAN_PRO_PLUGIN_ASSEST . '/js/vue-pro-admin' . $this->suffix . '.js',
                 'deps'      => [ 'jquery', 'dokan-vue-vendor', 'dokan-vue-bootstrap', 'selectWoo' ],
                 'version'   => $this->script_version,
-                'in_footer' => true
+                'in_footer' => true,
             ],
 
             'dokan-pro-vue-frontend-shipping' => [
-                'src'       => DOKAN_PRO_PLUGIN_ASSEST . '/js/vue-pro-frontend-shipping.js',
+                'src'       => DOKAN_PRO_PLUGIN_ASSEST . '/js/vue-pro-frontend-shipping' . $this->suffix . '.js',
                 'deps'      => [ 'jquery', 'dokan-vue-vendor', 'dokan-vue-bootstrap', 'underscore' ],
                 'version'   => $this->script_version,
-                'in_footer' => true
+                'in_footer' => true,
             ],
         ];
 
@@ -141,18 +160,17 @@ class Assets {
      * @return array
      */
     public function get_styles() {
-
         $styles = [
             'dokan-pro-vue-admin' => [
-                'src'     =>  DOKAN_PRO_PLUGIN_ASSEST . '/css/vue-pro-admin.css',
+                'src'     =>  DOKAN_PRO_PLUGIN_ASSEST . '/css/vue-pro-admin' . $this->suffix . '.css',
                 'version' => $this->script_version,
             ],
             'dokan-pro-vue-frontend-shipping' => [
-                'src'     =>  DOKAN_PRO_PLUGIN_ASSEST . '/css/vue-pro-frontend-shipping.css',
+                'src'     =>  DOKAN_PRO_PLUGIN_ASSEST . '/css/vue-pro-frontend-shipping' . $this->suffix . '.css',
                 'version' => $this->script_version,
             ],
             'dokan-pro-wp-version-before-5-3' => [
-                'src'     =>  DOKAN_PRO_PLUGIN_ASSEST . '/css/wp-version-before-5-3.css',
+                'src'     => DOKAN_PRO_PLUGIN_ASSEST . '/css/wp-version-before-5-3.css',
                 'version' => $this->script_version,
             ],
         ];

@@ -1,3 +1,92 @@
+v3.1.4 Jan 11, 2021
+----------------------------------
+
+* update: Added disconnect button on dokan admin setting and some issues fixed on vendor analytics
+* update: Product add-on module template override does not work
+* update: Changed social login sign in URL from dokan_reg to vendor_social_reg  on query param
+* fix: Import option allows vendors to create categories
+* fix: If admin commission for flat type commission is set to zero it was showing not set
+* fix: Text-domain missing on confirmation alert
+* fix: Default attribute was not displaying when variation product edit form vendor dashboard
+* fix: Vendor details admin commission label changed on the admin area
+* fix: Fixed vendor staff was not receiving new order email issue
+* fix: Fixed Variations was not saving correctly
+* fix: Fixed store support form showing wrong with Elementor
+* fix: Replaced WP SEO deprecated functions
+* fix: Fixed product location mismatch if created from admin
+* fix: Vendor verification image breaks after upload and the uploaded file is not accessible
+* fix: Auction product SKU is not updating or saving
+* fix: Single Product Multiple Vendor redirection for auction and booking type product
+* fix: Updated stripe codebase and fixed some issues with Stripe modules
+* fix: Responsive dashboard product and order table
+* fix: Removed addon validation for Dokan Subscription product
+* fix: Vendor updates other vendor product if SKU/ID is same, instead of creating a new product for requesting vendor
+* fix: Make product status draft after a vendor/admin immediately cancels their subscriptions
+
+v3.1.3 Dec 20, 2020
+----------------------------------
+
+- [update] WireCard: Added tax/discount for Vendor Subscriptions, previously only actual product price was sent to API
+- [update] WireCard: Added a new exception if vendor account is not linked with wire card, now the user will get proper error messages instead of Something went wrong
+- [fix] Refund and announcement listing loading problem and text-domain issue fixed
+- [fix] Booking addon options are missing on the Booking type product edit panel
+- [fix] Variable product image upload when yoast seo plugin is active
+- [fix] Added tax fields for vendor subscription type product, previously users weren't able to select tax for vendor subscription products
+- [fix] Translation support for list tables on Dokan admin pages
+- [fix] Booking simple product changes to virtual product
+- [fix] Fixed Dokan Stripe 3ds recurring issue with vendor subscription products
+- [fix] Dokan order discount mismatch when recalculate from admin panel order details page
+- [fix] Fixed cart coupon option disabled for multi vendors
+- [fix] WireCard: added some new exceptions to display formatted errors to users
+- [fix] WireCard: Fixed product pack end date for vendor subscription, previously this was causing subscription to get canceled automatically before subscriptions actual end date
+- [fix] WireCard: Fixed decimal issues on product price, this was causing API error due to mismatch order total
+- [fix] WireCard: Removed rmccue/requests library from vendor folder, WordPress already has this library pre installed. This was causing a fatal error on some installations
+- [fix] Limit your zone selected by default when zone created with a country
+- [fix] Disallow direct access vendor verification uploaded documents folder
+- [fix] Fixed Dokan Stripe resource missing api error for empty source provided via api call
+
+v3.1.2 Dec 01, 2020
+----------------------------------
+
+- [fix] Vendor gets error while purchasing normal product with PayPal in checkout page
+- [fix] Single product multi vendor products showing others vendor area issue when SPMV product duplicated
+- [fix] Admin commission set 0 by default when create/update vendor form admin area
+- [fix] Enable vacation mode is hiding products from vendor dashboard, vendor not able to see the products
+- [fix] Vendor staff not able to add/edit any product on vendor dashboard, also fixed capabilities issue and improve code standard
+- [fix] Vendor shipping settings page showing JS error issue when try to add/update any shipping zone
+- [fix] Update vendor review REST API and fixed some errors
+- [fix] SMS verification error message translation not available
+- [fix] SMS verification error handling for vendors
+- [fix] Booking product virtual option not saving while 1st time create form vendor dashboard
+- [fix] Coupon minimum amount not working with variation products issue fixed
+- [fix] Vendor product addon appears in every product in marketplace when that vendor logged in
+- [fix] Product wise Commission is not working in subscription product on admin area product edit page
+- [fix] Report CSV header mismatch issue fixed
+- [fix] Stripe Dashboard does not show the price including the tax for vendors
+- [fix] SKU data not importing when CSV import on vendor dashboard
+- [fix] Booking single day no data showing, responsiveness issue fixes form vendor dashboard booking details page
+- [fix] Product SEO default meta description removed from vendor dashboard product edit page
+- [fix] Check product pack end date before cancelling vendor subscriptions
+- [fix] Downloads files showing multiple entries when have suborder
+- [fix] Variable product showing extra fields when subscription type product update from vendor dashboard
+- [fix] Bookable Product: Booking by day view which is missing in Booking calendar.
+- [fix] If the processing fee is not 0 and if the dokan_gateway_fee_paid_by meta is blank then the processing fee is paid by the admin.
+
+v3.1.1 -> Nov 16, 2020
+----------------------------------
+
+- [Fix] Stripe Refactor
+- [fix] Customer subscription cancel status not showing for vendor
+- [fix] Wholesale product checkbox not working when product status pending
+- [fix] Product wise commission not working comma decimal issue fixed
+- [fix] Dokan modules section active/inactive issue
+- [fix] Product addon select field not saving when price field blank
+- [fix] PHP 5.6 Compatibility, **update: required minimum php version is set to 7.0.0
+- [fix] Duplicate product not working when try any product duplicate
+- [fix] Fixed translation issue for Dokan pro
+- [fix] Modules url changes on module title and image in Dokan admin
+- [fix] Dokan booking calendar only shows one booking on a single day
+
 v3.1 -> Oct 20, 2020
 ----------------------------------
 

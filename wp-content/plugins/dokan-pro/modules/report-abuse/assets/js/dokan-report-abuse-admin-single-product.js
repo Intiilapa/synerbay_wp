@@ -1,1 +1,112 @@
-!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=65)}({65:function(e,t,n){"use strict";n.r(t);var r;n(66);(r=jQuery)(".dokan-report-abuse-admin-single-product-delete-item").on("click",(function(e){e.preventDefault();var t=r(this),n=t.data("id"),o=t.parents("tr"),a=t.parents("fieldset");confirm(dokanReportAbuse.i18n.confirmDelete)&&(a.prop("disabled",!0),t.html('<i class="fa fa-refresh fa-spin"></i> '.concat(dokanReportAbuse.i18n.deleting,"...")),r.ajax({url:"".concat(dokanReportAbuse.rest.root,"dokan/v1/abuse-reports/").concat(n),method:"post",beforeSend:function(e){e.setRequestHeader("X-WP-Nonce",dokanReportAbuse.rest.nonce),e.setRequestHeader("X-HTTP-Method-Override","DELETE")}}).done((function(e){o.remove(),alert(dokanReportAbuse.i18n.deletedSuccessfully)})).fail((function(e){t.html('<i class="fa fa-trash"></i> '.concat(dokanReportAbuse.i18n.delete)),e.responseJSON&&e.responseJSON.message&&alert(e.responseJSON.message)})).always((function(){a.prop("disabled",!1)})))}))},66:function(e,t,n){}});
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./modules/report-abuse/assets/src/js/admin/single-product.js");
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./modules/report-abuse/assets/src/js/admin/single-product.js":
+/*!********************************************************************!*\
+  !*** ./modules/report-abuse/assets/src/js/admin/single-product.js ***!
+  \********************************************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _less_single_product_less__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../less/single-product.less */ \"./modules/report-abuse/assets/src/less/single-product.less\");\n/* harmony import */ var _less_single_product_less__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_less_single_product_less__WEBPACK_IMPORTED_MODULE_0__);\n\n;\n\n(function ($) {\n  $('.dokan-report-abuse-admin-single-product-delete-item').on('click', function (e) {\n    e.preventDefault();\n    var button = $(this);\n    var id = button.data('id');\n    var tr = button.parents('tr');\n    var fieldset = button.parents('fieldset');\n\n    if (!confirm(dokanReportAbuse.i18n.confirmDelete)) {\n      return;\n    }\n\n    fieldset.prop('disabled', true);\n    button.html(\"<i class=\\\"fa fa-refresh fa-spin\\\"></i> \".concat(dokanReportAbuse.i18n.deleting, \"...\"));\n    $.ajax({\n      url: \"\".concat(dokanReportAbuse.rest.root, \"dokan/v1/abuse-reports/\").concat(id),\n      method: 'post',\n      beforeSend: function beforeSend(xhr) {\n        xhr.setRequestHeader('X-WP-Nonce', dokanReportAbuse.rest.nonce);\n        xhr.setRequestHeader('X-HTTP-Method-Override', 'DELETE');\n      }\n    }).done(function (response) {\n      tr.remove();\n      alert(dokanReportAbuse.i18n.deletedSuccessfully);\n    }).fail(function (jqXHR) {\n      button.html(\"<i class=\\\"fa fa-trash\\\"></i> \".concat(dokanReportAbuse.i18n.delete));\n\n      if (jqXHR.responseJSON && jqXHR.responseJSON.message) {\n        alert(jqXHR.responseJSON.message);\n      }\n    }).always(function () {\n      fieldset.prop('disabled', false);\n    });\n  });\n})(jQuery);\n\n//# sourceURL=webpack:///./modules/report-abuse/assets/src/js/admin/single-product.js?");
+
+/***/ }),
+
+/***/ "./modules/report-abuse/assets/src/less/single-product.less":
+/*!******************************************************************!*\
+  !*** ./modules/report-abuse/assets/src/less/single-product.less ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("// extracted by mini-css-extract-plugin\n\n//# sourceURL=webpack:///./modules/report-abuse/assets/src/less/single-product.less?");
+
+/***/ })
+
+/******/ });

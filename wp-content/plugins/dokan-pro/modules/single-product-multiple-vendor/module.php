@@ -20,11 +20,12 @@ class Module {
 
         add_action( 'dokan_activated_module_spmv', array( self::class, 'activate' ) );
         //Prevent Duplicate SKU for multiple save from various vendor
-        add_action( 'woocommerce_product_duplicate_before_save', [ $this, 'prevent_duplicate_sku' ] );
+        add_action( 'woocommerce_product_duplicate_before_save', [ $this, 'prevent_duplicate_sku' ], 10, 2 );
+        add_action( 'dokan_product_duplicate_after_save', [ $this, 'update_duplicate_product_spmv' ], 10, 2 );
     }
 
     /**
-     * hooks
+     * Hooks
      *
      * @since 1.0.0
      *
@@ -38,7 +39,7 @@ class Module {
     }
 
     /**
-     * includes all necessary class a functions file
+     * Includes all necessary class a functions file
      *
      * @since 1.0.0
      *
@@ -82,7 +83,7 @@ class Module {
     public function hooks() {
         $enable_option = dokan_get_option( 'enable_pricing', 'dokan_spmv', 'off' );
 
-        if ( 'off' == $enable_option ) {
+        if ( 'off' === $enable_option ) {
             return;
         }
 
@@ -131,6 +132,28 @@ class Module {
     }
 
     /**
+     * Update duplicate product if exists multi vendor
+     *
+     * @since 3.1.2
+     *
+     * @param array $clone_product
+     * @param array $product
+     *
+     * @return void
+     */
+    public function update_duplicate_product_spmv( $clone_product, $product ) {
+        if ( ! isset( $clone_product ) ) {
+            return;
+        }
+
+        $map_id = get_post_meta( $clone_product->get_id(), '_has_multi_vendor', true );
+
+        if ( $map_id ) {
+            update_post_meta( $clone_product->get_id(), '_has_multi_vendor', '' );
+        }
+    }
+
+    /**
      * Check recursively if sku exist
      *
      * @param $sku
@@ -139,6 +162,12 @@ class Module {
      */
     public function get_unique_sku( $sku ) {
         $unique_sku = $sku;
+
+        // If SKU is already empty, we don't need to create a new SKU
+        if ( empty( $unique_sku ) ) {
+            return  $unique_sku;
+        }
+
         global $wpdb;
         $result = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM {$wpdb->prefix}postmeta WHERE meta_key='_sku' AND meta_value =%s ", $sku ) );
         if ( $result >= 1 ) {

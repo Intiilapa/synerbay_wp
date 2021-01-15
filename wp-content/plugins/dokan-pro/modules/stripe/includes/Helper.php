@@ -2,6 +2,7 @@
 
 namespace WeDevs\DokanPro\Modules\Stripe;
 
+use Stripe\BalanceTransaction;
 use Stripe\Stripe;
 use WeDevs\DokanPro\Modules\Stripe\Settings\RetrieveSettings;
 
@@ -119,6 +120,15 @@ class Helper {
     }
 
     /**
+     * Is $order_id a subscription?
+     * @param  int  $order_id
+     * @return boolean
+     */
+    public static function has_subscription( $order_id ) {
+        return ( function_exists( 'wcs_order_contains_subscription' ) && ( wcs_order_contains_subscription( $order_id ) || wcs_is_subscription( $order_id ) || wcs_order_contains_renewal( $order_id ) ) );
+    }
+
+    /**
      * Get subscription product from an order
      *
      * @param \WC_Order $order
@@ -129,7 +139,7 @@ class Helper {
         foreach ( $order->get_items() as $item ) {
             $product = $item->get_product();
 
-            if ( in_array( $product->get_type(), [ 'product_pack', 'subscription', 'variable-subscription' ], true ) ) {
+            if ( 'product_pack' === $product->get_type() ) {
                 return $product;
             }
         }
@@ -275,7 +285,6 @@ class Helper {
         $settings = self::get_settings();
 
         return ! empty( $settings['saved_cards'] ) && 'yes' === $settings['saved_cards'];
-        $settings = self::get_settings();
     }
 
     /**
@@ -393,12 +402,21 @@ class Helper {
      */
     public static function format_gateway_balance_fee( $balance_transaction ) {
         if ( ! is_object( $balance_transaction ) ) {
+            try {
+                $balance_transaction = BalanceTransaction::retrieve( $balance_transaction );
+            } catch ( \Exception $exception ) {
+                dokan_log( 'Retrieving Balance Transaction Error: ' . $exception->getMessage() );
+                return;
+            }
+        }
+
+        if ( ! is_object( $balance_transaction ) ) {
             return;
         }
 
         $fee = $balance_transaction->fee;
         foreach ( $balance_transaction->fee_details as $fee_details ) {
-            if ( $fee_details->type == 'stripe_fee' ) {
+            if ( $fee_details->type === 'stripe_fee' ) {
                 $fee = $fee_details->amount;
                 break;
             }
@@ -409,7 +427,7 @@ class Helper {
         }
 
         if ( $balance_transaction->exchange_rate ) {
-            return round ($fee / $balance_transaction->exchange_rate, 2);
+            return number_format( $fee / $balance_transaction->exchange_rate, 2, '.', '' );
         }
 
         return $fee;
@@ -465,5 +483,58 @@ class Helper {
      */
     public static function get_template( $name, $args = [] ) {
         dokan_get_template( "$name.php", $args, 'dokan/modules/stripe', trailingslashit( DOKAN_STRIPE_TEMPLATE_PATH ) );
+    }
+
+    /**
+     * Localize Stripe messages based on code
+     *
+     * @since 3.1.4
+     * @return array
+     */
+    public static function get_localized_messages() {
+        return apply_filters(
+            'dokan_stripe_localized_messages',
+            array(
+                'invalid_number'           => __( 'The card number is not a valid credit card number.', 'dokan' ),
+                'invalid_expiry_month'     => __( 'The card\'s expiration month is invalid.', 'dokan' ),
+                'invalid_expiry_year'      => __( 'The card\'s expiration year is invalid.', 'dokan' ),
+                'invalid_cvc'              => __( 'The card\'s security code is invalid.', 'dokan' ),
+                'incorrect_number'         => __( 'The card number is incorrect.', 'dokan' ),
+                'incomplete_number'        => __( 'The card number is incomplete.', 'dokan' ),
+                'incomplete_cvc'           => __( 'The card\'s security code is incomplete.', 'dokan' ),
+                'incomplete_expiry'        => __( 'The card\'s expiration date is incomplete.', 'dokan' ),
+                'expired_card'             => __( 'The card has expired.', 'dokan' ),
+                'incorrect_cvc'            => __( 'The card\'s security code is incorrect.', 'dokan' ),
+                'incorrect_zip'            => __( 'The card\'s zip code failed validation.', 'dokan' ),
+                'invalid_expiry_year_past' => __( 'The card\'s expiration year is in the past', 'dokan' ),
+                'card_declined'            => __( 'The card was declined.', 'dokan' ),
+                'missing'                  => __( 'There is no card on a customer that is being charged.', 'dokan' ),
+                'processing_error'         => __( 'An error occurred while processing the card.', 'dokan' ),
+                'invalid_request_error'    => __( 'Unable to process this payment, please try again or use alternative method.', 'dokan' ),
+                'invalid_sofort_country'   => __( 'The billing country is not accepted by SOFORT. Please try another country.', 'dokan' ),
+                'email_invalid'            => __( 'Invalid email address, please correct and try again.', 'dokan' ),
+            )
+        );
+    }
+
+    /**
+     * Generates a localized message for an error from a response.
+     *
+     * @since 3.1.4
+     *
+     * @param stdClass $response The response from the Stripe API.
+     *
+     * @return string The localized error message.
+     */
+    public static function get_localized_error_message_from_response( $response ) {
+        $localized_messages = self::get_localized_messages();
+
+        if ( 'card_error' === $response->error->type ) {
+            $localized_message = isset( $localized_messages[ $response->error->code ] ) ? $localized_messages[ $response->error->code ] : $response->error->message;
+        } else {
+            $localized_message = isset( $localized_messages[ $response->error->type ] ) ? $localized_messages[ $response->error->type ] : $response->error->message;
+        }
+
+        return $localized_message;
     }
 }

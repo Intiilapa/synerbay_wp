@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
+class ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94
 {
     public static $files = array (
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
@@ -82,13 +82,6 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
     );
 
     public static $prefixesPsr0 = array (
-        'R' => 
-        array (
-            'Requests' => 
-            array (
-                0 => __DIR__ . '/..' . '/rmccue/requests/library',
-            ),
-        ),
         'P' => 
         array (
             'PayPal\\Types' => 
@@ -153,9 +146,11 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'Hybridauth\\Provider\\Blizzard' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Blizzard.php',
         'Hybridauth\\Provider\\BlizzardAPAC' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/BlizzardAPAC.php',
         'Hybridauth\\Provider\\BlizzardEU' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/BlizzardEU.php',
+        'Hybridauth\\Provider\\DeviantArt' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/DeviantArt.php',
         'Hybridauth\\Provider\\Discord' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Discord.php',
         'Hybridauth\\Provider\\Disqus' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Disqus.php',
         'Hybridauth\\Provider\\Dribbble' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Dribbble.php',
+        'Hybridauth\\Provider\\Dropbox' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Dropbox.php',
         'Hybridauth\\Provider\\Facebook' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Facebook.php',
         'Hybridauth\\Provider\\Foursquare' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Foursquare.php',
         'Hybridauth\\Provider\\GitHub' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/GitHub.php',
@@ -164,6 +159,7 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'Hybridauth\\Provider\\Instagram' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Instagram.php',
         'Hybridauth\\Provider\\LinkedIn' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/LinkedIn.php',
         'Hybridauth\\Provider\\Mailru' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Mailru.php',
+        'Hybridauth\\Provider\\Medium' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Medium.php',
         'Hybridauth\\Provider\\MicrosoftGraph' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/MicrosoftGraph.php',
         'Hybridauth\\Provider\\ORCID' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/ORCID.php',
         'Hybridauth\\Provider\\Odnoklassniki' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Odnoklassniki.php',
@@ -191,7 +187,6 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'Hybridauth\\Provider\\WindowsLive' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/WindowsLive.php',
         'Hybridauth\\Provider\\WordPress' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/WordPress.php',
         'Hybridauth\\Provider\\Yahoo' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Yahoo.php',
-        'Hybridauth\\Provider\\YahooOpenID' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/YahooOpenID.php',
         'Hybridauth\\Provider\\Yandex' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Provider/Yandex.php',
         'Hybridauth\\Storage\\Session' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Storage/Session.php',
         'Hybridauth\\Storage\\StorageInterface' => __DIR__ . '/..' . '/hybridauth/hybridauth/src/Storage/StorageInterface.php',
@@ -397,64 +392,6 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'PayPal\\Types\\Common\\PhoneNumberType' => __DIR__ . '/..' . '/paypal/adaptivepayments-sdk-php/lib/PayPal/Types/Common/PhoneNumberType.php',
         'PayPal\\Types\\Common\\RequestEnvelope' => __DIR__ . '/..' . '/paypal/adaptivepayments-sdk-php/lib/PayPal/Types/Common/RequestEnvelope.php',
         'PayPal\\Types\\Common\\ResponseEnvelope' => __DIR__ . '/..' . '/paypal/adaptivepayments-sdk-php/lib/PayPal/Types/Common/ResponseEnvelope.php',
-        'Requests' => __DIR__ . '/..' . '/rmccue/requests/library/Requests.php',
-        'Requests_Auth' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Auth.php',
-        'Requests_Auth_Basic' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Auth/Basic.php',
-        'Requests_Cookie' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Cookie.php',
-        'Requests_Cookie_Jar' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Cookie/Jar.php',
-        'Requests_Exception' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception.php',
-        'Requests_Exception_HTTP' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP.php',
-        'Requests_Exception_HTTP_304' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/304.php',
-        'Requests_Exception_HTTP_305' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/305.php',
-        'Requests_Exception_HTTP_306' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/306.php',
-        'Requests_Exception_HTTP_400' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/400.php',
-        'Requests_Exception_HTTP_401' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/401.php',
-        'Requests_Exception_HTTP_402' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/402.php',
-        'Requests_Exception_HTTP_403' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/403.php',
-        'Requests_Exception_HTTP_404' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/404.php',
-        'Requests_Exception_HTTP_405' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/405.php',
-        'Requests_Exception_HTTP_406' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/406.php',
-        'Requests_Exception_HTTP_407' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/407.php',
-        'Requests_Exception_HTTP_408' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/408.php',
-        'Requests_Exception_HTTP_409' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/409.php',
-        'Requests_Exception_HTTP_410' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/410.php',
-        'Requests_Exception_HTTP_411' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/411.php',
-        'Requests_Exception_HTTP_412' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/412.php',
-        'Requests_Exception_HTTP_413' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/413.php',
-        'Requests_Exception_HTTP_414' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/414.php',
-        'Requests_Exception_HTTP_415' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/415.php',
-        'Requests_Exception_HTTP_416' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/416.php',
-        'Requests_Exception_HTTP_417' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/417.php',
-        'Requests_Exception_HTTP_418' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/418.php',
-        'Requests_Exception_HTTP_428' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/428.php',
-        'Requests_Exception_HTTP_429' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/429.php',
-        'Requests_Exception_HTTP_431' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/431.php',
-        'Requests_Exception_HTTP_500' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/500.php',
-        'Requests_Exception_HTTP_501' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/501.php',
-        'Requests_Exception_HTTP_502' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/502.php',
-        'Requests_Exception_HTTP_503' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/503.php',
-        'Requests_Exception_HTTP_504' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/504.php',
-        'Requests_Exception_HTTP_505' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/505.php',
-        'Requests_Exception_HTTP_511' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/511.php',
-        'Requests_Exception_HTTP_Unknown' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/HTTP/Unknown.php',
-        'Requests_Exception_Transport' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/Transport.php',
-        'Requests_Exception_Transport_cURL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Exception/Transport/cURL.php',
-        'Requests_Hooker' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Hooker.php',
-        'Requests_Hooks' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Hooks.php',
-        'Requests_IDNAEncoder' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IDNAEncoder.php',
-        'Requests_IPv6' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IPv6.php',
-        'Requests_IRI' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/IRI.php',
-        'Requests_Proxy' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Proxy.php',
-        'Requests_Proxy_HTTP' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Proxy/HTTP.php',
-        'Requests_Response' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Response.php',
-        'Requests_Response_Headers' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Response/Headers.php',
-        'Requests_SSL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/SSL.php',
-        'Requests_Session' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Session.php',
-        'Requests_Transport' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport.php',
-        'Requests_Transport_cURL' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport/cURL.php',
-        'Requests_Transport_fsockopen' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Transport/fsockopen.php',
-        'Requests_Utility_CaseInsensitiveDictionary' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Utility/CaseInsensitiveDictionary.php',
-        'Requests_Utility_FilteredIterator' => __DIR__ . '/..' . '/rmccue/requests/library/Requests/Utility/FilteredIterator.php',
         'Stripe\\Account' => __DIR__ . '/..' . '/stripe/stripe-php/lib/Account.php',
         'Stripe\\AccountLink' => __DIR__ . '/..' . '/stripe/stripe-php/lib/AccountLink.php',
         'Stripe\\AlipayAccount' => __DIR__ . '/..' . '/stripe/stripe-php/lib/AlipayAccount.php',
@@ -755,7 +692,7 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\ChargeDisputeCreated' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/ChargeDisputeCreated.php',
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\InvoicePaymentActionRequired' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/InvoicePaymentActionRequired.php',
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\InvoicePaymentFailed' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/InvoicePaymentFailed.php',
-        'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\InvoicePaymentSucceeded' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/invoicePaymentSucceeded.php',
+        'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\InvoicePaymentSucceeded' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/InvoicePaymentSucceeded.php',
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\SubscriptionDeleted' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/SubscriptionDeleted.php',
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\SubscriptionTrialWillEnd' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/SubscriptionTrialWillEnd.php',
         'WeDevs\\DokanPro\\Modules\\Stripe\\WebhooksEvents\\SubscriptionUpdated' => __DIR__ . '/../..' . '/modules/stripe/includes/WebhooksEvents/SubscriptionUpdated.php',
@@ -798,8 +735,10 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
         'WeDevs\\DokanPro\\Update' => __DIR__ . '/../..' . '/includes/Update.php',
         'WeDevs\\DokanPro\\Upgrade\\Hooks' => __DIR__ . '/../..' . '/includes/Upgrade/Hooks.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\BackgroundProcesses\\V_3_0_7_ShippingLocations' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/BackgroundProcesses/V_3_0_7_ShippingLocations.php',
+        'WeDevs\\DokanPro\\Upgrade\\Upgraders\\BackgroundProcesses\\V_3_1_1_UpdateSubscriptionEnddate' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/BackgroundProcesses/V_3_1_1_UpdateSubscriptionEnddate.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_0_7' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_0_7.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_0_8' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_0_8.php',
+        'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_1_1' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_1_1.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgrades' => __DIR__ . '/../..' . '/includes/Upgrade/Upgrades.php',
         'WeDevs\\DokanPro\\Widgets\\BestSeller' => __DIR__ . '/../..' . '/includes/Widgets/BestSeller.php',
         'WeDevs\\DokanPro\\Widgets\\FeatureSeller' => __DIR__ . '/../..' . '/includes/Widgets/FeatureSeller.php',
@@ -840,10 +779,10 @@ class ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit1a53b01f070efed9908d565cd91bd6f9::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$classMap;
 
         }, null, ClassLoader::class);
     }

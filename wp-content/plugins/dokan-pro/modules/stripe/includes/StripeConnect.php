@@ -2,6 +2,7 @@
 
 namespace WeDevs\DokanPro\Modules\Stripe;
 
+use Stripe\SetupIntent;
 use WC_AJAX;
 use Exception;
 use Stripe\PaymentIntent;
@@ -154,7 +155,7 @@ class StripeConnect extends StripePaymentGateway {
             if ( $amount * 100 < $this->get_minimum_amount() ) {
                 /* translators: minimum amount */
                 $message = sprintf( __( 'Sorry, the minimum allowed order total is %1$s to use this payment method.', 'dokan' ), wc_price( $this->get_minimum_amount() / 100 ) );
-                throw new Exception(
+                throw new DokanException(
                     'Error while processing renewal order ' . $renewal_order->get_id() . ' : ' . $message,
                     $message
                 );
@@ -196,6 +197,7 @@ class StripeConnect extends StripePaymentGateway {
 
             // Check for an existing intent, which is associated with the order.
             if ( $this->has_authentication_already_failed( $renewal_order ) ) {
+                dokan_log( 'has_authentication_already_failed is true' );
                 return;
             }
 
@@ -204,7 +206,7 @@ class StripeConnect extends StripePaymentGateway {
             $source_object   = $prepared_source->source_object;
 
             if ( ! $prepared_source->customer ) {
-                throw new Exception(
+                throw new DokanException(
                     'Failed to process renewal for order ' . $renewal_order->get_id() . '. Stripe customer id is missing in the order',
                     __( 'Customer not found', 'dokan' )
                 );
@@ -246,21 +248,15 @@ class StripeConnect extends StripePaymentGateway {
                     } else {
                         $localized_message = __( 'Sorry, we are unable to process your payment at this time. Please retry later.', 'dokan' );
                         $renewal_order->add_order_note( $localized_message );
-                        throw new Exception( print_r( $response, true ), $localized_message );
+                        throw new DokanException( print_r( $response, true ), $localized_message );
                     }
                 }
 
-                $localized_messages = Helper::get_localized_messages();
-
-                if ( 'card_error' === $response->error->type ) {
-                    $localized_message = isset( $localized_messages[ $response->error->code ] ) ? $localized_messages[ $response->error->code ] : $response->error->message;
-                } else {
-                    $localized_message = isset( $localized_messages[ $response->error->type ] ) ? $localized_messages[ $response->error->type ] : $response->error->message;
-                }
+                $localized_message = Helper::get_localized_error_message_from_response( $response );
 
                 $renewal_order->add_order_note( $localized_message );
 
-                throw new Exception( print_r( $response, true ), $localized_message );
+                throw new DokanException( print_r( $response, true ), $localized_message );
             }
 
             // Either the charge was successfully captured, or it requires further authentication.
@@ -288,8 +284,15 @@ class StripeConnect extends StripePaymentGateway {
             }
 
             $this->unlock_order_payment( $renewal_order );
+        } catch ( DokanException $e ) {
+            do_action( 'wc_gateway_stripe_process_payment_error', $e, $renewal_order );
+            dokan_log( 'caught exception on process_subscription_payment, code: ' . $e->get_error_code() . ', message: ' . $e->getMessage() );
+
+            /* translators: error message */
+            $renewal_order->update_status( 'failed' );
         } catch ( Exception $e ) {
             do_action( 'wc_gateway_stripe_process_payment_error', $e, $renewal_order );
+            dokan_log( 'caught exception on process_subscription_payment: ' . $e->getMessage() );
 
             /* translators: error message */
             $renewal_order->update_status( 'failed' );
@@ -593,13 +596,12 @@ class StripeConnect extends StripePaymentGateway {
         );
 
         $request = [
-            'source'               => $prepared_source->source,
             'amount'               => $amount ? Helper::get_stripe_amount( $amount ) : Helper::get_stripe_amount( $order->get_total() ),
             'currency'             => strtolower( $order->get_currency() ),
             'description'          => $description,
             'confirm'              => 'true',
-            'setup_future_usage'   => 'off_session',
-            'capture_method'       => 'automatic',
+            'off_session'          => 'true',
+            'confirmation_method'  => 'automatic',
             'payment_method_types' => [
                 'card',
             ],
@@ -607,6 +609,10 @@ class StripeConnect extends StripePaymentGateway {
 
         if ( $prepared_source->customer ) {
             $request['customer'] = $prepared_source->customer;
+        }
+
+        if ( ! empty( $prepared_source->source ) ) {
+            $request['source'] = $prepared_source->source;
         }
 
         try {
@@ -731,18 +737,7 @@ class StripeConnect extends StripePaymentGateway {
      * @return boolean
      */
     public function has_authentication_already_failed( $renewal_order ) {
-        $intent_id = $renewal_order->get_meta( '_stripe_intent_id' );
-
-        if ( $intent_id ) {
-            $intent_id = $this->get_intent( 'payment_intents', $intent_id );
-        } else {
-            // The order doesn't have a payment intent, but it may have a setup intent.
-            $intent_id = $renewal_order->get_meta( '_stripe_setup_intent' );
-
-            if ( $intent_id ) {
-                $intent_id = $this->get_intent( 'setup_intents', $intent_id );
-            }
-        }
+        $intent_id = $this->get_intent_from_order( $renewal_order );
 
         if (
             ! $intent_id
@@ -770,6 +765,54 @@ class StripeConnect extends StripePaymentGateway {
         $renewal_order->update_status( 'failed', sprintf( __( 'Stripe charge awaiting authentication by user: %s.', 'dokan' ), $charge_id ) );
 
         return true;
+    }
+
+    /**
+     * Retrieves intent from Stripe API by intent id.
+     *
+     * @param string $intent_type 	Either 'payment_intents' or 'setup_intents'.
+     * @param string $intent_id		Intent id.
+     * @return object|bool 			Either the intent object or `false`.
+     * @throws Exception 			Throws exception for unknown $intent_type.
+     */
+    public function get_intent( $intent_type, $intent_id ) {
+        if ( ! in_array( $intent_type, [ 'payment_intents', 'setup_intents' ] ) ) {
+            throw new Exception( "Failed to get intent of type $intent_type. Type is not allowed" );
+        }
+
+        switch ( $intent_type ) {
+            case 'payment_intents':
+                try {
+                    $intent = PaymentIntent::retrieve(
+                        $intent_id,
+                        [
+                            'expand' => [
+                                'charges.data.balance_transaction',
+                            ],
+                        ]
+                    );
+                } catch( Exception $e ) {
+                    return false;
+                }
+                break;
+
+            case 'setup_intents':
+                try {
+                    $intent = SetupIntent::retrieve(
+                        $intent_id,
+                        [
+                            'expand' => [
+                                'charges.data.balance_transaction',
+                            ],
+                        ]
+                    );
+                } catch( Exception $e ) {
+                    return false;
+                }
+                break;
+        }
+
+        return $intent;
     }
 
     /**
@@ -1119,11 +1162,15 @@ class StripeConnect extends StripePaymentGateway {
             return $result;
         }
 
+        // get order object
+        $order = wc_get_order( $order_id );
+
         // Put the final thank you page redirect into the verification URL.
         $verification_url = add_query_arg(
             [
                 'order'       => $order_id,
                 'nonce'       => wp_create_nonce( 'dokan_stripe_confirm_pi' ),
+                'key'         => $order->get_order_key(),
                 'redirect_to' => rawurlencode( $result['redirect'] ),
             ],
             WC_AJAX::get_endpoint( 'dokan_stripe_verify_intent' )

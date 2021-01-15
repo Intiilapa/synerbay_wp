@@ -157,6 +157,9 @@ jQuery( function( $ ) {
 			if ( ! is_booking_product ) {
 				$( '.show_if_booking.hide_initial_booking_addon_options' ).hide();
 			}
+			else if ( is_booking_product ) {
+                $( '.show_if_booking.hide_initial_booking_addon_options' ).show();
+            }
 
 		},
 
@@ -184,7 +187,7 @@ jQuery( function( $ ) {
 				.on( 'change', 'select.wc-pao-addon-type-select', function() {
 					var selectedValue = $( this ).val(),
 						parent        = $( this ).parents( '.wc-pao-addon' ),
-						selectedName  = $( this ).context.selectedOptions[0].innerHTML,
+						selectedName  = $( this ).find(":selected").text(),
 						restrictionName;
 
 					// Update selected type label.
