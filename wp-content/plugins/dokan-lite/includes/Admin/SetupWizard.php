@@ -319,10 +319,10 @@ class SetupWizard {
         ?>
         <h1><?php esc_html_e( 'Welcome to the world of Dokan!', 'dokan-lite' ); ?></h1>
         <p><?php echo wp_kses( __( 'Thank you for choosing Dokan to power your online marketplace! This quick setup wizard will help you configure the basic settings. <strong>It’s completely optional and shouldn’t take longer than three minutes.</strong>', 'dokan-lite' ), [ 'strong' => [] ] ); ?></p>
-        <!--<p><?php esc_html_e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the WordPress dashboard. Come back anytime if you change your mind!', 'dokan-lite' ); ?></p>-->
+        <p><?php esc_html_e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the WordPress dashboard. Come back anytime if you change your mind!', 'dokan-lite' ); ?></p>
         <p class="wc-setup-actions step">
             <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next"><?php esc_html_e( 'Let\'s Go!', 'dokan-lite' ); ?></a>
-            <!--<a href="<?php echo esc_url( admin_url() ); ?>" class="button button-large"><?php esc_html_e( 'Not right now', 'dokan-lite' ); ?></a>-->
+            <a href="<?php echo esc_url( admin_url() ); ?>" class="button button-large"><?php esc_html_e( 'Not right now', 'dokan-lite' ); ?></a>
         </p>
         <?php
     }
@@ -479,8 +479,8 @@ class SetupWizard {
                                         ?>
                                     </div>
                                     <div class="dokan-wizard-service-enable">
-                                        <input type="checkbox" name="withdraw_methods[<?php esc_html( $key ); ?>]" id="withdraw_methods[<?php esc_html( $key ); ?>]" class="switch-input" value="<?php esc_html( $key ); ?>" <?php echo ( in_array( $key, array_values( $withdraw_methods ), true ) ) ? 'checked="checked"' : ''; ?>>
-                                        <label for="withdraw_methods[<?php esc_html( $key ); ?>]" class="switch-label"></label>
+                                        <input type="checkbox" name="withdraw_methods[<?php echo esc_attr( $key ); ?>]" id="withdraw_methods[<?php echo esc_attr( $key ); ?>]" class="switch-input" value="<?php echo esc_attr( $key ); ?>" <?php echo ( in_array( $key, array_values( $withdraw_methods ), true ) ) ? 'checked="checked"' : ''; ?>>
+                                        <label for="withdraw_methods[<?php echo esc_attr( $key ); ?>]" class="switch-label"></label>
                                     </div>
                                 </li>
                             <?php endforeach ?>
@@ -535,7 +535,7 @@ class SetupWizard {
             </table>
             <p class="wc-setup-actions step">
                 <input type="submit" class="button-primary button button-large button-next" value="<?php esc_attr_e( 'Continue', 'dokan-lite' ); ?>" name="save_step" />
-                <!--<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'dokan-lite' ); ?></a>-->
+                <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'dokan-lite' ); ?></a>
                 <?php wp_nonce_field( 'dokan-setup' ); ?>
             </p>
         </form>
