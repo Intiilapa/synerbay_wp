@@ -1035,7 +1035,7 @@
 
             .mf-toggle-menu {
                 font-size: 30px;
-                color: @dark;
+                color: var(--mf-dark-color);
                 display: block;
                 line-height: 1;
                 padding-left: 30px;
@@ -1726,9 +1726,6 @@
         }
     }
 
-    .mf-quick-view-modal div.product .woocommerce-product-gallery.images {
-        display: none;
-    }
 
     .mf-quick-view-modal div.product .entry-summary {
         position: static;
@@ -1736,9 +1733,37 @@
         padding: 20px;
     }
 
-    .mf-quick-view-modal .modal-content {
-        max-height: 90%;
-        overflow: auto;
+    .mf-quick-view-modal.open {
+        z-index: 99999;
+    }
+
+    .mf-quick-view-modal {
+        .modal-content {
+            max-height: 100%;
+            overflow: auto;
+            width: 85%;
+            max-width: 600px;
+            right: 0;
+            left: auto;
+            transform: none;
+            top: 0;
+        }
+
+        div.product form.cart div.quantity {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+
+        &.woocommerce .ribbons .ribbon {
+            left: 0;
+            right: auto;
+            border-radius: 0;
+        }
+
+        div.product .woocommerce-product-gallery {
+            min-height: auto;
+        }
     }
 
     .mf-banner-large {
@@ -3080,8 +3105,6 @@
     }
 
     .mf-quick-view-modal .modal-content {
-        max-height: 75%;
-        overflow: auto;
 
         div.product .cart {
             margin-bottom: 0 !important;
@@ -3091,9 +3114,6 @@
                 padding-top: 0;
             }
 
-            div.quantity {
-                margin-right: 0;
-            }
         }
 
         .entry-meta li.meta-review {
@@ -3103,20 +3123,16 @@
         div.product .mf-has-buy-now form.cart {
             .single_add_to_cart_button,
             .buy_now_button {
-                min-width: 160px;
+               width: 48%;
             }
 
             .buy_now_button {
                 margin-left: 10px;
+                float: right;
             }
 
         }
 
-        .close-modal,
-        .mf-wishlist-button,
-        .compare-button {
-            display: none;
-        }
     }
 
     .mf-elementor-banner-app .banner-content {
@@ -3166,6 +3182,11 @@
             margin-top: 20px;
         }
     }
+
+    .catalog-ajax-filter #page {
+        opacity: 1;
+    }
+
 
 }
 
@@ -3275,6 +3296,12 @@
             }
             .columns-loop (@iterations);
         }
+    }
+
+    .mf-quick-view-modal .modal-content div.product .mf-has-buy-now form.cart .single_add_to_cart_button,
+    .mf-quick-view-modal .modal-content div.product .mf-has-buy-now form.cart .buy_now_button {
+        width: 100%;
+        margin-bottom: 15px;
     }
 
 }

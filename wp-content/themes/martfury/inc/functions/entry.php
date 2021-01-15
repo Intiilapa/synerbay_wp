@@ -323,7 +323,7 @@ if ( ! function_exists( 'martfury_get_breadcrumbs' ) ) :
 		}
 		ob_start();
 		?>
-        <ul class="breadcrumbs">
+        <ul class="breadcrumbs" itemscope itemtype="https://schema.org/BreadcrumbList">
 			<?php
 			martfury_breadcrumbs(
 				array(

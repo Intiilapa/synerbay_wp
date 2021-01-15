@@ -204,19 +204,19 @@
   padding: 0 25px;
   height: 50px;
   line-height: 50px;
-  background-color: #fcb800;
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   border: none;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .wcfmmp-store-page #wcfmmp-store .add_review button:hover,
 .wcfmmp-store-page #wcfmmp-store .user_rated:hover,
 .wcfmmp-store-page #wcfmmp-stores-wrap a.wcfmmp-visit-store:hover {
-  background-color: #fcb800;
-  color: #000 !important;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color) !important;
 }
 .wcfmmp-store-page #wcfmmp-store .reviews_area {
   margin-top: 50px;
@@ -263,19 +263,19 @@
   float: left;
   height: 50px;
   line-height: 50px;
-  background-color: #fcb800;
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   border: none;
   margin: 0;
   padding: 0 25px !important;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .wcfm-membership-wrapper #wcfm_membership_container input.wcfm_submit_button:hover {
-  background-color: #fcb800;
-  color: #000 !important;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color) !important;
 }
 .wcfm-membership-wrapper #wcfm_membership_container .wcfm-info,
 .wcfm-membership-wrapper #wcfm_membership_container .wcfm-success,
@@ -360,8 +360,8 @@
 }
 .wcfm-store-list-page #wcfmmp-stores-wrap .paginations ul li .page-numbers.current,
 .wcfm-store-list-page #wcfmmp-stores-wrap .paginations ul li .page-numbers:hover {
-  color: #000;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .wcfm-store-list-page #wcfmmp-stores-wrap ul.wcfmmp-store-wrap li .store-content .store-info {
   height: 210px;
@@ -525,8 +525,8 @@
   z-index: 1;
 }
 .wcfm-template-themes #wcfmmp-store .wcfmmp-store-page-wrap .bd_icon_area .wcfm_store_enquiry {
-  background-color: #fcb800 !important;
-  color: #fff !important;
+  background-color: var(--mf-background-primary-color) !important;
+  color: var(--mf-background-primary-text-color) !important;
 }
 .wcfm-template-themes #wcfmmp-store .wcfmmp-store-page-wrap .bd_icon_area .wcfm_store_enquiry span {
   color: #fff !important;

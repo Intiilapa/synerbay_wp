@@ -2,29 +2,63 @@
 Theme Name: Martfury
 Text Domain: martfury
 */
+.mf-background-primary {
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
+}
 .btn-primary,
 .btn {
-  padding: 0 25px;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   height: 50px;
   line-height: 50px;
-  background-color: #fcb800;
+  padding: 0 25px;
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
   border: none;
 }
-.btn-primary:hover,
-.btn:hover,
-.btn-primary:focus,
-.btn:focus,
-.btn-primary:active,
-.btn:active {
-  outline: none;
+.btn-primary-small {
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
+  height: 40px;
+  line-height: 39px;
+  padding: 0 25px;
+  transition: all 0.5s;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  border: none;
 }
-.btn-primary:hover,
-.btn:hover {
+.btn-primary-outline {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 25px;
+  border: 1px solid #bfbfbf;
+  background-color: transparent;
+  color: #000;
+  transition: all 0.5s;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+.btn-primary-outline:hover {
+  color: #000;
+}
+.btn-primary-small-outline {
+  height: 40px;
+  line-height: 39px;
+  padding: 0 25px;
+  border: 1px solid #bfbfbf;
+  background-color: transparent;
+  color: #000;
+  transition: all 0.5s;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+.btn-primary-small-outline:hover {
   color: #000;
 }
 .mf-loading {
@@ -40,7 +74,7 @@ Text Domain: martfury
   width: 14px;
   height: 14px;
   font-weight: 400;
-  border-color: #fcb800 #fcb800 #fcb800 transparent;
+  border-color: var(--mf-border-primary-color) var(--mf-border-primary-color) var(--mf-border-primary-color) transparent;
   border-width: 2px;
   width: 40px;
   height: 40px;
@@ -70,7 +104,7 @@ Text Domain: martfury
   width: 14px;
   height: 14px;
   font-weight: 400;
-  border-color: #fcb800 #fcb800 #fcb800 transparent;
+  border-color: var(--mf-border-primary-color) var(--mf-border-primary-color) var(--mf-border-primary-color) transparent;
   border-width: 2px;
   width: 100%;
   height: 100%;
@@ -809,6 +843,10 @@ ul {
 .woocommerce-checkout form.checkout .woocommerce-form__label > span:before,
 .woocommerce-checkout #payment ul.payment_methods > li > label:before {
   direction: ltr;
+}
+.woocommerce-checkout form.checkout .woocommerce-terms-and-conditions-wrapper .woocommerce-form__label > span:before {
+  right: 0;
+  left: auto;
 }
 .mf-product-fbt ul.products li.product {
   float: right;
@@ -1647,6 +1685,7 @@ blockquote cite:before {
 .mf-elementor-testimonial-slides .testimonial-info > i {
   left: 20px;
   right: auto;
+  direction: ltr;
 }
 .mf-elementor-testimonial-slides .job {
   padding-left: 0;
@@ -1664,6 +1703,35 @@ blockquote cite:before {
 .mf-banners-grid .r-banners .item-normal {
   border-left: 1px solid #d9d9d9;
   border-right: none;
+}
+.woocommerce-checkout table.shop_table .shipping .shipping-title {
+  text-align: right;
+}
+.woocommerce table.shop_table td small {
+  display: inline-block;
+}
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart div.quantity {
+  margin-right: 0;
+}
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .buy_now_button {
+  margin-left: 0;
+  margin-right: 20px;
+}
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-wishlist-button,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-compare-button {
+  float: right;
+}
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-add-button > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-wishlistaddedbrowse > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-wishlistexistsbrowse > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-compare-button .compare:before {
+  margin-left: 10px;
+  margin-right: 0;
+  padding-right: 0;
+}
+.woocommerce .customer-login .password-input .show-password-input {
+  left: 10px;
+  right: auto;
 }
 @media (max-width: 1600px) and (min-width: 1300px) {
   .single-product-layout-6.woocommerce div.product.mf-has-buy-now .cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-add-button > a:before,
@@ -1790,6 +1858,19 @@ blockquote cite:before {
   }
   .mf-product-fbt ul.products li.product .product-content {
     padding-left: 0;
+  }
+  .mf-quick-view-modal div.product {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  .mf-quick-view-modal div.product .mf-has-buy-now form.cart div.quantity {
+    margin-right: 0;
+  }
+  .woocommerce div.product form.cart .buy_now_button {
+    margin-right: 15px;
+  }
+  .mf-quick-view-modal .modal-content div.product .mf-has-buy-now form.cart .buy_now_button {
+    margin-left: 0;
   }
 }
 @media (max-width: 600px) {

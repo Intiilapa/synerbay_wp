@@ -331,6 +331,7 @@ add_action( 'wp_footer', 'martfury_back_to_top' );
  */
 if ( ! function_exists( 'martfury_newsletter_popup' ) ) :
 	function martfury_newsletter_popup() {
+
 		if ( ! martfury_get_option( 'newsletter_popup' ) ) {
 			return;
 		}
@@ -366,8 +367,11 @@ if ( ! function_exists( 'martfury_newsletter_popup' ) ) :
 
 		$output[] = sprintf( '<a href="#" class="n-close">%s</a>', esc_html__( 'Don\'t show this popup again', 'martfury' ) );
 
+		$css_class = intval( martfury_get_option( 'newsletter_popup_mobile' ) ) ? '' : 'hide-on-mobile';
+
 		?>
-        <div id="mf-newsletter-popup" class="martfury-modal mf-newsletter-popup" tabindex="-1" aria-hidden="true">
+        <div id="mf-newsletter-popup" class="martfury-modal mf-newsletter-popup <?php echo esc_attr( $css_class ); ?>"
+             tabindex="-1" aria-hidden="true">
             <div class="mf-modal-overlay"></div>
             <div class="modal-content">
                 <a href="#" class="close-modal">

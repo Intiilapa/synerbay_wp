@@ -77,7 +77,7 @@ class Martfury_Dokan {
 			wp_enqueue_style( 'dokan-social-style' );
 			wp_enqueue_style( 'dokan-social-theme-flat' );
 		}
-		wp_enqueue_style( 'martfury-dokan', get_template_directory_uri() . '/css/vendors/dokan.css', array(), '1.0.0' );
+		wp_enqueue_style( 'martfury-dokan', get_template_directory_uri() . '/css/vendors/dokan.css', array(), '20201126' );
 	}
 
 	/**

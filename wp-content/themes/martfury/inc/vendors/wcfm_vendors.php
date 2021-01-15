@@ -22,7 +22,7 @@ class Martfury_WCFMVendors {
 		//remove display vendor by plugin
 		add_filter( 'wcfmmp_is_allow_archive_product_sold_by', '__return_false' );
 
-		switch ( martfury_get_option( 'catalog_vendor_name' )) {
+		switch ( martfury_get_option( 'catalog_vendor_name' ) ) {
 			case 'display':
 				// Always Display sold by
 				add_action( 'woocommerce_shop_loop_item_title', array( $this, 'product_loop_display_sold_by' ), 6 );
@@ -94,13 +94,18 @@ class Martfury_WCFMVendors {
 		add_filter( 'martfury_page_header_container_class', array( $this, 'vendor_dashboard_container_class' ) );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 30 );
+
+		add_filter( 'woocommerce_loop_add_to_cart_link', array( $this, 'catalog_mode_loop_add_to_cart' ) );
+
+		add_filter( 'woocommerce_get_price_html', array( $this, 'catalog_mode_loop_price' ), 20, 2 );
+
 	}
 
 	/**
 	 * Enqueue styles and scripts.
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'martfury-wcfm', get_template_directory_uri() . '/css/vendors/wcfm-vendor.css', array(), '1.0.0' );
+		wp_enqueue_style( 'martfury-wcfm', get_template_directory_uri() . '/css/vendors/wcfm-vendor.css', array(), '20201126' );
 	}
 
 
@@ -140,7 +145,7 @@ class Martfury_WCFMVendors {
 	function display_vendor_profile() {
 		global $WCFM, $WCFMmp, $product;
 
-		if ( function_exists('wcfm_is_store_page') && wcfm_is_store_page() ) {
+		if ( function_exists( 'wcfm_is_store_page' ) && wcfm_is_store_page() ) {
 			return;
 		}
 		if ( ! $product ) {
@@ -194,6 +199,31 @@ class Martfury_WCFMVendors {
 		}
 
 		return $container;
+	}
+
+	function catalog_mode_loop_add_to_cart( $html ) {
+
+		global $product;
+
+		if ( get_post_meta( $product->get_id(), '_catalog', true ) == 'yes' ) {
+			if ( get_post_meta( $product->get_id(), 'disable_add_to_cart', true ) == 'yes' ) {
+				return false;
+			}
+		}
+
+		return $html;
+
+	}
+
+	function catalog_mode_loop_price( $html, $product ) {
+
+		if ( get_post_meta( $product->get_id(), '_catalog', true ) == 'yes' ) {
+			if ( get_post_meta( $product->get_id(), 'disable_price', true ) == 'yes' ) {
+				return false;
+			}
+		}
+
+		return $html;
 	}
 
 }

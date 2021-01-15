@@ -15,6 +15,13 @@
  */
 function martfury_vendors_customize_sections( $sections ) {
 	$sections = array_merge( $sections, array(
+		'vendor_header'       => array(
+			'title'       => esc_html__( 'Header Account', 'martfury' ),
+			'description' => '',
+			'priority'    => 45,
+			'panel'       => 'vendors',
+			'capability'  => 'edit_theme_options',
+		),
 		'vendor_catalog'      => array(
 			'title'       => esc_html__( 'Catalog Page', 'martfury' ),
 			'description' => '',
@@ -103,7 +110,13 @@ function martfury_vendors_customize_settings( $fields ) {
 
 	$fields = array_merge(
 		$fields, array(
-			// Other Catlog
+			'vendor_logged_link'            => array(
+				'type'     => 'text',
+				'label'    => esc_html__( 'Custom Vendor Logged Link', 'martfury' ),
+				'section'  => 'vendor_header',
+				'default'  => '',
+				'priority' => 70,
+			),
 			'catalog_full_width_12'         => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Full Width', 'martfury' ),

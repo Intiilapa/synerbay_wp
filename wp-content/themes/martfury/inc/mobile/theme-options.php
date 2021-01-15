@@ -133,14 +133,21 @@ add_filter( 'martfury_customize_sections', 'martfury_mobile_customize_sections' 
 function martfury_mobile_customize_fields( $fields ) {
 	$fields = array_merge(
 		$fields, array(
-			'enable_mobile_version'             => array(
+			'enable_mobile_version'               => array(
 				'type'     => 'toggle',
 				'label'    => esc_html__( 'Mobile Version', 'martfury' ),
 				'section'  => 'general_mobile',
 				'default'  => '1',
 				'priority' => 20,
 			),
-			'homepage_mobile'                   => array(
+			'newsletter_popup_mobile'             => array(
+				'type'     => 'toggle',
+				'label'    => esc_html__( 'NewsLetter Popup', 'martfury' ),
+				'section'  => 'general_mobile',
+				'default'  => '1',
+				'priority' => 20,
+			),
+			'homepage_mobile'                     => array(
 				'type'     => 'select',
 				'label'    => esc_html__( 'Homepage', 'martfury' ),
 				'section'  => 'homepage_mobile',
@@ -151,7 +158,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					'post_type'      => 'page',
 				) ) : '',
 			),
-			'topbar_mobile'                     => array(
+			'topbar_mobile'                       => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Top Bar', 'martfury' ),
 				'default'     => '0',
@@ -159,20 +166,20 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 20,
 				'description' => esc_html__( 'Go to Appearance > Widgets > Topbar Left and Topbar Right to add widgets content.', 'martfury' ),
 			),
-			'menu_extras_mobile_custom_1'       => array(
+			'menu_extras_mobile_custom_1'         => array(
 				'type'     => 'custom',
 				'default'  => '<hr/>',
 				'section'  => 'header_mobile',
 				'priority' => 20,
 			),
-			'sticky_header_mobile'              => array(
+			'sticky_header_mobile'                => array(
 				'type'     => 'toggle',
 				'label'    => esc_html__( 'Sticky Header', 'martfury' ),
 				'default'  => '1',
 				'section'  => 'header_mobile',
 				'priority' => 20,
 			),
-			'sticky_header_type_mobile'         => array(
+			'sticky_header_type_mobile'           => array(
 				'type'        => 'select',
 				'label'       => esc_html__( 'Sticky Header Type', 'martfury' ),
 				'section'     => 'header_mobile',
@@ -184,7 +191,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				),
 				'description' => esc_html__( 'This option is used for homepage.', 'martfury' ),
 			),
-			'menu_extras_mobile'                => array(
+			'menu_extras_mobile'                  => array(
 				'type'     => 'multicheck',
 				'label'    => esc_html__( 'Elements', 'martfury' ),
 				'section'  => 'header_mobile',
@@ -199,35 +206,35 @@ function martfury_mobile_customize_fields( $fields ) {
 					'category' => esc_html__( 'Menu', 'martfury' ),
 				),
 			),
-			'header_menu_panel_mobile_title'    => array(
+			'header_menu_panel_mobile_title'      => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Menu Panel Title', 'martfury' ),
 				'section'  => 'header_mobile',
 				'default'  => esc_html__( 'Main Menu', 'martfury' ),
 				'priority' => 20,
 			),
-			'header_skin_mobile_custom_1'       => array(
+			'header_skin_mobile_custom_1'         => array(
 				'type'     => 'custom',
 				'default'  => '<hr/>',
 				'section'  => 'header_mobile',
 				'priority' => 20,
 			),
 			// Header Skin
-			'custom_header_skin_mobile'         => array(
+			'custom_header_skin_mobile'           => array(
 				'type'     => 'toggle',
 				'label'    => esc_html__( 'Custom Header Skin', 'martfury' ),
 				'section'  => 'header_mobile',
 				'default'  => '',
 				'priority' => 20,
 			),
-			'custom_header_homepage_mobile'     => array(
+			'custom_header_homepage_mobile'       => array(
 				'type'     => 'toggle',
 				'label'    => esc_html__( 'Use Custom Header For Homepage', 'martfury' ),
 				'section'  => 'header_mobile',
 				'default'  => '',
 				'priority' => 20,
 			),
-			'topbar_bg_color_mobile'            => array(
+			'topbar_bg_color_mobile'              => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Top Bar Background Color', 'martfury' ),
 				'default'         => '',
@@ -245,7 +252,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'topbar_text_color_mobile'          => array(
+			'topbar_text_color_mobile'            => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Top Bar Text Color', 'martfury' ),
 				'default'         => '',
@@ -263,7 +270,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'header_bg_color_mobile'            => array(
+			'header_bg_color_mobile'              => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Header Background Color', 'martfury' ),
 				'default'         => '',
@@ -281,7 +288,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'header_text_color_mobile'          => array(
+			'header_text_color_mobile'            => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Header Text Color', 'martfury' ),
 				'default'         => '',
@@ -299,7 +306,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'search_button_bg_color_mobile'     => array(
+			'search_button_bg_color_mobile'       => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Button & Counter Background Color', 'martfury' ),
 				'default'         => '',
@@ -317,7 +324,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'search_button_text_color_mobile'   => array(
+			'search_button_text_color_mobile'     => array(
 				'type'            => 'color',
 				'label'           => esc_html__( 'Button & Counter Text Color', 'martfury' ),
 				'default'         => '',
@@ -335,7 +342,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'logo_mobile'                       => array(
+			'logo_mobile'                         => array(
 				'type'        => 'image',
 				'label'       => esc_html__( 'Logo', 'martfury' ),
 				'description' => esc_html__( 'This logo is used for mobile.', 'martfury' ),
@@ -344,19 +351,19 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 20,
 
 			),
-			'logo_mobile_width'                 => array(
+			'logo_mobile_width'                   => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Logo Width(px)', 'martfury' ),
 				'section'  => 'logo_mobile',
 				'priority' => 20,
 			),
-			'logo_mobile_height'                => array(
+			'logo_mobile_height'                  => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Logo Height(px)', 'martfury' ),
 				'section'  => 'logo_mobile',
 				'priority' => 20,
 			),
-			'logo_mobile_margins'               => array(
+			'logo_mobile_margins'                 => array(
 				'type'     => 'spacing',
 				'label'    => esc_html__( 'Logo Margin', 'martfury' ),
 				'section'  => 'logo_mobile',
@@ -368,7 +375,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					'right'  => '0',
 				),
 			),
-			'navigation_mobile'                 => array(
+			'navigation_mobile'                   => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Navigation Buttons', 'martfury' ),
 				'section'     => 'navigation_mobile',
@@ -376,7 +383,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'default'     => 1,
 				'priority'    => 20,
 			),
-			'navigation_els_mobile'             => array(
+			'navigation_els_mobile'               => array(
 				'type'     => 'sortable',
 				'label'    => esc_html__( 'Navigation Elements', 'martfury' ),
 				'section'  => 'navigation_mobile',
@@ -392,7 +399,7 @@ function martfury_mobile_customize_fields( $fields ) {
 					'account'  => esc_html__( 'Account', 'martfury' ),
 				),
 			),
-			'navigation_cat_panel_mobile'       => array(
+			'navigation_cat_panel_mobile'         => array(
 				'type'     => 'number',
 				'label'    => esc_html__( 'Navigation Panel Width(%)', 'martfury' ),
 				'section'  => 'navigation_mobile',
@@ -404,46 +411,46 @@ function martfury_mobile_customize_fields( $fields ) {
 					'step' => 1,
 				],
 			),
-			'custom_home_mobile_extras'         => array(
+			'custom_home_mobile_extras'           => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_home_mobile'            => array(
+			'navigation_home_mobile'              => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Home Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Home', 'martfury' ),
 				'priority' => 70,
 			),
-			'custom_cat_mobile_extras'          => array(
+			'custom_cat_mobile_extras'            => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_cat_mobile'             => array(
+			'navigation_cat_mobile'               => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Category Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Category', 'martfury' ),
 				'priority' => 70,
 			),
-			'navigation_cat_panel_mobile_title' => array(
+			'navigation_cat_panel_mobile_title'   => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Category Panel Title', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => '',
 				'priority' => 70,
 			),
-			'navigation_cat_panel_mobile_link'  => array(
+			'navigation_cat_panel_mobile_link'    => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Category Panel Link', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'priority' => 70,
 			),
-			'submenu_mobile'                    => array(
+			'submenu_mobile'                      => array(
 				'type'     => 'select',
 				'label'    => esc_html__( 'Open Submenus by', 'martfury' ),
 				'section'  => 'navigation_mobile',
@@ -454,20 +461,20 @@ function martfury_mobile_customize_fields( $fields ) {
 					'icon' => esc_html__( 'Click on menu icons', 'martfury' ),
 				),
 			),
-			'custom_search_mobile_extras'       => array(
+			'custom_search_mobile_extras'         => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_search_mobile'          => array(
+			'navigation_search_mobile'            => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Search Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Search', 'martfury' ),
 				'priority' => 70,
 			),
-			'hot_words_mobile'                  => array(
+			'hot_words_mobile'                    => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Enable Hot Words', 'martfury' ),
 				'section'     => 'navigation_mobile',
@@ -475,20 +482,20 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 70,
 				'description' => esc_html__( 'Check this option to enable hot words below search box on mobile', 'martfury' ),
 			),
-			'custom_cart_mobile_extras'         => array(
+			'custom_cart_mobile_extras'           => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_cart_mobile'            => array(
+			'navigation_cart_mobile'              => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Cart Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Cart', 'martfury' ),
 				'priority' => 70,
 			),
-			'navigation_cart_behaviour'         => array(
+			'navigation_cart_behaviour'           => array(
 				'type'     => 'radio',
 				'label'    => esc_html__( 'Cart Icon Behaviour', 'martfury' ),
 				'default'  => 'link',
@@ -499,39 +506,39 @@ function martfury_mobile_customize_fields( $fields ) {
 				),
 				'priority' => 70,
 			),
-			'custom_wishlist_mobile_extras'     => array(
+			'custom_wishlist_mobile_extras'       => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_wishlist_mobile'        => array(
+			'navigation_wishlist_mobile'          => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Wishlist Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Wishlist', 'martfury' ),
 				'priority' => 70,
 			),
-			'custom_compare_mobile_extras'      => array(
+			'custom_compare_mobile_extras'        => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_compare_mobile'         => array(
+			'navigation_compare_mobile'           => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Compare Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
 				'default'  => esc_html__( 'Compare', 'martfury' ),
 				'priority' => 70,
 			),
-			'custom_account_mobile_extras'      => array(
+			'custom_account_mobile_extras'        => array(
 				'type'     => 'custom',
 				'section'  => 'navigation_mobile',
 				'default'  => '<hr>',
 				'priority' => 70,
 			),
-			'navigation_account_mobile'         => array(
+			'navigation_account_mobile'           => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Navigation Account Text', 'martfury' ),
 				'section'  => 'navigation_mobile',
@@ -539,7 +546,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority' => 70,
 			),
 			// Catalog Mobile
-			'catalog_toolbar_els_mobile'        => array(
+			'catalog_toolbar_els_mobile'          => array(
 				'type'        => 'multicheck',
 				'label'       => esc_html__( 'ToolBar Elements', 'martfury' ),
 				'section'     => 'catalog_mobile',
@@ -551,14 +558,26 @@ function martfury_mobile_customize_fields( $fields ) {
 				),
 				'description' => esc_html__( 'Select which elements you want to show.', 'martfury' ),
 			),
-			'catalog_toolbar_els_filter_mobile' => array(
+			'catalog_toolbar_els_filter_mobile'   => array(
 				'type'     => 'text',
 				'label'    => esc_html__( 'Filter Panel Title', 'martfury' ),
 				'section'  => 'catalog_mobile',
 				'default'  => '',
 				'priority' => 70,
 			),
-			'catalog_variation_images_mobile'   => array(
+			'catalog_toolbar_filter_mobile_width' => array(
+				'type'     => 'number',
+				'label'    => esc_html__( 'Navigation Panel Width(%)', 'martfury' ),
+				'section'  => 'catalog_mobile',
+				'default'  => '',
+				'priority' => 70,
+				'choices'  => [
+					'min'  => 0,
+					'max'  => 100,
+					'step' => 1,
+				],
+			),
+			'catalog_variation_images_mobile'     => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Show Variation Images', 'martfury' ),
 				'section'     => 'catalog_mobile',
@@ -566,7 +585,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 90,
 				'description' => esc_html__( 'Check this option to show variation images in the product item.', 'martfury' ),
 			),
-			'catalog_featured_icons_mobile'     => array(
+			'catalog_featured_icons_mobile'       => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Show Featured Icons', 'martfury' ),
 				'section'     => 'catalog_mobile',
@@ -575,7 +594,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'description' => esc_html__( 'Check this option to show featured icons in the product item.', 'martfury' ),
 			),
 			// Catalog Sidebar
-			'collapse_the_filter'               => array(
+			'collapse_the_filter'                 => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Filter Collapse', 'martfury' ),
 				'section'     => 'catalog_sidebar_mobile',
@@ -583,7 +602,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 40,
 				'description' => esc_html__( 'Check this option to collapse the filter on catalog sidebar.', 'martfury' ),
 			),
-			'collapse_the_filter_status'        => array(
+			'collapse_the_filter_status'          => array(
 				'type'            => 'select',
 				'label'           => esc_html__( 'Collapse Status', 'martfury' ),
 				'section'         => 'catalog_sidebar_mobile',
@@ -601,13 +620,13 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'custom_filter_product_mobile_1'    => array(
+			'custom_filter_product_mobile_1'      => array(
 				'type'     => 'custom',
 				'section'  => 'catalog_sidebar_mobile',
 				'default'  => '<hr>',
 				'priority' => 40,
 			),
-			'catalog_filter_products_status'    => array(
+			'catalog_filter_products_status'      => array(
 				'type'     => 'select',
 				'label'    => esc_html__( 'Filter Products Status', 'martfury' ),
 				'section'  => 'catalog_sidebar_mobile',
@@ -620,7 +639,7 @@ function martfury_mobile_customize_fields( $fields ) {
 			),
 
 			// Product page
-			'product_add_to_cart_fixed_mobile'  => array(
+			'product_add_to_cart_fixed_mobile'    => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Add to cart fixed', 'martfury' ),
 				'section'     => 'product_page_mobile',
@@ -628,7 +647,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 40,
 				'description' => esc_html__( 'Check this option to enable add to cart button fixed on mobile.', 'martfury' ),
 			),
-			'product_sidebar_mobile'            => array(
+			'product_sidebar_mobile'              => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Product Sidebar', 'martfury' ),
 				'section'     => 'product_page_mobile',
@@ -636,7 +655,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 40,
 				'description' => esc_html__( 'Check this option to enable product sidebar on mobile.', 'martfury' ),
 			),
-			'sticky_product_info_mobile'        => array(
+			'sticky_product_info_mobile'          => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Sticky Product Info', 'martfury' ),
 				'section'     => 'product_page_mobile',
@@ -644,13 +663,13 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 40,
 				'description' => esc_html__( 'Check this option to enable sticky product info on the product page.', 'martfury' ),
 			),
-			'custom_product_page_mobile_1'      => array(
+			'custom_product_page_mobile_1'        => array(
 				'type'     => 'custom',
 				'section'  => 'product_page_mobile',
 				'default'  => '<hr>',
 				'priority' => 40,
 			),
-			'product_collapse_tab'              => array(
+			'product_collapse_tab'                => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Product Tabs Collapse', 'martfury' ),
 				'section'     => 'product_page_mobile',
@@ -658,7 +677,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 40,
 				'description' => esc_html__( 'Check this option to show the product tabs collapse on product page.', 'martfury' ),
 			),
-			'product_collapse_tab_status'       => array(
+			'product_collapse_tab_status'         => array(
 				'type'            => 'select',
 				'label'           => esc_html__( 'Collapse Status', 'martfury' ),
 				'section'         => 'product_page_mobile',
@@ -677,7 +696,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				),
 			),
 			// Inner Page
-			'inner_page_header_layout'          => array(
+			'inner_page_header_layout'            => array(
 				'type'     => 'select',
 				'label'    => esc_html__( 'Header Layout', 'martfury' ),
 				'section'  => 'inner_page_mobile',
@@ -688,12 +707,12 @@ function martfury_mobile_customize_fields( $fields ) {
 					'v2' => esc_html__( 'Layout 2', 'martfury' ),
 				),
 			),
-			'custom_inner_page_history_back'    => array(
-				'type'     => 'custom',
-				'section'  => 'inner_page_mobile',
-				'label'    => '<hr>',
-				'default'  => '<h3>' . esc_html__( 'Go Back Button', 'martfury' ) . '</h3>',
-				'priority' => 20,
+			'custom_inner_page_history_back'      => array(
+				'type'            => 'custom',
+				'section'         => 'inner_page_mobile',
+				'label'           => '<hr>',
+				'default'         => '<h3>' . esc_html__( 'Go Back Button', 'martfury' ) . '</h3>',
+				'priority'        => 20,
 				'active_callback' => array(
 					array(
 						'setting'  => 'inner_page_header_layout',
@@ -702,12 +721,12 @@ function martfury_mobile_customize_fields( $fields ) {
 					),
 				),
 			),
-			'inner_page_history_back'           => array(
-				'type'     => 'toggle',
-				'label'    => esc_html__( 'Go Back to Previous Page', 'martfury' ),
-				'section'  => 'inner_page_mobile',
-				'default'  => 0,
-				'priority' => 20,
+			'inner_page_history_back'             => array(
+				'type'            => 'toggle',
+				'label'           => esc_html__( 'Go Back to Previous Page', 'martfury' ),
+				'section'         => 'inner_page_mobile',
+				'default'         => 0,
+				'priority'        => 20,
 				'active_callback' => array(
 					array(
 						'setting'  => 'inner_page_header_layout',
@@ -718,7 +737,7 @@ function martfury_mobile_customize_fields( $fields ) {
 
 			),
 			// Footer Mobile
-			'footer_newsletter_mobile'          => array(
+			'footer_newsletter_mobile'            => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Footer Newsletter', 'martfury' ),
 				'section'     => 'footer_mobile',
@@ -726,7 +745,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'default'     => 0,
 				'priority'    => 20,
 			),
-			'footer_info_mobile'                => array(
+			'footer_info_mobile'                  => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Footer Info', 'martfury' ),
 				'section'     => 'footer_mobile',
@@ -734,7 +753,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'default'     => 0,
 				'priority'    => 20,
 			),
-			'footer_widgets_mobile'             => array(
+			'footer_widgets_mobile'               => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Footer Widgets', 'martfury' ),
 				'section'     => 'footer_mobile',
@@ -742,7 +761,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'default'     => 1,
 				'priority'    => 20,
 			),
-			'footer_links_mobile'               => array(
+			'footer_links_mobile'                 => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Footer Link', 'martfury' ),
 				'section'     => 'footer_mobile',
@@ -750,13 +769,13 @@ function martfury_mobile_customize_fields( $fields ) {
 				'default'     => 0,
 				'priority'    => 20,
 			),
-			'custom_footer_recently_mobile'     => array(
+			'custom_footer_recently_mobile'       => array(
 				'type'     => 'custom',
 				'section'  => 'footer_mobile',
 				'default'  => '<hr>',
 				'priority' => 20,
 			),
-			'footer_recently_viewed_mobile'     => array(
+			'footer_recently_viewed_mobile'       => array(
 				'type'        => 'toggle',
 				'label'       => esc_html__( 'Show Recently Viewed', 'martfury' ),
 				'section'     => 'footer_mobile',
@@ -764,7 +783,7 @@ function martfury_mobile_customize_fields( $fields ) {
 				'priority'    => 90,
 				'description' => esc_html__( 'Check this option to show the recently viewed products on mobile.', 'martfury' ),
 			),
-			'footer_recently_viewed_els_mobile' => array(
+			'footer_recently_viewed_els_mobile'   => array(
 				'type'            => 'multicheck',
 				'label'           => esc_html__( 'Show Recently Viewed in', 'martfury' ),
 				'section'         => 'footer_mobile',

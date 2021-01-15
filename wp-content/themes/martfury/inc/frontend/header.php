@@ -30,7 +30,7 @@ function martfury_enqueue_scripts() {
 		'eleganticons',
 		'font-awesome',
 		'bootstrap',
-	), '20200406'
+	), '20201224'
 	);
 
 	wp_add_inline_style( 'martfury', martfury_header_styles() );
@@ -82,14 +82,13 @@ function martfury_enqueue_scripts() {
 		wp_enqueue_script( 'wc-single-product' );
 	}
 
-	$min = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 	if ( martfury_is_blog() ) {
 		wp_enqueue_script( 'isotope' );
 	}
 
 	wp_enqueue_script(
-		'martfury', get_template_directory_uri() . "/js/scripts$min.js", array(
+		'martfury', get_template_directory_uri() . "/js/scripts.js", array(
 		'jquery',
 		'jquery-ui-tooltip',
 		'imagesloaded',
@@ -104,7 +103,7 @@ function martfury_enqueue_scripts() {
 		'nprogress',
 		'slick',
 		'notify',
-	), '20200406', true
+	), '20201224', true
 	);
 
 	$martfury_data = array(
@@ -536,13 +535,13 @@ function martfury_get_header_style() {
 
 	$button_bg_color = martfury_get_option( 'search_button_bg_color' );
 	if ( ! empty( $button_bg_color ) ) {
-		$inline_css .= '#site-header .product-extra-search .search-submit, #site-header .extras-menu > li > a .mini-item-counter{background-color:' . $button_bg_color . '}';
+		$inline_css .= '#site-header .mf-background-primary, #site-header .mini-item-counter{--mf-background-primary-color:' . $button_bg_color . '}';
 
 	}
 
 	$button_color = martfury_get_option( 'search_button_text_color' );
 	if ( ! empty( $button_color ) ) {
-		$inline_css .= '#site-header .product-extra-search .search-submit, #site-header .extras-menu > li > a .mini-item-counter{color:' . $button_color . '}';
+		$inline_css .= '#site-header .mf-background-primary,  #site-header .mini-item-counter{--mf-background-primary-text-color:' . $button_color . '}';
 
 	}
 

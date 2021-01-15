@@ -149,7 +149,7 @@
 				align-items: center;
 
 				i {
-					color: #fcb800;
+					color: var(--mf-primary-color);
 					display: inline-block;
 					letter-spacing: 2px;
 
@@ -579,9 +579,9 @@
 			padding: 0 25px;
 			height: 50px;
 			line-height: 50px;
-			background-color: #fcb800;
+			background-color: var(--mf-background-primary-color);
+			color: var(--mf-background-primary-text-color);
 			transition: all 0.5s;
-			color: #000;
 			font-size: 16px;
 			font-weight: 600;
 			text-align: center;
@@ -646,9 +646,9 @@
 				padding: 0 25px;
 				height: 40px;
 				line-height: 40px;
-				background-color: #fcb800;
+				background-color: var(--mf-background-primary-color);
+				color: var(--mf-background-primary-text-color);
 				transition: all 0.5s;
-				color: #000;
 				font-size: 16px;
 				font-weight: 600;
 				text-align: center;
@@ -872,9 +872,10 @@ form {
 		padding: 0 25px;
 		height: 40px;
 		line-height: 40px;
-		background-color: #fcb800;
+
+		background-color: var(--mf-background-primary-color);
+		color: var(--mf-background-primary-text-color);
 		transition: all 0.5s;
-		color: #000;
 		font-size: 16px;
 		font-weight: 600;
 		text-align: center;
@@ -882,7 +883,8 @@ form {
 		display: inline-block;
 
 		&:hover {
-			color: #000;
+			background-color: var(--mf-background-primary-color);
+			color: var(--mf-background-primary-text-color);
 		}
 	}
 
@@ -970,7 +972,7 @@ form {
 						font-size: 14px;
 
 						&:hover {
-							color: #fcb800;
+							color: var(--mf-primary-color);
 						}
 					}
 				}
@@ -1239,7 +1241,7 @@ form {
 				bottom: 0;
 				right: 0;
 				width: 0;
-				background-color: #fcb800;
+				background-color: var(--mf-background-primary-color);
 				content: "";
 				height: 3px;
 				transition: 0.5s;
@@ -1355,8 +1357,8 @@ form {
 
 				span.current,
 				a:hover {
-					color: #000;
-					background-color: #fcb800;
+					background-color: var(--mf-background-primary-color);
+					color: var(--mf-background-primary-text-color);
 				}
 
 				.next,
@@ -1422,7 +1424,7 @@ form {
 			color: #000;
 
 			i {
-				color: #fcb800;
+				color: var(--mf-primary-color);
 			}
 		}
 

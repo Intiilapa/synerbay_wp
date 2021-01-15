@@ -86,7 +86,7 @@ class Martfury_WCVendors {
 	 * Enqueue styles and scripts.
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_style( 'martfury-wcv', get_template_directory_uri() . '/css/vendors/wc-vendor.css', array(), '1.0.0' );
+		wp_enqueue_style( 'martfury-wcv', get_template_directory_uri() . '/css/vendors/wc-vendor.css', array(), '20201126' );
 	}
 
 

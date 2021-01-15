@@ -6,6 +6,43 @@ Martfury is a WooCommerce Marketplace WordPress Theme. The theme is WooCommerce 
 
 Change log:
 
+Version 2.5.7
+
+- Update: Add a random products type in the products carousel on the catalog page.
+- Update: Revolution Slider 6.3.5
+- Fix: Quick view style on mobile.
+
+Version 2.5.6
+
+- New: Add an option to disable newsletter on mobile in the Appearance > Customize > Mobile > General
+- New: Add custom vendor logged in link in the Appearance > Customize > Vendors > Header Account
+- Update: Revolution Slider 6.3.3
+- Update: WPBakery Page Builder 6.5
+- Update: Improve the quick view style on mobile
+- Fix: Can't add the product category in the Sale Countdown Timer element
+- Fix: The added to cart notice doesn't work in the single product.
+
+Version 2.5.5
+
+- Update: Replace the site title after filtering by AJAX in the catalog page
+- Fix: Can't add an icon in the mega menu.
+
+Version 2.5.4
+
+- Fix: Product loop doesn't work with AJAX.
+- Fix: The new style version doesn't work
+
+Version 2.5.3
+
+- New: Add the show less and show more for the subcategories in the Martfury - Product Categories widget.
+- New: Add the option of a number to Martfury - Product Tags widget
+- Update: WPBakery Page Builder 6.4.2
+- Update: Optimize CSS
+- Fix: The category name shows the first product name on the category page on the mobile version.
+- Fix: The catalog mode of the WCFM plugin doesn't work.
+- Fix: Some minor bugs.
+
+
 Version 2.5.2
 
 - Fix: The product detail don't display in product loop on mobile.

@@ -103,9 +103,9 @@
 }
 .dokan-widget-area .seller-form .dokan-btn {
   padding: 0 25px;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -115,7 +115,7 @@
   width: 100%;
 }
 .dokan-widget-area .seller-form .dokan-btn:hover {
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
 }
 .dokan-widget-area .dokan-category-menu,
 .dokan-widget-area .widget-collapse {
@@ -142,7 +142,7 @@
 }
 .dokan-widget-area .dokan-category-menu #cat-drop-stack > ul li.parent-cat-wrap a:hover,
 .dokan-widget-area .widget-collapse #cat-drop-stack > ul li.parent-cat-wrap a:hover {
-  color: #fcb800;
+  color: var(--mf-primary-color);
 }
 .dokan-widget-area .dokan-category-menu #cat-drop-stack ul,
 .dokan-widget-area .widget-collapse #cat-drop-stack ul {
@@ -176,9 +176,9 @@
   padding: 0 25px;
   height: 50px;
   line-height: 50px;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -186,7 +186,7 @@
   width: 100%;
 }
 .dokan-widget-area .dokan-store-contact .dokan-btn:hover {
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
 }
 .dokan-single-store .profile-frame.profile-frame-no-banner .profile-layout-layout3 .profile-info-summery-wrapper .profile-info-summery .profile-info .dokan-store-info:after {
   clear: both;
@@ -423,8 +423,8 @@
 }
 .dokan-pagination-container ul.dokan-pagination li.active a,
 .dokan-pagination-container ul.dokan-pagination li a:hover {
-  color: #000;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .dokan-pagination-container.infinite {
   text-align: center;
@@ -453,8 +453,8 @@
   min-height: 36px;
 }
 .dokan-seller-listing .store-footer .dokan-btn {
-  background-color: #fcb800;
-  color: #000;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   font-weight: 600;
   border-color: transparent;
 }
@@ -794,7 +794,7 @@
     color: #0066cc;
   }
   .dokan-dashboard-layout-1 .dokan-dashboard-wrap .dokan-table a:hover {
-    color: #fcb800;
+    color: var(--mf-primary-color);
   }
   .dokan-dashboard-layout-1 .dokan-dashboard-wrap .dokan-table .dokan-btn {
     background-color: transparent;

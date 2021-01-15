@@ -399,18 +399,18 @@ function martfury_register_meta_boxes( $meta_boxes ) {
 add_filter( 'rwmb_meta_boxes', 'martfury_register_meta_boxes' );
 
 function martfury_admin_notice__success() {
-	if ( ! defined( 'YITH_WCWL' ) ) {
+	if ( ! defined( 'MARTFURY_ADDONS_URL' ) ) {
 		return;
 	}
 
-	$versions = get_plugin_data( WP_PLUGIN_DIR . '/yith-woocommerce-wishlist/init.php' );
-	if ( version_compare( $versions['Version'], '3.0.2', '>=' ) ) {
+	$versions = get_plugin_data( WP_PLUGIN_DIR . '/martfury-addons/martfury-addons.php' );
+	if ( version_compare( $versions['Version'], '2.3.0', '>=' ) ) {
 		return;
 	}
 	?>
     <div class="notice notice-info is-dismissible">
         <p>
-            <strong><?php esc_html_e( 'The YITH WooCommerce Wishlist plugin needs to be updated to 3.0.2 to ensure maximum compatibility with this theme. Go to Plugins > YITH WooCommerce Wishlist to update it.', 'martfury' ); ?></strong>
+            <strong><?php esc_html_e( 'The Martfury Addons plugin needs to be updated to 2.3.0 to ensure maximum compatibility with this theme. Go to Plugins > Martfury Addons to update it.', 'martfury' ); ?></strong>
         </p>
     </div>
 	<?php

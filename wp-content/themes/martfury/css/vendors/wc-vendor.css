@@ -125,7 +125,7 @@
   align-items: center;
 }
 .widget_vendor_info .wcv-store-header .wcv-store-ratings > a i {
-  color: #fcb800;
+  color: var(--mf-primary-color);
   display: inline-block;
   letter-spacing: 2px;
 }
@@ -506,9 +506,9 @@
   padding: 0 25px;
   height: 50px;
   line-height: 50px;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -562,9 +562,9 @@
   padding: 0 25px;
   height: 40px;
   line-height: 40px;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -741,9 +741,9 @@ form .form-row input[name="apply_for_vendor_submit"] {
   padding: 0 25px;
   height: 40px;
   line-height: 40px;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
   transition: all 0.5s;
-  color: #000;
   font-size: 16px;
   font-weight: 600;
   text-align: center;
@@ -751,7 +751,8 @@ form .form-row input[name="apply_for_vendor_submit"] {
   display: inline-block;
 }
 .wcvendors-pro-dashboard-wrapper .button:hover {
-  color: #000;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .wcvendors-pro-dashboard-wrapper .wcv-button {
   padding: 0 25px;
@@ -822,7 +823,7 @@ form .form-row input[name="apply_for_vendor_submit"] {
   font-size: 14px;
 }
 .wcvendors-pro-dashboard-wrapper .wcv-grid .wcv-table td .row-actions a:hover {
-  color: #fcb800;
+  color: var(--mf-primary-color);
 }
 .wcvendors-pro-dashboard-wrapper .wcv-grid .wcv_search_results {
   font-style: normal;
@@ -1028,7 +1029,7 @@ form .form-row input[name="apply_for_vendor_submit"] {
   bottom: 0;
   right: 0;
   width: 0;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
   content: "";
   height: 3px;
   transition: 0.5s;
@@ -1125,8 +1126,8 @@ form .form-row input[name="apply_for_vendor_submit"] {
 }
 .wcvendors-pro-dashboard-wrapper nav.woocommerce-pagination ul li span.current,
 .wcvendors-pro-dashboard-wrapper nav.woocommerce-pagination ul li a:hover {
-  color: #000;
-  background-color: #fcb800;
+  background-color: var(--mf-background-primary-color);
+  color: var(--mf-background-primary-text-color);
 }
 .wcvendors-pro-dashboard-wrapper nav.woocommerce-pagination ul li .next span:hover,
 .wcvendors-pro-dashboard-wrapper nav.woocommerce-pagination ul li .prev span:hover {
@@ -1167,7 +1168,7 @@ form .form-row input[name="apply_for_vendor_submit"] {
 }
 .woocommerce div.product .wc-tabs-wrapper #tab-vendor_ratings_tab > a i,
 .woocommerce div.product .wc-tabs-wrapper #tab-vendor_ratings_tab > h4 i {
-  color: #fcb800;
+  color: var(--mf-primary-color);
 }
 .woocommerce div.product .wc-tabs-wrapper #tab-wcv_shipping_tab > h2 {
   font-size: 20px;

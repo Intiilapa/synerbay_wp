@@ -1,7 +1,5 @@
 <?php
 
-use SynerBay\Repository\ProductRepository;
-
 /**
  * Class for all WooCommerce template modification
  *
@@ -149,7 +147,6 @@ class Martfury_WooCommerce {
 		// Add product thumbnail
 		remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_template_loop_product_thumbnail' );
 		add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'product_content_thumbnail' ) );
-        add_action( 'woocommerce_before_shop_loop_offer_title', array( $this, 'product_content_offer_thumbnail' ) );
 
 		// Add product detail
 		add_action( 'woocommerce_shop_loop_item_title', array( $this, 'open_product_details' ), 5 );
@@ -157,73 +154,26 @@ class Martfury_WooCommerce {
 
 		// Add product content
 		add_action( 'woocommerce_shop_loop_item_title', array( $this, 'open_product_content' ), 5 );
-		add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'template_single_excerpt' ), 8 );
 		add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'close_product_content' ), 9 );
 
 		// Add product price box
 		add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'open_product_price_box' ), 9 );
-		add_action( 'woocommerce_after_shop_loop_item_title', array(
-			$this,
-			'product_loop_footer_buttons'
-		), 10 );
+
 		add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'close_product_price_box' ), 100 );
 
 		// Add brand
-		add_action( 'woocommerce_shop_loop_item_title', array( $this, 'product_loop_brand_name' ), 15 );
-
-		switch ( martfury_get_option( 'product_loop_hover' ) ) {
-			case 1:
-
-				// Add product detail hover
-				add_action( 'woocommerce_after_shop_loop_item_title', array(
-					$this,
-					'product_loop_details_hover'
-				), 100 );
-
-				add_action( 'martfury_product_loop_details_hover', array(
-					$this,
-					'product_variations_loop'
-				), 10 );
-				add_action( 'martfury_product_loop_details_hover', array( $this, 'products_title' ), 20 );
-				add_action( 'martfury_product_loop_details_hover', array(
-					$this,
-					'product_loop_brand_name'
-				), 30 );
-				add_action( 'martfury_product_loop_details_hover', 'woocommerce_template_loop_price', 40 );
-
-				break;
-			case 2:
-
-				// Add product detail hover
-				add_action( 'woocommerce_after_shop_loop_item_title', array(
-					$this,
-					'product_loop_details_hover'
-				), 100 );
-				add_action( 'martfury_product_loop_details_hover', array(
-					$this,
-					'product_variations_loop'
-				), 10 );
-				add_action( 'martfury_product_loop_details_hover', array( $this, 'products_title' ), 20 );
-				add_action( 'martfury_product_loop_details_hover', array(
-					$this,
-					'product_loop_brand_name'
-				), 30 );
-				add_action( 'martfury_product_loop_details_hover', 'woocommerce_template_loop_price', 40 );
-				add_action( 'martfury_product_loop_details_hover', array( $this, 'product_add_to_cart' ), 50 );
-
-				// Product sale detail hover
-				add_action( 'martfury_woo_after_shop_loop_item', array(
-					$this,
-					'product_deal_loop_details_hover'
-				), 20 );
-				add_action( 'martfury_product_deal_loop_details_hover', array( $this, 'product_add_to_cart' ), 10 );
-				break;
-			case 3:
-				add_action( 'woocommerce_shop_loop_item_title', array( $this, 'product_variations_loop' ), 4 );
-				add_action( 'woocommerce_after_shop_loop_item_title', array( $this, 'product_add_to_cart' ), 90 );
-				add_action( 'martfury_woo_after_shop_loop_item', array( $this, 'product_add_to_cart' ), 30 );
-				break;
+		if ( intval( martfury_get_option( 'catalog_brand_name' ) ) ) {
+			add_action( 'woocommerce_shop_loop_item_title', array( $this, 'product_loop_brand_name' ), 15 );
 		}
+
+		// Add Badges
+		if ( intval( martfury_get_option( 'show_badges' ) ) ) {
+			add_action( 'martfury_after_product_loop_thumbnail', array( $this, 'product_ribbons' ) );
+		}
+
+		$this->product_loop_featured_buttons();
+
+		$this->product_loop_hover();
 
 		// remove description heading
 		add_filter( 'woocommerce_product_description_heading', '__return_false' );
@@ -316,7 +266,6 @@ class Martfury_WooCommerce {
 
 		// QuicKview
 		add_action( 'martfury_before_single_product_summary', 'woocommerce_show_product_images', 20 );
-
 		add_action( 'martfury_single_product_summary', array( $this, 'get_product_quick_view_header' ), 5 );
 		add_action( 'martfury_single_product_summary', 'woocommerce_template_single_price', 10 );
 		add_action( 'martfury_single_product_summary', array( $this, 'template_single_summary_header' ), 15 );
@@ -444,6 +393,7 @@ class Martfury_WooCommerce {
 
 		add_action( 'yith_woocompare_field_brand', array( $this, 'woocompare_field_brand' ) );
 
+
 	}
 
 	function mf_child_product_categories_widget_args( $args ) {
@@ -466,6 +416,15 @@ class Martfury_WooCommerce {
 		$this->shop_view        = isset( $_COOKIE['shop_view'] ) ? $_COOKIE['shop_view'] : martfury_get_option( 'catalog_view_' . $this->catalog_layout );
 		$this->product_layout   = martfury_get_product_layout();
 		$this->product_layout_default();
+
+		if ( martfury_is_catalog() || martfury_is_vendor_page() ) {
+			add_action( 'woocommerce_after_shop_loop_item_title', array(
+				$this,
+				'product_loop_footer_buttons'
+			), 10 );
+
+			add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_single_excerpt', 8 );
+		}
 	}
 
 	function catalog_content_container_class( $class ) {
@@ -510,13 +469,10 @@ class Martfury_WooCommerce {
 		ob_start();
 		?>
 
-        <a href="<?php echo esc_url( wc_get_cart_url() ) ?>" class="cart-contents" id="icon-cart-contents">
-            <i class="extra-icon icon-bag2"></i>
-            <span class="mini-item-counter"><?php echo intval( $woocommerce->cart->cart_contents_count ) ?></span>
-        </a>
+        <span class="mini-item-counter mf-background-primary"><?php echo intval( $woocommerce->cart->cart_contents_count ) ?></span>
 
 		<?php
-		$fragments['a.cart-contents'] = ob_get_clean();
+		$fragments['#icon-cart-contents .mini-item-counter'] = ob_get_clean();
 
 		return $fragments;
 	}
@@ -587,13 +543,9 @@ class Martfury_WooCommerce {
 	 *
 	 * @return array
 	 */
-	function products_title($hasOffer) {
-	    if ($hasOffer){
-		 printf( '<h2 class="product-title"><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
-	    } else{
-         printf( '<h2 class="product-title"><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
-	    }
-    }
+	function products_title() {
+		printf( '<h2><a href="%s">%s</a></h2>', esc_url( get_the_permalink() ), get_the_title() );
+	}
 
 	/**
 	 * Display orders tile
@@ -651,6 +603,30 @@ class Martfury_WooCommerce {
 	 * @return array
 	 */
 	function close_product_content() {
+		echo '</div>';
+	}
+
+	/**
+	 * Open product buttons
+	 *
+	 * @since  1.0
+	 *
+	 *
+	 * @return array
+	 */
+	function product_loop_buttons_open() {
+		echo '<div class="footer-button">';
+	}
+
+	/**
+	 * Close product buttons
+	 *
+	 * @since  1.0
+	 *
+	 *
+	 * @return array
+	 */
+	function product_loop_buttons_close() {
 		echo '</div>';
 	}
 
@@ -743,127 +719,18 @@ class Martfury_WooCommerce {
 			echo woocommerce_get_product_thumbnail();
 		}
 
-		if ( intval( martfury_get_option( 'show_badges' ) ) ) {
-			$this->product_ribbons();
-
-		}
+		do_action( 'martfury_after_product_loop_thumbnail' );
 
 		echo '</a>';
 
-		$icons = martfury_get_option( 'catalog_featured_icons' );
-
-		$show_icons = true;
-
-		if ( is_customize_preview() ) {
-			$show_icons = apply_filters( 'martfury_preview_featured_icons', false );
-		}
-
-		if ( ! empty( $icons ) && $show_icons ) {
-			echo '<div class="footer-button">';
-
-			foreach ( $icons as $icon ) {
-				if ( 'cart' == $icon ) {
-
-					if ( martfury_get_option( 'product_loop_hover' ) == '1' && function_exists( 'woocommerce_template_loop_add_to_cart' ) ) {
-						woocommerce_template_loop_add_to_cart();
-					}
-				}
-
-				if ( 'qview' == $icon ) {
-					echo '<a href="' . $product->get_permalink() . '" data-id="' . esc_attr( $product->get_id() ) . '"  class="mf-product-quick-view"><i class="p-icon icon-eye" title="' . esc_attr__( 'Quick View', 'martfury' ) . '" data-rel="tooltip"></i></a>';
-				}
-
-				if ( 'wishlist' == $icon ) {
-					if ( shortcode_exists( 'yith_wcwl_add_to_wishlist' ) ) {
-						echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
-					}
-				}
-
-				if ( 'compare' == $icon ) {
-					$this->product_compare();
-				}
-			}
-
-			echo '</div>';
-
-		}
+		do_action( 'martfury_after_product_loop_thumbnail_link' );
 
 
 		echo '</div>';
 
 	}
 
-    /**
-     * WooCommerce Loop Offer Content Thumbs
-     *
-     * @since  1.0
-     *
-     * @return string
-     */
-    function product_content_offer_thumbnail() {
-        global $product, $post, $offer;
 
-        printf( '<div class="mf-product-thumbnail">' );
-
-        printf( '<a href="%s" target="_blank">', esc_url( $offer['url'] ) );
-
-        $image_size = 'shop_catalog';
-        if ( has_post_thumbnail() ) {
-            $thumbnail_class   = apply_filters( 'martfury_product_thumbnail_classes', '' );
-            $post_thumbnail_id = get_post_thumbnail_id( $post );
-            echo martfury_get_image_html( $post_thumbnail_id, $image_size, $thumbnail_class );
-
-        } elseif ( function_exists( 'woocommerce_get_product_thumbnail' ) ) {
-            echo woocommerce_get_product_thumbnail();
-        }
-
-        if ( intval( martfury_get_option( 'show_badges' ) ) ) {
-            $this->product_ribbons();
-
-        }
-
-        echo '</a>';
-
-        $icons = martfury_get_option( 'catalog_featured_icons' );
-
-        $show_icons = true;
-
-        if ( is_customize_preview() ) {
-            $show_icons = apply_filters( 'martfury_preview_featured_icons', false );
-        }
-
-        if ( ! empty( $icons ) && $show_icons ) {
-            echo '<div class="footer-button">';
-
-            foreach ( $icons as $icon ) {
-                if ( 'cart' == $icon ) {
-                    if ( martfury_get_option( 'product_loop_hover' ) == '1' && function_exists( 'woocommerce_template_loop_add_to_cart' ) ) {
-                        woocommerce_template_loop_add_to_cart();
-                    }
-                }
-
-                if ( 'qview' == $icon ) {
-                    echo '<a href="' . $product->get_permalink() . '" data-id="' . esc_attr( $product->get_id() ) . '"  class="mf-product-quick-view"><i class="p-icon icon-eye" title="' . esc_attr__( 'Quick View', 'martfury' ) . '" data-rel="tooltip"></i></a>';
-                }
-
-                if ( 'wishlist' == $icon ) {
-                    if ( shortcode_exists( 'yith_wcwl_add_to_wishlist' ) ) {
-                        echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
-                    }
-                }
-
-                if ( 'compare' == $icon ) {
-                    $this->product_compare();
-                }
-            }
-            echo '</div>';
-        }
-
-        echo '</div>';
-        wc_get_template( 'loop/offer-badge.php' );
-        wc_get_template( 'loop/offer-progress.php' );
-        wc_get_template( 'loop/offer-countdown.php' );
-    }
 	/**
 	 * WooCommerce Loop Product Content Thumbs
 	 *
@@ -872,10 +739,6 @@ class Martfury_WooCommerce {
 	 * @return string
 	 */
 	function product_loop_footer_buttons() {
-
-		if ( ! martfury_is_catalog() && ! martfury_is_vendor_page() ) {
-			return;
-		}
 
 		echo '<div class="footer-button">';
 
@@ -895,23 +758,6 @@ class Martfury_WooCommerce {
 	}
 
 	/**
-	 * WooCommerce Loop Product Content Thumbs
-	 *
-	 * @since  1.0
-	 *
-	 * @return string
-	 */
-	function product_add_to_cart() {
-		if ( ! in_array( 'cart', (array) martfury_get_option( 'catalog_featured_icons' ) ) ) {
-			return;
-		}
-
-		if ( function_exists( 'woocommerce_template_loop_add_to_cart' ) ) {
-			woocommerce_template_loop_add_to_cart();
-		}
-	}
-
-	/**
 	 * WooCommerce Loop Product brand name
 	 *
 	 * @since  1.0
@@ -919,11 +765,8 @@ class Martfury_WooCommerce {
 	 * @return string
 	 */
 	function product_loop_brand_name() {
-		if ( ! taxonomy_exists( 'product_brand' ) ) {
-			return;
-		}
 
-		if ( ! intval( martfury_get_option( 'catalog_brand_name' ) ) ) {
+		if ( ! taxonomy_exists( 'product_brand' ) ) {
 			return;
 		}
 
@@ -942,15 +785,23 @@ class Martfury_WooCommerce {
 	}
 
 	/**
-	 * woocommerce_template_single_excerpt
+	 * Product loop quick view
+	 *
 	 */
-	function template_single_excerpt() {
-		if ( ! martfury_is_catalog() && ! martfury_is_vendor_page() ) {
-			return;
-		}
 
-		if ( function_exists( 'woocommerce_template_single_excerpt' ) ) {
-			woocommerce_template_single_excerpt();
+	function product_loop_quick_view() {
+		global $product;
+		echo '<a href="' . $product->get_permalink() . '" data-id="' . esc_attr( $product->get_id() ) . '"  class="mf-product-quick-view"><i class="p-icon icon-eye" title="' . esc_attr__( 'Quick View', 'martfury' ) . '" data-rel="tooltip"></i></a>';
+	}
+
+	/**
+	 * Product loop wishlist
+	 *
+	 */
+
+	function product_loop_wishlist() {
+		if ( shortcode_exists( 'yith_wcwl_add_to_wishlist' ) ) {
+			echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
 		}
 	}
 
@@ -1233,6 +1084,8 @@ class Martfury_WooCommerce {
 			} elseif ( $carousel['type'] == '5' ) {
 				$params    = 'top_rated="true"';
 				$query_var = '?orderby=rating';
+			} elseif ( $carousel['type'] == '6' ) {
+				$order_by = 'rand';
 			}
 
 			$query_var = apply_filters( 'martfury_products_carousel_cats_link_2', $query_var, $carousel['type'] );
@@ -2443,8 +2296,9 @@ class Martfury_WooCommerce {
 	 * @return string
 	 */
 	function product_variations_loop() {
+
 		if ( ! $this->is_product_variations_loop() ) {
-			return;
+		    return false;
 		}
 
 		global $product;
@@ -2934,13 +2788,13 @@ class Martfury_WooCommerce {
                     <form class="fbt-cart" action="<?php echo esc_url( $product->get_permalink() ); ?>" method="post"
                           enctype="multipart/form-data">
                         <button type="submit" name="mf-add-to-cart" value="<?php echo esc_attr( $product_ids ); ?>"
-                                class="mf_add_to_cart_button ajax_add_to_cart"><?php esc_html_e( 'Add All To Cart', 'martfury' ); ?></button>
+                                class="btn-primary-small mf_add_to_cart_button ajax_add_to_cart"><?php esc_html_e( 'Add All To Cart', 'martfury' ); ?></button>
                     </form>
 					<?php if ( function_exists( 'YITH_WCWL' ) ) : ?>
                         <a href="<?php echo esc_url( $product->get_permalink() ); ?>"
-                           class="btn-add-to-wishlist mf-wishlist-button"><span> <?php esc_html_e( 'Add All To Wishlist', 'martfury' ); ?></span></a>
+                           class="btn-primary-small-outline btn-add-to-wishlist mf-wishlist-button"><span> <?php esc_html_e( 'Add All To Wishlist', 'martfury' ); ?></span></a>
                         <a href="<?php echo esc_url( $this->get_wishlist_url() ); ?>"
-                           class="btn-view-to-wishlist mf-wishlist-button"><span><?php esc_html_e( 'Browse Wishlist', 'martfury' ); ?></span></a>
+                           class="btn-primary-small-outline btn-view-to-wishlist mf-wishlist-button"><span><?php esc_html_e( 'Browse Wishlist', 'martfury' ); ?></span></a>
 					<?php endif; ?>
                 </li>
             </ul>
@@ -4006,11 +3860,11 @@ class Martfury_WooCommerce {
 				}
 				if ( martfury_get_option( 'sale_type' ) == '2' ) {
 					if ( $save ) {
-						$output[] = '<span class="onsale ribbon sale-text"><span class="sep">' . esc_html( martfury_get_option( 'sale_save_text' ) ) . '</span>' . ' ' . wc_price( $save ) . '</span>';
+						$output[] = '<span class="onsale ribbon sale-text"><span class="onsep">' . esc_html( martfury_get_option( 'sale_save_text' ) ) . '</span>' . ' ' . wc_price( $save ) . '</span>';
 					}
 				} else {
 					if ( $percentage ) {
-						$output[] = '<span class="onsale ribbon"><span class="sep">-</span>' . $percentage . '<span class="per">%</span>' . '</span>';
+						$output[] = '<span class="onsale ribbon"><span class="onsep">-</span>' . $percentage . '<span class="per">%</span>' . '</span>';
 					}
 				}
 
@@ -4320,7 +4174,126 @@ class Martfury_WooCommerce {
 			echo NextendSocialLogin::renderButtonsWithContainer();
 		}
 	}
+
+	public function product_loop_featured_buttons() {
+		$show_icons = true;
+
+		if ( is_customize_preview() ) {
+			$show_icons = apply_filters( 'martfury_preview_featured_icons', false );
+		}
+
+		if ( ! $show_icons ) {
+			return;
+		}
+		$featured_icons = (array) martfury_get_option( 'catalog_featured_icons' );
+
+		if ( ! empty( $featured_icons ) ) {
+			add_action( 'martfury_after_product_loop_thumbnail_link', array(
+				$this,
+				'product_loop_buttons_open'
+			), 10 );
+
+			add_action( 'martfury_after_product_loop_thumbnail_link', array(
+				$this,
+				'product_loop_buttons_close'
+			), 100 );
+
+			if ( in_array( 'cart', $featured_icons ) && martfury_get_option( 'product_loop_hover' ) == '1' ) {
+				add_action( 'martfury_after_product_loop_thumbnail_link', 'woocommerce_template_loop_add_to_cart', 20 );
+			}
+
+			if ( in_array( 'qview', $featured_icons ) ) {
+				add_action( 'martfury_after_product_loop_thumbnail_link', array(
+					$this,
+					'product_loop_quick_view'
+				), 20 );
+			}
+
+			if ( in_array( 'wishlist', $featured_icons ) ) {
+				add_action( 'martfury_after_product_loop_thumbnail_link', array(
+					$this,
+					'product_loop_wishlist'
+				), 30 );
+			}
+
+			if ( in_array( 'compare', $featured_icons ) ) {
+				add_action( 'martfury_after_product_loop_thumbnail_link', array(
+					$this,
+					'product_compare'
+				), 40 );
+			}
+		}
+	}
+
+	public function product_loop_hover() {
+		switch ( martfury_get_option( 'product_loop_hover' ) ) {
+			case 1:
+
+				// Add product detail hover
+				add_action( 'woocommerce_after_shop_loop_item_title', array(
+					$this,
+					'product_loop_details_hover'
+				), 100 );
+
+				add_action( 'martfury_product_loop_details_hover', array(
+					$this,
+					'product_variations_loop'
+				), 10 );
+
+				add_action( 'martfury_product_loop_details_hover', array( $this, 'products_title' ), 20 );
+				if ( intval( martfury_get_option( 'catalog_brand_name' ) ) ) {
+					add_action( 'martfury_product_loop_details_hover', array(
+						$this,
+						'product_loop_brand_name'
+					), 30 );
+				}
+				add_action( 'martfury_product_loop_details_hover', 'woocommerce_template_loop_price', 40 );
+
+				break;
+			case 2:
+
+				// Add product detail hover
+				add_action( 'woocommerce_after_shop_loop_item_title', array(
+					$this,
+					'product_loop_details_hover'
+				), 100 );
+				add_action( 'martfury_product_loop_details_hover', array(
+					$this,
+					'product_variations_loop'
+				), 10 );
+				add_action( 'martfury_product_loop_details_hover', array( $this, 'products_title' ), 20 );
+				if ( intval( martfury_get_option( 'catalog_brand_name' ) ) ) {
+					add_action( 'martfury_product_loop_details_hover', array(
+						$this,
+						'product_loop_brand_name'
+					), 30 );
+				}
+				add_action( 'martfury_product_loop_details_hover', 'woocommerce_template_loop_price', 40 );
+				if ( in_array( 'cart', (array) martfury_get_option( 'catalog_featured_icons' ) ) ) {
+					add_action( 'martfury_product_loop_details_hover', 'woocommerce_template_loop_add_to_cart', 50 );
+				}
+
+				// Product sale detail hover
+				add_action( 'martfury_woo_after_shop_loop_item', array(
+					$this,
+					'product_deal_loop_details_hover'
+				), 20 );
+				if ( in_array( 'cart', (array) martfury_get_option( 'catalog_featured_icons' ) ) ) {
+					add_action( 'martfury_product_deal_loop_details_hover', 'woocommerce_template_loop_add_to_cart', 10 );
+				}
+				break;
+			case 3:
+
+				if ( in_array( 'cart', (array) martfury_get_option( 'catalog_featured_icons' ) ) ) {
+					add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_add_to_cart', 90 );
+					add_action( 'martfury_woo_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 30 );
+
+				}
+				break;
+		}
+	}
 }
+
 
 add_filter( 'loop_shop_columns', 'martfury_loop_shop_columns' );
 function martfury_loop_shop_columns( $columns ) {

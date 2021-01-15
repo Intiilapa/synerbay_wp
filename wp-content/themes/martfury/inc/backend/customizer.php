@@ -1495,6 +1495,13 @@ function martfury_customize_settings() {
 				'avatar' => esc_html__( 'Avatar', 'martfury' ),
 			),
 		),
+		'user_logged_link'                        => array(
+			'type'     => 'text',
+			'label'    => esc_html__( 'Custom User Logged Link', 'martfury' ),
+			'section'  => 'header_account',
+			'default'  => '',
+			'priority' => 90,
+		),
 		'mini_cart_button'                        => array(
 			'type'        => 'select',
 			'label'       => esc_html__( 'Display Mini Cart Button', 'martfury' ),
@@ -2604,6 +2611,7 @@ function martfury_customize_settings() {
 						'3' => esc_html__( 'Sale Products', 'martfury' ),
 						'4' => esc_html__( 'Recent Products', 'martfury' ),
 						'5' => esc_html__( 'Top Rated Products', 'martfury' ),
+						'6' => esc_html__( 'Random Products', 'martfury' ),
 					),
 				),
 			),
@@ -2793,6 +2801,7 @@ function martfury_customize_settings() {
 						'3' => esc_html__( 'Sale Products', 'martfury' ),
 						'4' => esc_html__( 'Recent Products', 'martfury' ),
 						'5' => esc_html__( 'Top Rated Products', 'martfury' ),
+						'6' => esc_html__( 'Random Products', 'martfury' ),
 					),
 				),
 				'categories'         => array(
@@ -2999,6 +3008,7 @@ function martfury_customize_settings() {
 						'3' => esc_html__( 'Sale Products', 'martfury' ),
 						'4' => esc_html__( 'Recent Products', 'martfury' ),
 						'5' => esc_html__( 'Top Rated Products', 'martfury' ),
+						'6' => esc_html__( 'Random Products', 'martfury' ),
 					),
 				),
 
@@ -3478,7 +3488,7 @@ function martfury_customize_settings() {
 				array(
 					'setting'  => 'badges',
 					'operator' => 'contains',
-					'value'    => 'new',
+					'value'    => 'sale',
 				),
 				array(
 					'setting'  => 'sale_type',
@@ -3897,6 +3907,13 @@ function martfury_customize_settings() {
 			'default'     => 1,
 			'priority'    => 90,
 			'description' => esc_html__( 'Check this option to show variation images in the product item.', 'martfury' ),
+			'active_callback' => array(
+				array(
+					'setting'  => 'product_loop_hover',
+					'operator' => '!=',
+					'value'    => '3',
+				),
+			),
 		),
 		'catalog_brand_name'                 => array(
 			'type'        => 'toggle',

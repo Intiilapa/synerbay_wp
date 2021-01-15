@@ -98,11 +98,11 @@ do_action( 'woocommerce_before_cart' ); ?>
 
                                 <div class="product-item">
                                     <label>
-			                            <?php esc_html_e( 'Total:', 'martfury' ); ?>
+										<?php esc_html_e( 'Total:', 'martfury' ); ?>
                                     </label>
-		                            <?php
-		                            echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key );
-		                            ?>
+									<?php
+									echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key );
+									?>
                                 </div>
                             </div>
                         </div>
@@ -174,7 +174,7 @@ do_action( 'woocommerce_before_cart' ); ?>
         <tr>
             <td colspan="6" class="actions">
 
-                <a href="<?php echo esc_url( get_permalink( get_option( 'woocommerce_shop_page_id' ) ) ); ?>"
+                <a href="<?php echo esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', get_permalink( get_option( 'woocommerce_shop_page_id' ) ) ) ); ?>"
                    class="btn-shop"><i class="icon-arrow-left"></i> <?php esc_html_e( 'Back To Shop', 'martfury' ); ?>
                 </a>
 
@@ -222,7 +222,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 		<?php
 		$cart_class = 'col-md-8 col-sm-12 col-colla';
-		if ( 'yes' === get_option( 'woocommerce_enable_shipping_calc' ) &&  WC()->cart->needs_shipping() ) {
+		if ( 'yes' === get_option( 'woocommerce_enable_shipping_calc' ) && WC()->cart->needs_shipping() ) {
 			$cart_class = 'col-md-4 col-sm-12 col-colla';
 			?>
             <div class="col-md-4 col-sm-12 col-colla">

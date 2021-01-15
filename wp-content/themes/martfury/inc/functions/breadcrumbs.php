@@ -108,49 +108,48 @@ if ( ! function_exists( 'martfury_breadcrumbs' ) ) :
 			}
 
 			$primary_term_id = false;
-			if ( function_exists( 'yoast_get_primary_term_id' ) ) {
-				if ( $primary_id = yoast_get_primary_term_id( 'product_cat' ) ) {
-					$term = get_term( $primary_id, 'product_cat' );
-
-					if ( !is_wp_error( $term ) && ! empty( $term ) ) {
-						$terms        = martfury_get_term_parents( $term->term_id, $taxonomy );
-						$terms[]      = $term->term_id;
-						$primary_term_id = true;
-						foreach ( $terms as $term_id ) {
-							$term = get_term( $term_id, $taxonomy );
-							if ( is_wp_error( $term ) || ! $term ) {
-								continue;
-							}
-							$items[] = sprintf( $item_tpl, get_term_link( $term, $taxonomy ), $term->name );
-						}
-					}
-				}
-
+			if ( apply_filters( 'martfury_yoast_get_primary_term_id', function_exists( 'yoast_get_primary_term_id' ) ) ) {
+				$primary_term_id = yoast_get_primary_term_id( 'product_cat');
 
 			}
 
-			if ( !$primary_term_id && function_exists( 'wc_get_product_terms' ) ) {
+			if ( ! $primary_term_id && function_exists( 'wc_get_product_terms' ) ) {
 				$terms = wc_get_product_terms(
 					get_the_ID(), 'product_cat', apply_filters(
 						'woocommerce_product_categories_widget_product_terms_args', array(
 							'orderby' => 'parent',
+							'order'   => 'desc'
 						)
 					)
 				);
 
 				if ( ! empty( $terms ) ) {
-					$current_term = apply_filters( 'martfury_end_product_category_breadcrumbs', end( $terms ) );
-					$term         = $current_term ? $current_term : $terms[0];
-					$terms        = martfury_get_term_parents( $term->term_id, $taxonomy );
-					$terms[]      = $term->term_id;
-
-					foreach ( $terms as $term_id ) {
-						$term = get_term( $term_id, $taxonomy );
-						if ( is_wp_error( $term ) || ! $term ) {
-							continue;
+					foreach ( $terms as $term ) {
+						if ( $term->parent != 0 ) {
+							$primary_term_id = $term->term_id;
+							break;
 						}
-						$items[] = sprintf( $item_tpl, get_term_link( $term, $taxonomy ), $term->name );
 					}
+
+					$primary_term_id = $primary_term_id ? $primary_term_id : $terms[0]->term_id;
+				}
+
+			}
+
+
+			if ( $primary_term_id ) {
+				$cat_ancestors = get_ancestors( $primary_term_id, 'product_cat' );
+				if ( $cat_ancestors ) {
+					$cat_ancestors = array_reverse( $cat_ancestors );
+				}
+				array_push( $cat_ancestors, $primary_term_id );
+
+				foreach ( $cat_ancestors as $term_id ) {
+					$parent_term = get_term_by( 'id', $term_id, 'product_cat' );
+					if( is_wp_error( $parent_term ) || ! $parent_term ) {
+						continue;
+					}
+					$items[]     = sprintf( $item_tpl, get_term_link( $parent_term, $taxonomy ), $parent_term->name );
 				}
 			}
 

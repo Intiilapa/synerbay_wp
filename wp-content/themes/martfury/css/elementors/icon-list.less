@@ -50,7 +50,7 @@
 	}
 
 	.box-icon {
-		color: @primary-color;
+		color: var(--mf-primary-color);
 		line-height: 1;
 		font-size: 40px;
 	}
@@ -68,7 +68,7 @@
 
 
 
-@media (max-width: 1920px) and (min-width: 1025px) {
+@media  (min-width: 1025px) {
 	.loop (@i) when (@i > 0) {
 		&.columns-@{i} {
 			.box-item {

@@ -2,7 +2,6 @@
 Theme Name: Martfury
 Text Domain: martfury
 */
-
 @import 'variables';
 @import 'mixins';
 
@@ -164,7 +163,7 @@ body {
         }
     }
 
-    .site-title,.site-description {
+    .site-title, .site-description {
         display: none;
     }
 
@@ -240,14 +239,14 @@ body {
         }
     }
 
-   .recently-viewed .recently-title {
-       padding-left: 20px;
-       padding-right: 0;
-       &:after {
-           left: 0;
-           right: auto;
-       }
-   }
+    .recently-viewed .recently-title {
+        padding-left: 20px;
+        padding-right: 0;
+        &:after {
+            left: 0;
+            right: auto;
+        }
+    }
 
 }
 
@@ -847,6 +846,11 @@ ul {
 
 .woocommerce-checkout form.checkout .woocommerce-form__label > span:before, .woocommerce-checkout #payment ul.payment_methods > li > label:before {
     direction: ltr;
+}
+
+.woocommerce-checkout form.checkout .woocommerce-terms-and-conditions-wrapper .woocommerce-form__label > span:before {
+    right: 0;
+    left: auto;
 }
 
 .mf-product-fbt ul.products li.product {
@@ -1800,7 +1804,7 @@ blockquote {
     text-align: right;
 }
 
-.site-header .product-extra-search .product-cat-label{
+.site-header .product-extra-search .product-cat-label {
     padding-right: 18px;
     padding-left: 30px;
 
@@ -1975,6 +1979,7 @@ blockquote {
 .mf-elementor-testimonial-slides .testimonial-info > i {
     left: 20px;
     right: auto;
+    direction: ltr;
 }
 
 .mf-elementor-testimonial-slides .job {
@@ -1993,11 +1998,47 @@ blockquote {
 
     .r-banners {
         .item-small,
-        .item-normal{
+        .item-normal {
             border-left: 1px solid #d9d9d9;
             border-right: none;
         }
     }
+}
+
+.woocommerce-checkout table.shop_table .shipping .shipping-title {
+    text-align: right;
+}
+
+.woocommerce table.shop_table td small {
+    display: inline-block;
+}
+
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart div.quantity {
+    margin-right: 0;
+}
+
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .buy_now_button {
+    margin-left: 0;
+    margin-right: 20px;
+}
+
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-wishlist-button,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-compare-button {
+    float: right;
+}
+
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-add-button > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-wishlistaddedbrowse > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .yith-wcwl-add-to-wishlist .yith-wcwl-wishlistexistsbrowse > a .yith-wcwl-icon,
+.mf-quick-view-modal div.product .mf-has-buy-now form.cart .actions-button .mf-compare-button .compare:before {
+    margin-left: 10px;
+    margin-right: 0;
+    padding-right: 0;
+}
+
+.woocommerce .customer-login .password-input .show-password-input {
+    left: 10px;
+    right: auto;
 }
 
 @media (max-width: 1600px) and (min-width: 1300px) {
@@ -2143,11 +2184,31 @@ blockquote {
         float: none;
     }
 
-    .site-header .header-extras .menu-item-account > a {  padding-right: 0;  }
+    .site-header .header-extras .menu-item-account > a {
+        padding-right: 0;
+    }
 
     .mf-product-fbt ul.products li.product .product-content {
         padding-left: 0;
     }
+
+    .mf-quick-view-modal div.product {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .mf-quick-view-modal div.product .mf-has-buy-now form.cart div.quantity {
+        margin-right: 0;
+    }
+
+    .woocommerce div.product form.cart .buy_now_button {
+        margin-right: 15px;
+    }
+
+    .mf-quick-view-modal .modal-content div.product .mf-has-buy-now form.cart .buy_now_button {
+        margin-left: 0;
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -2179,7 +2240,10 @@ blockquote {
         float: left;
     }
 
-    .woocommerce div.product form.cart div.quantity { margin-left: 0; float: none; }
+    .woocommerce div.product form.cart div.quantity {
+        margin-left: 0;
+        float: none;
+    }
 }
 
 

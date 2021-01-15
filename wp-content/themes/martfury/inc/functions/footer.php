@@ -198,7 +198,7 @@ if ( ! function_exists( 'martfury_footer_payments' ) ) :
 		$text = martfury_get_option( 'footer_payment_text' );
 
 		if ( $text ) {
-			$output[] = sprintf( '<div class="text">%s</div>', '<a href="/privacy-policy">Privacy Policy</a>'  );
+			$output[] = sprintf( '<div class="text">%s</div>', esc_html( $text ) );
 		}
 
 		$images = martfury_get_option( 'footer_payment_images' );

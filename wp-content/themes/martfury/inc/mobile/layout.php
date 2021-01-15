@@ -399,12 +399,14 @@ class Martfury_Mobile {
 				$custom_title = get_search_query();
 			}
 		} elseif ( ( function_exists( 'is_product_tag' ) && is_product_tag() ) || is_tax( 'product_brand' ) ) {
-			$link = get_permalink( get_option( 'woocommerce_shop_page_id' ) );
+			$link         = get_permalink( get_option( 'woocommerce_shop_page_id' ) );
+			$current_term = get_queried_object();
+			$custom_title = $current_term->name;
 		} elseif ( function_exists( 'is_product_category' ) && is_product_category() ) {
+			$current_term = get_queried_object();
+			$custom_title = $current_term->name;
 			if ( ! intval( martfury_get_option( 'inner_page_history_back' ) ) ) {
-				$current_term = get_queried_object();
-				$custom_title = $current_term->name;
-				$terms        = martfury_get_term_parents( get_queried_object_id(), $current_term->taxonomy );
+				$terms = martfury_get_term_parents( get_queried_object_id(), $current_term->taxonomy );
 				if ( $terms ) {
 					$link = get_term_link( end( $terms ), 'product_cat' );
 				} else {
@@ -480,7 +482,9 @@ class Martfury_Mobile {
 		$classes = intval( martfury_get_option( 'inner_page_history_back' ) ) ? 'mf-history-back' : '';
 
 
-		echo sprintf( '<a href="%s" class="header-go-back %s"><i class="icon-chevron-left"></i><h1>%s</h1></a>', esc_url( $link ), esc_attr( $classes ), $title );
+		$link_html = sprintf( '<a href="%s" class="header-go-back %s"><i class="icon-chevron-left"></i><h1>%s</h1></a>', esc_url( $link ), esc_attr( $classes ), $title );
+
+		echo apply_filters( 'martfury_get_header_mobile_link_html', $link_html, $link, $classes, $title );
 
 	}
 
@@ -535,6 +539,12 @@ class Martfury_Mobile {
 		$topbar_text_color = martfury_get_option( 'topbar_text_color_mobile' );
 		if ( ! empty( $topbar_text_color ) ) {
 			$inline_css .= '#topbar, #topbar a, #topbar #lang_sel > ul > li > a, #topbar .mf-currency-widget .current:after, #topbar  .lang_sel > ul > li > a:after, #topbar  #lang_sel > ul > li > a:after {color:' . $topbar_text_color . '}';
+		}
+
+		$filter_width = intval( martfury_get_option( 'catalog_toolbar_filter_mobile_width' ) );
+		if ( ! empty( $filter_width ) ) {
+			$inline_css .= '.mobile-version .mf-catalog-close-sidebar, .mobile-version.mf-catalog-page .catalog-sidebar {width:' . $filter_width . '%;left:-' . $filter_width . '%}';
+			$inline_css .= '.rtl.mobile-version .mf-catalog-close-sidebar, .rtl.mobile-version.mf-catalog-page .catalog-sidebar {right:-' . $filter_width . '%;left: auto}';
 		}
 
 		return $inline_css;
@@ -595,7 +605,7 @@ class Martfury_Mobile {
 				}
 
 				if ( $location ) {
-					wp_nav_menu(  array(
+					wp_nav_menu( array(
 						'theme_location' => $location,
 						'container'      => false,
 						'walker'         => new Martfury_Mobile_Walker()

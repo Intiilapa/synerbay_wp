@@ -257,6 +257,22 @@ table.compare-list tr.title {
   border: none;
 }
 
+@media (max-width: 767px) {
+  table.compare-list tr td {
+    width: 220px;
+    max-width: 220px;
+    min-width: 220px;
+    text-align: center;
+  }
+
+  table.compare-list tbody th {
+    width: 100px;
+    max-width: 100px;
+    min-width: 100px;
+    font-size: 12px;
+  }
+}
+
 
 .woocommerce .notifyjs-corner {
   z-index: 9999;

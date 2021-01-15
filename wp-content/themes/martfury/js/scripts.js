@@ -150,10 +150,11 @@
         }
 
         NProgress.start();
-        martfury.$window.on('load', function () {
-            NProgress.done();
+        $( document ).ready(function() {
             $('#martfury-preloader').addClass('fade-in');
+            NProgress.done();
         });
+
     };
 
     // Sticky Header
@@ -413,7 +414,7 @@
             return;
         }
 
-        martfury.$window.on('load', function () {
+        $( document ).ready(function() {
             setTimeout(function () {
                 $modal.addClass('open');
             }, seconds * 1000);
@@ -433,11 +434,11 @@
             $modal.fadeOut();
         });
 
-        $modal.find('.mc4wp-form').submit(function () {
+        $modal.find('.mc4wp-form').on('submit', function () {
             closeNewsLetter(days);
         });
 
-        $modal.find('.formkit-form').submit(function () {
+        $modal.find('.formkit-form').on('submit', function () {
             closeNewsLetter(days);
         });
 
@@ -454,7 +455,7 @@
     // Back to top scroll
     martfury.backToTop = function () {
         var $scrollTop = $('#scroll-top');
-        martfury.$window.scroll(function () {
+        martfury.$window.on('scroll', function () {
             if (martfury.$window.scrollTop() > martfury.$window.height()) {
                 $scrollTop.addClass('show-scroll');
             } else {
@@ -528,7 +529,7 @@
             martfury.$header.find('.product-cat-label').html(value);
         });
 
-        martfury.$header.find('.products-search').submit(function () {
+        martfury.$header.find('.products-search').on('submit', function () {
             if ($(this).find('#header-search-product-cat').val() == '0') {
                 $(this).find('#header-search-product-cat').removeAttr('name');
             }
@@ -2470,6 +2471,8 @@
                         });
                     });
 
+                    $product.find('div.product').addClass('qv-modal');
+
                     if ($buy_now.length > 0) {
                         $buttons.prepend($buy_now);
                     }
@@ -2725,7 +2728,7 @@
         }
 
         $.notify.addStyle('martfury', {
-            html: '<div><i class="icon-checkmark-circle message-icon"></i><span data-notify-text/>' + $message + '<span class="close icon-cross2"></span> </div>'
+            html: '<div><i class="icon-checkmark-circle message-icon"></i>' + $message + '<span class="close icon-cross2"></span> </div>'
         });
         $.notify($content, {
             autoHideDelay: martfuryData.added_to_cart_notice.cart_notice_auto_hide,
@@ -2760,7 +2763,8 @@
         $(document.body).on('martfury_catelog_filter_ajax', function (e, url, element) {
 
             var $content = $('#content'),
-                $pageHeader = $('.page-header');
+                $pageHeader = $('.page-header'),
+                $headerTitle = $('head').find('title');
 
             NProgress.start();
             $('#page').removeClass('fade-in');
@@ -2783,6 +2787,7 @@
 
                 $content.replaceWith($(res).find('#content'));
                 $pageHeader.html($(res).find('.page-header').html());
+                $headerTitle.html($(res).filter('title').text());
 
                 if (typeof martfuryData.catalog_filter_products_status !== 'undefined') {
                     martfury.$body.removeClass('mf-filter-active');
@@ -3119,26 +3124,33 @@
 
     martfury.productCatWidget = function () {
         var $widget = $('.mf_widget_product_categories'),
-            count = $widget.find('ul.product-categories > li').size(),
             catNumbers = parseInt($widget.find('input.widget-cat-numbers').val(), 10);
 
         if (!$widget.find('ul.product-categories').hasClass('has-view-more')) {
             return;
         }
 
-        $widget.find('ul.product-categories > li:lt(' + catNumbers + ')').show();
+        var count = $widget.find('ul.product-categories > li.cat-item').size();
+
+        if (count > catNumbers) {
+            $widget.find('.show-more').show();
+        }
+
+        $widget.find('ul.product-categories > li.cat-item:lt(' + catNumbers + ')').show();
 
         $widget.on('click', '.show-more', function () {
-            $widget.find('ul.product-categories > li').show();
+            $widget.find('ul.product-categories > li.cat-item').show();
             $(this).hide();
             $widget.find('.show-less').show();
         });
 
         $widget.on('click', '.show-less', function () {
-            $widget.find('ul.product-categories > li').not(':lt(' + catNumbers + ')').hide();
+            $widget.find('ul.product-categories > li.cat-item').not(':lt(' + catNumbers + ')').hide();
             $(this).hide();
             $widget.find('.show-more').show();
         });
+
+
     };
 
     martfury.buyNow = function () {

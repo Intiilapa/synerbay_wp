@@ -248,17 +248,17 @@
         padding: 0 25px;
         height: 50px;
         line-height: 50px;
-        background-color: #fcb800;
         transition: all 0.5s;
-        color: #000;
         font-size: 16px;
         font-weight: 600;
         text-align: center;
         border: none;
+        background-color: var(--mf-background-primary-color);
+        color: var(--mf-background-primary-text-color);
 
         &:hover {
-            background-color: #fcb800;
-            color: #000 !important;
+            background-color: var(--mf-background-primary-color);
+            color: var(--mf-background-primary-text-color) !important;
         }
     }
 
@@ -322,19 +322,19 @@
             float: left;
             height: 50px;
             line-height: 50px;
-            background-color: #fcb800;
             transition: all 0.5s;
-            color: #000;
             font-size: 16px;
             font-weight: 600;
             text-align: center;
             border: none;
             margin: 0;
             padding: 0 25px !important;
+            background-color: var(--mf-background-primary-color);
+            color: var(--mf-background-primary-text-color);
 
             &:hover {
-                background-color: #fcb800;
-                color: #000 !important;
+                background-color: var(--mf-background-primary-color);
+                color: var(--mf-background-primary-text-color)!important;
             }
         }
 
@@ -440,8 +440,9 @@
 
                     &.current,
                     &:hover {
-                        color: #000;
-                        background-color: #fcb800;
+
+                        background-color: var(--mf-background-primary-color);
+                        color: var(--mf-background-primary-text-color);
                     }
                 }
             }
@@ -657,8 +658,8 @@
             z-index: 1;
 
             .wcfm_store_enquiry {
-                background-color: #fcb800 !important;
-                color: #fff !important;
+                background-color: var(--mf-background-primary-color)!important;
+                color: var(--mf-background-primary-text-color)!important;
 
                 span {
                     color: #fff !important;
