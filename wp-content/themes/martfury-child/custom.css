@@ -45,6 +45,21 @@ tr th {
 }
 
 /*
+* Dokan Store page
+*/
+.dokan-single-store .profile-frame {
+  height: 520px;
+}
+
+.dokan-single-store .profile-frame .profile-info-box {
+  height: 520px;
+}
+
+.dokan-single-store .profile-frame .profile-info-box .profile-info-img.dummy-image {
+  height: 520px;
+}
+
+/*
 * Create new product template
 */
 select#bulk-product-action-selector {

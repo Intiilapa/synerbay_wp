@@ -39,4 +39,18 @@ function martfury_extra_search_form() {
         $post_type_html,
         wp_kses( $button_text, wp_kses_allowed_html( 'post' ) )
     );
+
+}
+
+if ( ! function_exists( 'is_shop' ) ) {
+
+    /**
+     * Is_shop - Returns true when viewing the product type archive (shop).
+     *
+     * @return bool
+     */
+    function is_shop() {
+        die('remco');
+        return ( is_post_type_archive( 'product' ) || is_page( wc_get_page_id( 'shop' )) );
+    }
 }

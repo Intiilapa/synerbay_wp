@@ -17,9 +17,13 @@
 
 
 global $offers, $searchParameters;
+//
+//var_dump(is_shop());
+//var_dump(is_woocommerce());
+//var_dump($offers);
 
 get_header( 'shop' );
-//var_dump($searchParameters);
+var_dump($searchParameters);
 /**
  * Hook: woocommerce_before_main_content.
  *
