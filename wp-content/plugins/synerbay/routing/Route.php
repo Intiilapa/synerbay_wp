@@ -10,8 +10,9 @@ namespace SynerBay\Routing;
 class Route
 {
     public const TITLE_MAP = [
-        'edit_offer' => 'Edit offer',
+        'edit_offer'     => 'Edit offer',
         'offer_sub_page' => 'Offer',
+        'offer_listing'  => 'Offer Search',
     ];
 
     /**
@@ -65,6 +66,11 @@ class Route
         $this->template = $template;
         $this->reverse = $reverse;
         $this->loadTemplate = $loadTemplate;
+    }
+
+    public static function getTitle($routeName)
+    {
+        return array_key_exists($routeName, self::TITLE_MAP) ? self::TITLE_MAP[$routeName] : 'SynerBay';
     }
 
     /**
@@ -140,10 +146,5 @@ class Route
     public function load_template()
     {
         return $this->loadTemplate;
-    }
-
-    public static function getTitle($routeName)
-    {
-        return array_key_exists($routeName, self::TITLE_MAP) ? self::TITLE_MAP[$routeName] : 'SynerBay';
     }
 }

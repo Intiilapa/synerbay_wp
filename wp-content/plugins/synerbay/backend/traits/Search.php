@@ -20,6 +20,8 @@ trait Search
     {
         global $rowPerPage, $currentPage, $allRow, $lastPage;
 
+        $this->paginationMode = true;
+
         $this->prepareQuery($searchAttributes);
 
         $this->buildQuery($this->columns);
@@ -27,10 +29,6 @@ trait Search
         $rowPerPage = $limit;
 
         $currentPage = $page;
-
-        $this->paginationMode = true;
-
-        $this->buildQuery($this->columns);
 
         $this->processOrderBy($searchAttributes);
 
@@ -41,7 +39,9 @@ trait Search
             $this->query .= " OFFSET $offset";
         }
 
-        $searchResult = $this->search($output);
+//        var_dump($this->query);die;
+
+        $searchResult = $this->search($searchAttributes, $output);
 
         $allRow = $this->getAllResultRowNum();
         $lastPage = ceil($allRow / $rowPerPage);
@@ -86,11 +86,15 @@ trait Search
     {
         global $wpdb;
 
-        $this->prepareQuery($searchAttributes);
+        if (!$this->paginationMode) {
 
-        $this->buildQuery($this->columns);
+            $this->prepareQuery($searchAttributes);
 
-        $this->processOrderBy();
+            $this->buildQuery($this->columns);
+
+            $this->processOrderBy();
+        }
+
 
         return $wpdb->get_results($this->query, $output);
     }

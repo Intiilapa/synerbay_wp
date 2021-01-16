@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: SynerBay
- * Description: Offer apply, invite, RFQ
+ * Description: Offer, Offer apply, Invite, RFQ
  * Version: 1.0
  * Author: Kristóf Nagy
  */

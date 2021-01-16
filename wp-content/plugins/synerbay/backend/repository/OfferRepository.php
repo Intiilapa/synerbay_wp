@@ -53,6 +53,14 @@ class OfferRepository extends AbstractRepository
 
     protected function prepareQuery(array $searchAttributes = [])
     {
+        $addProductJoin = false;
+
+        if (isset($searchAttributes['query']) && !empty($searchAttributes['query'])) {
+            $addProductJoin = true;
+            $query = $searchAttributes['query'];
+            $this->addWhereParameter('sb_posts.post_title like %s', '%'.$query.'%');
+        }
+
         if (isset($searchAttributes['recent_offers'])) {
             $currentDate = date('Y-m-d H:i:s');
             $this->addWhereParameter($this->getBaseTable() . '.offer_start_date <= %s', $currentDate);
@@ -71,6 +79,38 @@ class OfferRepository extends AbstractRepository
             }
 
             $this->addWhereParameter($this->getBaseTable() . '.product_id in (%s)', implode(', ', $product));
+        }
+
+        if (isset($searchAttributes['status'])) {
+            $status = $searchAttributes['status'];
+
+            if (!is_array($status)) {
+                $status = [$status];
+            }
+
+            $this->addWhereParameter($this->getBaseTable() . '.status in (%s)', implode(', ', $status));
+        }
+
+        if (isset($searchAttributes['visible'])) {
+            $visible = $searchAttributes['visible'];
+            $this->addWhereParameter($this->getBaseTable() . '.visible = %s', $visible ? 'yes' : 'no');
+        }
+
+        if (isset($searchAttributes['except_ended'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date >= %s', date('Y-m-d H:i:s'));
+        }
+
+        if (isset($searchAttributes['ended'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date <= %s', date('Y-m-d H:i:s'));
+        }
+
+        if (isset($searchAttributes['started'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_start_date <= %s', date('Y-m-d H:i:s'));
+        }
+
+        // add join
+        if ($addProductJoin) {
+            $this->addJoin('left join sb_posts on ' . $this->getBaseTable() . '.product_id = sb_posts.ID and sb_posts.post_type = "product"');
         }
     }
 

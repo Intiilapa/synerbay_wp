@@ -6,6 +6,8 @@ namespace SynerBay\Pages\Shop;
 
 use SynerBay\Helper\RouteHelper;
 use SynerBay\Pages\AbstractPage;
+use SynerBay\Repository\OfferRepository;
+use SynerBay\Resource\Offer\FullOfferResource;
 
 class Offer extends AbstractPage
 {
@@ -51,10 +53,12 @@ class Offer extends AbstractPage
     public function offerSearch() {
         global $offers;
         global $searchParameters;
-
-        // todo csak a visible offerek legyenek megjelenítve
-        $offers = [];
         $searchParameters = $_GET;
+        $searchParameters['visible'] = true;
+        $searchParameters['except_ended'] = true;
+        $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
+//        var_dump($searchParameters);
+        $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 25, (int)$page));
     }
 
     /**

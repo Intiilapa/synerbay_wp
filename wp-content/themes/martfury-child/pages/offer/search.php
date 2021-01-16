@@ -15,15 +15,26 @@
  * @version 3.4.0
  */
 
-
+defined( 'ABSPATH' ) || exit;
 global $offers, $searchParameters;
-//
-//var_dump(is_shop());
-//var_dump(is_woocommerce());
-//var_dump($offers);
+// paginator attributes
+global $rowPerPage, $currentPage, $allRow, $lastPage;
+
+$arr = [
+    'result: '. count($offers),
+    'row / page: '. $rowPerPage,
+    'current page: '.$currentPage,
+    'all offer: '.$allRow,
+    'last page: '.$lastPage,
+];
+var_dump($_GET);
+echo '<br>';
+var_dump($searchParameters);
+echo '<br>';
+echo implode('<br>', $arr);
 
 get_header( 'shop' );
-var_dump($searchParameters);
+//var_dump($searchParameters);
 /**
  * Hook: woocommerce_before_main_content.
  *
@@ -35,7 +46,10 @@ var_dump($searchParameters);
 do_action( 'woocommerce_before_main_content' );
 ?>
     <header class="woocommerce-products-header">
-            <h1 class="woocommerce-products-header__title page-title">Offer search results</h1>
+        <?php if ( apply_filters( 'woocommerce_show_page_title', true ) ) : ?>
+            <h1 class="woocommerce-products-header__title page-title"><?php woocommerce_page_title(); ?></h1>
+        <?php endif; ?>
+
         <?php
         /**
          * Hook: woocommerce_archive_description.
@@ -97,5 +111,4 @@ if ( woocommerce_product_loop() ) {
  * @hooked woocommerce_output_content_wrapper_end - 10 (outputs closing divs for the content)
  */
 do_action( 'woocommerce_after_main_content' );
-
 get_footer( 'shop' );
