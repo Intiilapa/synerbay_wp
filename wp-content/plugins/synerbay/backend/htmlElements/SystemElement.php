@@ -8,7 +8,6 @@ class SystemElement extends AbstractElement
     public function init()
     {
         $this->addAction('loader');
-        $this->addAction('loginModal');
     }
 
     public function loader()
@@ -25,12 +24,5 @@ class SystemElement extends AbstractElement
             </div>
         </div>
         ';
-    }
-
-    public function loginModal()
-    {
-        $title = 'Login required';
-        $content = 'In order to subscribe you need to be signed in. Please create or login <a href="/my-account">here</a>';
-        $this->generateModal('login', $title, $content);
     }
 }
