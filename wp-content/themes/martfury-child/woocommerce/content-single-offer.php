@@ -143,17 +143,35 @@ if (post_password_required()) {
             <form class="buy-now cart" method="post" enctype='multipart/form-data'
                   data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
-                if ($offer['summary']['is_active'] && !$offer['summary']['current_user_have_apply']/* && !$offer['summary']['my_offer']*/) {
+                if( ! isset( $classes ) || empty( $classes ) ) {
+                    $classes[] = 'input-text qty text'; }
+                    if ($offer['summary']['is_active'] && !$offer['summary']['current_user_have_apply']/* && !$offer['summary']['my_offer']*/) {
                     ?>
-                    <?php
-                    woocommerce_quantity_input([
-                        'min_value' => apply_filters('woocommerce_quantity_input_min', $minimum_order_quantity,
-                            $product),
-                        'max_value' => apply_filters('woocommerce_quantity_input_max', $max_total_offer_qty, $product),
-                        'step'      => apply_filters('woocommerce_quantity_input_step', $order_quantity_step),
-                        'readonly'  => 'readonly',
-                    ]);
-                    ?>
+
+                    <div class="quantity">
+                        <label class="screen-reader-text"
+                               for="<?php echo esc_attr($offer['product_id'] ); ?>"><?php echo esc_html( $label ); ?></label>
+                        <label class="label"
+                               for="<?php echo esc_attr( $offer['product_id'] ); ?>"><?php esc_html_e( 'Quantity', 'martfury' ); ?></label>
+                        <div class="qty-box">
+                            <span class="decrease  icon_minus-06"></span>
+                            <input
+                                    type="number"
+                                    id="<?php echo esc_attr( $offer['product_id'] ); ?>"
+                                    class="<?php echo esc_attr( join( ' ', (array) $classes ) ); ?>"
+                                    step="<?php echo esc_attr($order_quantity_step)?>"
+                                    min="<?php echo esc_attr( $minimum_order_quantity ); ?>"
+                                    max="<?php echo esc_attr( 0 < $max_total_offer_qty ? $max_total_offer_qty : '' ); ?>"
+                                    name="<?php echo esc_attr( $offer['product_id'] ); ?>"
+                                    value="<?php echo esc_attr( $minimum_order_quantity ); ?>"
+                                    title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'martfury' ); ?>"
+                                    size="4"
+                                    inputmode="numberic"
+                                    readonly="readonly"/>
+                            <?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
+                            <span class="increase icon_plus"></span>
+                        </div>
+                    </div>
                     <?php
                 }
                 ?>
