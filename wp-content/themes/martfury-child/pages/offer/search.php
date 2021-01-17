@@ -15,6 +15,9 @@
  * @version 3.4.0
  */
 
+use SynerBay\Module\Offer;
+use SynerBay\Search\OfferSearch;
+
 defined( 'ABSPATH' ) || exit;
 global $offers, $searchParameters;
 // paginator attributes
@@ -32,9 +35,12 @@ echo '<br>';
 var_dump($searchParameters);
 echo '<br>';
 echo implode('<br>', $arr);
+//var_dump($offers);
+//die();
 
 get_header( 'shop' );
-//var_dump($searchParameters);
+var_dump($searchParameters);
+
 /**
  * Hook: woocommerce_before_main_content.
  *
@@ -46,15 +52,34 @@ get_header( 'shop' );
     <!-- Sidebar -->
     <aside id="primary-sidebar"
            class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 <?php echo esc_attr('catalog-sidebar') ?>">
+        <!-- Search form before sidebar -->
+        <form action="/offers" method="get">
+            <ul>
+                <li class="dokan-form-group">
+                    <label for="start-date">Offer start date</label>
+                    <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="end-date">Offer end date</label>
+                    <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
+                </li>
+                <li>
+                    <label for="default_price_search">Default price</label>
+                    <input type="number" step="1" value="<?php the_search_query(); ?>" class="dokan-form-control dokan-product" name="default_price_search" placeholder="" id="input_default_price" value="0">
+                </li>
+            </ul>
+            <input type="hidden" value="post" name="post_type" id="post_type" />
+            <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
+        </form>
+        <!-- Start sidebar -->
         <?php if (is_active_sidebar('synerbay_sidebar')) : ?>
             <?php dynamic_sidebar('synerbay_sidebar'); ?>
         <?php endif; ?>
     </aside>
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
-
     <header class="woocommerce-products-header">
-        <h1 class="woocommerce-products-header__title page-title">Offer search results</h1>
+        <h1 class="woocommerce-products-header__title page-title">Offer search results (<?php echo count($offers) ?>)</h1>
         <?php
         /**
          * Hook: woocommerce_archive_description.
@@ -67,40 +92,47 @@ get_header( 'shop' );
     </header>
 
 <?php
-if (woocommerce_product_loop()) {
 
-    /**
-     * Hook: woocommerce_before_shop_loop.
-     *
-     * @hooked woocommerce_output_all_notices - 10
-     * @hooked woocommerce_result_count - 20
-     * @hooked woocommerce_catalog_ordering - 30
-     */
-    do_action('woocommerce_before_shop_loop');
+$orderby = 'id';
+$oder = "desc";
+$per_page = 12;
+
+
+//echo $orderby;
+//echo $order;
+//echo $per_page;
+
+
+$offerSearch = new OfferSearch([
+    'recent_offers' => true,
+    'order'         => ['columnName' => $orderby, 'direction' => $order],
+]);
+
+$offerIds = $offerSearch->paginate(2 * (int)$per_page, 1);
+
+if (count($offerIds)) {
+
+    shuffle($offerIds);
+
+    $offerIds = array_slice($offerIds, 0, $per_page);
+
+    /** @var Offer $offerModule */
+    $offerModule = new Offer();
+    $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
 
     woocommerce_product_loop_start();
 
-    if (wc_get_loop_prop('total')) {
-        while (have_posts()) {
-            the_post();
+    global $offer;
+    global $post;
+    foreach ($offers as $offer) {
+        $post = get_post($offer['product']['ID']);
+        wc_get_template_part('content', 'offer');
 
-            /**
-             * Hook: woocommerce_shop_loop.
-             */
-            do_action('woocommerce_shop_loop');
-
-            wc_get_template_part('content', 'product');
-        }
+        $offer = [];
     }
 
     woocommerce_product_loop_end();
 
-    /**
-     * Hook: woocommerce_after_shop_loop.
-     *
-     * @hooked woocommerce_pagination - 10
-     */
-    do_action('woocommerce_after_shop_loop');
 } else {
     /**
      * Hook: woocommerce_no_products_found.
