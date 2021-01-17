@@ -51,6 +51,19 @@ class OfferRepository extends AbstractRepository
         );
     }
 
+    public function changeStatus(int $offerID, string $status)
+    {
+        global $wpdb;
+
+        return $wpdb->update(
+            $wpdb->prefix . 'offers',
+            ['status' => $status],
+            ['id' => $offerID],
+            ['%s'],
+            ['%d']
+        );
+    }
+
     protected function prepareQuery(array $searchAttributes = [])
     {
         $addProductJoin = false;

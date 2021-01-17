@@ -13,7 +13,7 @@ class Started extends AbstractCron implements InterfaceCron
 {
     public function init()
     {
-            add_action('offer_started_task', [$this, 'run']);
+        add_action('offer_started_task', [$this, 'run']);
     }
 
     public function run()
