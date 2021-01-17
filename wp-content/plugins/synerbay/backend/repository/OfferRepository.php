@@ -109,8 +109,13 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.visible = %s', $visible ? 'yes' : 'no');
         }
 
+        if (isset($searchAttributes['default_price'])) {
+            $value = $searchAttributes['default_price'];
+            $this->addWhereParameter($this->getBaseTable() . '.default_price = %d', $value);
+        }
+
         if (isset($searchAttributes['except_ended'])) {
-            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date >= %s', date('Y-m-d H:i:s'));
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date > %s', date('Y-m-d H:i:s'));
         }
 
         if (isset($searchAttributes['ended'])) {

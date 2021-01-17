@@ -15,31 +15,27 @@
  * @version 3.4.0
  */
 
-use SynerBay\Module\Offer;
-use SynerBay\Search\OfferSearch;
-
 defined( 'ABSPATH' ) || exit;
 global $offers, $searchParameters;
 // paginator attributes
 global $rowPerPage, $currentPage, $allRow, $lastPage;
 
-$arr = [
-    'result: '. count($offers),
-    'row / page: '. $rowPerPage,
-    'current page: '.$currentPage,
-    'all offer: '.$allRow,
-    'last page: '.$lastPage,
-];
-var_dump($_GET);
-echo '<br>';
-var_dump($searchParameters);
-echo '<br>';
-echo implode('<br>', $arr);
+//$arr = [
+//    'result: '. count($offers),
+//    'row / page: '. $rowPerPage,
+//    'current page: '.$currentPage,
+//    'all offer: '.$allRow,
+//    'last page: '.$lastPage,
+//];
+//var_dump($_GET);
+//echo '<br>';
+//var_dump($searchParameters);
+//echo '<br>';
+//echo implode('<br>', $arr);
 //var_dump($offers);
 //die();
 
-get_header( 'shop' );
-var_dump($searchParameters);
+get_header('shop');
 
 /**
  * Hook: woocommerce_before_main_content.
@@ -56,6 +52,10 @@ var_dump($searchParameters);
         <form action="/offers" method="get">
             <ul>
                 <li class="dokan-form-group">
+                    <label for="query">Product name</label>
+                    <input type="text" name="query" value="<?php echo $searchParameters['query'] ? $searchParameters['query'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
                     <label for="start-date">Offer start date</label>
                     <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
                 </li>
@@ -64,8 +64,8 @@ var_dump($searchParameters);
                     <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
                 </li>
                 <li>
-                    <label for="default_price_search">Default price</label>
-                    <input type="number" step="1" value="<?php the_search_query(); ?>" class="dokan-form-control dokan-product" name="default_price_search" placeholder="" id="input_default_price" value="0">
+                    <label for="default_price">Default price</label>
+                    <input type="number" step="1" value="<?php the_search_query(); ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
                 </li>
             </ul>
             <input type="hidden" value="post" name="post_type" id="post_type" />
@@ -93,32 +93,7 @@ var_dump($searchParameters);
 
 <?php
 
-$orderby = 'id';
-$oder = "desc";
-$per_page = 12;
-
-
-//echo $orderby;
-//echo $order;
-//echo $per_page;
-
-
-$offerSearch = new OfferSearch([
-    'recent_offers' => true,
-    'order'         => ['columnName' => $orderby, 'direction' => $order],
-]);
-
-$offerIds = $offerSearch->paginate(2 * (int)$per_page, 1);
-
-if (count($offerIds)) {
-
-    shuffle($offerIds);
-
-    $offerIds = array_slice($offerIds, 0, $per_page);
-
-    /** @var Offer $offerModule */
-    $offerModule = new Offer();
-    $offers = $offerModule->prepareOffers(array_values($offerIds), true, true, true, true);
+if (count($offers)) {
 
     woocommerce_product_loop_start();
 

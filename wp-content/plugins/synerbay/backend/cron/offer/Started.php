@@ -18,8 +18,8 @@ class Started extends AbstractCron implements InterfaceCron
 
     public function run()
     {
-        $mailer = new TestEmail();
-        $mailer->send('Kristóf', 'nagy.kristof.janos@gmail.com');
+//        $mailer = new TestEmail();
+//        $mailer->send('Kristóf', 'nagy.kristof.janos@gmail.com');
 //        $mailer->send('Kristóf', 'mama1612@gmail.com');
 
         // init
@@ -39,7 +39,6 @@ class Started extends AbstractCron implements InterfaceCron
                     // customer-ök kiértesítése
                     if (count($offer['applies'])) {
 //                        $mail =
-
                     }
                     // vendor kiértesítése (ha nem járt sikerrel [vagy kevesen vannak, vagy konkrétan 0 ember jelentkezett], akkor segítsünk neki, hogy hívja meg az eddig partnereit, stb)
                     // charge (ha nem 0)
