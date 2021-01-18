@@ -158,6 +158,24 @@ abstract class AbstractElement
         return !empty($description) ? '<br><span style="margin-top: 3px; font-size: 12px;">'.$description.'</span><br>' : '';
     }
 
+    protected function generateMartfurySearchSelect($name, array $haystack, $label, $selected = false)
+    {
+        $skeleton = '<li class="dokan-form-group"><select class="dokan-form-control" name="'.$name.'">%s</select></li>';
+
+        if (!empty($label)) {
+            $skeleton = '<label for="'.$name.'" class="form-label">'.$label.':</label>' .$skeleton;
+        }
+
+        $options = '';
+        $optionSkeleton = '<option value="%s"%s>%s</option>';
+
+        foreach ($haystack as $value => $label) {
+            $options .= sprintf($optionSkeleton, $value, $selected && $value == $selected ? ' selected' : '', $label);
+        }
+
+        echo sprintf($skeleton, $options);
+    }
+
     protected function inputError($name, $errors)
     {
         if (array_key_exists($name, $errors)) {

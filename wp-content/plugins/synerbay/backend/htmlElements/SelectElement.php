@@ -17,6 +17,11 @@ class SelectElement extends AbstractElement
         $this->addAction('getDokanParityTypesSelect');
         $this->addAction('getDokanShippingToOfferSelect');
         $this->addAction('getDokanVisibleSelect');
+        // offer search
+        $this->addAction('getOfferSearchShippingToSelect');
+        $this->addAction('getOfferSearchProductCategorySelect');
+        $this->addAction('getOfferSearchTransportParitySelect');
+        $this->addAction('getOfferSearchVendorSelect');
     }
 
     public function getDokanMyProductsSelect($selected = false, array $errorMessages = []) {
@@ -65,5 +70,29 @@ class SelectElement extends AbstractElement
         $haystack = SynerBayDataHelper::getYesNo();
 
         $this->generateDokanSelect('visible', $haystack, 'Visible', $selected, $errorMessages, 'Offer visible before start?');
+    }
+
+    public function getOfferSearchShippingToSelect($selected = false)
+    {
+        $haystack = ['' => '-'] + SynerBayDataHelper::getDeliveryDestinationsForOffer();
+        $this->generateMartfurySearchSelect('shipping_to', $haystack, 'Shipping to', $selected);
+    }
+
+    public function getOfferSearchProductCategorySelect($selected = false)
+    {
+        $haystack = ['' => '-'] + SynerBayDataHelper::getCategoriesFromDBToSelect();
+        $this->generateMartfurySearchSelect('category_id', $haystack, 'Product category', $selected);
+    }
+
+    public function getOfferSearchTransportParitySelect($selected = false)
+    {
+        $haystack = ['' => '-'] + SynerBayDataHelper::getOfferTransportParityTypes();
+        $this->generateMartfurySearchSelect('transport_parity', $haystack, 'Delivery terms', $selected);
+    }
+
+    public function getOfferSearchVendorSelect($selected = false)
+    {
+        $haystack = ['' => '-'] + SynerBayDataHelper::getActiveVendorsForOfferSearch();
+        $this->generateMartfurySearchSelect('user_id', $haystack, 'Vendor', $selected);
     }
 }

@@ -4,6 +4,10 @@
  */
 namespace SynerBay;
 
+if (!array_key_exists('nonced-user', $_SESSION)) {
+    $_SESSION['nonced-user'] = false;
+}
+
 include_once __DIR__ . '/helpers/initHelpers.php';
 include_once __DIR__ . '/traits/initTraits.php';
 include_once __DIR__ . '/modules/initModules.php';

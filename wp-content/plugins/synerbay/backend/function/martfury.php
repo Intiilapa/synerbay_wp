@@ -19,10 +19,11 @@ function martfury_extra_search_form() {
     $post_type_html = '';
 
     return sprintf(
-        '<form id="global-search-form" class="products-search" method="get" action="%s">
+        '<form id="global-search-form" class="products-search" method="post" action="%s">
                 <div class="psearch-content">
                     <div class="product-cat"><div class="product-cat-label %s">%s</div> %s</div>
                     <div class="search-wrapper">
+                        <input type="hidden" name="site-search-nonce" value="%s">
                         <input id="global-search-input" type="text" name="%s" class="search-field" autocomplete="off" placeholder="%s">
                         %s
                         <div class="search-results woocommerce"></div>
@@ -34,6 +35,7 @@ function martfury_extra_search_form() {
         esc_attr( $item_class ),
         esc_html( $cats_text ),
         $cat,
+        generate_header_nonce(),
         $defaultParamName,
         esc_html( $search_text ),
         $post_type_html,

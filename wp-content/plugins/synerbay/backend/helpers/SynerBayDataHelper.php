@@ -2,6 +2,9 @@
 
 namespace SynerBay\Helper;
 
+use SynerBay\Repository\VendorRepository;
+use WP_Term;
+
 class SynerBayDataHelper
 {
     public static function getMaterialTypes()
@@ -375,5 +378,47 @@ class SynerBayDataHelper
             'ZM' => 'Zambia',
             'ZW' => 'Zimbabwe',
         ];
+    }
+
+    public static function getCategoriesFromDB()
+    {
+        $orderby = 'name';
+        $order = 'asc';
+        $hide_empty = true;
+        $cat_args = array(
+            'orderby'    => $orderby,
+            'order'      => $order,
+            'hide_empty' => $hide_empty,
+        );
+
+        return get_terms( 'product_cat', $cat_args );
+    }
+
+    public static function getCategoriesFromDBToSelect()
+    {
+        $ret = [];
+        $categories = self::getCategoriesFromDB();
+        if (count($categories)) {
+            /** @var WP_Term $category */
+            foreach ($categories as $category) {
+                $ret[$category->term_id] = $category->name;
+            }
+        }
+
+        return $ret;
+    }
+
+    public static function getActiveVendorsForOfferSearch()
+    {
+        $ret = [];
+        $vendors = (new VendorRepository())->getActiveVendorsForSelect();
+
+        if (count($vendors)) {
+            foreach ($vendors as $vendor) {
+                $ret[$vendor['user_id']] = $vendor['store_name'];
+            }
+        }
+
+        return $ret;
     }
 }

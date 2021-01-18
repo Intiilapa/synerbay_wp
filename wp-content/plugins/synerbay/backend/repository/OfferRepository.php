@@ -67,8 +67,9 @@ class OfferRepository extends AbstractRepository
     protected function prepareQuery(array $searchAttributes = [])
     {
         $addProductJoin = false;
+        $addCategoryJoin = false;
 
-        if (isset($searchAttributes['query']) && !empty($searchAttributes['query'])) {
+        if (!empty($searchAttributes['query'])) {
             $addProductJoin = true;
             $query = $searchAttributes['query'];
             $this->addWhereParameter('sb_posts.post_title like %s', '%'.$query.'%');
@@ -84,7 +85,7 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.user_id = %d', get_current_user_id());
         }
 
-        if (isset($searchAttributes['product_id'])) {
+        if (!empty($searchAttributes['product_id'])) {
             $product = $searchAttributes['product_id'];
 
             if (!is_array($product)) {
@@ -94,7 +95,36 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.product_id in (%s)', implode(', ', $product));
         }
 
-        if (isset($searchAttributes['status'])) {
+        if (!empty($searchAttributes['user_id'])) {
+            $user = $searchAttributes['user_id'];
+
+            if (!is_array($user)) {
+                $user = [$user];
+            }
+
+            $this->addWhereParameter($this->getBaseTable() . '.user_id in (%s)', implode(', ', $user));
+        }
+
+        if (!empty($searchAttributes['transport_parity'])) {
+            $value = $searchAttributes['transport_parity'];
+
+            $this->addWhereParameter($this->getBaseTable() . '.transport_parity = %s', $value);
+        }
+
+        if (!empty($searchAttributes['shipping_to'])) {
+            $value = $searchAttributes['shipping_to'];
+
+            $this->addWhereParameter($this->getBaseTable() . '.shipping_to like %s', '%'.$value.'%');
+        }
+
+        if (!empty($searchAttributes['category_id'])) {
+            $value = $searchAttributes['category_id'];
+            $addProductJoin = true;
+            $addCategoryJoin = true;
+            $this->addWhereParameter('sb_term_relationships.term_taxonomy_id = %d', $value);
+        }
+
+        if (!empty($searchAttributes['status'])) {
             $status = $searchAttributes['status'];
 
             if (!is_array($status)) {
@@ -104,17 +134,17 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.status in (%s)', implode(', ', $status));
         }
 
-        if (isset($searchAttributes['visible'])) {
+        if (!empty($searchAttributes['visible'])) {
             $visible = $searchAttributes['visible'];
             $this->addWhereParameter($this->getBaseTable() . '.visible = %s', $visible ? 'yes' : 'no');
         }
 
-        if (isset($searchAttributes['default_price'])) {
+        if (!empty($searchAttributes['default_price'])) {
             $value = $searchAttributes['default_price'];
             $this->addWhereParameter($this->getBaseTable() . '.default_price = %d', $value);
         }
 
-        if (isset($searchAttributes['except_ended'])) {
+        if (!empty($searchAttributes['except_ended'])) {
             $this->addWhereParameter($this->getBaseTable() . '.offer_end_date > %s', date('Y-m-d H:i:s'));
         }
 
@@ -126,9 +156,49 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.offer_start_date <= %s', date('Y-m-d H:i:s'));
         }
 
+        if (!empty($searchAttributes['offer-start-date'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_start_date = %s', $searchAttributes['offer-start-date']);
+        }
+
+        if (!empty($searchAttributes['offer-start-date-from'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_start_date <= %s', $searchAttributes['offer-start-date-from']);
+        }
+
+        if (!empty($searchAttributes['offer-start-date-to'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_start_date >= %s', $searchAttributes['offer-start-date-to']);
+        }
+
+        if (!empty($searchAttributes['offer-end-date'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date = %s', $searchAttributes['offer-end-date']);
+        }
+
+        if (!empty($searchAttributes['offer-end-date-from'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date <= %s', $searchAttributes['offer-end-date-from']);
+        }
+
+        if (!empty($searchAttributes['offer-end-date-to'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.offer_end_date >= %s', $searchAttributes['offer-end-date-to']);
+        }
+
+        if (!empty($searchAttributes['delivery-date'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.delivery_date = %s', $searchAttributes['delivery-date']);
+        }
+
+        if (!empty($searchAttributes['delivery-date-from'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.delivery_date >= %s', $searchAttributes['delivery-date-from']);
+        }
+
+        if (!empty($searchAttributes['delivery-date-to'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.delivery_date <= %s', $searchAttributes['delivery-date-to']);
+        }
+
         // add join
         if ($addProductJoin) {
             $this->addJoin('left join sb_posts on ' . $this->getBaseTable() . '.product_id = sb_posts.ID and sb_posts.post_type = "product"');
+        }
+        if ($addCategoryJoin) {
+            $this->addJoin('left join sb_term_relationships on ' . $this->getBaseTable() . '.product_id = sb_term_relationships.object_id');
+            $this->addJoin('left join sb_term_taxonomy on sb_term_relationships.term_taxonomy_id = sb_term_taxonomy.term_taxonomy_id and sb_term_taxonomy.taxonomy = "product_cat"');
         }
     }
 

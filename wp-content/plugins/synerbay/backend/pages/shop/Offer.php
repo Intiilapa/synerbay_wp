@@ -11,16 +11,8 @@ use SynerBay\Resource\Offer\FullOfferResource;
 
 class Offer extends AbstractPage
 {
-    protected function init()
+    public function subPage($offerID)
     {
-        parent::init();
-        $this->addAction('init_global_offer_sub_page', 'subPage');
-        $this->addAction('init_dashboard_offer_sub_page', 'dashboardShowPage');
-        $this->addAction('editOfferSubPage');
-        $this->addAction('offerSearch');
-    }
-
-    public function subPage($offerID) {
         global $offer;
         do_action('synerbay_init_global_offer_by_id', (int)$offerID);
 
@@ -29,7 +21,8 @@ class Offer extends AbstractPage
         }
     }
 
-    public function dashboardShowPage($offerID) {
+    public function dashboardShowPage($offerID)
+    {
         global $offer;
         do_action('synerbay_init_global_offer_by_id', (int)$offerID);
 
@@ -38,7 +31,8 @@ class Offer extends AbstractPage
         }
     }
 
-    public function editOfferSubPage(int $offerID) {
+    public function editOfferSubPage(int $offerID)
+    {
         global $offer;
         do_action('synerbay_init_global_offer_by_id', $offerID);
 
@@ -50,15 +44,30 @@ class Offer extends AbstractPage
         add_action('dokan_load_custom_template', [$this, 'dokanCustomTemplateUpdateOffer']);
     }
 
-    public function offerSearch() {
+    public function offerSearch()
+    {
         global $offers;
         global $searchParameters;
-        $searchParameters = $_GET;
-        $searchParameters['visible'] = true;
-        $searchParameters['except_ended'] = true;
-        $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
-//        var_dump($searchParameters);
-        $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 25, (int)$page));
+        $searchParameters = wp_unslash($_POST);
+
+        $executeSearch = global_nonced_user() || (isset($searchParameters['site-search-nonce']) ? check_header_nonce($searchParameters['site-search-nonce']) : check_offer_search_nonce($searchParameters['offer-site-search']));
+
+        if (isset($searchParameters['clear'])) {
+            $searchParameters = [];
+            wp_reset_postdata();
+        }
+
+        if ($executeSearch) {
+            $searchParameters['visible'] = true;
+            $searchParameters['except_ended'] = true;
+            $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
+
+            $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 25, (int)$page));
+
+            $searchParameters['offer-site-search'] = generate_offer_search_nonce();
+        } else {
+            $offers = [];
+        }
     }
 
     /**
@@ -67,5 +76,14 @@ class Offer extends AbstractPage
     public function dokanCustomTemplateUpdateOffer()
     {
         require_once RouteHelper::getRoute('edit_offer')->get_template();
+    }
+
+    protected function init()
+    {
+        parent::init();
+        $this->addAction('init_global_offer_sub_page', 'subPage');
+        $this->addAction('init_dashboard_offer_sub_page', 'dashboardShowPage');
+        $this->addAction('editOfferSubPage');
+        $this->addAction('offerSearch');
     }
 }

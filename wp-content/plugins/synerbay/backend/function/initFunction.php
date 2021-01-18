@@ -10,6 +10,7 @@ class FunctionLoader {
 
     public function synerbayLoadFunctions() {
         // itt kell behúzni a fájlokat
+        require_once 'system.php';
         require_once 'martfury.php';
     }
 }

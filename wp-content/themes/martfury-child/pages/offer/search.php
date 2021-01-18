@@ -49,32 +49,61 @@ get_header('shop');
     <aside id="primary-sidebar"
            class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 <?php echo esc_attr('catalog-sidebar') ?>">
         <!-- Search form before sidebar -->
-        <form action="/offers" method="get">
+        <form action="/offers" method="post">
             <ul>
+                <input type="hidden" name="offer-site-search" value="<?php echo $searchParameters['offer-site-search']; ?>">
                 <li class="dokan-form-group">
                     <label for="query">Product name</label>
-                    <input type="text" name="query" value="<?php echo $searchParameters['query'] ? $searchParameters['query'] : ''; ?>" class="dokan-form-control">
+                    <input type="text" name="query" value="<?php echo isset($searchParameters['query']) ? $searchParameters['query'] : ''; ?>" class="dokan-form-control">
                 </li>
-                <li class="dokan-form-group">
-                    <label for="start-date">Offer start date</label>
-                    <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
-                </li>
-                <li class="dokan-form-group">
-                    <label for="end-date">Offer end date</label>
-                    <input type="date" name="start-date" value="<?php the_search_query(); ?>" class="dokan-form-control">
-                </li>
+                <?php do_action('synerbay_getOfferSearchShippingToSelect', isset($searchParameters['shipping_to']) ? $searchParameters['shipping_to'] : false);?>
+                <?php do_action('synerbay_getOfferSearchProductCategorySelect', isset($searchParameters['category_id']) ? $searchParameters['category_id'] : false);?>
+                <?php do_action('synerbay_getOfferSearchTransportParitySelect', isset($searchParameters['transport_parity']) ? $searchParameters['transport_parity'] : false);?>
+                <?php do_action('synerbay_getOfferSearchVendorSelect', isset($searchParameters['user_id']) ? $searchParameters['user_id'] : false);?>
                 <li>
                     <label for="default_price">Default price</label>
-                    <input type="number" step="1" value="<?php the_search_query(); ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
+                    <input type="number" step="1" value="<?php echo $searchParameters['default_price'] ? $searchParameters['default_price'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-start-date">Offer start date</label>
+                    <input type="date" name="offer-start-date" value="<?php echo $searchParameters['offer-start-date'] ? $searchParameters['offer-start-date'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-start-date-from">Offer start date (from)</label>
+                    <input type="date" name="offer-start-date-from" value="<?php echo $searchParameters['offer-start-date-from'] ? $searchParameters['offer-start-date-from'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-start-date-to">Offer start date (to)</label>
+                    <input type="date" name="offer-start-date-to" value="<?php echo $searchParameters['offer-start-date-to'] ? $searchParameters['offer-start-date-to'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-end-date">Offer end date</label>
+                    <input type="date" name="offer-end-date" value="<?php echo $searchParameters['offer-end-date'] ? $searchParameters['offer-end-date'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-end-date-from">Offer end date (from)</label>
+                    <input type="date" name="offer-end-date-from" value="<?php echo $searchParameters['offer-end-date-from'] ? $searchParameters['offer-end-date-from'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="offer-end-date-to">Offer end date (to)</label>
+                    <input type="date" name="offer-end-date-to" value="<?php echo $searchParameters['offer-end-date-to'] ? $searchParameters['offer-end-date-to'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="delivery-date">Delivery date</label>
+                    <input type="date" name="delivery-date" value="<?php echo $searchParameters['delivery-date'] ? $searchParameters['delivery-date'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="delivery-date-from">Delivery date (from)</label>
+                    <input type="date" name="delivery-date-from" value="<?php echo $searchParameters['delivery-date-from'] ? $searchParameters['delivery-date-from'] : ''; ?>" class="dokan-form-control">
+                </li>
+                <li class="dokan-form-group">
+                    <label for="delivery-date-to">Delivery date (to)</label>
+                    <input type="date" name="delivery-date-to" value="<?php echo $searchParameters['delivery-date-to'] ? $searchParameters['delivery-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
             </ul>
-            <input type="hidden" value="post" name="post_type" id="post_type" />
             <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
+            <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">
         </form>
-        <!-- Start sidebar -->
-        <?php if (is_active_sidebar('synerbay_sidebar')) : ?>
-            <?php dynamic_sidebar('synerbay_sidebar'); ?>
-        <?php endif; ?>
     </aside>
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
