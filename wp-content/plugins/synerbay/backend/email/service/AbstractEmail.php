@@ -40,14 +40,12 @@ abstract class AbstractEmail
         $this->params = $params;
     }
 
-    public function send($consigneeName, $consigneeEmailAddress): void
+    public function send($consigneeName, $consigneeEmailAddress, array $customData = []): void
     {
         $this->addWPFilters();
 
-        $customData = [
-            'consigneeName'         => $consigneeName,
-            'consigneeEmailAddress' => $consigneeEmailAddress,
-        ];
+        $customData['consigneeName'] = $consigneeName;
+        $customData['consigneeEmailAddress'] = $consigneeEmailAddress;
 
         $message = apply_filters('woocommerce_mail_content', $this->renderBody($customData));
 

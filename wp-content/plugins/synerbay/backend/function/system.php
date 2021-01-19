@@ -66,7 +66,6 @@ if ( ! function_exists( 'check_offer_search_nonce' ) ) {
     }
 }
 
-
 if ( ! function_exists( 'global_nonced_user' ) ) {
     function global_nonced_user()
     {

@@ -7,6 +7,9 @@ include_once __DIR__ . '/service/AbstractEmail.php';
 include_once __DIR__ . '/service/TestEmail.php';
 include_once __DIR__ . '/service/InviteEmail.php';
 
+// admin
+include_once __DIR__ . '/service/Offer/Admin/OfferEnded.php';
+
 // vendor
 include_once __DIR__ . '/service/Offer/Vendor/ApplyCreated.php';
 include_once __DIR__ . '/service/Offer/Vendor/ApplyModified.php';

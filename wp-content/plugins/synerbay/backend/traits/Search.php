@@ -95,7 +95,6 @@ trait Search
             $this->processOrderBy();
         }
 
-
         return $wpdb->get_results($this->query, $output);
     }
 
@@ -187,7 +186,13 @@ trait Search
 
         if (count($this->whereParameters)) {
             foreach ($this->whereParameters as $parameter) {
-                $ret[] = $parameter['arg'];
+                if (!is_array($parameter['arg'])) {
+                    $ret[] = $parameter['arg'];
+                } else {
+                    foreach ($parameter['arg'] as $arg) {
+                        $ret[] = $arg;
+                    }
+                }
             }
         }
 
@@ -199,6 +204,12 @@ trait Search
         global $wpdb;
 
         return $wpdb->prefix . $this->getBaseTableName();
+    }
+
+    protected function buildInPlaceholderFromArrayToWhere(array $arr)
+    {
+        $inStrArr = array_fill( 0, count( $arr ), '%s' ); // create a string of %s - one for each array value. This creates array( '%s', '%s', '%s' )
+        return join( ',', $inStrArr ); // now turn it into a comma separated string. This creates "%s,%s,%s"
     }
 }
 

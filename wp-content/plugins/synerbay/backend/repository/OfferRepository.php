@@ -92,7 +92,7 @@ class OfferRepository extends AbstractRepository
                 $product = [$product];
             }
 
-            $this->addWhereParameter($this->getBaseTable() . '.product_id in (%s)', implode(', ', $product));
+            $this->addWhereParameter($this->getBaseTable() . '.product_id in ('.$this->buildInPlaceholderFromArrayToWhere($product).')', $product);
         }
 
         if (!empty($searchAttributes['user_id'])) {
@@ -102,7 +102,7 @@ class OfferRepository extends AbstractRepository
                 $user = [$user];
             }
 
-            $this->addWhereParameter($this->getBaseTable() . '.user_id in (%s)', implode(', ', $user));
+            $this->addWhereParameter($this->getBaseTable() . '.user_id in ('.$this->buildInPlaceholderFromArrayToWhere($user).')', $user);
         }
 
         if (!empty($searchAttributes['transport_parity'])) {
@@ -131,7 +131,7 @@ class OfferRepository extends AbstractRepository
                 $status = [$status];
             }
 
-            $this->addWhereParameter($this->getBaseTable() . '.status in (%s)', implode(', ', $status));
+            $this->addWhereParameter($this->getBaseTable() . '.status in ('.$this->buildInPlaceholderFromArrayToWhere($status).')', $status);
         }
 
         if (!empty($searchAttributes['visible'])) {

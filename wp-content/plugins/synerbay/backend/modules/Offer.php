@@ -2,15 +2,11 @@
 
 namespace SynerBay\Module;
 
-use SynerBay\Emails\Service\Offer\Customer\ApplyAccepted;
-use SynerBay\Helper\RouteHelper;
-use SynerBay\Helper\StringHelper;
-use SynerBay\Helper\SynerBayDataHelper;
+use Exception;
 use SynerBay\Resource\Offer\DefaultOfferResource;
 use SynerBay\Resource\Offer\FullOfferResource;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Module as ModuleTrait;
-use Exception;
 use SynerBay\Traits\Redirector;
 use SynerBay\Traits\Toaster;
 
@@ -20,6 +16,7 @@ class Offer extends AbstractModule
 
 //    private $commissionMultiplier = 0.03;
     private $commissionMultiplier = 0;
+    private $fictitiousCommissionMultiplier = 0.03;
 
     private $dataMap = [
         'product_id'             => '%d',
@@ -139,66 +136,67 @@ class Offer extends AbstractModule
         $currentUserHaveApply = false;
         $currentUserApplyQty = 0;
         $actualCommissionPrice = 0;
+        $fictitiousCommissionPrice = 0;
+
+        $tmp = [];
+        foreach ($priceSteps as $stepData) {
+            $tmp[$stepData['qty']] = $stepData['price'];
+        }
+        ksort($tmp);
+        $minPriceStep = array_key_first($tmp);
+        $maxPriceStep = array_key_last($tmp);
 
         // clean steps
-        if (count($priceSteps) && count($offerData['applies'])) {
-            $tmp = [];
-            foreach ($priceSteps as $stepData) {
-                $tmp[$stepData['qty']] = $stepData['price'];
-            }
-
-            if (count($tmp)) {
-                // calculate apply qty
-                foreach ($offerData['applies'] as $apply) {
-                    if ($apply['user_id'] == get_current_user_id()) {
-                        $currentUserHaveApply = true;
-                        $currentUserApplyQty = $apply['qty'];
-                    }
-
-                    if ($apply['status'] == \SynerBay\Model\OfferApply::STATUS_ACTIVE) {
-                        $actualApplicantNumber++;
-                        $groupByProductQTYNumber += $apply['qty'];
-                    }
+        if (count($tmp) && count($offerData['applies'])) {
+            // calculate apply qty
+            foreach ($offerData['applies'] as $apply) {
+                if ($apply['user_id'] == get_current_user_id()) {
+                    $currentUserHaveApply = true;
+                    $currentUserApplyQty = (int)$apply['qty'];
                 }
 
-                ksort($tmp);
-                foreach ($tmp as $qty => $stepPrice) {
-                    $actualPriceStepQty = $qty;
-
-                    // mi az ára?
-                    if ($groupByProductQTYNumber < $qty) {
-                        break;
-                    }
-
-                    $actualProductPrice = $stepPrice;
+                if ($apply['status'] == \SynerBay\Model\OfferApply::STATUS_ACTIVE) {
+                    $actualApplicantNumber++;
+                    $groupByProductQTYNumber += (int)$apply['qty'];
                 }
-
-                // get max price step
-                $minPriceStep = array_key_first($tmp);
-                $maxPriceStep = array_key_last($tmp);
             }
 
-            unset($tmp);
+            foreach ($tmp as $qty => $stepPrice) {
+                $actualPriceStepQty = $qty;
+
+                // mi az ára?
+                if ($groupByProductQTYNumber < $qty) {
+                    break;
+                }
+
+                $actualProductPrice = $stepPrice;
+            }
         }
+
+        unset($tmp);
 
         if ($actualProductPrice > 0 && $actualApplicantNumber > 0) {
             $actualCommissionPrice = (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier);
+            $fictitiousCommissionPrice = (($groupByProductQTYNumber * $actualProductPrice) * $this->fictitiousCommissionMultiplier);
         }
 
         return [
-            'is_active'                         => $active,
-            'my_offer'                          => $myOffer,
-            'current_user_have_apply'           => $currentUserHaveApply,
-            'current_user_apply_qty'            => $currentUserApplyQty,
-            'actual_product_price'              => $actualProductPrice,
-            'min_price_step_qty'                => $minPriceStep,
-            'max_price_step_qty'                => $maxPriceStep,
-            'actual_price_step_qty'             => $actualPriceStepQty,
-            'actual_applicant_product_number'   => $groupByProductQTYNumber,
-            'actual_commission_price'           => $actualCommissionPrice,
-            'actual_applicant_number'           => $actualApplicantNumber,
-            'formatted_actual_product_price'    => wc_price($actualProductPrice),
-            'formatted_actual_commission_price' => wc_price($actualCommissionPrice),
+            'is_active'                             => $active,
+            'my_offer'                              => $myOffer,
+            'current_user_have_apply'               => $currentUserHaveApply,
+            'current_user_apply_qty'                => $currentUserApplyQty,
+            'actual_product_price'                  => $actualProductPrice,
+            'min_price_step_qty'                    => $minPriceStep,
+            'max_price_step_qty'                    => $maxPriceStep,
+            'actual_price_step_qty'                 => $actualPriceStepQty,
+            'actual_applicant_product_number'       => $groupByProductQTYNumber,
+            'actual_commission_price'               => $actualCommissionPrice,
+            'actual_applicant_number'               => $actualApplicantNumber,
+            'formatted_actual_product_price'        => wc_price($actualProductPrice),
+            'formatted_actual_commission_price'     => wc_price($actualCommissionPrice),
+            'offer_qty_successful'                  => (int)$groupByProductQTYNumber >= (int)$maxPriceStep,
+            'fictitious_commission_price'           => $fictitiousCommissionPrice,
+            'formatted_fictitious_commission_price' => wc_price($fictitiousCommissionPrice),
         ];
     }
 

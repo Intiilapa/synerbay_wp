@@ -44,14 +44,24 @@ function martfury_extra_search_form() {
 
 }
 
-if ( ! function_exists( 'is_shop' ) ) {
+// header invite button
+if ( ! function_exists( 'martfury_header_bar' ) ) :
+    function martfury_header_bar() {
+        if ( ! intval( martfury_get_option( 'header_bar' ) ) ) {
+            return;
+        }
 
-    /**
-     * Is_shop - Returns true when viewing the product type archive (shop).
-     *
-     * @return bool
-     */
-    function is_shop() {
-        return ( is_post_type_archive( 'product' ) || is_page( wc_get_page_id( 'shop' )) );
+        ?>
+        <div class="header-bar topbar">
+            <?php
+            $sidebar = 'header-bar';
+            if ( is_active_sidebar( $sidebar ) ) {
+                dynamic_sidebar( $sidebar );
+            }
+
+            do_action('synerbay_synerBayInviteButton');
+            ?>
+        </div>
+        <?php
     }
-}
+endif;
