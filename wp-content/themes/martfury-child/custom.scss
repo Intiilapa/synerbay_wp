@@ -344,3 +344,39 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
       transform: scale(1.0);
     }
 }
+
+/*
+*
+* Mobile optimization
+*
+*/
+
+@media (max-width: 991px) {
+  .site-header .product-extra-search .product-cat {
+    display: block!important;
+  }
+}
+
+.mf-els-modal-mobile .mf-search-mobile-modal.current.custom {
+  padding: 25px 5px 0 5px;
+}
+
+.mf-els-modal-mobile .search-wrapper{
+  padding: unset!important;
+  background-color: unset!important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+//dokan
+@media only screen and (max-width: 450px) {
+.dokan-dashboard .dokan-dash-sidebar #dokan-navigation{
+    background: #fe004e!important;
+  }
+  .dokan-dashboard .dokan-dash-sidebar, .dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu{
+    //border: 2px solid white;
+    padding: 0!important;
+  }
+}

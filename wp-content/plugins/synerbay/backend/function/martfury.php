@@ -65,3 +65,4 @@ if ( ! function_exists( 'martfury_header_bar' ) ) :
         <?php
     }
 endif;
+
