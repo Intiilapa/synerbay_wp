@@ -15,6 +15,8 @@
  * @version 3.6.0
  */
 
+use SynerBay\Model\Offer;
+
 defined('ABSPATH') || exit;
 
 global $product;
@@ -90,7 +92,7 @@ if (post_password_required()) {
                 <li><span><?php _e('Delivery date: ', 'synerbay') ?><?php echo $offer['delivery_date']; ?></span></li>
             </ul>
 
-            <?php if ($currentDate > strtotime($offer['offer_start_date'])) : ?>
+            <?php if ($currentDate >= strtotime($offer['offer_start_date']) && $currentDate <= strtotime($offer['offer_end_date'])) : ?>
 
                 <div style="padding-bottom: 10px" class='groupbuy-ajax-change'>
                     <div class="groupbuy-time" id="countdown">
@@ -101,7 +103,7 @@ if (post_password_required()) {
                     </div>
                 </div>
 
-            <?php elseif ($currentDate < strtotime($offer['offer_start_date'])) : ?>
+            <?php elseif ($currentDate <= strtotime($offer['offer_start_date'])) : ?>
 
                 <div class="groupbuy-time future" id="countdown">
                     <strong class="details-title">Offer start in:</strong>
@@ -144,9 +146,10 @@ if (post_password_required()) {
                   data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
                 if( ! isset( $classes ) || empty( $classes ) ) {
-                    $classes[] = 'input-text qty text'; }
-                    if ($offer['summary']['is_active'] && !$offer['summary']['current_user_have_apply']/* && !$offer['summary']['my_offer']*/) {
-                    ?>
+                    $classes[] = 'input-text qty text';
+                }
+                if ($offer['status'] != Offer::STATUS_CLOSED  && !$offer['summary']['current_user_have_apply'] && !$offer['summary']['my_offer']) {
+                ?>
 
                     <div class="quantity">
                         <label class="screen-reader-text"
