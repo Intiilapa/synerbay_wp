@@ -3,7 +3,6 @@
 
 namespace SynerBay\Rest;
 
-use Stripe\ApiOperations\Request;
 use SynerBay\Module\OfferApply;
 use SynerBay\Traits\Loader;
 
@@ -33,7 +32,7 @@ class OfferAppear extends AbstractRest
         $offerID = isset($post_data['offerID']) ? sanitize_text_field($post_data['offerID']) : null;
         $productQty = isset($post_data['productQty']) ? sanitize_text_field($post_data['productQty']) : null;
 
-        $success = $module->createAppearOfferForUser($this->getCurrentUserID(), $offerID, $productQty);
+        $success = $module->createAppearOfferForUser($this->getCurrentUserID(), (int)$offerID, (int)$productQty);
 
         $message = $success ? ['success' => 'Successful operation!'] : ['error' => $module->getErrorMessage()];
 
