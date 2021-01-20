@@ -25,6 +25,22 @@ class VendorRepository extends AbstractRepository
             ARRAY_A);
     }
 
+    public function getFollowers(int $vendorID)
+    {
+        global $wpdb;
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "select follower_id"
+                . " from {$wpdb->prefix}dokan_follow_store_followers"
+                . " where vendor_id = %d"
+                . "     and unfollowed_at is null",
+                $vendorID,
+            ),
+            ARRAY_A
+        );
+    }
+
     protected function prepareQuery(array $searchAttributes = [])
     {
         // TODO: Implement prepareQuery() method.

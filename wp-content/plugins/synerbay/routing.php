@@ -19,7 +19,7 @@ require __DIR__ . '/backend/helpers/RouteHelper.php';
 // init routes
 $router = new Router('route_synerbay');
 $routes = [
-    'my_plugin_test' => new Route('/offer/test', 'synerbay_test'),
+    'my_plugin_test' => new Route('/test', 'synerbay_test'),
     'offer_sub_page' => new Route('/^\/offer\/([0-9]+)[\/]?$/', 'synerbay_init_global_offer_sub_page',
         get_theme_file_path() . '/pages/single-offer.php', '/offer/[id]'),
     'edit_offer' => new Route('/^\/dashboard\/edit-offer\/([0-9]+)[\/]?$/', 'synerbay_editOfferSubPage',

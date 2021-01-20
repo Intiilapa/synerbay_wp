@@ -35,6 +35,15 @@ class RFQRepository extends AbstractRepository
             ARRAY_A);
     }
 
+    public function deleteProductRFQ(int $productID)
+    {
+        global $wpdb;
+
+        return $wpdb->delete($wpdb->prefix . 'rfq', [
+            'product_id' => $productID,
+        ]);
+    }
+
     protected function getBaseTableName()
     {
         return 'rfq';
