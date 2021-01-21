@@ -9,9 +9,9 @@ function martfury_extra_search_form() {
     $defaultParamName = "query";
     $cat = '
         <select onchange="synerbay.processGlobalSearchInput(this)" id="header-search-product-cat" class="product-cat-dd">
-            <option class="level-0" data-rewrite="'.$defaultFormAction.'" data-param="'.$defaultParamName.'" selected="selected">Offer</option>
-            <option class="level-1" data-rewrite="/shop" data-param="s">Product</option>
-            <option class="level-2" data-rewrite="/store-listing=" data-param="dokan_seller_search">Store</option>
+            <option class="level-0" data-rewrite="'.$defaultFormAction.'" data-param="'.$defaultParamName.'" data-method="post" selected="selected">Offer</option>
+            <option class="level-1" data-rewrite="/shop" data-param="s" data-method="get">Product</option>
+            <option class="level-2" data-rewrite="/store-listing=" data-param="dokan_seller_search" data-method="get">Store</option>
         </select>
     ';
 
@@ -65,4 +65,3 @@ if ( ! function_exists( 'martfury_header_bar' ) ) :
         <?php
     }
 endif;
-
