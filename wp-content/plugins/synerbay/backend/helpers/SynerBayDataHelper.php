@@ -33,6 +33,7 @@ class SynerBayDataHelper
             'Foam',
             'Semiconductor',
             'Rare-earths',
+            'Other'
         ]);
     }
 
@@ -58,6 +59,7 @@ class SynerBayDataHelper
             'cm2',
             'm2',
             'km2',
+            'other',
         ]);
     }
 
