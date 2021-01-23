@@ -66,7 +66,7 @@ if (post_password_required()) {
         <div class="summary entry-summary">
             <?php if ($offer['summary']['actual_product_price'] != 0): ?>
                 <p class="price">
-                    <?php echo $offer['summary']['formatted_actual_product_price']; ?>
+                    Current price: <?php echo $offer['summary']['formatted_actual_product_price']; ?>
                 </p>
             <?php endif; ?>
 
@@ -165,7 +165,7 @@ if (post_password_required()) {
                                     step="<?php echo esc_attr($order_quantity_step)?>"
                                     min="<?php echo esc_attr( $minimum_order_quantity ); ?>"
                                     max="<?php echo esc_attr( 0 < $max_total_offer_qty ? $max_total_offer_qty : '' ); ?>"
-                                    name="<?php echo esc_attr( $offer['product_id'] ); ?>"
+                                    name="quantity"
                                     value="<?php echo esc_attr( $minimum_order_quantity ); ?>"
                                     title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'martfury' ); ?>"
                                     size="4"

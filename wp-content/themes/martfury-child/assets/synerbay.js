@@ -15,7 +15,7 @@
 
     // user login
     synerbay.showModal= function(offerID) {
-        DayPilot.Modal.alert("<h3>Login required</h3>In order to subscribe you need to be signed in. Please create or login <a href=\"/my-account\">here</a>", {theme: "modal_rounded"}).then(function(args) {
+        DayPilot.Modal.alert("<h3>Login required</h3>In order to place order you need to be signed in. Please register or login <a href=\"/my-account\">here</a>", {theme: "modal_rounded"}).then(function(args) {
         });
     }
 
@@ -78,7 +78,7 @@
 
     // vendor
     synerbay.acceptApply= function(id) {
-        DayPilot.Modal.confirm("Are you sure?<br><br><strong>Fontos:</strong> Amennyiben nem ismered a vevőt, javasolt minden esetben ellenőrizni a valódiságát.", {theme: "modal_rounded"}).then(function(args) {
+        DayPilot.Modal.confirm("Are you sure?<br><br><strong>SUGGESTION!:</strong> It’s important to make sure that the customer is trustworthy. If you are not sure about that, please contact them before.", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'id': id,
@@ -145,7 +145,7 @@
             {name: "E-mail", id: "email"},
         ];
 
-        DayPilot.Modal.form(form, {}, {message: 'Please add a valid e-mail.', theme: "modal_rounded" }).then(function(args) {
+        DayPilot.Modal.form(form, {}, {message: 'Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.', theme: "modal_rounded" }).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'inviteUrl': inviteUrl,
@@ -163,7 +163,7 @@
             {name: "Quantity", id: "qty"},
         ];
 
-        DayPilot.Modal.form(form, {}, {message: 'Mennyi kell belőle?', theme: "modal_rounded"}).then(function(args) {
+        DayPilot.Modal.form(form, {}, {message: 'Send Request For Quotation.<br> Set your quantity need.', theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'productID': productID,

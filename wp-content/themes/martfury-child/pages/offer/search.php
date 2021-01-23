@@ -61,7 +61,7 @@ get_header('shop');
                 <?php do_action('synerbay_getOfferSearchTransportParitySelect', isset($searchParameters['transport_parity']) ? $searchParameters['transport_parity'] : false);?>
                 <?php do_action('synerbay_getOfferSearchVendorSelect', isset($searchParameters['user_id']) ? $searchParameters['user_id'] : false);?>
                 <li>
-                    <label for="default_price">Default price</label>
+                    <label for="default_price">Default price (ex: from $10 - to $20)</label>
                     <input type="number" step="1" value="<?php echo $searchParameters['default_price'] ? $searchParameters['default_price'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
                 </li>
                 <li class="dokan-form-group">
@@ -137,14 +137,9 @@ if (count($offers)) {
 
     woocommerce_product_loop_end();
 
-} else {
-    /**
-     * Hook: woocommerce_no_products_found.
-     *
-     * @hooked wc_no_products_found - 10
-     */
-    do_action('woocommerce_no_products_found');
-}
+} else {?>
+     <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+  <?php }
 
 /**
  * Hook: woocommerce_after_main_content.

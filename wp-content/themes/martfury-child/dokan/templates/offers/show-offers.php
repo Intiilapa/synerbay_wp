@@ -71,8 +71,14 @@ do_action( 'dokan_new_product_wrap_before' );
             </thead>
         </table>
         <hr>
-        <span style="font-size: medium">Applicant data:</span>
-        <span style="font-size: small">A pending státuszra ki kell találni a szöveget!! (Andris?) Ha pendingben marad, akkor nem fog részt venni az ajánlatban és nem is szerepel az árképzésben</span>
+        <span style="font-size: medium">Applicant data:</span></br>
+        <span style="font-size: small">
+            <b>IMPORTANT!</b></br>
+            You have to accept customer requests to change pending status to accepted order.</br>
+            You can easily contact potential customers before being sure of trustworthiness.</br>
+            Once you have accepted the order request, you can not change later!</br>
+            Until a customer is in pending status, it</br>
+        </span>
         <hr>
 
         <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"

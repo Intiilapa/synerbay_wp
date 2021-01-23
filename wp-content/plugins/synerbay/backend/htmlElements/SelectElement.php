@@ -48,7 +48,7 @@ class SelectElement extends AbstractElement
 
         $haystack = SynerBayDataHelper::getUnitTypes();
 
-        $this->generateDokanSelect('weight_unit_sign', $haystack, 'Unit type', $selected, $errorMessages, 'Andris - szöveg');
+        $this->generateDokanSelect('weight_unit_sign', $haystack, 'Unit type', $selected, $errorMessages, '');
     }
 
     public function getDokanParityTypesSelect($selected = false, array $errorMessages = []) {

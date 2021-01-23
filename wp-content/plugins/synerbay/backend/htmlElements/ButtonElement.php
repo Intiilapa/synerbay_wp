@@ -38,6 +38,12 @@ class ButtonElement extends AbstractElement
         echo '<a class="button invite" onclick=\'synerbay.inviteUser("' . $url . '")\'>Invite</a>';
     }
 
+    public function synerBayInviteButtonSearch()
+    {
+        $url = RouteHelper::addInviteCodeToUrl(get_site_url());
+        echo 'No results found <a class="searchbtn" onclick=\'synerbay.inviteUser("' . $url . '")\'>invite</a> relevant  vendors to find offers with this keyword';
+    }
+
     public function productInviteButton($productID)
     {
         $url = RouteHelper::addInviteCodeToUrl(get_permalink($productID));
@@ -61,6 +67,7 @@ class ButtonElement extends AbstractElement
         $this->addAction('createRFQButton');
         $this->addAction('deleteRFQButton');
         $this->addAction('synerBayInviteButton');
+        $this->addAction('synerBayInviteButtonSearch');
         $this->addAction('productInviteButton');
         $this->addAction('offerInviteButton');
         $this->addAction('gotoOfferButton');
