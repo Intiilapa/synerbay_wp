@@ -25,7 +25,7 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '4',
+            'columns'  => '5',
             'orderby'  => 'id',
             'order'    => 'desc',
         ]));
@@ -77,7 +77,7 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '4',
+            'columns'  => '5',
             'orderby'  => 'offer_end_date',
             'order'    => 'asc',
         ]));
@@ -121,7 +121,7 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '4',
+            'columns'  => '5',
             'orderby'  => 'current_quantity',
             'order'    => 'desc',
         ]));

@@ -744,11 +744,59 @@ function uniq_invite_code($user_id)
 }
 
 /*
- *
  * Completely remove cart from woocommerce
- *
  */
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
 remove_action('woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30);
 remove_action('woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30);
+
+/*
+ * Message when no products found
+ */
+add_action( 'woocommerce_no_products_found', function(){
+    remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 ); ?>
+     <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+<?php
+}, 9 );
+
+/**
+ * Change number or products per row to 5
+ */
+add_filter('loop_shop_columns', 'loop_columns', 999);
+if (!function_exists('loop_columns')) {
+    function loop_columns() {
+        return 5;
+    }
+}
+
+/*
+* Change icons on Dokan dashboard
+*/
+add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
+function change_dokan_dashboard_icon($urls){
+    $urls['products']['icon'] = '<span class="icon-products"></span>';
+    $urls['offer']['icon']    = '<span class="icon-offer"></span>';
+    $urls['orders']['icon']   = '<span class="icon-orders"></span>';
+    return $urls;
+}
+
+add_filter ('dokan_get_dashboard_nav','rename_dashboard_product',16);
+function rename_dashboard_product($urls){
+    $urls['products']['title'] = __( 'Catalogue', 'dokan-lite' );
+    return $urls;
+}
+//remove coupons from dashboard
+function dokan_remove_coupon_menu( $urls ) {
+    unset($urls["coupons"]);
+    return $urls;
+}
+add_filter('dokan_get_dashboard_nav', 'dokan_remove_coupon_menu', 16 );
+
+//Product search results / sorting
+function remove_woocommerce_catalog_orderby( $orderby ) {
+    unset($orderby["price"]);
+    unset($orderby["price-desc"]);
+    return $orderby;
+}
+add_filter( "woocommerce_catalog_orderby", "remove_woocommerce_catalog_orderby", 20 );

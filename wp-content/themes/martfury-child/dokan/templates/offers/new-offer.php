@@ -5,6 +5,8 @@ use SynerBay\Forms\CreateOffer;
     $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
     $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
 
+    $current_time = date( 'g:i A' );
+
     /**
      *  dokan_new_product_wrap_before hook
      *
@@ -48,9 +50,12 @@ use SynerBay\Forms\CreateOffer;
                 <h1 class="entry-title">
                     <?php esc_html_e( 'Create new Offer', 'dokan-lite' ); ?>
                 </h1>
-                <span style="font-size: 16px; color: red;">
-                    Andris, ide kellene valami olyan szöveg, hogy ha elindul az offer, akkor nem törölhető, voiszont addig azt csinálsz vele amit akarsz!<br>
-                    Remco ide a részedről az kellene, hogy milyen UTC!
+                <span>
+                    <b>IMPORTANT!</b></br>
+                    Once you have created the offer, you can not delete later.</br>
+                    When you set the expiration date of the offer, it will automatically close itself (you don’t have to delete it later)</br>
+                    In case if any unexpected circumstance affects the ability to fulfill the order, you can later accept or decline your customer requests (so you can exempt yourself to fulfill any order).</br>
+                    </br><b>Current timezone: </b>UTC+0 (Preview: <?php echo $current_time;?>) </br></br>
                 </span>
                 <hr>
             </header><!-- .entry-header -->
