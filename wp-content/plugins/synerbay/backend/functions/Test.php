@@ -18,6 +18,6 @@ class Test
     public function test()
     {
         // cron test
-        do_action('offer_started_task');
+//        do_action('offer_ended_task');
     }
 }
