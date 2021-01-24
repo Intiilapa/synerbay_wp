@@ -16,21 +16,17 @@ function martfury_child_enqueue_scripts()
 }
 
 /*
- *
- * Overwrite current Martfury frontend/woocommerce.php
- *
- */
+* Overwrite current Martfury frontend/woocommerce.php
+*/
 function myThemeIncludes()
 {
     require_once __DIR__ . '/inc/frontend/woocommerce.php';
 
     new Martfury_Child_WooCommerce();
 }
-
 add_action('after_setup_theme', 'myThemeIncludes');
 
 // end include parent classes
-
 add_action('wp_footer', 'custom_footer_actions');
 function custom_footer_actions()
 {
@@ -38,12 +34,11 @@ function custom_footer_actions()
     do_action('synerbay_loginModal');
 }
 
-;
-
 /*
-* Register Sidebar
+* Register new Sidebar
 * Offer search results
 */
+
 function synerbay_offers_sidebar()
 {
     register_sidebar(
@@ -63,14 +58,13 @@ function synerbay_offers_sidebar()
 add_action('widgets_init', 'synerbay_offers_sidebar');
 
 /*
- *
- * Enable custom registration details for Dokan dashboard
- *
- * @since 3.0.16
- * @package dokan
- *
- */
-
+*
+* Enable custom registration details for Dokan dashboard
+*
+* @since 3.0.16
+* @package dokan
+*
+*/
 add_filter('dokan_settings_form_bottom', 'extra_fields', 10, 2);
 
 function extra_fields($current_user, $profile_info)
@@ -86,7 +80,6 @@ function extra_fields($current_user, $profile_info)
 
     ?>
     <hr>
-
     <!-- VAT -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -97,7 +90,6 @@ function extra_fields($current_user, $profile_info)
                    value="<?php echo $vendor_vat; ?>"/>
         </div>
     </div>
-
     <!-- Company industry -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -135,7 +127,6 @@ function extra_fields($current_user, $profile_info)
             </select>
         </div>
     </div>
-
     <!-- Company type -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -165,7 +156,6 @@ function extra_fields($current_user, $profile_info)
             </select>
         </div>
     </div>
-
     <!-- Shipping to -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -188,7 +178,6 @@ function extra_fields($current_user, $profile_info)
             </select>
         </div>
     </div>
-
     <!-- Annual revenue -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -221,7 +210,6 @@ function extra_fields($current_user, $profile_info)
             </select>
         </div>
     </div>
-
     <!-- Employees -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -253,7 +241,6 @@ function extra_fields($current_user, $profile_info)
             </select>
         </div>
     </div>
-
     <!-- Product range -->
     <div class="custom dokan-form-group">
         <label class="dokan-w3 dokan-control-label" for="setting_address">
@@ -292,43 +279,34 @@ function extra_fields($current_user, $profile_info)
 
 //Back-end
 add_action('dokan_store_profile_saved', 'save_extra_fields', 15);
-
 function save_extra_fields($store_id)
 {
     $dokan_settings = dokan_get_store_info($store_id);
-
     if (isset($_POST['vendor_vat'])) {
         $dokan_settings['vendor_vat'] = $_POST['vendor_vat'];
     }
-
     if (isset($_POST['vendor_industry'])) {
         $dokan_settings['vendor_industry'] = $_POST['vendor_industry'];
     }
-
     if (isset($_POST['vendor_type'])) {
         $dokan_settings['vendor_type'] = $_POST['vendor_type'];
     }
-
     if (isset($_POST['vendor_shipping_to'])) {
         $dokan_settings['vendor_shipping_to'] = $_POST['vendor_shipping_to'];
     }
-
     if (isset($_POST['vendor_revenue'])) {
         $dokan_settings['vendor_revenue'] = $_POST['vendor_revenue'];
     }
-
     if (isset($_POST['vendor_employees'])) {
         $dokan_settings['vendor_employees'] = $_POST['vendor_employees'];
     }
-
     if (isset($_POST['vendor_product_range'])) {
         $dokan_settings['vendor_product_range'] = $_POST['vendor_product_range'];
     }
-
     update_user_meta($store_id, 'dokan_profile_settings', $dokan_settings);
 }
 
-/* Show Store page */
+//Show on Store page
 add_action('dokan_store_header_info_fields', 'save_seller_url', 10);
 
 function save_seller_url($store_user)
@@ -420,12 +398,12 @@ function dokan_add_offer_menu($urls)
 }
 
 /*
- *  Add actions to Offers
- *  Assign templates
- * @since 3.0.16
- * @package dokan
- *
- */
+* Add actions to Offers
+* Assign templates
+* @since 3.0.16
+* @package dokan
+*
+*/
 
 //Add main offer page
 add_action('dokan_load_custom_template', 'dokan_load_template');
@@ -457,14 +435,14 @@ function render_content_offers()
     require_once dirname(__FILE__) . '/dokan/templates/offers/content.php';
 }
 
-//Add Active offer
+//Add Active offer (render)
 add_action('dokan_active_offer_table', 'render_active_offer_table');
 function render_active_offer_table()
 {
     require_once dirname(__FILE__) . '/dokan/templates/offers/active-offers.php';
 }
 
-//Add My offers
+//Add My offers (render)
 add_action('dokan_my_offer_table', 'render_my_offer_table');
 function render_my_offer_table()
 {
@@ -495,23 +473,23 @@ function dokan_load_document_menu_edit_offer($query_vars)
     return $query_vars;
 }
 
-//Add My offer
-add_filter('dokan_query_var_filter', 'dokan_load_document_menu_my_offers');
-function dokan_load_document_menu_my_offers($query_vars)
+//Add Active offer (Permalink)
+add_filter('dokan_query_var_filter', 'dokan_load_document_menu_active_offers');
+function dokan_load_document_menu_active_offers($query_vars)
 {
-    $query_vars['my-offers'] = 'my-offers';
+    $query_vars['active-offers'] = 'active-offers';
     return $query_vars;
 }
 
-add_action('dokan_load_custom_template', 'dokan_load_template_my_offers');
-function dokan_load_template_my_offers($query_vars)
+add_action('dokan_load_custom_template', 'dokan_load_template_active_offers');
+function dokan_load_template_active_offers($query_vars)
 {
-    if (isset($query_vars['my-offers'])) {
-        require_once dirname(__FILE__) . '/dokan/templates/offers/my-offers.php';
+    if (isset($query_vars['active-offers'])) {
+        require_once dirname(__FILE__) . '/dokan/templates/offers/active-offers.php';
     }
 }
 
-//Show offer applies
+//Show offer applies (Permalink)
 add_filter('dokan_query_var_filter', 'dokan_load_document_menu_show_offers');
 function dokan_load_document_menu_show_offers($query_vars)
 {
@@ -527,18 +505,16 @@ function dokan_load_template_show_offers($query_vars)
     }
 }
 
-/**
- * Validation for new product
- *
- * @param array $errors
- * @return array $errors
- */
-
+/*
+* Validation for new product
+*
+* @param array $errors
+* @return array $errors
+*/
 function dokan_can_add_product_validation_customized($errors)
 {
     $postData = wp_unslash($_POST);
     $featured_image = absint(sanitize_text_field($postData['feat_image_id']));
-    //$_regular_price = absint( sanitize_text_field( $postData['_regular_price'] ) );
 
     if (empty($featured_image) && !in_array('Please upload a product cover image', $errors)) {
         $errors[] = 'Please upload a product cover image';
@@ -568,7 +544,6 @@ function dokan_can_add_product_validation_customized($errors)
 }
 
 add_filter('dokan_can_add_product', 'dokan_can_add_product_validation_customized', 35, 1);
-//add_filter( 'dokan_can_edit_product', 'dokan_can_add_product_validation_customized', 35, 1 );
 function dokan_new_product_popup_validation_customized($errors, $data)
 {
     if (!$data['feat_image_id']) {
@@ -584,10 +559,7 @@ function dokan_new_product_popup_validation_customized($errors, $data)
 
 add_filter('dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2);
 
-/**
- * Add custom metafields/details to default product page
- */
-
+//Add custom metafields/details to default product page
 add_action('woocommerce_single_product_summary', 'product_custom_details', 13);
 function product_custom_details()
 {
@@ -596,7 +568,6 @@ function product_custom_details()
     if (empty($product)) {
         return;
     }
-
     // init product rfqa to global
     do_action('synerbay_product_rfqs', $product->get_id());
 
@@ -619,13 +590,13 @@ function product_custom_details()
         <?php
     }
 
-    /*
-     *
-     *  Product page
-     *  RFQ tab
-     *  Show only if owner
-     *
-     */
+/*
+*
+*  Product page
+*  RFQ tab
+*  Show only if owner
+*
+*/
     if (is_product() && get_current_user_id() == $post->post_author) {
         add_filter('woocommerce_product_tabs', 'rfq_product_tab');
         function rfq_product_tab($tabs)
@@ -744,35 +715,23 @@ function uniq_invite_code($user_id)
 }
 
 /*
- * Completely remove cart from woocommerce
- */
-remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
-remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
-remove_action('woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30);
-remove_action('woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30);
-
-/*
- * Message when no products found
- */
-add_action( 'woocommerce_no_products_found', function(){
-    remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 ); ?>
-     <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
-<?php
-}, 9 );
-
-/**
- * Change number or products per row to 5
- */
-add_filter('loop_shop_columns', 'loop_columns', 999);
-if (!function_exists('loop_columns')) {
-    function loop_columns() {
-        return 5;
-    }
-}
-
-/*
-* Change icons on Dokan dashboard
+* Allow SVG upload
 */
+//function cc_mime_types($mimes) {
+//    $mimes['svg'] = 'image/svg+xml';
+//    return $mimes;
+//}
+//add_filter('upload_mimes', 'cc_mime_types');
+
+/*
+*
+* Dokan Dashboard / General
+* @since 3.0.16
+* @package dokan
+*
+*/
+
+//Change icons on Dokan dashboard
 add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
 function change_dokan_dashboard_icon($urls){
     $urls['products']['icon'] = '<span class="icon-products"></span>';
@@ -781,17 +740,48 @@ function change_dokan_dashboard_icon($urls){
     return $urls;
 }
 
+//rename products
 add_filter ('dokan_get_dashboard_nav','rename_dashboard_product',16);
 function rename_dashboard_product($urls){
     $urls['products']['title'] = __( 'Catalogue', 'dokan-lite' );
     return $urls;
 }
+
 //remove coupons from dashboard
 function dokan_remove_coupon_menu( $urls ) {
     unset($urls["coupons"]);
     return $urls;
 }
 add_filter('dokan_get_dashboard_nav', 'dokan_remove_coupon_menu', 16 );
+
+/*
+*
+* Woocommerce custom changes
+* @version 4.9.1
+*
+*/
+
+//Completely remove cart from woocommerce
+remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+remove_action('woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30);
+remove_action('woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30);
+
+//Message when no products found
+add_action( 'woocommerce_no_products_found', function(){
+    remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 ); ?>
+    <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+    <?php
+}, 9 );
+
+
+//Change number or products per row to 5
+add_filter('loop_shop_columns', 'loop_columns', 999);
+if (!function_exists('loop_columns')) {
+    function loop_columns() {
+        return 5;
+    }
+}
 
 //Product search results / sorting
 function remove_woocommerce_catalog_orderby( $orderby ) {

@@ -1,16 +1,13 @@
 /*
-*
 *  Color pallet
-*
 */
 .site-header .main-menu {
   border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
 /*
-*
 * Dokan Dashboard
- */
+*/
 .dokan-dashboard .dokan-dash-sidebar {
   border-radius: 15px;
 }
@@ -35,13 +32,6 @@ tr th {
 
 .dokan_tabs li a {
   color: black !important;
-}
-
-/*
-* Dokan Dashboard
-*/
-#vendor_email {
-  display: none !important;
 }
 
 /*
@@ -256,6 +246,9 @@ button.modal_rounded_cancel {
   display: none !important;
 }
 
+/*
+* Buttons
+*/
 .button {
   border-radius: 4px !important;
   margin-right: 5px !important;
@@ -285,11 +278,8 @@ button.modal_rounded_cancel {
 }
 
 /*
-*
 * Loader CSS
-*
-*
- */
+*/
 .martfury-loader {
   transition: opacity 0.7s;
   opacity: 0.9;
@@ -434,30 +424,33 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
 }
 
 .icon-products {
-  background: no-repeat url("/wp-content/uploads/2021/01/cata-icon.png");
+  background: no-repeat url("/wp-content/uploads/2021/01/catalog.svg");
   background-size: 20px 20px;
   display: inline-block;
   width: 20px;
   height: 20px;
   margin-right: 15px;
+  vertical-align: middle;
 }
 
 .icon-offer {
-  background: no-repeat url("/wp-content/uploads/2021/01/offers-icon.png");
+  background: no-repeat url("/wp-content/uploads/2021/01/gift.svg");
   background-size: 20px 20px;
   display: inline-block;
   width: 20px;
   height: 20px;
   margin-right: 15px;
+  vertical-align: middle;
 }
 
 .icon-orders {
-  background: no-repeat url("/wp-content/uploads/2021/01/stack.png");
+  background: no-repeat url("/wp-content/uploads/2021/01/stack.svg");
   background-size: 20px 20px;
   display: inline-block;
   width: 20px;
   height: 20px;
   margin-right: 15px;
+  vertical-align: middle;
 }
 
 input[type=submit].dokan-btn-theme:hover, a.dokan-btn-theme:hover, .dokan-btn-theme:hover, input[type=submit].dokan-btn-theme:focus, a.dokan-btn-theme:focus, .dokan-btn-theme:focus, input[type=submit].dokan-btn-theme:active, a.dokan-btn-theme:active, .dokan-btn-theme:active, input[type=submit].dokan-btn-theme.active, a.dokan-btn-theme.active, .dokan-btn-theme.active, .open .dropdown-toggleinput[type=submit].dokan-btn-theme, .open .dropdown-togglea.dokan-btn-theme, .open .dropdown-toggle.dokan-btn-theme {

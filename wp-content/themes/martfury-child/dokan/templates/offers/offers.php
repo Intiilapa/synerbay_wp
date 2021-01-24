@@ -16,7 +16,7 @@
         <?php
             do_action('dokan_offer_header');
             do_action('dokan_offer_content_inside_before' );
-            do_action('dokan_offer_filter');
+            //do_action('dokan_offer_filter');
         ?>
 
         <!-- dashboard-content-area -->

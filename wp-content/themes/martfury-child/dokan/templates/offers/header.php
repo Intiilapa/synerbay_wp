@@ -8,5 +8,5 @@
  */
 ?>
 <header class="dokan-dashboard-header">
-    <h1 class="entry-title"><?php _e( 'Offers', 'dokan' ); ?></h1>
+    <h1 class="entry-title"><?php _e( 'My Offers', 'dokan' ); ?></h1>
 </header><!-- .dokan-dashboard-header -->
