@@ -160,6 +160,7 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   right: 7px!important;
   border-radius: 20px;
   font-size: 27px!important;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .groupbuy-time{
@@ -170,6 +171,9 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   border-radius: 4px;
 }
 
+.dokan-progress-bar-info{
+  background-color: $primary-color!important;
+}
 
 /*
 *
@@ -228,14 +232,18 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 
 //top-bar invite btn
 .header-bar{
-  a{
-    //padding: 0px!important;
-    margin: 0px!important;
-    height: 30px!important;
-    line-height: 30px!important;
-    background-color: white!important;
-    border: 1px solid $primary-color!important;
-    color: black!important;
+    .invite-header{
+      padding: 5px 25px;
+      background-color: white;
+      border: 1px solid $primary-color;
+      color: black;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      &:hover{
+        color:black;
+        border: 1px solid white;
+      }
   }
 }
 
@@ -353,6 +361,10 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   position: relative;
 }
 
+.woocommerce ul.products li.product .product-inner:hover .mf-product-details-hover{
+  border-radius: 4px;
+}
+
 //dokan
 @media only screen and (max-width: 450px) {
 .dokan-dashboard .dokan-dash-sidebar #dokan-navigation{
@@ -366,6 +378,22 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 input[type='submit'].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   background-color: $primary-color!important;
    border-color:white!important;
+}
+.notice-box{
+
+  b{
+    color:black!important;
+  }
+
+  background: #e8e8e8;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li a{
+  font-weight: 500;
 }
 
 // Custom icons for dashboard Dokan
@@ -397,6 +425,7 @@ input[type='submit'].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   margin-right: 15px;
   vertical-align: middle;
 }
+
 //Global front-end Dokan colors
 input[type='submit'].dokan-btn-theme:hover, a.dokan-btn-theme:hover, .dokan-btn-theme:hover, input[type='submit'].dokan-btn-theme:focus, a.dokan-btn-theme:focus, .dokan-btn-theme:focus, input[type='submit'].dokan-btn-theme:active, a.dokan-btn-theme:active, .dokan-btn-theme:active, input[type='submit'].dokan-btn-theme.active, a.dokan-btn-theme.active, .dokan-btn-theme.active, .open .dropdown-toggleinput[type='submit'].dokan-btn-theme, .open .dropdown-togglea.dokan-btn-theme, .open .dropdown-toggle.dokan-btn-theme{
   background-color: $hover-color!important;
@@ -411,4 +440,8 @@ input[type='submit'].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme{
 //Invite results not found cursor
 .searchbtn{
   cursor: pointer;
+}
+.header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a{
+  font-weight: 700;
+  color:white!important;
 }

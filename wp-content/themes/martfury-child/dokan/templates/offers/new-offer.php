@@ -45,24 +45,22 @@ use SynerBay\Forms\CreateOffer;
                  */
                 do_action( 'dokan_before_new_product_inside_content_area' );
             ?>
-
             <header class="dokan-dashboard-header dokan-clearfix">
                 <h1 class="entry-title">
                     <?php esc_html_e( 'Create new Offer', 'dokan-lite' ); ?>
                 </h1>
-                <span>
-                    <b>IMPORTANT!</b></br>
-                    Once you have created the offer, you can not delete later.</br>
-                    When you set the expiration date of the offer, it will automatically close itself (you don’t have to delete it later)</br>
-                    In case if any unexpected circumstance affects the ability to fulfill the order, you can later accept or decline your customer requests (so you can exempt yourself to fulfill any order).</br>
-                    </br><b>Current timezone: </b>UTC+0 (Preview: <?php echo $current_time;?>) </br></br>
-                </span>
-                <hr>
-            </header><!-- .entry-header -->
-
+                <div class="notice-box">
+                    <span>
+                        <b>IMPORTANT!</b></br>
+                        Once you have created the offer, you can not delete later.</br>
+                        When you set the expiration date of the offer, it will automatically close itself (you don’t have to delete it later)</br>
+                        In case if any unexpected circumstance affects the ability to fulfill the order, you can later accept or decline your customer requests (so you can exempt yourself to fulfill any order).</br>
+                        <b>Current timezone: </b>UTC+0 (Preview: <?php echo $current_time;?>) </br>
+                    </span>
+                </div>
+            </header>
 
             <div class="dokan-new-product-area">
-                <!--check if create-->
                 <?php
                 $error_messages = [];
                 $created = false;
@@ -83,19 +81,6 @@ use SynerBay\Forms\CreateOffer;
                     }
                 }
                 ?>
-
-<!--                --><?php //if ( count($error_messages) ) { ?>
-<!--                    <div class="dokan-alert dokan-alert-danger">-->
-<!--                        <a class="dokan-close" data-dismiss="alert">&times;</a>-->
-<!---->
-<!--                        --><?php //foreach ( $error_messages as $key => $error) { ?>
-<!---->
-<!--                            <strong>--><?php //esc_html_e( 'Error!', 'dokan-lite' ); ?><!--</strong> --><?php //echo $key . ' - ' . $error; ?><!--.<br>-->
-<!---->
-<!--                        --><?php //} ?>
-<!--                    </div>-->
-<!--                --><?php //} ?>
-
                 <?php if ( $created ): ?>
                     <?php echo "<script>location.href='/dashboard/my-offers?operation=success';</script>"; ?>
                 <?php endif ?>
@@ -109,12 +94,9 @@ use SynerBay\Forms\CreateOffer;
 
 
                         <form class="dokan-form-container" method="post">
-
                             <div class="product-edit-container dokan-clearfix">
                                 <div class="content-half-part dokan-product-meta">
-
                                     <?php
-                                        //form elements ...
                                         do_action('synerbay_getDokanMyProductsSelect', isset($post_data['post_id']) ? $post_data['post_id'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferDefaultPrice', isset($post_data['default_price']) ? $post_data['default_price'] : 0, $error_messages);
                                         do_action('synerbay_getPriceStepInput', isset($post_data['price_steps']) ? $post_data['price_steps'] : false, $error_messages);
@@ -132,9 +114,7 @@ use SynerBay\Forms\CreateOffer;
                             </div>
 
                             <?php do_action( 'dokan_new_product_form' ); ?>
-
-                            <hr>
-
+                            </br>
                             <div class="dokan-form-group dokan-left">
                                 <button type="submit" name="add_offer" class="dokan-btn dokan-btn-default dokan-btn-theme" value="create_new"><?php esc_attr_e( 'Create offer', 'dokan-lite' ); ?></button>
                             </div>
