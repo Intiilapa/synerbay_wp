@@ -102,6 +102,7 @@ class Ended extends AbstractCron implements InterfaceCron
             'country'    => $shopInfo['address']['country'],
             'vat'        => $shopInfo['vendor_vat'],
         ];
+
         /** @var WC_Order $order */
         $order = wc_create_order([
             'customer_id' => $wcUser->ID,
@@ -129,8 +130,8 @@ class Ended extends AbstractCron implements InterfaceCron
         return $order;
     }
 
-    private function charge(FullOfferResource $offer)
-    {
-        return true;
-    }
+//    private function charge(FullOfferResource $offer)
+//    {
+//        return true;
+//    }
 }
