@@ -58,7 +58,13 @@ class ButtonElement extends AbstractElement
 
     public function gotoOfferButton($url)
     {
-        echo '<a class="button view-offer" href="' . $url . '" target="_blank">View Offer</a>';
+        echo '<a class="button view-offer" href="' . $url . '">View Offer</a>';
+    }
+
+    public function gotoCreateOfferButton($productID)
+    {
+        $url = get_site_url() . '/dashboard/new-offer?product-id='.$productID;
+        echo '<a class="button view-offer" style="background-color: green !important;" href="' . $url . '">Create Offer</a>';
     }
 
     protected function init()
@@ -71,5 +77,6 @@ class ButtonElement extends AbstractElement
         $this->addAction('productInviteButton');
         $this->addAction('offerInviteButton');
         $this->addAction('gotoOfferButton');
+        $this->addAction('gotoCreateOfferButton');
     }
 }

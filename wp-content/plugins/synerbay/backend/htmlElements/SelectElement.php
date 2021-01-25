@@ -30,6 +30,10 @@ class SelectElement extends AbstractElement
         $module = $this->getModule('product');
         $haystack = $module->getMyProductsForSelect();
 
+        if (!$selected && isset($_GET['product-id'])) {
+            $selected = $_GET['product-id'];
+        }
+
         if (!count($haystack)) {
             $haystack = ['' => 'Please create product'];
         }

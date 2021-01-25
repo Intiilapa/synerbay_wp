@@ -24,14 +24,16 @@ class Product
 
         if ($product->get_id()) {
             $offer = (new DefaultOfferResource)->toArray((new OfferRepository())->getActiveOfferForProduct($product->get_id()));
+            $post = get_post($product->get_id());
 
             if (count($offer)) {
                 do_action('synerbay_gotoOfferButton', $offer['url']);
+            } else if ($post->post_author == get_current_user_id()) {
+                do_action('synerbay_gotoCreateOfferButton', $product->get_id());
             }
 
             do_action('synerbay_productInviteButton', $product->get_id());
 
-            $post = get_post($product->get_id());
             if ($post && $post->post_author != get_current_user_id()) {
                 $createButton = true;
                 if (get_current_user_id() && count($rfqs)) {

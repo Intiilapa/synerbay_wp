@@ -19,7 +19,7 @@ class RouteHelper
         self::$router = $router;
     }
 
-    public static function generateRoute(string $routeName, array $params = [])
+    public static function generateRoute(string $routeName, array $params = [], array $getParams = [])
     {
         /** @var Route $route */
         if ($route = self::$router->get_route($routeName))
@@ -31,7 +31,13 @@ class RouteHelper
                 }
             }
 
-            return get_site_url() . $reverseRule;
+            $url = get_site_url() . $reverseRule;
+
+            if (count($getParams)) {
+                $url .= '?' . http_build_query($getParams);
+            }
+
+            return $url;
         }
 
         die('invalid route name');
