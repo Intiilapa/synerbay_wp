@@ -788,6 +788,13 @@ function my_account_remove_menu_item( $menu_links ){
     return $menu_links;
 }
 
+//Remove cancel button
+add_filter('woocommerce_my_account_my_orders_actions', 'remove_myaccount_orders_cancel_button', 10, 2);
+function remove_myaccount_orders_cancel_button( $actions, $order ){
+    unset($actions['cancel']);
+    return $actions;
+}
+
 //Change number or products per row to 5
 add_filter('loop_shop_columns', 'loop_columns', 999);
 if (!function_exists('loop_columns')) {

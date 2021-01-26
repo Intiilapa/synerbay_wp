@@ -5,11 +5,15 @@
   border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
 
+body {
+  color: #3c3c3c !important;
+}
+
 /*
 * Dokan Dashboard
 */
 .dokan-dashboard .dokan-dash-sidebar {
-  border-radius: 15px;
+  border-radius: 4px;
 }
 
 .dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li.dokan-common-links a:last-child {
@@ -25,7 +29,7 @@
 }
 
 tr th {
-  background-color: #242424;
+  background-color: #ff004e;
   color: white !important;
   font-weight: 500 !important;
 }
@@ -441,8 +445,13 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
   background: #e8e8e8;
   border-radius: 4px;
   padding: 10px 20px;
-  margin: 0 5px;
+  margin: 10px 5px 20px 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+.notice-box .notice-title {
+  font-size: 18px !important;
+  font-weight: 700;
+  color: black !important;
 }
 .notice-box b {
   color: black !important;
@@ -499,6 +508,26 @@ input[type=submit].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme {
 .header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a {
   font-weight: 700;
   color: white !important;
+}
+
+.dashboard-menu-item {
+  background-color: #ff004e !important;
+  padding: 0 5px !important;
+}
+.dashboard-menu-item a {
+  color: white !important;
+  font-weight: 600;
+}
+.dashboard-menu-item a:hover {
+  border-bottom-color: white !important;
+}
+
+.woocommerce div.product .woocommerce-product-details__short-description {
+  border-bottom: unset !important;
+}
+
+.woocommerce-account .woocommerce .woocommerce-MyAccount-content .my_account_orders .button {
+  margin: 5px 0;
 }
 
 /*# sourceMappingURL=custom.css.map */

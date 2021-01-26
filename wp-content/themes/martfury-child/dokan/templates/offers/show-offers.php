@@ -30,7 +30,6 @@ do_action( 'dokan_new_product_wrap_before' );
     do_action( 'dokan_before_new_product_content_area' );
     ?>
 
-
     <div class="dokan-dashboard-content">
 
         <header class="dokan-dashboard-header dokan-clearfix">
@@ -38,8 +37,11 @@ do_action( 'dokan_new_product_wrap_before' );
                 <?php esc_html_e( 'Show Offer', 'dokan-lite' ); ?> (<?php echo $offer['id'];?>)
             </h1>
         </header>
-        <span style="font-size: medium">Offer data:</span>
-        <hr>
+
+        <div class="notice-box">
+            <span class="notice-title">Offer data:</span>
+        </div>
+
         <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
                id="dokan-product-list-table">
             <thead>
@@ -70,16 +72,17 @@ do_action( 'dokan_new_product_wrap_before' );
             ?>
             </thead>
         </table>
-        <hr>
-        <span style="font-size: medium">Applicant data:</span></br>
-        <span style="font-size: small">
+
+        <div class="notice-box">
+        <span class="notice-title">Applicant data:</span></br></br>
+        <span>
             <b>IMPORTANT!</b></br>
             You have to accept customer requests to change pending status to accepted order.</br>
             You can easily contact potential customers before being sure of trustworthiness.</br>
             Once you have accepted the order request, you can not change later!</br>
             Until a customer is in pending status, it</br>
         </span>
-        <hr>
+        </div>
 
         <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
                id="dokan-product-list-table">

@@ -40,7 +40,7 @@
                  *  @since 2.4
                  */
                 do_action( 'dokan_order_content_inside_before' );
-                do_action('dokan_offer_filter');
+                //do_action('dokan_offer_filter');
             ?>
 
 
