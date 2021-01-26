@@ -64,7 +64,7 @@ class ButtonElement extends AbstractElement
     public function gotoCreateOfferButton($productID)
     {
         $url = get_site_url() . '/dashboard/new-offer?product-id='.$productID;
-        echo '<a class="button view-offer" style="background-color: green !important;" href="' . $url . '">Create offer from product</a>';
+        echo '<a class="button view-offer" style="background-color: green !important;" href="' . $url . '">Create offer</a>';
     }
 
     public function headerCreateOfferButton()

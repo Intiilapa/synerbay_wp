@@ -26,15 +26,15 @@ class User extends AbstractRest
         $inviteUrl = isset($postData['inviteUrl']) ? $postData['inviteUrl'] : null;
 
         if (empty($inviteUrl)) {
-            $message = ['error' => 'Something went wrong! PLease refresh page and try again!'];
+            $message = ['error' => 'Something went wrong! Please refresh page and try again!'];
         }
 
         if (empty($name)) {
-            $message = ['error' => 'Name is required! PLease try again!'];
+            $message = ['error' => 'Name is required! Please try again!'];
         }
 
         if (empty($email) || !(new Email())->validate($email)) {
-            $message = ['error' => 'Invalid e-mail! PLease try again!'];
+            $message = ['error' => 'Invalid e-mail! Please try again!'];
         }
 
         if (!count($message)) {
@@ -46,7 +46,7 @@ class User extends AbstractRest
 
                 $message = ['success' => 'Invite sended!'];
             } catch (ReflectionException $e) {
-                $message = ['error' => 'Something went wrong! PLease refresh page and try again!'];
+                $message = ['error' => 'Something went wrong! Please refresh page and try again!'];
             }
         }
 

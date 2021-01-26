@@ -80,13 +80,6 @@ abstract class AbstractEmail
             die('Missing template file!');
         }
 
-//        print '<pre>';
-//        var_dump(array_merge(
-//            $this->params,
-//            $this->getMessageParams()
-//        ));
-//        die;
-
         ob_start();
 
         wc_get_template(

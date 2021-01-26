@@ -1,7 +1,7 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        <?php echo $message; ?>
+        Meghívtak az alábbi oldalra!
     </p>
 
     <p>

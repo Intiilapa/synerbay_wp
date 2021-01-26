@@ -35,7 +35,7 @@ class RFQ extends AbstractRest
         }
 
         if (!(new Integer())->validate($qty)) {
-            $message = ['error' => 'Invalid quantity value! PLease try again!'];
+            $message = ['error' => 'Invalid quantity value! Please try again!'];
         }
 
         if (!count($message)) {

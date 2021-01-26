@@ -6,13 +6,6 @@ namespace SynerBay\Emails\Service;
 
 class InviteEmail extends AbstractEmail
 {
-    protected function getMessageParams(): array
-    {
-        return [
-            'message' => 'Meghívtak az alábbi oldalra!'
-        ];
-    }
-
     protected function getTemplateName(): string
     {
         return 'inviteMail';
@@ -21,5 +14,10 @@ class InviteEmail extends AbstractEmail
     protected function getSubject(): string
     {
         return 'SynerBay - invite';
+    }
+
+    protected function getEmailHead()
+    {
+        return 'Invite';
     }
 }
