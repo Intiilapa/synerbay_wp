@@ -60,6 +60,10 @@ if ( ! function_exists( 'martfury_header_bar' ) ) :
             }
 
             do_action('synerbay_synerBayInviteButton');
+
+            if (get_current_user_id()) {
+                do_action('synerbay_headerCreateOfferButton');
+            }
             ?>
         </div>
         <?php
