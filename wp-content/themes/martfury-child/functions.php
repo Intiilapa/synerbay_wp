@@ -774,6 +774,19 @@ add_action( 'woocommerce_no_products_found', function(){
     <?php
 }, 9 );
 
+//Remove item from menu - Customer account page
+add_filter ( 'woocommerce_account_menu_items', 'my_account_remove_menu_item' );
+function my_account_remove_menu_item( $menu_links ){
+    //unset( $menu_links['edit-address'] ); // Addresses
+    //unset( $menu_links['dashboard'] ); // Remove Dashboard
+    //unset( $menu_links['payment-methods'] ); // Remove Payment Methods
+    //unset( $menu_links['orders'] ); // Remove Orders
+    unset( $menu_links['downloads'] ); // Disable Downloads
+    //unset( $menu_links['edit-account'] ); // Remove Account details tab
+    //unset( $menu_links['customer-logout'] ); // Remove Logout link
+
+    return $menu_links;
+}
 
 //Change number or products per row to 5
 add_filter('loop_shop_columns', 'loop_columns', 999);
@@ -782,6 +795,76 @@ if (!function_exists('loop_columns')) {
         return 5;
     }
 }
+
+//Account page - Add active offers page
+add_filter ( 'woocommerce_account_menu_items', 'my_account_active_offers', 40 );
+function my_account_active_offers( $menu_links ){
+
+    $menu_links = array_slice( $menu_links, 0, 1, true )
+        + array( 'active-offers' => 'Active Offers' )
+        + array_slice( $menu_links, 1, NULL, true );
+
+    return $menu_links;
+
+}
+
+//Init endpoint
+add_action( 'init', 'active_offers_add_endpoint' );
+function active_offers_add_endpoint() {
+    add_rewrite_endpoint( 'active-offers', EP_PAGES );
+}
+
+//Active offer content
+add_action( 'woocommerce_account_active-offers_endpoint', 'active_offers_my_account_endpoint_content' );
+function active_offers_my_account_endpoint_content() {
+    do_action('synerbay_init_global_my_offer_applies_for_dashboard');
+    global $myOfferApplies; ?>
+    <!-- Start -->
+    <button class="dokan-btn dokan-btn-theme" onClick="window.location.reload();"><i class="fa fa-refresh">&nbsp;</i> Refresh active offers</button>
+    </br></br>
+    <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
+           id="dokan-product-list-table">
+        <thead>
+        <tr>
+            <th><?php esc_html_e('Offer ID', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Product name', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Quantity', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Current price', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Current quantity', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Offer end date', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+        </tr>
+        <?php
+        $currentDate = strtotime(date('Y-m-d H:i:s'));
+        foreach ($myOfferApplies as $offerApply) {
+
+            $deleteButton = '';
+            $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
+
+            if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
+                $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(" . $offerApply['offer_id'] . ")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
+            }
+
+            echo '<tr id="my_active_offer_row_' . $offerApply['offer_id'] . '">'
+                . '<td>' . $offerApply['offer_id'] . '</td>'
+                . '<td>' . $offerApply['offer']['product']['post_title'] . '</td>'
+                . '<td>' . $offerApply['qty'] . '</td>'
+                . '<td><b>' . $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
+                . '<td><b>' . $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
+                . '<td><b>' . date('Y-m-d', strtotime($offerApply['offer']['offer_end_date'])) . '</b></td>'
+                . '<td>' . $deleteButton . $showOfferButton . '</td>'
+                . '</tr>';
+        }
+
+        if (!$myOfferApplies) {
+            echo '<td colspan="7">No active offers found</td>';
+        } ?>
+        </thead>
+    </table>
+    <!-- End -->
+    <?php
+}
+
 
 //Product search results / sorting
 function remove_woocommerce_catalog_orderby( $orderby ) {
