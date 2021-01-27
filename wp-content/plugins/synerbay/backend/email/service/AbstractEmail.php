@@ -40,6 +40,11 @@ abstract class AbstractEmail
         $this->params = $params;
     }
 
+    public function setParams(array $params = [])
+    {
+        $this->params = $params;
+    }
+
     public function send($consigneeName, $consigneeEmailAddress, array $customData = []): void
     {
         $this->addWPFilters();

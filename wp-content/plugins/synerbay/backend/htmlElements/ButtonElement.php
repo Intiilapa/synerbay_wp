@@ -35,25 +35,25 @@ class ButtonElement extends AbstractElement
     public function synerBayInviteButton()
     {
         $url = RouteHelper::addInviteCodeToUrl(get_site_url());
-        echo '<a class="invite-header" onclick=\'synerbay.inviteUser("' . $url . '")\'>Invite</a>';
+        echo '<a class="invite-header" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>Invite</a>';
     }
 
     public function synerBayInviteButtonSearch()
     {
         $url = RouteHelper::addInviteCodeToUrl(get_site_url());
-        echo 'No results found <a class="searchbtn" onclick=\'synerbay.inviteUser("' . $url . '")\'>invite</a> relevant  vendors to find offers with this keyword';
+        echo 'No results found <a class="searchbtn" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>invite</a> relevant  vendors to find offers with this keyword';
     }
 
     public function productInviteButton($productID)
     {
         $url = RouteHelper::addInviteCodeToUrl(get_permalink($productID));
-        echo '<a class="button invite" onclick=\'synerbay.inviteUser("' . $url . '")\'>Invite</a>';
+        echo '<a class="button invite" onclick=\'synerbay.inviteUserProductPage("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>Invite</a>';
     }
 
     public function offerInviteButton($offerUrl)
     {
         $url = RouteHelper::addInviteCodeToUrl($offerUrl);
-        echo '<a class="button invite" onclick=\'synerbay.inviteUser("' . $url . '")\'>Invite</a>';
+        echo '<a class="button invite" onclick=\'synerbay.inviteUserOfferPage("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>Invite</a>';
     }
 
     public function gotoOfferButton($url)

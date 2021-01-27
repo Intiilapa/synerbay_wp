@@ -2,11 +2,11 @@
 
 namespace SynerBay\Emails\Service;
 
-class InviteEmail extends AbstractEmail
+class InviteOfferEmail extends AbstractEmail
 {
     protected function getTemplateName(): string
     {
-        return 'inviteMail';
+        return 'inviteOfferMail';
     }
 
     protected function getSubject(): string

@@ -139,23 +139,52 @@
         });
     }
 
-    synerbay.inviteUser = function(inviteUrl) {
-        let form = [
-            {name: "Name", id: "name"},
-            {name: "E-mail", id: "email"},
-        ];
+    /**
+     * @param getInviterName
+     * @param endPoint
+     * @param inviteUrl
+     * @param msg
+     */
+    synerbay.inviteWrapper = function(getInviterName, endPoint, inviteUrl, msg) {
+        let form;
 
-        DayPilot.Modal.form(form, {}, {message: 'Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.', theme: "modal_rounded" }).then(function(args) {
+        if (getInviterName) {
+            form = [
+                {name: "Your name", id: "inviterName"},
+                {name: "Invited name", id: "invitedName"},
+                {name: "Invited e-mail", id: "invitedEmail"},
+            ];
+        } else {
+            form = [
+                {name: "Invited name", id: "invitedName"},
+                {name: "Invited e-mail", id: "invitedEmail"},
+            ];
+        }
+
+        DayPilot.Modal.form(form, {}, {message: msg, theme: "modal_rounded" }).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'inviteUrl': inviteUrl,
-                    'email': args.result.email,
-                    'name': args.result.name,
-                }, 'invite').then(function(result) {
+                    'inviterName': args.result.inviterName !== 'undefined' ? args.result.inviterName : '',
+                    'invitedName': args.result.invitedName,
+                    'invitedEmail': args.result.invitedEmail,
+                }, endPoint).then(function(result) {
                     synerbay.processToastMessages(result.data.messages)
                 });
             }
         });
+    }
+
+    synerbay.inviteUserHeader = function(inviteUrl, getInviterName) {
+        synerbay.inviteWrapper(getInviterName, 'inviteHeader', inviteUrl, 'Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.');
+    }
+
+    synerbay.inviteUserOfferPage = function(inviteUrl, getInviterName) {
+        synerbay.inviteWrapper(getInviterName, 'inviteOffer', inviteUrl, '[Offer] Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.');
+    }
+
+    synerbay.inviteUserProductPage = function(inviteUrl, getInviterName) {
+        synerbay.inviteWrapper(getInviterName, 'inviteProduct', inviteUrl, '[Product] Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.');
     }
 
     synerbay.createRFQ = function(productID) {
