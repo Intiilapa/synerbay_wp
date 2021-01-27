@@ -79,8 +79,8 @@
 
 <p class="form-row form-group user-role">
 
-	<label style="display: none" class="radio woocommerce-form__label-for-checkbox">
-		<input type="radio" name="role" class="woocommerce-form__input-checkbox" value="seller"<?php checked( $role, 'seller' ); ?>>
+	<label class="radio woocommerce-form__label-for-checkbox">
+		<input checked type="radio" name="role" class="woocommerce-form__input-checkbox" value="seller"<?php checked( $role, 'seller' ); ?>>
 		<span>
        	 <?php esc_html_e( 'I am a vendor', 'martfury' ); ?>
 		</span>

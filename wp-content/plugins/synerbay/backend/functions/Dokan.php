@@ -54,7 +54,7 @@ class Dokan
         $capabilities = array_merge(
             [
                 'seller'   => true,
-//                'customer' => true,
+                'customer' => true,
                 'dokanadr' => true,
             ],
             $sellerRole->capabilities,
