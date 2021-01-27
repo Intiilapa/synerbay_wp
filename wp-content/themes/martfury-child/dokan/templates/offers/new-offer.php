@@ -82,7 +82,7 @@ use SynerBay\Forms\CreateOffer;
                 }
                 ?>
                 <?php if ( $created ): ?>
-                    <?php echo "<script>location.href='/dashboard/my-offers?operation=success';</script>"; ?>
+                    <?php echo "<script>location.href='/dashboard/offer?operation=success';</script>"; ?>
                 <?php endif ?>
 
                 <?php

@@ -105,7 +105,7 @@ do_action( 'dokan_new_product_wrap_before' );
 
             <?php if ( $updated ): ?>
                 <?php
-                    echo "<script>location.href='/dashboard/my-offers?operation=success';</script>";
+                    echo "<script>location.href='/dashboard/offer?operation=success';</script>";
                 ?>
             <?php endif ?>
 

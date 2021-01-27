@@ -530,4 +530,8 @@ input[type=submit].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme {
   margin: 5px 0;
 }
 
+#price_step_wrapper #price_step_row {
+  margin: 5px 0;
+}
+
 /*# sourceMappingURL=custom.css.map */

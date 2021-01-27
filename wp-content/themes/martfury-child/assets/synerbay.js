@@ -78,7 +78,7 @@
 
     // vendor
     synerbay.acceptApply= function(id) {
-        DayPilot.Modal.confirm("Are you sure?<br><br><strong>SUGGESTION!:</strong> It’s important to make sure that the customer is trustworthy. If you are not sure about that, please contact them before.", {theme: "modal_rounded"}).then(function(args) {
+        DayPilot.Modal.confirm("<strong>SUGGESTION!:</strong><br> It’s important to make sure that the customer is trustworthy. If you are not sure about that, please contact them before.", {theme: "modal_rounded"}).then(function(args) {
             if (args.result) {
                 synerbay.restCall({
                     'id': id,
