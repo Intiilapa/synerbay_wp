@@ -1,7 +1,7 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Az ajánlatod állapota megváltozott!
+        Your offer’s details have changed because your customers have added or cancelled their orders.
     </p>
     <p>
         View offer: <?php echo $url?>

@@ -13,6 +13,7 @@ use SynerBay\Repository\OfferRepository;
 use SynerBay\Repository\RFQRepository;
 use SynerBay\Repository\VendorRepository;
 use SynerBay\Resource\Offer\OfferStartedResource;
+use WeDevs\Dokan\Vendor\Vendor;
 
 class Started extends AbstractCron implements InterfaceCron
 {
@@ -37,12 +38,14 @@ class Started extends AbstractCron implements InterfaceCron
 
             // iterálás
             foreach ($offers as $offer) {
+                /** @var Vendor $vendor */
+                $vendor = $this->getVendor($offer['user_id']);
                 // offer zárása
                 if ($offerRepository->changeStatus($offer['id'], Offer::STATUS_STARTED)) {
                     $followers = $vendorRepository->getFollowers($offer['user_id']);
                     // követők kiértesítése
                     if (count($followers)) {
-                        $followerMail = new FollowerOfferStarted($offer);
+                        $followerMail = new FollowerOfferStarted(array_merge($offer, ['vendorName' => $vendor->get_shop_name()]));
                         foreach ($followers as $follower) {
                             /** @var Dokan_Vendor $user */
                             $user = $this->getVendor($follower['follower_id']);

@@ -1,8 +1,9 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        [inviterName] has invited you to join an offer. Enjoy the power of collaboration, invite more co-customers and earn discounts now!<br>
-        Learn more below!
+        You are invited to place an order of a product on SynerBay.<br>
+        You can also invite more partners for group buying.<br>
+        Check the details below!
     </p>
 
     <p>

@@ -22,11 +22,11 @@ class CreateRFQVendor extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'RFQ';
+        return ' Request For Quotation';
     }
 
     protected function getEmailHead()
     {
-        return 'RFQ created';
+        return 'You received a RFQ';
     }
 }

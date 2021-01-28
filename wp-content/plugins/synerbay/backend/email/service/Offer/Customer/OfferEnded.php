@@ -15,11 +15,11 @@ class OfferEnded extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - offer closed';
+        return 'Offer ended';
     }
 
     protected function getEmailHead()
     {
-        return 'Offer closed';
+        return 'Offer ended';
     }
 }

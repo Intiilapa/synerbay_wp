@@ -21,11 +21,11 @@ class ApplyCreated extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Offer apply';
+        return 'Order request';
     }
 
     protected function getEmailHead()
     {
-        return 'Offer apply created';
+        return 'You received an order request';
     }
 }

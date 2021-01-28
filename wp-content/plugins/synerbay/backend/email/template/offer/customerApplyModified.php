@@ -1,10 +1,10 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Módosult az offer amire te is jelentkeztél!
+        The offer has been changed because new customers are attending. Check the discounted price that you earned together!
     </p>
     <p>
-        Megtekintés: <?php echo $url?>
+        View offer: <?php echo $url?>
     </p>
 
 <?php require $footerPartialFile;?>

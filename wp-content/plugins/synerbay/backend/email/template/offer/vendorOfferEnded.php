@@ -15,17 +15,17 @@
     if (!$summary['offer_qty_successful']) {
 
         if ($summary['actual_applicant_number'] == 0) {
-            echo 'Nem volt jelentkező, bíztatni kell, hogy hívja be a partnereit!';
+            echo 'You did not receive any order request. In further offers you can easily invite potential customers to buy.';
         } else {
-            echo 'Volt jelentkező, de nem érte el a max price step qty-t! Itt is bíztatni kell!';
+            echo 'Congratulations for your sales. If you want to maximize your sales with further offers, you can easily invite potential customers to buy.';
         }
 
         if (count($applies) > $summary['actual_applicant_number']) {
-            echo '<br>Információ: valami olyan szöveg kell, hogy ne felejtsd el minden esetben a beérkező igényeket jóváhagyni!';
+            echo '<br>Important: Do not forget to accept your customers’ order requests!';
         }
 
     } else {
-        echo 'Minden siker, gratulálunk!';
+        echo 'Congratulations for successful offer fulfillment!';
     }
     ?>
     </p>

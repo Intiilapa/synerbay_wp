@@ -21,11 +21,11 @@ class ApplyModified extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Offer apply';
+        return 'Offer details changed';
     }
 
     protected function getEmailHead()
     {
-        return 'Offer modified';
+        return 'Your offer’s details have changed';
     }
 }

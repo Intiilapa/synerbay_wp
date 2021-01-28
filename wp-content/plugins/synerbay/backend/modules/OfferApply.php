@@ -4,11 +4,11 @@ namespace SynerBay\Module;
 use Dokan_Vendor;
 use Exception;
 use SynerBay\Emails\Service\Offer\Customer\ApplyAccepted;
+use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
 use SynerBay\Emails\Service\Offer\Customer\ApplyDenied;
+use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModified;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyCreated;
 use SynerBay\Emails\Service\Offer\Vendor\ApplyModified;
-use SynerBay\Emails\Service\Offer\Customer\ApplyCreated as CustomerApplyCreated;
-use SynerBay\Emails\Service\Offer\Customer\ApplyModified as CustomerApplyModified;
 use SynerBay\Helper\Database;
 use SynerBay\Repository\OfferApplyRepository;
 use SynerBay\Repository\OfferRepository;
@@ -19,6 +19,7 @@ use SynerBay\Resource\OfferApply\FullOfferApplyResource;
 use SynerBay\Resource\OfferApply\OfferApplyResourceWithCustomer;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Toaster;
+use WeDevs\Dokan\Vendor\Vendor;
 
 class OfferApply extends AbstractModule
 {
@@ -199,9 +200,11 @@ class OfferApply extends AbstractModule
 
                 if ($this->offerRepository->increaseQty($offer['id'], $offer['current_quantity'], $offerApplyRow['qty'])) {
                     Database::commitTransaction();
-                    /** @var Dokan_Vendor $customer */
+                    /** @var Vendor $vendor */
+                    $vendor = dokan_get_vendor($offer['user_id']);
+                    /** @var Vendor $customer */
                     $customer = dokan_get_vendor($offerApplyRow['user_id']);
-                    $vendorMail = new ApplyAccepted($offer);
+                    $vendorMail = new ApplyAccepted(array_merge($offer, ['vendorName' => $vendor->get_shop_name()]));
                     $vendorMail->send($customer->get_name(), $customer->get_email());
                 } else {
                     Database::rollbackTransaction();

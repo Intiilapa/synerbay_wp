@@ -11,11 +11,11 @@ class InviteProductEmail extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - invite';
+        return 'Request For Quotation';
     }
 
     protected function getEmailHead()
     {
-        return 'Invite';
+        return 'You received a RFQ';
     }
 }

@@ -1,7 +1,8 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Jelentkezésed jóváhagyásra került!
+        Your request for order has been accepted from <?php echo $vendorName;?>.<br>
+        See the details below, and invite co-customers to earn more discount!
     </p>
     <p>
         View offer: <?php echo $url?>

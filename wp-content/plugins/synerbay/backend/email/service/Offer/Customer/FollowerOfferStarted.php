@@ -15,11 +15,11 @@ class FollowerOfferStarted extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - offer started';
+        return 'New offer added';
     }
 
     protected function getEmailHead()
     {
-        return 'Offer started';
+        return 'New offer has been launched';
     }
 }

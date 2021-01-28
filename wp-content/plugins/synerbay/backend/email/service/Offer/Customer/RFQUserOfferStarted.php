@@ -15,7 +15,7 @@ class RFQUserOfferStarted extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - offer started';
+        return 'Offer started';
     }
 
     protected function getEmailHead()

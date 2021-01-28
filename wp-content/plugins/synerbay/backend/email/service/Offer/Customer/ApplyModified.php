@@ -3,7 +3,6 @@
 namespace SynerBay\Emails\Service\Offer\Customer;
 
 use SynerBay\Emails\Service\AbstractEmail;
-use SynerBay\Helper\RouteHelper;
 
 class ApplyModified extends AbstractEmail
 {
@@ -14,11 +13,11 @@ class ApplyModified extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Módosult ajánlat';
+        return 'The offer you attend has updates!';
     }
 
     protected function getEmailHead()
     {
-        return 'Az ajánlatra egy másik felhasználó is jelentkezett';
+        return 'New customers attend the offer.';
     }
 }

@@ -3,7 +3,6 @@
 namespace SynerBay\Emails\Service\Offer\Customer;
 
 use SynerBay\Emails\Service\AbstractEmail;
-use SynerBay\Helper\RouteHelper;
 
 class ApplyDenied extends AbstractEmail
 {
@@ -14,11 +13,11 @@ class ApplyDenied extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Jelentkezésedet elutasították';
+        return 'Request rejected';
     }
 
     protected function getEmailHead()
     {
-        return 'Elutasított jelentkezés';
+        return 'Your request has been rejected.';
     }
 }

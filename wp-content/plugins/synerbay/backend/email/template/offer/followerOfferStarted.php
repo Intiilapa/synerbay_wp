@@ -1,11 +1,11 @@
 <?php require $headerPartialFile; ?>
     <p>
-        Az offer elindult.
+        A new offer from <?php echo $vendorName;?> has been launched. Check, collaborate with other customers and earn discount together!
     </p>
     <p>
-        Azért kaptad ezt az e-mail-t mert követed az eladót.
+        You have received this email because you follow <?php echo $vendorName;?>.
     </p>
     <p>
-        View offer: <?php echo $url?>
+        View offer: <?php echo $url;?>
     </p>
 <?php require $footerPartialFile;?>

@@ -1,7 +1,7 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        The offer is closed (#<?php echo $id?>)!
+        The offer is ended. Check the details below. (#<?php echo $id?>)!
     </p>
     <p>
         <strong>Offer data:</strong><br>

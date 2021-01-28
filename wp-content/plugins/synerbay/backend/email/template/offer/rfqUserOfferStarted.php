@@ -1,15 +1,15 @@
 <?php require $headerPartialFile; ?>
     <p>
-        Az offer elindult.
+        New offer is launched! Check the details below!
     </p>
     <p>
-        Azért kaptad ezt az e-mail-t mert igény adtál be az ajánlathoz tartozó termékre.
+        You received this email because you sent RFQ for this product
     </p>
     <p>
-        Igénylet mennyiség: [qty]
+        Requested quantity: [qty]
     </p>
     <p>
-        Információ: azzal, hogy igényt nyujtottál be a termékre, még semmiféle kötelezettséged nem történt! A termékre való feliratkozásod (RFQ) törlésre került!
+        <strong>Important:</strong> You do not have any obligation by request for quotation. In case if you want to order the product, check the offer and place your order need.
     </p>
     <p>
         View offer: <?php echo $url?>

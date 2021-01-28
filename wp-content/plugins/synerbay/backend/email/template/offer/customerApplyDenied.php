@@ -1,13 +1,21 @@
 <?php require $headerPartialFile;?>
 
     <p>
-        Jelentkezésed az eladó elutasította!
+        The seller rejected your request for the offer. Check the reason below.
     </p>
-    <?php
-        if (!empty($reason)) {
-            echo '<p><strong>Eladó indoka:</strong><br>'.$reason.'</p>';
-        }
-    ?>
+    <p>
+        <strong>
+            Reason:
+        </strong>
+        <br>
+        <?php
+            if (!empty($reason)) {
+                echo $reason;
+            } else {
+                echo '-';
+            }
+        ?>
+    </p>
     <p>
         View offer: <?php echo $url?>
     </p>

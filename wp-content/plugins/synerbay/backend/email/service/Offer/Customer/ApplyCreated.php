@@ -3,7 +3,6 @@
 namespace SynerBay\Emails\Service\Offer\Customer;
 
 use SynerBay\Emails\Service\AbstractEmail;
-use SynerBay\Helper\RouteHelper;
 
 class ApplyCreated extends AbstractEmail
 {
@@ -14,11 +13,11 @@ class ApplyCreated extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Sikeresen jelentkezés';
+        return 'Successful request';
     }
 
     protected function getEmailHead()
     {
-        return 'Sikeresen jelentkezés';
+        return 'Your request has been sent';
     }
 }
