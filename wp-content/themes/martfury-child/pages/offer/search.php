@@ -50,7 +50,7 @@ get_header('shop');
            class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 <?php echo esc_attr('catalog-sidebar') ?>">
         <!-- Search form before sidebar -->
         <form action="/offers" method="post">
-            <ul>
+            <ul class="offer-search-sidebar">
                 <input type="hidden" name="offer-site-search" value="<?php echo $searchParameters['offer-site-search']; ?>">
                 <li class="dokan-form-group">
                     <label for="query">Product name</label>
@@ -100,9 +100,12 @@ get_header('shop');
                     <label for="delivery-date-to">Delivery date (to)</label>
                     <input type="date" name="delivery-date-to" value="<?php echo $searchParameters['delivery-date-to'] ? $searchParameters['delivery-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
+                <li>
+                    <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">
+                    <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
+                </li>
             </ul>
-            <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
-            <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">
+
         </form>
     </aside>
     <!-- Main content -->

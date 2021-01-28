@@ -10,7 +10,7 @@ body {
 }
 
 /*
-* Dokan Dashboard
+* || Dokan Dashboard
 */
 .dokan-dashboard .dokan-dash-sidebar {
   border-radius: 4px;
@@ -38,8 +38,98 @@ tr th {
   color: black !important;
 }
 
+@media only screen and (max-width: 450px) {
+  .dokan-dashboard .dokan-dash-sidebar #dokan-navigation {
+    background: #fe004e !important;
+  }
+
+  .dokan-dashboard .dokan-dash-sidebar, .dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu {
+    padding: 0 !important;
+  }
+}
+input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
+  background-color: #ff004e !important;
+  border-color: white !important;
+}
+
+.notice-box {
+  background: #f1f1f1;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin: 10px 5px 20px 5px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+.notice-box .notice-title {
+  font-size: 18px !important;
+  font-weight: 700;
+  color: black !important;
+}
+.notice-box b {
+  color: black !important;
+}
+
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li a {
+  font-weight: 500;
+}
+
+.icon-products {
+  background: no-repeat url("/wp-content/uploads/2021/01/catalog.svg");
+  background-size: 20px 20px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.icon-offer {
+  background: no-repeat url("/wp-content/uploads/2021/01/gift.svg");
+  background-size: 20px 20px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+.icon-orders {
+  background: no-repeat url("/wp-content/uploads/2021/01/stack.svg");
+  background-size: 20px 20px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  vertical-align: middle;
+}
+
+input[type=submit].dokan-btn-theme:hover, a.dokan-btn-theme:hover, .dokan-btn-theme:hover, input[type=submit].dokan-btn-theme:focus, a.dokan-btn-theme:focus, .dokan-btn-theme:focus, input[type=submit].dokan-btn-theme:active, a.dokan-btn-theme:active, .dokan-btn-theme:active, input[type=submit].dokan-btn-theme.active, a.dokan-btn-theme.active, .dokan-btn-theme.active, .open .dropdown-toggleinput[type=submit].dokan-btn-theme, .open .dropdown-togglea.dokan-btn-theme, .open .dropdown-toggle.dokan-btn-theme {
+  background-color: #C2003A !important;
+  border-color: #C2003A !important;
+}
+
+input[type=submit].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme {
+  background-color: #ff004e !important;
+  border-color: #ff004e !important;
+}
+
+.dokan-form-control {
+  border-radius: 4px;
+}
+
+.select2-container--default .select2-selection--single {
+  border-radius: 4px;
+}
+
+.woocommerce form .form-row .input-text {
+  border-radius: 4px;
+}
+
+input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
+  color: white !important;
+}
+
 /*
-* Dokan Store page
+* || Dokan Store page - Front End
 */
 .dokan-single-store .profile-frame {
   height: 520px;
@@ -54,7 +144,7 @@ tr th {
 }
 
 /*
-* Create new product template
+* || New product template
 */
 select#bulk-product-action-selector {
   display: none;
@@ -90,7 +180,7 @@ input#bulk-product-action {
 
 /*
 *
-* Edit product
+* || Edit product
 *
 */
 .item-inline-edit {
@@ -111,28 +201,7 @@ input#bulk-product-action {
 
 /*
 *
-* Dokan dashboard
-*
-*/
-.dokan-form-control {
-  border-radius: 4px;
-}
-
-.select2-container--default .select2-selection--single {
-  border-radius: 4px;
-}
-
-.woocommerce form .form-row .input-text {
-  border-radius: 4px;
-}
-
-input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
-  color: white !important;
-}
-
-/*
-*
-* Offer cart (product loop)
+* || Offer card (product loop)
 *
 */
 .groupbuy-ajax-change {
@@ -176,7 +245,7 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
 
 /*
 *
-* Offer page
+* || Offer page template
 *
 */
 strong {
@@ -191,6 +260,11 @@ strong {
   border-radius: 4px;
 }
 
+/*
+*
+* || Modal
+*
+*/
 .modal_rounded_background {
   background-color: #000;
   opacity: 0.85;
@@ -256,11 +330,20 @@ button.modal_rounded_cancel {
 }
 
 /*
-* Buttons
+* || Buttons - MENU
 */
 .button {
   border-radius: 4px !important;
   margin-right: 5px !important;
+}
+
+.searchbtn {
+  cursor: pointer;
+}
+
+.header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a {
+  font-weight: 700;
+  color: white !important;
 }
 
 .header-bar .invite-header {
@@ -277,6 +360,48 @@ button.modal_rounded_cancel {
   border: 1px solid white;
 }
 
+.mobile-version .site-header .header-main {
+  padding-bottom: 1px !important;
+}
+
+.mobile-synerbay-btn {
+  text-align: right;
+  height: auto;
+  width: auto;
+  padding: 10px 0px;
+}
+.mobile-synerbay-btn a {
+  color: black !important;
+  font-weight: 500;
+  background: white;
+  border-radius: 4px !important;
+  border: 1px solid white;
+  padding: 5px 15px;
+  margin-left: 10px;
+}
+
+.site-header .mobile-menu .search-submit {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.dashboard-menu-item {
+  background-color: #ff004e !important;
+  padding: 0 5px !important;
+}
+.dashboard-menu-item a {
+  color: white !important;
+  font-weight: 600;
+}
+.dashboard-menu-item a:hover {
+  border-bottom-color: white !important;
+}
+
+/*
+**
+** || RFQ
+**
+*/
 #rfq-table th {
   background-color: #ff004e !important;
 }
@@ -292,7 +417,7 @@ button.modal_rounded_cancel {
 }
 
 /*
-* Loader CSS
+* || Loader CSS
 */
 .martfury-loader {
   transition: opacity 0.7s;
@@ -402,7 +527,7 @@ button.modal_rounded_cancel {
 }
 /*
 *
-* Mobile optimization
+* || Mobile optimization
 *
 */
 @media (max-width: 991px) {
@@ -423,103 +548,20 @@ button.modal_rounded_cancel {
   position: relative;
 }
 
+.dokan-dashboard .dokan-dash-sidebar #dokan-navigation > #mobile-menu-icon {
+  background: white;
+  color: black;
+  text-align: center;
+  width: 40px !important;
+}
+
+/*
+*
+* || Woocommerce Styling
+*
+ */
 .woocommerce ul.products li.product .product-inner:hover .mf-product-details-hover {
   border-radius: 4px;
-}
-
-@media only screen and (max-width: 450px) {
-  .dokan-dashboard .dokan-dash-sidebar #dokan-navigation {
-    background: #fe004e !important;
-  }
-
-  .dokan-dashboard .dokan-dash-sidebar, .dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu {
-    padding: 0 !important;
-  }
-}
-input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
-  background-color: #ff004e !important;
-  border-color: white !important;
-}
-
-.notice-box {
-  background: #e8e8e8;
-  border-radius: 4px;
-  padding: 10px 20px;
-  margin: 10px 5px 20px 5px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-}
-.notice-box .notice-title {
-  font-size: 18px !important;
-  font-weight: 700;
-  color: black !important;
-}
-.notice-box b {
-  color: black !important;
-}
-
-.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li a {
-  font-weight: 500;
-}
-
-.icon-products {
-  background: no-repeat url("/wp-content/uploads/2021/01/catalog.svg");
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-  vertical-align: middle;
-}
-
-.icon-offer {
-  background: no-repeat url("/wp-content/uploads/2021/01/gift.svg");
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-  vertical-align: middle;
-}
-
-.icon-orders {
-  background: no-repeat url("/wp-content/uploads/2021/01/stack.svg");
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-  vertical-align: middle;
-}
-
-input[type=submit].dokan-btn-theme:hover, a.dokan-btn-theme:hover, .dokan-btn-theme:hover, input[type=submit].dokan-btn-theme:focus, a.dokan-btn-theme:focus, .dokan-btn-theme:focus, input[type=submit].dokan-btn-theme:active, a.dokan-btn-theme:active, .dokan-btn-theme:active, input[type=submit].dokan-btn-theme.active, a.dokan-btn-theme.active, .dokan-btn-theme.active, .open .dropdown-toggleinput[type=submit].dokan-btn-theme, .open .dropdown-togglea.dokan-btn-theme, .open .dropdown-toggle.dokan-btn-theme {
-  background-color: #C2003A !important;
-  border-color: #C2003A !important;
-}
-
-input[type=submit].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme {
-  background-color: #ff004e !important;
-  border-color: #ff004e !important;
-}
-
-.searchbtn {
-  cursor: pointer;
-}
-
-.header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a {
-  font-weight: 700;
-  color: white !important;
-}
-
-.dashboard-menu-item {
-  background-color: #ff004e !important;
-  padding: 0 5px !important;
-}
-.dashboard-menu-item a {
-  color: white !important;
-  font-weight: 600;
-}
-.dashboard-menu-item a:hover {
-  border-bottom-color: white !important;
 }
 
 .woocommerce div.product .woocommerce-product-details__short-description {
@@ -532,6 +574,33 @@ input[type=submit].dokan-btn-theme, a.dokan-btn-theme, .dokan-btn-theme {
 
 #price_step_wrapper #price_step_row {
   margin: 5px 0;
+}
+
+.woocommerce .ribbons .ribbon {
+  right: unset !important;
+  left: 0;
+  background-color: #ff004e !important;
+}
+
+/*
+*
+* || General
+*
+*
+ */
+.backtotop {
+  color: #ff004e !important;
+}
+
+.woocommerce ul.products li.product .price {
+  font-weight: 500;
+}
+
+.offer-search-sidebar {
+  background-color: #f5f5f5;
+  padding: 25px 20px;
+  margin-bottom: 0;
+  position: relative;
 }
 
 /*# sourceMappingURL=custom.css.map */
