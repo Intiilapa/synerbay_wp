@@ -68,7 +68,11 @@ class Module {
         add_filter( 'map_meta_cap', [ __CLASS__, 'filter_capability' ], 20, 2 );
 
         // filter gallery iamge uploading
-        add_filter( 'dokan_product_gallery_allow_add_images', [ __CLASS__, 'restrict_gallery_image_upload' ] );
+        add_action( 'dokan_product_gallery_image_count', [ $this, 'restrict_gallery_image_count' ] );
+        add_action( 'dokan_add_product_js_template_end', [ $this, 'restrict_gallery_image_count' ] );
+        add_action( 'woocommerce_before_single_product', [ $this, 'restrict_added_image_display' ] );
+        add_filter( 'dokan_new_product_popup_args', [ $this, 'restrict_gallery_image_on_product_create' ], 21, 2 );
+        add_filter( 'restrict_product_image_gallery_on_edit', [ $this, 'restrict_gallery_image_on_product_edit' ], 10, 1 );
 
         add_action( 'dps_schedule_pack_update', array( $this, 'schedule_task' ) );
         add_action( 'dokan_before_listing_product', array( $this, 'show_custom_subscription_info' ) );
@@ -117,6 +121,12 @@ class Module {
 
         //For csv
         add_action( 'woocommerce_product_import_before_process_item', [ $this, 'restrict_category_on_csv_import' ] );
+
+        // for disabling email verification
+        add_filter( 'dokan_maybe_email_verification_not_needed', [ $this, 'disable_email_verification' ], 10, 1 );
+
+        // Duplicating product based on subscription
+        add_filter( 'dokan_can_duplicate_product', [ $this, 'dokan_can_duplicate_product_on_subscription' ], 10, 1 );
     }
 
     /**
@@ -471,7 +481,7 @@ class Module {
      * @return void
      */
     public static function can_create_product( $errors, $data ) {
-        if ( $data['ID'] ) {
+        if ( isset( $data['ID'] ) ) {
             return;
         }
 
@@ -639,21 +649,6 @@ class Module {
     }
 
     /**
-     * Restrict gallery image upload for vendor
-     *
-     * @return void
-     */
-    public static function restrict_gallery_image_upload() {
-        $vendor = dokan()->vendor->get( dokan_get_current_user_id() )->subscription;
-
-        if ( $vendor && $vendor->is_gallery_image_upload_restricted() ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Schedule task daily update this functions
      */
     public function schedule_task() {
@@ -684,8 +679,8 @@ class Module {
                 $order_id = get_user_meta( $user->ID, 'product_order_id', true );
 
                 if ( $order_id ) {
-                    $subject = ( dokan_get_option( 'email_subject', 'dokan_product_subscription' ) ) ? dokan_get_option( 'email_subject', 'dokan_product_subscription' ) : __( 'Subscription Package Cancel notification', 'dokan' );
-                    $message = ( dokan_get_option( 'email_body', 'dokan_product_subscription' ) ) ? dokan_get_option( 'email_body', 'dokan_product_subscription' ) : __( 'Due to finish your Package validation we are canceling your Subscription Package', 'dokan' );
+                    $subject = ( dokan_get_option( 'cancelling_email_subject', 'dokan_product_subscription' ) ) ? dokan_get_option( 'cancelling_email_subject', 'dokan_product_subscription' ) : __( 'Subscription Package Cancel notification', 'dokan' );
+                    $message = ( dokan_get_option( 'cancelling_email_body', 'dokan_product_subscription' ) ) ? dokan_get_option( 'cancelling_email_body', 'dokan_product_subscription' ) : __( 'Dear subscriber, Your subscription has expired. Please renew your package to continue using it.', 'dokan' );
                     $headers = 'From: ' . get_option( 'blogname' ) . ' <' . get_option( 'admin_email' ) . '>' . "\r\n";
 
                     wp_mail( $user->user_email, $subject, $message, $headers );
@@ -702,18 +697,19 @@ class Module {
 
             if ( ! $has_recurring_pack && $is_seller_enabled && $has_subscription && $can_post_product ) {
                 if ( Helper::alert_before_two_days( $user->ID ) ) {
-                    $subject = ( dokan_get_option( 'email_subject', 'dokan_product_subscription' ) ) ? dokan_get_option( 'email_subject', 'dokan_product_subscription' ) : __( 'Package End notification alert', 'dokan' );
-                    $message = ( dokan_get_option( 'email_body', 'dokan_product_subscription' ) ) ? dokan_get_option( 'email_body', 'dokan_product_subscription' ) : __( 'Your Package validation remaining some days please confirm it', 'dokan' );
+                    $subject = ( dokan_get_option( 'alert_email_subject', 'dokan_product_subscription' ) ) ? dokan_get_option( 'alert_email_subject', 'dokan_product_subscription' ) : __( 'Subscription Ending Soon', 'dokan' );
+                    $message = ( dokan_get_option( 'alert_email_body', 'dokan_product_subscription' ) ) ? dokan_get_option( 'alert_email_body', 'dokan_product_subscription' ) : __( 'Dear subscriber, Your subscription will be ending soon. Please renew your package in a timely manner for continued usage.', 'dokan' );
                     $headers = 'From: ' . get_option( 'blogname' ) . ' <' . get_option( 'admin_email' ) . '>' . "\r\n";
 
                     wp_mail( $user->user_email, $subject, $message, $headers );
+                    update_user_meta( $user->ID, 'dokan_vendor_subscription_cancel_email', 'yes' );
                 }
             }
         }
     }
 
     /**
-     * Process order for specipic package
+     * Process order for specific package
      *
      * @param integer $order_id
      * @param string  $old_status
@@ -735,7 +731,7 @@ class Module {
                     Helper::add_used_trial_pack( $customer_id, $product_id );
                 }
 
-                if ( get_post_meta( $product_id, '_enable_recurring_payment', true ) == 'yes' ) {
+                if ( Helper::is_recurring_pack( $product_id ) ) {
                     return;
                 }
 
@@ -743,21 +739,26 @@ class Module {
                 update_user_meta( $customer_id, 'product_package_id', $product_id );
                 update_user_meta( $customer_id, 'product_order_id', $order_id );
                 update_user_meta( $customer_id, 'product_no_with_pack', get_post_meta( $product_id, '_no_of_product', true ) );
-                update_user_meta( $customer_id, 'product_pack_startdate', date( 'Y-m-d H:i:s' ) );
+                update_user_meta( $customer_id, 'product_pack_startdate', dokan_current_datetime()->format( 'Y-m-d H:i:s' ) );
 
                 if ( $pack_validity == 0 ) {
                     update_user_meta( $customer_id, 'product_pack_enddate', 'unlimited' );
                 } else {
-                    update_user_meta( $customer_id, 'product_pack_enddate', date( 'Y-m-d H:i:s', strtotime( "+$pack_validity days" ) ) );
+                    update_user_meta( $customer_id, 'product_pack_enddate', dokan_current_datetime()->modify( "+$pack_validity days" )->format( 'Y-m-d H:i:s' ) );
                 }
 
                 update_user_meta( $customer_id, 'can_post_product', '1' );
                 update_user_meta( $customer_id, '_customer_recurring_subscription', '' );
 
                 $admin_commission      = get_post_meta( $product_id, '_subscription_product_admin_commission', true );
+                $admin_additional_fee  = get_post_meta( $product_id, '_subscription_product_admin_additional_fee', true );
                 $admin_commission_type = get_post_meta( $product_id, '_subscription_product_admin_commission_type', true );
 
-                if ( ! empty( $admin_commission ) && ! empty( $admin_commission_type ) ) {
+                if ( ! empty( $admin_commission ) && ! empty( $admin_additional_fee ) && ! empty( $admin_commission_type ) ) {
+                    update_user_meta( $customer_id, 'dokan_admin_percentage', $admin_commission );
+                    update_user_meta( $customer_id, 'dokan_admin_additional_fee', $admin_additional_fee );
+                    update_user_meta( $customer_id, 'dokan_admin_percentage_type', $admin_commission_type );
+                } elseif ( ! empty( $admin_commission ) && ! empty( $admin_commission_type ) ) {
                     update_user_meta( $customer_id, 'dokan_admin_percentage', $admin_commission );
                     update_user_meta( $customer_id, 'dokan_admin_percentage_type', $admin_commission_type );
                 } else {
@@ -1137,6 +1138,142 @@ class Module {
         return $args;
     }
 
+
+    /**
+     * Restrict gallery image count for new product & edit product
+     *
+     * @return void
+     */
+    public function restrict_gallery_image_count() {
+        $image_count = $this->get_restricted_image_count();
+        if ( $image_count == - 1 ) {
+            return;
+        }
+        if ( $image_count >= 0 ) { ?>
+            <script type="text/javascript">
+                ;(function () {
+                    var image_count = <?php echo json_encode( $image_count, JSON_HEX_TAG ); ?>;
+                    var observer = new MutationObserver(function () {
+                        if (document.querySelector('.attachments-browser ul')) {
+                            var selected_image = document.querySelectorAll("[aria-checked='true']").length;
+                            var added_image = document.querySelectorAll("#product_images_container .image").length;
+                            if(document.querySelector('.media-toolbar button').innerText !== 'Set featured image' ){
+                                var submit_button=document.querySelector('.media-toolbar button');
+                                if ((selected_image + added_image) > image_count || selected_image < 1) {
+                                    submit_button.disabled = true;
+                                } else {
+                                    submit_button.disabled = false;
+                                }
+                            }
+
+                            if (added_image >= image_count) {
+                                document.querySelector("#product_images_container .add-image").style.display = 'none';
+                            } else {
+                                document.querySelector("#product_images_container .add-image").style.display = '';
+                            }
+                        }
+                    });
+
+                    observer.observe(document.body,
+                        {
+                            childList: true,
+                            subtree: true,
+                        }
+                    )
+                })();
+            </script>
+
+        <?php }
+    }
+
+    /**
+     * Restrict already added gallery image using woocommerce_before_single_product
+     *
+     * @return void
+     */
+    public function restrict_added_image_display() {
+        global $product, $post;
+
+        $image_count = $this->get_restricted_image_count( $post->post_author );
+        if ( $image_count == - 1 ) {
+            return;
+        }
+
+        $product_gallery_image = $this->count_filter( $product->get_gallery_image_ids(), $image_count );
+        $product->set_gallery_image_ids( $product_gallery_image );
+    }
+
+    /**
+     * Restricted gallery image count for vendor subscription
+     *
+     * @return int
+     */
+    public function get_restricted_image_count( $vendor_id = null ) {
+        $vendor_id = ! empty( $vendor_id ) ? $vendor_id : dokan_get_current_user_id();
+        $vendor    = dokan()->vendor->get( $vendor_id )->subscription;
+
+        if ( $vendor && $vendor->is_gallery_image_upload_restricted() ) {
+            return $vendor->gallery_image_upload_count();
+        }
+
+        return -1;
+    }
+
+    /**
+     * Restrict gallery image  when creating product
+     *
+     * @param '' $errors
+     * @param array $data
+     *
+     * @return string
+     */
+    public function restrict_gallery_image_on_product_create( $errors, $data ) {
+        $gallery_image = ! empty( $data['product_image_gallery'] ) ? array_filter( explode( ',', wc_clean( $data['product_image_gallery'] ) ) ) : [];
+        $image_count   = $this->get_restricted_image_count();
+        if ( $image_count == - 1 ) {
+            return;
+        }
+        if ( count( $gallery_image ) > $image_count ) {
+            $errors = new \WP_Error( 'not-allowed', __( sprintf( 'You are not allowed to add more than %s gallery images', $image_count ), 'dokan' ) );
+
+            return $errors;
+        }
+
+    }
+
+
+    /**
+     * Restrict gallery image when editing product
+     *
+     * @param $postdata
+     *
+     * @return array
+     */
+    public function restrict_gallery_image_on_product_edit( $postdata ) {
+        $gallery_image = ! empty( $postdata['product_image_gallery'] ) ? array_filter( explode( ',', wc_clean( $postdata['product_image_gallery'] ) ) ) : [];
+        $image_count   = $this->get_restricted_image_count();
+        if ( $image_count == - 1 ) {
+            return;
+        }
+        $postdata['product_image_gallery'] = implode( ',', $this->count_filter( $gallery_image, $image_count ) );
+
+        return $postdata;
+    }
+
+    /**
+     * Count filter
+     *
+     * @param array $arr
+     * @param int $count
+     *
+     * @return array
+     */
+    public function count_filter( $arr, $count ) {
+        return array_filter( $arr, function ( $item, $key ) use ( $count ) {
+            return $key <= $count - 1;
+        }, ARRAY_FILTER_USE_BOTH );
+    }
+
     /**
      * Restrict category if selected category found
      *
@@ -1209,5 +1346,60 @@ class Module {
         $allowed_categories  = $vendor_subscription->get_allowed_product_categories();
 
         return $allowed_categories;
+    }
+
+    /**
+     * This method will disable email verification if vendor subscription module is on
+     * and if subscription is enabled on registration form
+     *
+     * @since 3.2.0
+     * @param bool $ret
+     * @return bool
+     */
+    public function disable_email_verification( $ret ) {
+        // if $ret is true, do not bother checking if settings if enabled or not
+        if ( $ret ) {
+            return $ret;
+        }
+
+        $enable_option = get_option( 'dokan_product_subscription', array( 'enable_subscription_pack_in_reg' => 'off' ) );
+
+        // check if subscription is enabled on registration form, we don't need to check if product subscription is enabled for vendor or not,
+        // because we are already checking this on class constructor
+        if ( (string) $enable_option['enable_subscription_pack_in_reg'] !== 'on' ) {
+            return $ret;
+        }
+
+        // if product subscription is enabled on registration form, return true,
+        // because we don't need to enable email verification if subscription module is active.
+        return true;
+    }
+
+   /**
+     * @since 3.2.0
+     *
+     * Checking the ability to duplicate product based on subscription
+     *
+     * @param $can_duplicate
+     *
+     * @return bool|mixed|null
+     */
+    public function dokan_can_duplicate_product_on_subscription( $can_duplicate ) {
+
+        if( ! $can_duplicate ) {
+            return $can_duplicate;
+        }
+
+        // If the user is vendor staff, we are getting the specific vendor for that staff
+        $user_id = (int) dokan_get_current_user_id();
+
+        /** We are getting the subscription of the vendor
+         * and checking if the vendor has remaining product based on active subscription
+         **/
+        if ( ! Helper::get_vendor_remaining_products( $user_id ) ) {
+            return false;
+        }
+      
+        return true;
     }
 }

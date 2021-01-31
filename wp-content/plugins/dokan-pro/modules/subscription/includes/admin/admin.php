@@ -161,33 +161,35 @@ class DPS_Admin {
 
         <script type="text/javascript">
             ;(function($) {
-                $('#_subscription_product_admin_commission_type').on('change', function() {
-                    var self = $(this),
-                        val = self.val();
+                $(document).ready(function(){
+                    $('#_subscription_product_admin_commission_type').on('change', function() {
+                        var self = $(this),
+                            val = self.val();
 
-                    if ( 'combine' === val ) {
-                        $('.subscription_additional_fee').removeClass('dokan-hide');
-                        $('.combine-commission-description').text( dokan_admin.combine_commission_desc );
-                    } else {
-                        $('.subscription_additional_fee').addClass('dokan-hide');
-                        $('.combine-commission-description').text( dokan_admin.default_commission_desc );
-                    }
+                        if ( 'combine' === val ) {
+                            $('.subscription_additional_fee').removeClass('dokan-hide');
+                            $('.combine-commission-description').text( dokan_admin.combine_commission_desc );
+                        } else {
+                            $('.subscription_additional_fee').addClass('dokan-hide');
+                            $('.combine-commission-description').text( dokan_admin.default_commission_desc );
+                        }
 
-                    if ( 'flat' == val ) {
-                        $('input[name="_subscription_product_admin_commission"]').removeClass( 'wc_input_decimal' ).addClass( 'wc_input_price' );
-                    } else {
-                        $('input[name="_subscription_product_admin_commission"]').removeClass( 'wc_input_price' ).addClass( 'wc_input_decimal' );
-                    }
-                }).trigger('change');
+                        if ( 'flat' == val ) {
+                            $('input[name="_subscription_product_admin_commission"]').removeClass( 'wc_input_decimal' ).addClass( 'wc_input_price' );
+                        } else {
+                            $('input[name="_subscription_product_admin_commission"]').removeClass( 'wc_input_price' ).addClass( 'wc_input_decimal' );
+                        }
+                    }).trigger('change');
 
-                $('#_regular_price').on('keyup', function() {
-                    var self = $(this),
-                        val = self.val();
+                    $('#_regular_price').on('keyup', function() {
+                        var self = $(this),
+                            val = self.val();
 
-                    if ( $( 'input[name*="_regular_price"]' ).length > 1 ) {
-                        $( 'input[name*="_regular_price"]' ).val( val );
-                    }
-                }).trigger('change');
+                        if ( $( 'input[name*="_regular_price"]' ).length > 1 ) {
+                            $( 'input[name*="_regular_price"]' ).val( val );
+                        }
+                    }).trigger('change');
+                });
             })(jQuery);
         </script>
 
@@ -231,6 +233,43 @@ class DPS_Admin {
             )
         );
 
+        woocommerce_wp_text_input(
+            array(
+                'id'                => '_gallery_image_restriction_count',
+                'label'             => __( 'Maximum Image', 'dokan' ),
+                'placeholder'       => 'Put -1 for unlimited image',
+                'description'       => __( 'Max Image vendor can upload', 'dokan' ),
+                'type'              => 'number',
+                'custom_attributes' => array(
+                    'step' => 'any',
+                    'min'  => '-1'
+                )
+            )
+        );
+
+        ?>
+
+        <script type="text/javascript">
+            ;(function () {
+                var image_enable = document.querySelector('#_enable_gallery_restriction');
+                var image_count = document.querySelector('._gallery_image_restriction_count_field');
+                if (image_enable.checked === true) {
+                    image_count.style.display = '';
+                } else {
+                    image_count.style.display = 'none';
+                }
+                image_enable.addEventListener('click', function () {
+                    if (image_enable.checked === true) {
+                        image_count.style.display = '';
+                    } else {
+                        image_count.style.display = 'none';
+                    }
+                })
+            })();
+        </script>
+
+        <?php
+
         woocommerce_wp_checkbox(
             array(
                 'id'          => '_enable_recurring_payment',
@@ -241,8 +280,8 @@ class DPS_Admin {
         echo '</div>';
 
         // Set month as the default billing period
-        if ( ! $subscription_period = get_post_meta( $post->ID, '_subscription_period', true ) ) { // phpcs:ignore
-            $subscription_period = 'month';
+        if ( ! $subscription_period = get_post_meta( $post->ID, '_dokan_subscription_period', true ) ) { // phpcs:ignore
+            $subscription_period = 'day';
         }
 
         echo '<div class="options_group show_if_product_pack dokan_subscription_pricing">';
@@ -250,7 +289,7 @@ class DPS_Admin {
         echo '<div class="dokan-billing-cycle-wrap">';
         woocommerce_wp_select(
             array(
-                'id'      => '_subscription_period_interval',
+                'id'      => '_dokan_subscription_period_interval',
                 'class'   => 'wc_input_subscription_period_interval',
                 'label'   => __( 'Billing cycle', 'dokan' ),
                 'options' => Helper::get_subscription_period_interval_strings(),
@@ -260,7 +299,7 @@ class DPS_Admin {
         // Billing Period
         woocommerce_wp_select(
             array(
-                'id'          => '_subscription_period',
+                'id'          => '_dokan_subscription_period',
                 'class'       => 'wc_input_subscription_period',
                 'label'       => '',
                 'options'     => Helper::get_subscription_period_strings(),
@@ -274,7 +313,7 @@ class DPS_Admin {
         // Subscription Length
         woocommerce_wp_select(
             array(
-                'id'          => '_subscription_length',
+                'id'          => '_dokan_subscription_length',
                 'class'       => 'wc_input_subscription_length',
                 'label'       => __( 'Billing cycle stop', 'dokan' ),
                 'options'     => Helper::get_subscription_ranges( $subscription_period ),
@@ -358,6 +397,16 @@ class DPS_Admin {
             update_post_meta( $post_id, '_enable_gallery_restriction', wc_clean( $woocommerce_enable_gallery_restriction ) );
         }
 
+        $gallery_image_restriction_count = ! empty( $_POST['_gallery_image_restriction_count'] ) && $_POST['_gallery_image_restriction_count'] >= 0 ? intval( wp_unslash( $_POST['_gallery_image_restriction_count'] ) ) : -1;
+
+        if ( $woocommerce_enable_gallery_restriction === 'yes' ) {
+            update_post_meta( $post_id, '_gallery_image_restriction_count', $gallery_image_restriction_count );
+        }
+
+        if ( $woocommerce_enable_gallery_restriction === 'no' ) {
+            delete_post_meta( $post_id, '_gallery_image_restriction_count' );
+        }
+
         $dokan_subscription_enable_trial = isset( $_POST['dokan_subscription_enable_trial'] ) ? 'yes' : 'no';
 
         if ( ! empty( $dokan_subscription_enable_trial ) ) {
@@ -382,22 +431,22 @@ class DPS_Admin {
             update_post_meta( $post_id, '_enable_recurring_payment', $woocommerce_enable_recurring_field );
         }
 
-        $woocommerce_subscription_period_interval_field = $_POST['_subscription_period_interval'];
+        $woocommerce_subscription_period_interval_field = $_POST['_dokan_subscription_period_interval'];
 
         if ( ! empty( $woocommerce_enable_recurring_field ) ) {
-            update_post_meta( $post_id, '_subscription_period_interval', $woocommerce_subscription_period_interval_field );
+            update_post_meta( $post_id, '_dokan_subscription_period_interval', $woocommerce_subscription_period_interval_field );
         }
 
-        $woocommerce_subscription_period_field = $_POST['_subscription_period'];
+        $woocommerce_subscription_period_field = $_POST['_dokan_subscription_period'];
 
         if ( ! empty( $woocommerce_enable_recurring_field ) ) {
-            update_post_meta( $post_id, '_subscription_period', $woocommerce_subscription_period_field );
+            update_post_meta( $post_id, '_dokan_subscription_period', $woocommerce_subscription_period_field );
         }
 
-        $woocommerce_subscription_length_field = $_POST['_subscription_length'];
+        $woocommerce_subscription_length_field = $_POST['_dokan_subscription_length'];
 
         if ( ! empty( $woocommerce_enable_recurring_field ) ) {
-            update_post_meta( $post_id, '_subscription_length', $woocommerce_subscription_length_field );
+            update_post_meta( $post_id, '_dokan_subscription_length', $woocommerce_subscription_length_field );
         }
 
         do_action( 'dps_process_subcription_product_meta', $post_id );
@@ -412,7 +461,7 @@ class DPS_Admin {
     public static function add_new_section_admin_panael( $sections ) {
         $sections['dokan_product_subscription'] = array(
             'id'    => 'dokan_product_subscription',
-            'title' => __( 'Product Subscription', 'dokan' ),
+            'title' => __( 'Vendor Subscription', 'dokan' ),
             'icon'  => 'dashicons-controls-repeat',
         );
 
@@ -499,18 +548,33 @@ class DPS_Admin {
                     'draft'   => __( 'Draft', 'dokan' ),
                 ),
             ),
-            'email_subject' => array(
-                'name'    => 'email_subject',
-                'label'   => __( 'Email Subject', 'dokan' ),
-                'desc'    => __( 'Enter Subject text for email notification', 'dokan' ),
+            'cancelling_email_subject' => array(
+                'name'    => 'cancelling_email_subject',
+                'label'   => __( 'Cancelling Email Subject', 'dokan' ),
+                'desc'    => __( 'Enter subject text for canceled subscriptions email notification', 'dokan' ),
                 'type'    => 'text',
-                'default' => __( 'Subscription Email', 'dokan' ),
+                'default' => __( 'Subscription Package Cancel notification', 'dokan' ),
             ),
-            'email_body' => array(
-                'name'  => 'email_body',
-                'label' => __( 'Email body', 'dokan' ),
-                'desc'  => __( 'Enter body text for email notification', 'dokan' ),
+            'cancelling_email_body' => array(
+                'name'  => 'cancelling_email_body',
+                'label' => __( 'Cancelling Email body', 'dokan' ),
+                'desc'  => __( 'Enter body text for canceled subscriptions email notification', 'dokan' ),
                 'type'  => 'textarea',
+                'default' => __( 'Dear subscriber, Your subscription has expired. Please renew your package to continue using it.', 'dokan' ),
+            ),
+            'alert_email_subject' => array(
+                'name'    => 'alert_email_subject',
+                'label'   => __( 'Alert Email Subject', 'dokan' ),
+                'desc'    => __( 'Enter subject text for package end notification alert email', 'dokan' ),
+                'type'    => 'text',
+                'default' => __( 'Subscription Ending Soon', 'dokan' ),
+            ),
+            'alert_email_body' => array(
+                'name'  => 'alert_email_body',
+                'label' => __( 'Alert Email body', 'dokan' ),
+                'desc'  => __( 'Enter body text for package end notification alert email', 'dokan' ),
+                'type'  => 'textarea',
+                'default' => __( 'Dear subscriber, Your subscription will be ending soon. Please renew your package in a timely manner for continued usage.', 'dokan' ),
             ),
         );
 
@@ -595,16 +659,18 @@ class DPS_Admin {
             </tr>
             <tr>
                 <td><?php _e( 'Start Date :' ); ?></td>
-                <td><?php echo date( get_option( 'date_format' ), strtotime( get_user_meta( $user->ID, 'product_pack_startdate', true ) ) ); ?></td>
+                <td><?php echo dokan_format_date( get_user_meta( $user->ID, 'product_pack_startdate', true ) ); ?>
+                </td>
             </tr>
             <tr>
                 <td><?php _e( 'End Date :' ); ?></td>
                 <td>
                     <?php
-                    if ( 'unlimited' === get_user_meta( $user->ID, 'product_pack_enddate', true ) ) {
+                    $product_pack_enddate = get_user_meta( $user->ID, 'product_pack_enddate', true );
+                    if ( 'unlimited' === $product_pack_enddate ) {
                         printf( __( 'Lifetime package.', 'dokan' ) );
                     } else {
-                        echo date( get_option( 'date_format' ), strtotime( get_user_meta( $user->ID, 'product_pack_enddate', true ) ) );
+                        echo dokan_format_date( $product_pack_enddate );
                     }
                     ?>
                 </td>
@@ -698,10 +764,15 @@ class DPS_Admin {
         if ( get_user_meta( $user_id, '_customer_recurring_subscription', true ) == 'active' ) {
             $order_id = get_user_meta( $user_id, 'product_order_id', true );
 
-            do_action( 'dokan_subscription_cancelled_by_admin', $user_id, $order_id );
+            Helper::log( 'Subscription cancel check: On assign pack by admin cancel Recurring Subscription of User #' . $user_id . ' on order #' . $order_id );
 
-            if ( $order_id ) {
-                Helper::log( 'Subscription cancel check: On assign pack by admin cancel Recurring Subscription of User #' . $user_id . ' on order #' . $order_id );
+            //this hook will ensure other gateway payments cancels their subscriptions
+            do_action( 'dps_cancel_recurring_subscription', $order_id, $user_id, true );
+
+            do_action( 'dokan_subscription_cancelled_by_admin', $user_id, $order_id );
+            $subscriber_id = get_user_meta( $user_id, '_paypal_subscriber_ID', true );
+
+            if ( $order_id && ! empty( $subscriber_id ) ) {
                 DPS_PayPal_Standard_Subscriptions::cancel_subscription_with_paypal( $order_id, $user_id );
             }
         }
@@ -727,10 +798,10 @@ class DPS_Admin {
         update_user_meta( $user_id, 'product_package_id', $pack_id );
         update_user_meta( $user_id, 'product_order_id', $order->get_id() );
         update_user_meta( $user_id, 'product_no_with_pack', get_post_meta( $pack_id, '_no_of_product', true ) ); //number of products
-        update_user_meta( $user_id, 'product_pack_startdate', date( 'Y-m-d H:i:s' ) );
+        update_user_meta( $user_id, 'product_pack_startdate', dokan_current_datetime()->format( 'Y-m-d H:i:s' ) );
 
         if ( absint( $pack_validity ) > 0 ) {
-            update_user_meta( $user_id, 'product_pack_enddate', date( 'Y-m-d H:i:s', strtotime( "+$pack_validity days" ) ) );
+            update_user_meta( $user_id, 'product_pack_enddate', dokan_current_datetime()->modify( "+$pack_validity days" )->format( 'Y-m-d H:i:s' ) );
         } else {
             update_user_meta( $user_id, 'product_pack_enddate', 'unlimited' );
         }

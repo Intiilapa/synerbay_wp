@@ -310,25 +310,27 @@ class Products {
 
         <script type="text/javascript">
             ;(function($) {
-                $('#_per_product_admin_commission_type').on('change', function() {
-                    if ( 'combine' === $(this).val() ) {
-                        $('.additional_fee').removeClass('dokan-hide');
-                        $('.combine-commission-description').text( dokan_admin.combine_commission_desc );
-                        $('input[name=_per_product_admin_commission]').attr('required', true);
-                        $('input[name=_per_product_admin_additional_fee]').attr('required', true);
-                    } else {
-                        $('.additional_fee').addClass('dokan-hide');
-                        $('.combine-commission-description').text( dokan_admin.default_commission_desc );
-                        $('input[name=_per_product_admin_commission]').removeAttr('required');
-                        $('input[name=_per_product_admin_additional_fee]').removeAttr('required');
-                    }
+                $(document).ready(function(){
+                    $('#_per_product_admin_commission_type').on('change', function() {
+                        if ( 'combine' === $(this).val() ) {
+                            $('.additional_fee').removeClass('dokan-hide');
+                            $('.combine-commission-description').text( dokan_admin.combine_commission_desc );
+                            $('input[name=_per_product_admin_commission]').attr('required', true);
+                            $('input[name=_per_product_admin_additional_fee]').attr('required', true);
+                        } else {
+                            $('.additional_fee').addClass('dokan-hide');
+                            $('.combine-commission-description').text( dokan_admin.default_commission_desc );
+                            $('input[name=_per_product_admin_commission]').removeAttr('required');
+                            $('input[name=_per_product_admin_additional_fee]').removeAttr('required');
+                        }
 
-                    if ( 'flat' == $(this).val() ) {
-                        $('input#admin_commission').removeClass( 'wc_input_decimal' ).addClass( 'wc_input_price' );
-                    } else {
-                        $('input#admin_commission').removeClass( 'wc_input_price' ).addClass( 'wc_input_decimal' );
-                    }
+                        if ( 'flat' == $(this).val() ) {
+                            $('input#admin_commission').removeClass( 'wc_input_decimal' ).addClass( 'wc_input_price' );
+                        } else {
+                            $('input#admin_commission').removeClass( 'wc_input_price' ).addClass( 'wc_input_decimal' );
+                        }
                 }).trigger('change');
+                });
             })(jQuery);
         </script>
         <?php
@@ -544,7 +546,7 @@ class Products {
             );
         }
 
-        $can_duplicate_product = current_user_can( 'dokan_duplicate_product' );
+        $can_duplicate_product = apply_filters( 'dokan_can_duplicate_product', current_user_can( 'dokan_duplicate_product' ) );
         $vendor_can_duplicate_product = dokan_get_option( 'vendor_duplicate_product', 'dokan_selling', 'on' );
 
         if ( $can_duplicate_product && 'on' === $vendor_can_duplicate_product ) {
@@ -965,6 +967,10 @@ class Products {
 
         if ( is_wp_error( $product_id ) ) {
             wp_send_json_error( __( 'Error updating product data', 'dokan' ), 422 );
+        }
+
+        if ( isset( $posted_data['sku'] ) && ! empty( $posted_data['sku'] ) && ! wc_product_has_unique_sku( $product_id, $posted_data['sku'] ) ) {
+            wp_send_json_error( __( 'Invalid or duplicated SKU.', 'dokan' ), 422 );
         }
 
         $product = wc_get_product( $product_id );
