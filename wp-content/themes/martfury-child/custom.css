@@ -128,6 +128,61 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
   color: white !important;
 }
 
+@media (max-width: 430px) {
+  table.dokan-table thead {
+    display: block !important;
+  }
+
+  table.dokan-table td.column-thumb,
+table.dokan-table td.column-primary ~ td:not(.check-column) {
+    display: block !important;
+  }
+
+  table.dokan-table .is-expanded td:not(.hidden) {
+    display: block !important;
+  }
+
+  table.dokan-table td.column-primary {
+    padding-right: 50px;
+  }
+
+  table.dokan-table td.column-primary strong {
+    display: block;
+    margin-bottom: 0.5em;
+  }
+
+  table.dokan-table td:not(.check-column) {
+    position: relative;
+    width: auto !important;
+    clear: both;
+  }
+
+  table.dokan-table .is-expanded td.column-thumb,
+table.dokan-table td.column-primary ~ :not(.check-column) {
+    display: block;
+    text-align: right;
+    padding: 3px 8px 3px 35%;
+  }
+
+  table.dokan-table td:not(.column-primary)::before {
+    content: attr(data-title);
+    position: absolute;
+    left: 10px;
+    width: 32%;
+    white-space: nowrap;
+    text-align: left;
+    display: block;
+  }
+
+  table.dokan-table .toggle-row {
+    display: block;
+  }
+
+  table.dokan-table .row-actions {
+    display: grid;
+    grid-template-columns: auto auto auto;
+  }
+}
 /*
 * || Dokan Store page - Front End
 */
@@ -141,6 +196,15 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
 
 .dokan-single-store .profile-frame .profile-info-box .profile-info-img.dummy-image {
   height: 520px;
+}
+
+/*
+*
+* || Dokan Store listing
+*
+*/
+#dokan-store-listing-filter-wrap .right .item select {
+  border-radius: 4px;
 }
 
 /*
@@ -260,6 +324,10 @@ strong {
   border-radius: 4px;
 }
 
+.product_custom_details {
+  padding-bottom: 15px;
+}
+
 /*
 *
 * || Modal
@@ -337,6 +405,16 @@ button.modal_rounded_cancel {
   margin-right: 5px !important;
 }
 
+@media (max-width: 780px) {
+  .woocommerce a.button {
+    padding: 0 !important;
+    margin: 5px 0 !important;
+    line-height: 40px;
+    height: 40px;
+    width: 100%;
+    display: block;
+  }
+}
 .searchbtn {
   cursor: pointer;
 }
@@ -395,6 +473,11 @@ button.modal_rounded_cancel {
 }
 .dashboard-menu-item a:hover {
   border-bottom-color: white !important;
+}
+
+.mobile-version.sticky-header .site-header.minimized .header-main {
+  padding-bottom: 10px !important;
+  padding-top: 10px !important;
 }
 
 /*
@@ -588,6 +671,22 @@ button.modal_rounded_cancel {
 *
 *
  */
+@media (max-width: 780px) {
+  .offer-search-content {
+    display: none;
+  }
+
+  .filter-btn {
+    display: block !important;
+  }
+}
+.filter-btn {
+  display: none;
+  border: none !important;
+  width: 100%;
+  height: 50px;
+}
+
 .backtotop {
   color: #ff004e !important;
 }
@@ -601,6 +700,11 @@ button.modal_rounded_cancel {
   padding: 25px 20px;
   margin-bottom: 0;
   position: relative;
+}
+
+.error404 .site-content {
+  padding: 0 !important;
+  margin: 0;
 }
 
 /*# sourceMappingURL=custom.css.map */

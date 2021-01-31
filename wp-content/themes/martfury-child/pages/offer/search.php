@@ -45,9 +45,24 @@ get_header('shop');
  * @hooked WC_Structured_Data::generate_website_data() - 30
  */
 ?>
+
+<script>
+   function showFilter() {
+        var filter = document.getElementById("primary-sidebar");
+        if (filter.style.display === "block") {
+            filter.style.display = "none";
+        } else {
+            filter.style.display = "block";
+        }
+    }
+</script>
+
+<div class="dropdown-search">
+    <button class="filter-btn" onclick="showFilter()">Toggle Offer Filters</button>
+</div>
     <!-- Sidebar -->
     <aside id="primary-sidebar"
-           class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 <?php echo esc_attr('catalog-sidebar') ?>">
+           class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 offer-search-content <?php echo esc_attr('catalog-sidebar') ?>">
         <!-- Search form before sidebar -->
         <form action="/offers" method="post">
             <ul class="offer-search-sidebar">
@@ -108,6 +123,7 @@ get_header('shop');
 
         </form>
     </aside>
+
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
     <header class="woocommerce-products-header">
