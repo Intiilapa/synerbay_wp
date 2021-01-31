@@ -736,9 +736,9 @@ function uniq_invite_code($user_id)
 //Change icons on Dokan dashboard
 add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
 function change_dokan_dashboard_icon($urls){
-    $urls['products']['icon'] = '<span class="icon-products"></span>';
-    $urls['offer']['icon']    = '<span class="icon-offer"></span>';
-    $urls['orders']['icon']   = '<span class="icon-orders"></span>';
+    $urls['products']['icon'] = '<span id="svg-icon" class="icon-products"></span>';
+    $urls['offer']['icon']    = '<span id="svg-icon" class="icon-offer"></span>';
+    $urls['orders']['icon']   = '<span id="svg-icon" class="icon-orders"></span>';
     return $urls;
 }
 

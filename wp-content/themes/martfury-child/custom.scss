@@ -82,33 +82,31 @@ input[type='submit'].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 }
 
 // Custom icons for dashboard Dokan
-.icon-products{
-  background: no-repeat url('/wp-content/uploads/2021/01/catalog.svg');
+#svg-icon{
   background-size: 20px 20px;
   display: inline-block;
   width: 20px;
   height: 20px;
   margin-right: 15px;
   vertical-align: middle;
+  -webkit-filter: grayscale(100%) brightness(0);
+  filter: grayscale(100%) brightness(0);
+}
+.active{
+  #svg-icon{
+    filter: unset!important;
+  }
+}
+
+.icon-products{
+  background: no-repeat url('/wp-content/uploads/2021/01/catalog.svg');
 }
 
 .icon-offer{
   background: no-repeat url('/wp-content/uploads/2021/01/gift.svg');
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-  vertical-align: middle;
 }
 .icon-orders{
   background: no-repeat url('/wp-content/uploads/2021/01/stack.svg');
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 15px;
-  vertical-align: middle;
 }
 
 //Global front-end Dokan colors
@@ -185,6 +183,18 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
     display: grid;
     grid-template-columns: auto auto auto;
   }
+}
+
+
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li.active{
+  a{
+    color: white!important;
+    background: $primary-color;
+  }
+}
+.dokan-dashboard .dokan-dash-sidebar ul.dokan-dashboard-menu li a {
+  text-transform: uppercase;
+  font-size: 14px;
 }
 
 /*
