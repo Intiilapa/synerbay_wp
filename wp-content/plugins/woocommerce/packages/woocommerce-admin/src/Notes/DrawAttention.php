@@ -7,7 +7,7 @@
 
 namespace Automattic\WooCommerce\Admin\Notes;
 
-use Automattic\WooCommerce\Admin\Features\Onboarding;
+use \Automattic\WooCommerce\Admin\Features\Onboarding;
 
 defined( 'ABSPATH' ) || exit;
 

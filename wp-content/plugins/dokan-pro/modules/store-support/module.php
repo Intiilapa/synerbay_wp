@@ -50,7 +50,12 @@ class Module {
 
         add_action( 'template_redirect', [ $this, 'change_topic_status' ] );
 
+        add_filter( 'dokan_settings_sections', array( $this, 'render_store_support_section' ) );
+        add_filter( 'dokan_settings_fields', array( $this, 'render_store_support_settings' ) );
+
         add_action( 'dokan_after_store_tabs', [ $this, 'generate_support_button' ] );
+        add_action( 'woocommerce_after_add_to_cart_button', [ $this, 'generate_support_button_product_page' ] );
+        add_action( 'dokan_product_seller_tab_end', [ $this, 'generate_support_button_product_page_inner_tab' ], 10, 2 );
         add_action( 'dokan_after_load_script', [ $this, 'include_scripts' ] );
         add_action( 'dokan_enqueue_scripts', [ $this, 'include_scripts' ] );
 
@@ -75,6 +80,60 @@ class Module {
         add_filter( 'dokan_widgets', [ $this, 'register_widgets' ] );
         add_action( 'init', [ $this, 'register_support_tickets_endpoint' ] );
         add_action( 'woocommerce_account_support-tickets_endpoint', [ $this, 'support_tickets_content' ] );
+    }
+
+    /**
+     * Add store support section in Dokan Settings
+     *
+     * @since 3.2.0
+     *
+     * @param array $sections
+     *
+     * @return array
+     */
+    public function render_store_support_section( $sections ) {
+        $sections[] = array(
+            'id'    => 'dokan_store_support_setting',
+            'title' => __( 'Store Support', 'dokan' ),
+            'icon'  => 'dashicons-format-status',
+        );
+
+        return $sections;
+    }
+
+    /**
+     * Add store support options on Dokan Settings under General section
+     *
+     * @since 3.2.0
+     *
+     * @param array $settings_fields
+     *
+     * @return array
+     */
+    public function render_store_support_settings( $settings_fields ) {
+        $settings_fields['dokan_store_support_setting'] = array(
+            'store_support_product_page' => array(
+                'name'    => 'store_support_product_page',
+                'label'   => __( 'Store Support on Product Page', 'dokan' ),
+                'desc'    => __( 'Show store support button on product page', 'dokan' ),
+                'type'    => 'select',
+                'default' => 'above_tab',
+                'options' => array(
+                    'above_tab'  => __( 'Above Product Tab', 'dokan' ),
+                    'inside_tab' => __( 'Inside Product Tab', 'dokan' ),
+                    'dont_show'  => __( 'Don\'t Show', 'dokan' ),
+                ),
+            ),
+            'support_button_label' => array(
+                'name'    => 'support_button_label',
+                'label'   => __( 'Support Buttton Label', 'dokan' ),
+                'desc'    => __( 'Default Store Support Button Label', 'dokan' ),
+                'default' => __( 'Get Support', 'dokan' ),
+                'type'    => 'text',
+            ),
+        );
+
+        return $settings_fields;
     }
 
     /**
@@ -114,7 +173,7 @@ class Module {
      * @uses wp_enqueue_style
      */
     public function enqueue_scripts() {
-        wp_enqueue_style( 'dokan-store-support-styles', plugins_url( 'assets/css/style.css', __FILE__ ), false, date( 'Ymd' ) );
+        wp_enqueue_style( 'dokan-store-support-styles', plugins_url( 'assets/css/style.css', __FILE__ ), false, gmdate( 'Ymd' ) );
         wp_enqueue_script( 'dokan-store-support-scripts', plugins_url( 'assets/js/script.js', __FILE__ ), [ 'jquery' ], false, true );
         wp_localize_script( 'dokan-store-support-scripts', 'wait_string', [ 'wait' => __( 'wait...', 'dokan' ) ] );
     }
@@ -151,8 +210,8 @@ class Module {
      */
     public function register_dokan_store_support() {
         $labels = [
-            'name'               => __( 'Topics', 'Post Type General Name', 'dokan' ),
-            'singular_name'      => __( 'Topic', 'Post Type Singular Name', 'dokan' ),
+            'name'               => _x( 'Topics', 'Post Type General Name', 'dokan' ),
+            'singular_name'      => _x( 'Topic', 'Post Type Singular Name', 'dokan' ),
             'menu_name'          => __( 'Support', 'dokan' ),
             'name_admin_bar'     => __( 'Support', 'dokan' ),
             'parent_item_colon'  => __( 'Parent Item', 'dokan' ),
@@ -187,23 +246,29 @@ class Module {
     }
 
     public function register_dokan_support_topic_status() {
-        register_post_status( 'open', [
-            'label'                     => __( 'Open', 'dokan' ),
-            'public'                    => true,
-            'exclude_from_search'       => false,
-            'show_in_admin_all_list'    => true,
-            'show_in_admin_status_list' => true,
-            'label_count'               => _n_noop( 'Open <span class="count">(%s)</span>', 'Open <span class="count">(%s)</span>' ),
-        ] );
+        register_post_status(
+            'open', [
+                'label'                     => __( 'Open', 'dokan' ),
+                'public'                    => true,
+                'exclude_from_search'       => false,
+                'show_in_admin_all_list'    => true,
+                'show_in_admin_status_list' => true,
+                // translators: %s: total open count
+                'label_count'               => _n_noop( 'Open <span class="count">(%s)</span>', 'Open <span class="count">(%s)</span>', 'dokan' ),
+            ]
+        );
 
-        register_post_status( 'closed', [
-            'label'                     => __( 'Closed', 'dokan' ),
-            'public'                    => true,
-            'exclude_from_search'       => false,
-            'show_in_admin_all_list'    => true,
-            'show_in_admin_status_list' => true,
-            'label_count'               => _n_noop( 'Closed <span class="count">(%s)</span>', 'Closed <span class="count">(%s)</span>' ),
-        ] );
+        register_post_status(
+            'closed', [
+                'label'                     => __( 'Closed', 'dokan' ),
+                'public'                    => true,
+                'exclude_from_search'       => false,
+                'show_in_admin_all_list'    => true,
+                'show_in_admin_status_list' => true,
+                // translators: %s: total closed count
+                'label_count'               => _n_noop( 'Closed <span class="count">(%s)</span>', 'Closed <span class="count">(%s)</span>', 'dokan' ),
+            ]
+        );
     }
 
     /**
@@ -228,17 +293,19 @@ class Module {
 
         $store_info = dokan_get_store_info( $store_id );
 
-        if ( isset( $store_info['show_support_btn'] ) && 'yes' === $store_info['show_support_btn'] ) {
+        if ( isset( $store_info['show_support_btn'] ) && 'yes' === $store_info['show_support_btn'] || isset( $store_info['show_support_btn_product'] ) && 'yes' === $store_info['show_support_btn_product'] ) {
             $button['show'] = true;
         }
 
-        $button['text'] = isset( $store_info['support_btn_name'] ) && !empty( $store_info['support_btn_name'] ) ? $store_info['support_btn_name'] : __( 'Get Support', 'dokan' );
+        $get_support_default_text = dokan_get_option( 'support_button_label', 'dokan_store_support_setting', __( 'Get Support', 'dokan' ) );
+
+        $button['text']  = ! empty( $store_info['support_btn_name'] ) ? $store_info['support_btn_name'] : $get_support_default_text; 
 
         return $button;
     }
 
     /**
-     * prints Get support button on store page
+     * Prints Get support button on store page
      *
      * @since 1.0
      *
@@ -251,8 +318,69 @@ class Module {
             return;
         } ?>
         <li class="dokan-store-support-btn-wrap dokan-right">
-            <button data-store_id="<?php echo $store_id; ?>" class="dokan-store-support-btn dokan-btn dokan-btn-theme dokan-btn-sm <?php echo $button['class']; ?>"><?php echo esc_html( $button['text'] ); ?></button>
+            <button data-store_id="<?php echo esc_attr( $store_id ); ?>" class="dokan-store-support-btn dokan-btn dokan-btn-theme dokan-btn-sm <?php echo esc_attr( $button['class'] ); ?>"><?php echo esc_html( $button['text'] ); ?></button>
         </li>
+        <?php
+    }
+
+    /**
+     * Prints Get support button on above tab
+     *
+     * @since 3.2.0
+     */
+    public function generate_support_button_product_page() {
+        $store_support_show = dokan_get_option( 'store_support_product_page', 'dokan_store_support_setting', 'above_tab' );
+
+        if ( 'above_tab' !== $store_support_show ) {
+            return;
+        }
+
+        $product_id = get_the_ID();
+        $store_id   = get_post_field( 'post_author', $product_id );
+        $store_info = dokan_get_store_info( $store_id );
+
+        if ( isset( $store_info['show_support_btn_product'] ) && 'no' === $store_info['show_support_btn_product'] ) {
+            return;
+        }
+
+        $button = $this->get_support_button( $store_id );
+
+        if ( ! $button['show'] ) {
+            return;
+        }
+        ?>
+            <button data-store_id="<?php echo esc_attr( $store_id ); ?>" class="dokan-store-support-btn-product dokan-store-support-btn button alt <?php echo esc_attr( $button['class'] ); ?>"><?php echo esc_html( $button['text'] ); ?></button>
+        <?php
+    }
+
+    /**
+     * Prints Get support button on product page inner tab
+     *
+     * @since 3.2.0
+     *
+     * @param obj $author
+     * @param obj $store
+     */
+    public function generate_support_button_product_page_inner_tab( $author, $store ) {
+        $store_support_show = dokan_get_option( 'store_support_product_page', 'dokan_store_support_setting', 'above_tab' );
+
+        if ( 'inside_tab' !== $store_support_show ) {
+            return;
+        }
+
+        $store_info = dokan_get_store_info( $author->ID );
+
+        if ( isset( $store_info['show_support_btn_product'] ) && 'no' === $store_info['show_support_btn_product'] ) {
+            return;
+        }
+
+        $button = $this->get_support_button( $author->ID );
+
+        if ( ! $button['show'] ) {
+            return;
+        }
+        ?>
+            <button data-store_id="<?php echo esc_attr( $author->ID ); ?>" class="dokan-store-support-btn-product dokan-store-support-btn button alt <?php echo esc_attr( $button['class'] ); ?>"><?php echo esc_html( $button['text'] ); ?></button>
         <?php
     }
 
@@ -264,7 +392,7 @@ class Module {
      * @return void
      */
     public function ajax_handler() {
-        $get_data = $_POST['data'];
+        $get_data = sanitize_text_field( wp_unslash( $_POST['data'] ) );
 
         if ( is_user_logged_in() && 'login_form' === $get_data ) {
             $get_data = 'get_support_form';
@@ -298,29 +426,30 @@ class Module {
     }
 
     /**
-     * generate login form
+     * Generate login form
      *
      * @since 1.0
      *
      * @return string Login form Html
      */
     public function login_form() {
-        ob_start(); ?>
+        ob_start();
+        ?>
 
-        <h2><?php _e( 'Please Login to Continue', 'dokan' ); ?></h2>
+        <h2><?php esc_html_e( 'Please Login to Continue', 'dokan' ); ?></h2>
 
         <form class="dokan-form-container" id="dokan-support-login">
             <div class="dokan-form-group">
-                <label class="dokan-form-label" for="login-name"><?php _e( 'Username :', 'dokan' ); ?></label>
+                <label class="dokan-form-label" for="login-name"><?php esc_html_e( 'Username :', 'dokan' ); ?></label>
                 <input required class="dokan-form-control" type="text" name='login-name' id='login-name'/>
             </div>
             <div class="dokan-form-group">
-                <label class="dokan-form-label" for="login-password"><?php _e( 'Password :', 'dokan' ); ?></label>
+                <label class="dokan-form-label" for="login-password"><?php esc_html_e( 'Password :', 'dokan' ); ?></label>
                 <input required class="dokan-form-control" type="password" name='login-password' id='login-password'/>
             </div>
             <?php wp_nonce_field( 'dokan-support-login-action', 'dokan-support-login-nonce' ); ?>
             <div class="dokan-form-group">
-                <input id='support-submit-btn' type="submit" value="<?php _e( 'Login', 'dokan' ); ?>" class="dokan-w5 dokan-btn dokan-btn-theme"/>
+                <input id='support-submit-btn' type="submit" value="<?php esc_html_e( 'Login', 'dokan' ); ?>" class="dokan-w5 dokan-btn dokan-btn-theme"/>
             </div>
         </form>
         <div class="dokan-clearfix"></div>
@@ -343,35 +472,38 @@ class Module {
 
         $customer_orders = apply_filters( 'dokan_store_support_order_id_select_in_form', dokan_get_customer_orders_by_seller( dokan_get_current_user_id(), $seller_id ) );
 
-        ob_start(); ?>
+        ob_start();
+        ?>
         <div class="dokan-support-intro-user"><strong><?php printf( __( 'Hi, %s', 'dokan' ), $user_login ); ?></strong></div>
-        <div class="dokan-support-intro-text"><?php _e( 'Create a new support topic', 'dokan' ); ?></div>
+        <div class="dokan-support-intro-text"><?php esc_html_e( 'Create a new support topic', 'dokan' ); ?></div>
         <form class="dokan-form-container" id="dokan-support-form">
             <div class="dokan-form-group">
-                <label class="dokan-form-label" for="dokan-support-subject"><?php _e( 'Subject :', 'dokan' ); ?></label>
+                <label class="dokan-form-label" for="dokan-support-subject"><?php esc_html_e( 'Subject :', 'dokan' ); ?></label>
                 <input required class="dokan-form-control" type="text" name='dokan-support-subject' id='dokan-support-subject'/>
             </div>
             <div class="dokan-form-group">
-                <?php if ( !empty( $customer_orders ) ) { ?>
+                <?php if ( ! empty( $customer_orders ) ) { ?>
                     <select class="dokan-form-control dokan-select" name="order_id">
-                        <option><?php _e( 'Select Order ID', 'dokan' ); ?></option>
+                        <option><?php esc_html_e( 'Select Order ID', 'dokan' ); ?></option>
 
-                        <?php foreach ( $customer_orders as $order ) {
-            echo "<option value='$order'>Order #$order</option>";
-        } ?>
+                        <?php
+                        foreach ( $customer_orders as $order ) {
+                            echo "<option value='$order'>Order #$order</option>";
+                        }
+                        ?>
                     </select>
                 <?php } ?>
             </div>
 
             <div class="dokan-form-group">
-                <label class="dokan-form-label" for="dokan-support-msg"><?php _e( 'Message :', 'dokan' ); ?></label>
+                <label class="dokan-form-label" for="dokan-support-msg"><?php esc_html_e( 'Message :', 'dokan' ); ?></label>
                 <textarea required class="dokan-form-control" name='dokan-support-msg' rows="5" id='dokan-support-msg'></textarea>
             </div>
             <input type="hidden" name='store_id' value="<?php echo $seller_id; ?>" />
 
             <?php wp_nonce_field( 'dokan-support-form-action', 'dokan-support-form-nonce' ); ?>
             <div class="dokan-form-group">
-                <input id='support-submit-btn' type="submit" value="<?php _e( 'Submit', 'dokan' ); ?>" class="dokan-w5 dokan-btn dokan-btn-theme"/>
+                <input id='support-submit-btn' type="submit" value="<?php esc_html_e( 'Submit', 'dokan' ); ?>" class="dokan-w5 dokan-btn dokan-btn-theme"/>
             </div>
         </form>
         <div class="dokan-clearfix"></div>
@@ -380,7 +512,7 @@ class Module {
     }
 
     /**
-     * handles login data and signs in user
+     * Handles login data and signs in user
      *
      * @since 1.0
      *
@@ -389,7 +521,7 @@ class Module {
     public function login_data_submit() {
         parse_str( $_POST['form_data'], $postdata );
 
-        if ( !wp_verify_nonce( $postdata['dokan-support-login-nonce'], 'dokan-support-login-action' ) ) {
+        if ( ! wp_verify_nonce( $postdata['dokan-support-login-nonce'], 'dokan-support-login-action' ) ) {
             wp_send_json_error( __( 'Are you cheating?', 'dokan' ) );
         }
         $info                  = [];
@@ -398,15 +530,19 @@ class Module {
         $user_signon           = wp_signon( $info, false );
 
         if ( is_wp_error( $user_signon ) ) {
-            wp_send_json( [
-                'success' => false,
-                'msg'     => __( 'Invalid Username or Password', 'dokan' ),
-            ] );
+            wp_send_json(
+                [
+                    'success' => false,
+                    'msg'     => __( 'Invalid Username or Password', 'dokan' ),
+                ]
+            );
         } else {
-            wp_send_json( [
-                'success' => true,
-                'msg'     => __( 'Logged in', 'dokan' ),
-            ] );
+            wp_send_json(
+                [
+                    'success' => true,
+                    'msg'     => __( 'Logged in', 'dokan' ),
+                ]
+            );
         }
     }
 
@@ -421,7 +557,7 @@ class Module {
         if ( empty( $postdata ) ) {
             parse_str( $_POST['form_data'], $postdata );
 
-            if ( !wp_verify_nonce( $postdata['dokan-support-form-nonce'], 'dokan-support-form-action' ) ) {
+            if ( ! wp_verify_nonce( $postdata['dokan-support-form-nonce'], 'dokan-support-form-action' ) ) {
                 wp_send_json_error( __( 'Are you cheating?', 'dokan' ) );
             }
         }
@@ -447,16 +583,20 @@ class Module {
 
             do_action( 'dss_new_ticket_created', $post_id, $postdata['store_id'] );
 
-            wp_send_json( [
-                'success' => true,
-                'msg'     => apply_filters( 'dss_ticket_submission_msg', $success_msg ),
-            ] );
+            wp_send_json(
+                [
+                    'success' => true,
+                    'msg'     => apply_filters( 'dss_ticket_submission_msg', $success_msg ),
+                ]
+            );
         } else {
             $error_msg = __( 'Sorry, something went wrong! Couldn\'t create the ticket.', 'dokan' );
-            wp_send_json( [
-                'success' => false,
-                'msg'     => apply_filters( 'dss_ticket_submission_error_msg', $error_msg ),
-            ] );
+            wp_send_json(
+                [
+                    'success' => false,
+                    'msg'     => apply_filters( 'dss_ticket_submission_error_msg', $error_msg ),
+                ]
+            );
         }
     }
 
@@ -498,7 +638,7 @@ class Module {
      * @return array $urls
      */
     public function add_store_support_page( $urls ) {
-        if ( !current_user_can( 'dokan_manage_support_tickets' ) ) {
+        if ( ! current_user_can( 'dokan_manage_support_tickets' ) ) {
             return $urls;
         }
 
@@ -569,8 +709,13 @@ class Module {
      */
     public function load_template_from_plugin( $query_vars ) {
         if ( isset( $query_vars['support'] ) ) {
-            if ( !current_user_can( 'dokan_manage_support_tickets' ) ) {
-                dokan_get_template_part( 'global/dokan-error', '', [ 'deleted' => false, 'message' => __( 'You have no permission to view this page', 'dokan' ) ] );
+            if ( ! current_user_can( 'dokan_manage_support_tickets' ) ) {
+                dokan_get_template_part(
+                    'global/dokan-error', '', [
+                        'deleted' => false,
+                        'message' => __( 'You have no permission to view this page', 'dokan' ),
+                    ]
+                );
             } else {
                 dokan_get_template_part( 'store-support/support', '', [ 'is_store_support' => true ] );
             }
@@ -644,12 +789,12 @@ class Module {
             <table class="dokan-table dokan-support-table">
                 <thead>
                     <tr>
-                        <th><?php _e( 'Topic', 'dokan' ); ?></th>
-                        <th><?php _e( 'Title', 'dokan' ); ?></th>
-                        <th><?php _e( 'Customer', 'dokan' ); ?></th>
-                        <th><?php _e( 'Status', 'dokan' ); ?></th>
-                        <th><?php _e( 'Date', 'dokan' ); ?></th>
-                        <th><?php _e( 'Action', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Topic', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Title', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Customer', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Status', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Date', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Action', 'dokan' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -671,7 +816,7 @@ class Module {
 
                                 <button type="button" class="toggle-row"></button>
                             </td>
-                            <td data-title="<?php _e( 'Customer', 'dokan' ); ?>">
+                            <td data-title="<?php esc_html_e( 'Customer', 'dokan' ); ?>">
                                 <div class="dokan-support-customer-name">
                                     <?php echo get_avatar( $topic->post_author, 50 ); ?>
                                     <strong><?php  echo get_user_meta( $topic->post_author, 'nickname', true ); ?></strong>
@@ -700,17 +845,17 @@ class Module {
                                         $btn_title    = __( 'close topic', 'dokan' );
                                         break;
                                 } ?>
-                            <td data-title="<?php _e( 'Status', 'dokan' ); ?>"><span class="dokan-label <?php echo $topic_status; ?>"><?php echo $topic->post_status; ?></span></td>
-                            <td class="dokan-order-date" data-title="<?php _e( 'Date', 'dokan' ); ?>"><span><?php echo get_the_date( 'F j, Y \a\t g:i a', $topic->ID ); ?></span></td>
-                            <td data-title="<?php _e( 'Action', 'dokan' ); ?>">
-                                <a class="dokan-btn dokan-btn-default dokan-btn-sm tips dokan-support-status-change" onclick="return confirm('<?php _e( 'Are you sure?', 'dokan' ); ?>');" href="<?php echo wp_nonce_url( add_query_arg( [ 'action' => 'dokan-support-topic-status', 'topic_id' => $topic->ID, 'ticket_status' => $c_status ], dokan_get_navigation_url( 'support' ) ), 'dokan-change-topic-status' ); ?>" title="" data-changing_post_id="<?php echo $topic->ID; ?>" data-original-title="<?php echo $btn_title; ?>"><i class="fa <?php echo $btn_icon; ?>">&nbsp;</i></a>
+                            <td data-title="<?php esc_html_e( 'Status', 'dokan' ); ?>"><span class="dokan-label <?php echo $topic_status; ?>"><?php echo $topic->post_status; ?></span></td>
+                            <td class="dokan-order-date" data-title="<?php esc_attr_e( 'Date', 'dokan' ); ?>"><span><?php echo get_the_date( 'F j, Y \a\t g:i a', $topic->ID ); ?></span></td>
+                            <td data-title="<?php esc_attr_e( 'Action', 'dokan' ); ?>">
+                                <a class="dokan-btn dokan-btn-default dokan-btn-sm tips dokan-support-status-change" onclick="return confirm('<?php esc_attr_e( 'Are you sure?', 'dokan' ); ?>');" href="<?php echo wp_nonce_url( add_query_arg( [ 'action' => 'dokan-support-topic-status', 'topic_id' => $topic->ID, 'ticket_status' => $c_status ], dokan_get_navigation_url( 'support' ) ), 'dokan-change-topic-status' ); ?>" title="" data-changing_post_id="<?php echo $topic->ID; ?>" data-original-title="<?php echo $btn_title; ?>"><i class="fa <?php echo $btn_icon; ?>">&nbsp;</i></a>
                             </td>
                         </tr>
                         <?php
                     } ?>
                 <?php } else { ?>
                     <div class="dokan-error">
-                        <?php _e( 'No tickets found!', 'dokan' ); ?>
+                        <?php esc_html_e( 'No tickets found!', 'dokan' ); ?>
                     </div>
                 <?php } ?>
                 </tbody>
@@ -786,8 +931,9 @@ class Module {
     public function print_single_topic( $topic ) {
         global $wp;
 
-        $is_customer = 0;
-        $back_url    = dokan_get_navigation_url( 'support' );
+        $is_customer         = 0;
+        $back_url            = dokan_get_navigation_url( 'support' );
+        $is_seller_dashboard = dokan_is_seller_dashboard() ? 1 : 0;
 
         if ( isset( $wp->query_vars['support-tickets'] ) ) {
             $is_customer = 1;
@@ -796,24 +942,33 @@ class Module {
 
         if ( $topic->have_posts() ) {
             while ( $topic->have_posts() ) {
-                $topic->the_post(); ?>
+                $topic->the_post();
+                ?>
 
-                <a href="<?php echo $back_url; ?>">&larr; <?php _e( 'Back to Tickets', 'dokan' ); ?></a>
+                <a href="<?php echo $back_url; ?>">&larr; <?php esc_html_e( 'Back to Tickets', 'dokan' ); ?></a>
 
                 <div class="dokan-support-single-title">
                     <h1><?php the_title(); ?></h1>
                     <?php
                         $Order_id = get_post_meta( get_the_ID(), 'order_id', true );
 
-                if ( $Order_id ) {
-                    ?>
+                    if ( $Order_id ) {
+                        $order          = wc_get_order( $Order_id );
+                        $ticket_ref_url = $order->get_view_order_url();
+
+                        if ( $is_seller_dashboard ) {
+                            $ticket_ref_url = wp_nonce_url( add_query_arg( array( 'order_id' => $Order_id ), dokan_get_navigation_url( 'orders' ) ), 'dokan_view_order' );
+                        }
+
+                        ?>
                         <span class="order-reference" >
                             <h3>
-                                <?php echo '<a href="' . wp_nonce_url( add_query_arg( [ 'order_id' => $Order_id ], dokan_get_navigation_url( 'orders' ) ), 'dokan_view_order' ) . '"><strong>' . sprintf( __( 'Referenced Order #%s', 'dokan' ), esc_attr( $Order_id ) ) . '</strong></a>'; ?>
+                                <?php echo '<a href="' . esc_url( $ticket_ref_url ) . '"><strong>' . sprintf( __( 'Referenced Order #%s', 'dokan' ), esc_attr( $Order_id ) ) . '</strong></a>'; ?>
                             </h3>
                         </span>
                         <?php
-                } ?>
+                    }
+                    ?>
                 </div>
                 <div class="dokan-suppport-topic-body dokan-clearfix">
                     <div class="dokan-support-user-image dokan-w3">
@@ -833,10 +988,12 @@ class Module {
                     <?php
                     $ticket_status = get_post_status( get_the_ID() );
                     // Gather comments for a specific page/post
-                    $comments = get_comments( [
-                        'post_id' => get_the_ID(),
-                        'status'  => 'approve', //Change this to the type of comments to be displayed
-                    ] );
+                    $comments = get_comments(
+                        [
+                            'post_id' => get_the_ID(),
+                            'status'  => 'approve', //Change this to the type of comments to be displayed
+                        ]
+                    );
 
                     // Display the list of comments
                     wp_list_comments(
@@ -849,20 +1006,25 @@ class Module {
                             'callback'          => [ $this, 'support_comment_format' ],
                         ],
                         $comments
-                    ); ?>
+                    );
+                    ?>
                 </ul>
                 <?php
-            } ?>
+            }
+            ?>
 
             <div class="dokan-panel dokan-panel-default">
                 <div class="dokan-panel-heading">
                     <?php
-                    $heading = $ticket_status == 'open' ? __( 'Add Reply', 'dokan' ) : __( 'Ticket Closed', 'dokan' ); ?>
+                    $heading = $ticket_status == 'open' ? __( 'Add Reply', 'dokan' ) : __( 'Ticket Closed', 'dokan' );
+                    ?>
                     <strong><?php echo $heading; ?></strong>
 
-                    <?php if ( ! $is_customer && $ticket_status == 'closed' ) {
+                    <?php
+                    if ( ! $is_customer && $ticket_status == 'closed' ) {
                         echo '<em>' . __( '(Adding reply will re-open the ticket)', 'dokan' ) . '</em>';
-                    } ?>
+                    }
+                    ?>
                 </div>
 
                 <div class="dokan-panel-body dokan-support-reply-form">
@@ -903,20 +1065,22 @@ class Module {
                     } else {
                         ?>
                         <div class="dokan-alert dokan-alert-warning">
-                            <?php _e( 'This ticket has been closed. Open a new support ticket if you have any further query.', 'dokan' ); ?>
+                            <?php esc_html_e( 'This ticket has been closed. Open a new support ticket if you have any further query.', 'dokan' ); ?>
                         </div>
                         <?php
                     }
 
-                    wp_reset_query(); ?>
+                    wp_reset_query();
+                    ?>
                 </div>
             </div>
-        <?php
-        } else { ?>
+            <?php
+        } else {
+            ?>
             <div class="dokan-error">
-                <?php _e( 'Topic not found', 'dokan' ); ?>
+                <?php esc_html_e( 'Topic not found', 'dokan' ); ?>
             </div>
-        <?php
+            <?php
         }
     }
 
@@ -947,9 +1111,9 @@ class Module {
      */
     public function my_account_support_topics() {
         ?>
-        <h2><?php _e( 'Support Tickets', 'dokan' ); ?></h2>
+        <h2><?php esc_html_e( 'Support Tickets', 'dokan' ); ?></h2>
         <div class="dokan-support-topics">
-            <a href="<?php echo dokan_get_page_url( 'myaccount', 'woocommerce' ) . 'support-tickets/'; ?>"><button class="dokan-btn dokan-btn-theme"><?php _e( 'View Support Tickets', 'dokan' ); ?></button></a>
+            <a href="<?php echo dokan_get_page_url( 'myaccount', 'woocommerce' ) . 'support-tickets/'; ?>"><button class="dokan-btn dokan-btn-theme"><?php esc_html_e( 'View Support Tickets', 'dokan' ); ?></button></a>
         </div>
         <?php
     }
@@ -964,23 +1128,25 @@ class Module {
      * @return void
      */
     public function print_support_topics_by_customer( $customer_id ) {
-        $query = $this->get_topics_by_customer( $customer_id ); ?>
+        $query = $this->get_topics_by_customer( $customer_id );
+        ?>
         <div class="dokan-support-topics-list">
             <?php if ( $query->posts ) { ?>
             <table class="dokan-table dokan-support-table">
                 <thead>
                     <tr>
-                        <th><?php _e( 'Topic', 'dokan' ); ?></th>
-                        <th><?php _e( 'Store Name', 'dokan' ); ?></th>
-                        <th><?php _e( 'Title', 'dokan' ); ?></th>
-                        <th><?php _e( 'Status', 'dokan' ); ?></th>
-                        <th><?php _e( 'Date', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Topic', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Store Name', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Title', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Status', 'dokan' ); ?></th>
+                        <th><?php esc_html_e( 'Date', 'dokan' ); ?></th>
                     </tr>
                 </thead>
                 <tbody>
                 <?php
                 foreach ( $query->posts as $topic ) {
-                    $topic_url = trailingslashit( dokan_get_page_url( 'myaccount', 'woocommerce' ) . 'support-tickets/' . '' . $topic->ID ); ?>
+                    $topic_url = trailingslashit( dokan_get_page_url( 'myaccount', 'woocommerce' ) . 'support-tickets/' . '' . $topic->ID );
+                    ?>
                     <tr>
                         <td>
                             <a href="<?php echo $topic_url; ?>"
@@ -994,8 +1160,9 @@ class Module {
                                 <?php
                                     $store_info = dokan_get_store_info( $topic->store_id );
                                     $store_name = isset( $store_info['store_name'] ) ? $store_info['store_name'] : get_user_meta( $topic->store_id, 'nickname', true );
-                                    $store_url  = dokan_get_store_url( $topic->store_id ); ?>
-                                <strong><a href="<?php echo $store_url; ?>" target="_blank"><?php  echo $store_name; ?></a></strong>
+                                    $store_url  = dokan_get_store_url( $topic->store_id );
+                                ?>
+                                <strong><a href="<?php echo esc_url( $store_url ); ?>" target="_blank"><?php echo esc_html( $store_name ); ?></a></strong>
                             </div>
                         </td>
                         <td>
@@ -1004,37 +1171,39 @@ class Module {
                             </a>
                         </td>
                         <?php
-                            switch ( $topic->post_status ) {
-                                case 'open':
-                                    $c_status     = __( 'closed', 'dokan' );
-                                    $btn_icon     = 'fa-close';
-                                    $topic_status = 'dokan-label-success';
-                                    $btn_title    = __( 'close topic', 'dokan' );
-                                    break;
+                        switch ( $topic->post_status ) {
+                            case 'open':
+                                $c_status     = __( 'closed', 'dokan' );
+                                $btn_icon     = 'fa-close';
+                                $topic_status = 'dokan-label-success';
+                                $btn_title    = __( 'close topic', 'dokan' );
+                                break;
 
-                                case 'closed':
-                                    $c_status     = __( 'open', 'dokan' );
-                                    $btn_icon     = 'fa-file-o';
-                                    $topic_status = 'dokan-label-danger';
-                                    $btn_title    = __( 're-open topic', 'dokan' );
-                                    break;
+                            case 'closed':
+                                $c_status     = __( 'open', 'dokan' );
+                                $btn_icon     = 'fa-file-o';
+                                $topic_status = 'dokan-label-danger';
+                                $btn_title    = __( 're-open topic', 'dokan' );
+                                break;
 
-                                default:
-                                    $c_status     = __( 'closed', 'dokan' );
-                                    $btn_icon     = 'fa-close';
-                                    $topic_status = 'dokan-label-success';
-                                    $btn_title    = __( 'close topic', 'dokan' );
-                                    break;
-                            } ?>
+                            default:
+                                $c_status     = __( 'closed', 'dokan' );
+                                $btn_icon     = 'fa-close';
+                                $topic_status = 'dokan-label-success';
+                                $btn_title    = __( 'close topic', 'dokan' );
+                                break;
+                        }
+                        ?>
                         <td><span class="dokan-label <?php echo $topic_status; ?>"><?php echo $topic->post_status; ?></span></td>
 
                         <td class="dokan-order-date"> <span><?php echo $topic->post_date; ?></span></td>
                     </tr>
-                <?php
-                } ?>
+                    <?php
+                }
+                ?>
                 <?php } else { ?>
                     <div class="dokan-error">
-                        <?php _e( 'No tickets found!', 'dokan' ); ?>
+                        <?php esc_html_e( 'No tickets found!', 'dokan' ); ?>
                     </div>
                 <?php } ?>
                 </tbody>
@@ -1102,7 +1271,7 @@ class Module {
     }
 
     /**
-     * show pagination on support listing
+     * Show pagination on support listing
      *
      * @since 1.0
      *
@@ -1120,16 +1289,18 @@ class Module {
             $base_url = dokan_get_navigation_url( $query_var );
         }
 
-        $page_links = paginate_links( [
-            'base'      => $base_url . '%_%',
-            'format'    => '?pagenum=%#%',
-            'add_args'  => false,
-            'prev_text' => __( '&laquo;', 'aag' ),
-            'next_text' => __( '&raquo;', 'aag' ),
-            'total'     => $num_of_pages,
-            'current'   => $pagenum,
-            'type'      => 'array',
-        ] );
+        $page_links = paginate_links(
+            [
+                'base'      => $base_url . '%_%',
+                'format'    => '?pagenum=%#%',
+                'add_args'  => false,
+                'prev_text' => __( '&laquo;', 'aag' ),
+                'next_text' => __( '&raquo;', 'aag' ),
+                'total'     => $num_of_pages,
+                'current'   => $pagenum,
+                'type'      => 'array',
+            ]
+        );
 
         if ( $page_links ) {
             echo "<ul class='pagination'>\n\t<li>";
@@ -1144,7 +1315,8 @@ class Module {
      * @since 1.0
      */
     public function support_comment_format( $comment, $args, $depth ) {
-        $GLOBALS['comment'] = $comment; ?>
+        $GLOBALS['comment'] = $comment;
+        ?>
 
         <li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 
@@ -1155,7 +1327,7 @@ class Module {
                         <h4> <?php comment_author(); ?> </h4>
                         <p class="dokan-support-date-time">
                             <time>
-                                <?php  echo get_comment_time() . '<span class="human-diff"> ( ' . human_time_diff( time(), get_comment_time( 'U', true ) ) . ' )</span>'; ?>
+                                <?php echo get_comment_time() . '<span class="human-diff"> ( ' . human_time_diff( time(), get_comment_time( 'U', true ) ) . ' )</span>'; ?>
                             </time>
                         </p>
                     </div>
@@ -1239,16 +1411,18 @@ class Module {
 
         // if a new comment is on a closed topic by seller, it should re-open
         if ( $parent_post->post_status == 'closed' ) {
-            wp_update_post( [
-                'ID'          => $post_id,
-                'post_status' => 'open',
-            ] );
+            wp_update_post(
+                [
+                    'ID'          => $post_id,
+                    'post_status' => 'open',
+                ]
+            );
 
             return;
         }
 
         if ( $_POST['dokan-topic-status-change'] == 1 || $_POST['dokan-topic-status-change'] == 2 ) {
-            $status  = $_POST['dokan-topic-status-change'] == 1 ? 'closed' : 'open';
+            $status = $_POST['dokan-topic-status-change'] == 1 ? 'closed' : 'open';
 
             $my_post = [
                 'ID'          => $post_id,
@@ -1275,7 +1449,7 @@ class Module {
         $store_email        = get_userdata( $store_id )->user_email;
         $url                = dokan_get_navigation_url( 'support' ) . $ticket->ID;
         $account_ticket_url = trailingslashit( dokan_get_page_url( 'myaccount', 'woocommerce' ) ) . 'support-tickets/' . $ticket->ID;
-        $subject            = sprintf( __( '[%s][%d] A New Reply on Your Ticket', 'dokan' ), dokan()->email->get_from_name(), $ticket->ID );
+        $subject            = sprintf( __( '[%1$s][%2$d] A New Reply on Your Ticket', 'dokan' ), dokan()->email->get_from_name(), $ticket->ID );
 
         ob_start();
 
@@ -1286,7 +1460,7 @@ class Module {
         }
 
         $message  = ob_get_clean();
-        $search   = ['[ticket-title]', '[account-ticket-url]', '[store-name]', '[store-url]', '[site-name]', '[site-url]', '[dashboard-ticket-url]' ];
+        $search   = [ '[ticket-title]', '[account-ticket-url]', '[store-name]', '[store-url]', '[site-name]', '[site-url]', '[dashboard-ticket-url]' ];
         $replace  = [ $ticket->post_title, $account_ticket_url, $store_name, dokan_get_store_url( $store_id ), dokan()->email->get_from_name(), home_url(), $url ];
         $message  = str_replace( $search, $replace, $message );
         $to_email = $to_store ? $store_email : get_userdata( $ticket->post_author )->user_email;
@@ -1303,25 +1477,31 @@ class Module {
      * @return void
      */
     public function add_support_btn_title_input( $current_user, $profile_info ) {
-        $support_text   = isset( $profile_info['support_btn_name'] ) ? $profile_info['support_btn_name'] : '';
-        $enable_support = isset( $profile_info['show_support_btn'] ) ? $profile_info['show_support_btn'] : 'yes'; ?>
+        $support_text           = isset( $profile_info['support_btn_name'] ) ? $profile_info['support_btn_name'] : '';
+        $enable_support         = isset( $profile_info['show_support_btn'] ) ? $profile_info['show_support_btn'] : 'yes';
+        $enable_support_product = isset( $profile_info['show_support_btn_product'] ) ? $profile_info['show_support_btn_product'] : 'yes';
+        ?>
             <div class="dokan-form-group">
-                <label class="dokan-w3 dokan-control-label"><?php _e( 'Enable Support', 'dokan' ); ?></label>
+                <label class="dokan-w3 dokan-control-label"><?php esc_html_e( 'Enable Support', 'dokan' ); ?></label>
                 <div class="dokan-w5 dokan-text-left">
                     <div class="checkbox">
                         <label>
                             <input type="hidden" name="support_checkbox" value="no">
-                            <input type="checkbox" id="support_checkbox" name="support_checkbox" value="yes" <?php checked( $enable_support, 'yes' ); ?>> <?php  _e( 'Show support button in store', 'dokan' ); ?>
+                            <input type="checkbox" id="support_checkbox" name="support_checkbox" value="yes" <?php checked( $enable_support, 'yes' ); ?>> <?php esc_html_e( 'Show support button in store', 'dokan' ); ?>
+                        </label>
+                        <label>
+                            <input type="hidden" name="support_checkbox_product" value="no">
+                            <input type="checkbox" id="support_checkbox_product" name="support_checkbox_product" value="yes" <?php checked( $enable_support_product, 'yes' ); ?>> <?php esc_html_e( 'Show support button in single product', 'dokan' ); ?>
                         </label>
                     </div>
                 </div>
             </div>
 
             <div class="dokan-form-group support-enable-check">
-                <label class="dokan-w3 dokan-control-label" for="dokan_support_btn_name"><?php _e( 'Support Button text', 'dokan' ); ?></label>
+                <label class="dokan-w3 dokan-control-label" for="dokan_support_btn_name"><?php esc_html_e( 'Support Button text', 'dokan' ); ?></label>
 
                 <div class="dokan-w5 dokan-text-left">
-                    <input id="dokan_support_btn_name" value="<?php echo $support_text; ?>" name="dokan_support_btn_name" placeholder="<?php _e( 'Get Support', 'dokan' ); ?>" class="dokan-form-control" type="text">
+                    <input id="dokan_support_btn_name" value="<?php echo $support_text; ?>" name="dokan_support_btn_name" placeholder="<?php esc_html_e( 'Get Support', 'dokan' ); ?>" class="dokan-form-control" type="text">
                 </div>
             </div>
         <?php
@@ -1336,9 +1516,17 @@ class Module {
     public function save_supoort_btn_title( $user_id ) {
         $profile_info = dokan_get_store_info( $user_id );
 
-        if ( isset( $_POST['dokan_support_btn_name'] ) && isset( $_POST['support_checkbox'] ) ) {
-            $profile_info['support_btn_name'] = $_POST['dokan_support_btn_name'];
-            $profile_info['show_support_btn'] = $_POST['support_checkbox'];
+        $get_post = wp_unslash( $_POST );
+
+        if ( isset( $get_post['dokan_support_btn_name'] ) && isset( $get_post['support_checkbox_product'] ) ) {
+            $profile_info['show_support_btn_product'] = sanitize_text_field( $get_post['support_checkbox_product'] );
+
+            update_user_meta( $user_id, 'dokan_profile_settings', $profile_info );
+        }
+
+        if ( isset( $get_post['dokan_support_btn_name'] ) && isset( $get_post['support_checkbox'] ) ) {
+            $profile_info['support_btn_name'] = sanitize_text_field( $get_post['dokan_support_btn_name'] );
+            $profile_info['show_support_btn'] = sanitize_text_field( $get_post['support_checkbox'] );
 
             update_user_meta( $user_id, 'dokan_profile_settings', $profile_info );
         }
@@ -1358,9 +1546,11 @@ class Module {
     public function topic_count( $store_id ) {
         global $wpdb;
 
-        $where = apply_filters( 'dss_topic_count_where_clause',
-                                "WHERE tpm.meta_key ='store_id'
-                                AND tpm.meta_value = $store_id" );
+        $where = apply_filters(
+            'dss_topic_count_where_clause',
+            "WHERE tpm.meta_key ='store_id'
+                                AND tpm.meta_value = $store_id"
+        );
 
         $sql = "SELECT `post_status`, count(`ID`) as count
                 FROM {$wpdb->posts} as tp
@@ -1404,7 +1594,7 @@ class Module {
     }
 
     /**
-     * generate support topic status list with count
+     * Generate support topic status list with count
      *
      * @since 1.0
      *
@@ -1431,24 +1621,24 @@ class Module {
         ];
 
         $count  = wp_parse_args( $count, $defaults );
-
         $open   = $count['open'];
         $closed = $count['closed'];
         $all    = $open + $closed;
 
-        $current_status = isset( $_GET['ticket_status'] ) ? $_GET['ticket_status'] : 'open'; ?>
+        $current_status = isset( $_GET['ticket_status'] ) ? sanitize_text_field( wp_unslash( $_GET['ticket_status'] ) ) : 'open';
+        ?>
         <ul class="dokan-support-topic-counts subsubsub">
-            <li <?php echo $current_status == 'all' ? 'class = "active"' : ''; ?>>
+            <li <?php echo $current_status === 'all' ? 'class = "active"' : ''; ?>>
                 <a href="<?php echo $redir_url . '?ticket_status=all'; ?>"><?php echo __( 'All Tickets', 'dokan' ) . ' (' . $all . ') |'; ?></a>
             </li>
-            <li <?php echo $current_status == 'open' ? 'class = "active"' : ''; ?>>
+            <li <?php echo $current_status === 'open' ? 'class = "active"' : ''; ?>>
                 <a href="<?php echo $redir_url . '?ticket_status=open'; ?>"><?php echo __( 'Open Tickets', 'dokan' ) . ' (' . $open . ') |'; ?></a>
             </li>
-            <li <?php echo $current_status == 'closed' ? 'class = "active"' : ''; ?>>
+            <li <?php echo $current_status === 'closed' ? 'class = "active"' : ''; ?>>
                 <a href="<?php echo $redir_url . '?ticket_status=closed'; ?>"><?php echo __( 'Closed Tickets', 'dokan' ) . ' (' . $closed . ')'; ?></a>
             </li>
         </ul>
-    <?php
+        <?php
     }
 
     public function send_email_to_seller( $store_id, $topic_id ) {
@@ -1457,13 +1647,14 @@ class Module {
         $store_name  = $store['store_name'];
         $store_email = get_userdata( $user )->user_email;
         $url         = dokan_get_navigation_url( 'support' ) . $topic_id;
+        // translators: %d: showing topic id
         $subject     = sprintf( __( '[%d] A New Support Ticket', 'dokan' ), $topic_id );
 
         ob_start();
         include __DIR__ . '/templates/email/new-ticket.php';
         $message = ob_get_clean();
 
-        $search  = ['[store-name]', '[support-dashboard]', '[site-name]', '[site-url]'];
+        $search  = [ '[store-name]', '[support-dashboard]', '[site-name]', '[site-url]' ];
         $replace = [ $store_name, $url, dokan()->email->get_from_name(), home_url() ];
         $message = str_replace( $search, $replace, $message );
 
@@ -1471,13 +1662,15 @@ class Module {
 
         $sender = get_userdata( dokan_get_current_user_id() );
 
-        do_action( 'dss_ticket_mail_sent', [
-            'to'           => $store_email,
-            'subject'      => $subject,
-            'message'      => $message,
-            'sender_email' => $sender->user_email,
-            'sender_name'  => $sender->first_name . ' ' . $sender->last_name,
-        ] );
+        do_action(
+            'dss_ticket_mail_sent', [
+                'to'           => $store_email,
+                'subject'      => $subject,
+                'message'      => $message,
+                'sender_email' => $sender->user_email,
+                'sender_name'  => $sender->first_name . ' ' . $sender->last_name,
+            ]
+        );
     }
 
     /**

@@ -9,7 +9,7 @@ namespace Automattic\WooCommerce\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\Features\Onboarding;
+use \Automattic\WooCommerce\Admin\Features\Onboarding;
 
 /**
  * Selling_Online_Courses

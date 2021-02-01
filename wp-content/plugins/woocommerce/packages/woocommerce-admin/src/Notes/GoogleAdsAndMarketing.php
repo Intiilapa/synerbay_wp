@@ -11,7 +11,7 @@ namespace Automattic\WooCommerce\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\PluginsHelper;
+use \Automattic\WooCommerce\Admin\PluginsHelper;
 
 /**
  * WC_Admin_Notes_Google_Ads_And_Marketing

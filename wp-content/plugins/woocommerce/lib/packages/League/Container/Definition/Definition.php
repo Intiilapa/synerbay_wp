@@ -2,10 +2,9 @@
 
 namespace Automattic\WooCommerce\Vendor\League\Container\Definition;
 
-use Automattic\WooCommerce\Vendor\League\Container\Argument\{ArgumentResolverInterface,
-    ArgumentResolverTrait,
-    ClassNameInterface,
-    RawArgumentInterface};
+use Automattic\WooCommerce\Vendor\League\Container\Argument\{
+    ArgumentResolverInterface, ArgumentResolverTrait, ClassNameInterface, RawArgumentInterface
+};
 use Automattic\WooCommerce\Vendor\League\Container\ContainerAwareTrait;
 use ReflectionClass;
 use ReflectionException;

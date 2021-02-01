@@ -1,8 +1,8 @@
 /**
  * External dependencies
  */
-import {__} from '@wordpress/i18n';
-import {DebouncedValidatedTextInput} from '@woocommerce/base-components/text-input';
+import { __ } from '@wordpress/i18n';
+import { DebouncedValidatedTextInput } from '@woocommerce/base-components/text-input';
 
 /**
  * Renders a phone number input.

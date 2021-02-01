@@ -574,6 +574,7 @@ function product_custom_details()
     $weight_unit = get_post_meta($product->get_id(), '_weight_unit', true);
     $weight_unit_type = get_post_meta($product->get_id(), '_weight_unit_type', true);
     $material = get_post_meta($product->get_id(), '_material', true);
+    echo '<div class="product_custom_details">';
     if (!empty($weight_unit)) {
         ?>
         <span class="custom_details"><?php echo esc_attr__('Unit: ', 'dokan-lite'); ?><?php echo esc_attr($weight_unit); ?></span></br>
@@ -589,6 +590,7 @@ function product_custom_details()
         <span class="custom_details"><?php echo esc_attr__('Material: ', 'dokan-lite'); ?><?php echo esc_attr($material); ?></span></br>
         <?php
     }
+    echo '</div>';
 
 /*
 *
@@ -614,12 +616,12 @@ function product_custom_details()
             global $rfqs;
             echo '<h2>Request for quotations</h2>';
             echo '
-            <p>
-                Andris:<br>Ide le kell írnunk, hogy amennyiben az adott termékből offer készül, akkor annak elindulásakor minden egyes igénylőt 
-                kiértesítünk e-mail-ben, majd töröljük az igényét a termékről.<br>
-                <strong>Információ</strong>: nem csak az igénylőket, hanem a személyes követőidet is kiértsítjük minden egyes esetben, amikor egy általad 
-                készített ajánlat elindul, viszont ebben az esetben értelemszerűen nem kerülnek törlésre a követések.
-            </p>';
+            <div class="notice-box">
+                <b>You have received requests for quotation.</b></br>
+                After you have added an offer of this product we will inform every customer interested in this offer.</br>
+                We also inform all of your followers after every further offer added.</br>
+
+            </div>';
             if (count($rfqs)) {
 
 
@@ -734,9 +736,9 @@ function uniq_invite_code($user_id)
 //Change icons on Dokan dashboard
 add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
 function change_dokan_dashboard_icon($urls){
-    $urls['products']['icon'] = '<span class="icon-products"></span>';
-    $urls['offer']['icon']    = '<span class="icon-offer"></span>';
-    $urls['orders']['icon']   = '<span class="icon-orders"></span>';
+    $urls['products']['icon'] = '<span id="svg-icon" class="icon-products"></span>';
+    $urls['offer']['icon']    = '<span id="svg-icon" class="icon-offer"></span>';
+    $urls['orders']['icon']   = '<span id="svg-icon" class="icon-orders"></span>';
     return $urls;
 }
 
@@ -880,3 +882,13 @@ function remove_woocommerce_catalog_orderby( $orderby ) {
     return $orderby;
 }
 add_filter( "woocommerce_catalog_orderby", "remove_woocommerce_catalog_orderby", 20 );
+
+
+//$data = get_userdata( get_current_user_id() );
+//
+//if ( is_object( $data) ) {
+//    $current_user_caps = $data->allcaps;
+//
+//    // print it to the screen
+//    echo '<pre>' . print_r( $current_user_caps, true ) . '</pre>';
+//}

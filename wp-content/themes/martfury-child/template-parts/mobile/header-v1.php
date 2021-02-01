@@ -11,10 +11,15 @@
 					martfury_extra_wislist();
 					martfury_extra_cart();
 					martfury_extra_account();
-                    do_action('synerbay_synerBayInviteButton');
 					?>
                 </ul>
             </div>
+        </div>
+        <div class="mobile-synerbay-btn">
+            <?php
+            do_action('synerbay_synerBayInviteButton');
+            do_action('synerbay_headerCreateOfferButton');
+            ?>
         </div>
         <div class="mobile-menu">
 	        <?php martfury_extra_category(); ?>

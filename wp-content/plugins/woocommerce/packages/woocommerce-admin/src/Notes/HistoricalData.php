@@ -9,7 +9,7 @@ namespace Automattic\WooCommerce\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\Install;
+use \Automattic\WooCommerce\Admin\Install;
 
 /**
  * Historical_Data.

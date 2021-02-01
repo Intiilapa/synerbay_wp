@@ -2,7 +2,7 @@
  * External dependencies
  */
 import isShallowEqual from '@wordpress/is-shallow-equal';
-import {pluckAddress} from '@woocommerce/base-utils';
+import { pluckAddress } from '@woocommerce/base-utils';
 
 /**
  * Does a shallow compare of important address data to determine if the cart needs updating.

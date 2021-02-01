@@ -2,16 +2,14 @@
 
 namespace Automattic\WooCommerce\Vendor\League\Container;
 
-use Automattic\WooCommerce\Vendor\League\Container\Definition\{DefinitionAggregate,
-    DefinitionAggregateInterface,
-    DefinitionInterface};
-use Automattic\WooCommerce\Vendor\League\Container\Exception\{ContainerException, NotFoundException};
-use Automattic\WooCommerce\Vendor\League\Container\Inflector\{InflectorAggregate,
-    InflectorAggregateInterface,
-    InflectorInterface};
-use Automattic\WooCommerce\Vendor\League\Container\ServiceProvider\{ServiceProviderAggregate,
+use Automattic\WooCommerce\Vendor\League\Container\Definition\{DefinitionAggregate, DefinitionInterface, DefinitionAggregateInterface};
+use Automattic\WooCommerce\Vendor\League\Container\Exception\{NotFoundException, ContainerException};
+use Automattic\WooCommerce\Vendor\League\Container\Inflector\{InflectorAggregate, InflectorInterface, InflectorAggregateInterface};
+use Automattic\WooCommerce\Vendor\League\Container\ServiceProvider\{
+    ServiceProviderAggregate,
     ServiceProviderAggregateInterface,
-    ServiceProviderInterface};
+    ServiceProviderInterface
+};
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface

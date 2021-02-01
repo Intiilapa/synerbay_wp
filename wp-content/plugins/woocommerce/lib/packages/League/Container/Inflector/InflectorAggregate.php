@@ -2,8 +2,8 @@
 
 namespace Automattic\WooCommerce\Vendor\League\Container\Inflector;
 
-use Automattic\WooCommerce\Vendor\League\Container\ContainerAwareTrait;
 use Generator;
+use Automattic\WooCommerce\Vendor\League\Container\ContainerAwareTrait;
 
 class InflectorAggregate implements InflectorAggregateInterface
 {

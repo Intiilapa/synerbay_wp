@@ -11,7 +11,7 @@ namespace Automattic\WooCommerce\Admin\Notes;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\PluginsHelper;
+use \Automattic\WooCommerce\Admin\PluginsHelper;
 
 /**
  * Install_JP_And_WCS_Plugins

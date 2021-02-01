@@ -2,11 +2,11 @@
 namespace Automattic\WooCommerce\Blocks\Domain\Services;
 
 use Automattic\WooCommerce\Blocks\Domain\Package;
-use Automattic\WooCommerce\Blocks\StoreApi\Formatters;
 use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartItemSchema;
 use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartSchema;
-use Exception;
+use Automattic\WooCommerce\Blocks\StoreApi\Formatters;
 use Throwable;
+use Exception;
 
 /**
  * Service class to provide utility functions to extend REST API.

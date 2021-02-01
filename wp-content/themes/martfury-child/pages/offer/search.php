@@ -45,12 +45,27 @@ get_header('shop');
  * @hooked WC_Structured_Data::generate_website_data() - 30
  */
 ?>
+
+<script>
+   function showFilter() {
+        var filter = document.getElementById("primary-sidebar");
+        if (filter.style.display === "block") {
+            filter.style.display = "none";
+        } else {
+            filter.style.display = "block";
+        }
+    }
+</script>
+
+<div class="dropdown-search">
+    <button class="filter-btn" onclick="showFilter()">Toggle Offer Filters</button>
+</div>
     <!-- Sidebar -->
     <aside id="primary-sidebar"
-           class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 <?php echo esc_attr('catalog-sidebar') ?>">
+           class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 offer-search-content <?php echo esc_attr('catalog-sidebar') ?>">
         <!-- Search form before sidebar -->
         <form action="/offers" method="post">
-            <ul>
+            <ul class="offer-search-sidebar">
                 <input type="hidden" name="offer-site-search" value="<?php echo $searchParameters['offer-site-search']; ?>">
                 <li class="dokan-form-group">
                     <label for="query">Product name</label>
@@ -100,11 +115,15 @@ get_header('shop');
                     <label for="delivery-date-to">Delivery date (to)</label>
                     <input type="date" name="delivery-date-to" value="<?php echo $searchParameters['delivery-date-to'] ? $searchParameters['delivery-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
+                <li>
+                    <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">
+                    <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
+                </li>
             </ul>
-            <input type="submit" name="search" value="Search" class="dokan-btn dokan-btn-theme">
-            <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">
+
         </form>
     </aside>
+
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
     <header class="woocommerce-products-header">

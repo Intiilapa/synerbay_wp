@@ -1,8 +1,8 @@
 /**
  * External dependencies
  */
-import {useEmitResponse} from '@woocommerce/base-hooks';
-import {useSelect} from '@wordpress/data';
+import { useEmitResponse } from '@woocommerce/base-hooks';
+import { useSelect } from '@wordpress/data';
 
 /**
  * @typedef {import('@woocommerce/type-defs/contexts').StoreNoticeObject} StoreNoticeObject

@@ -5,13 +5,13 @@
  * @package automattic/jetpack-autoloader
  */
 
-namespace Automattic\Jetpack\Autoloader\jp324ab71ddd6ce9d2b4235222158cda48;
+namespace Automattic\Jetpack\Autoloader\jpdb897b9c8e0c5079b17448f17a52683a;
 
  // phpcs:ignore
 
- use Automattic\Jetpack\Autoloader\AutoloadGenerator;
+use \Automattic\Jetpack\Autoloader\AutoloadGenerator;
 
- /**
+/**
  * This class locates autoloaders.
  */
 class Autoloader_Locator {

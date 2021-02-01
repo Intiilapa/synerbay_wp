@@ -2,9 +2,9 @@
 
 namespace Automattic\WooCommerce\Vendor\League\Container\ServiceProvider;
 
+use Generator;
 use Automattic\WooCommerce\Vendor\League\Container\{ContainerAwareInterface, ContainerAwareTrait};
 use Automattic\WooCommerce\Vendor\League\Container\Exception\ContainerException;
-use Generator;
 
 class ServiceProviderAggregate implements ServiceProviderAggregateInterface
 {

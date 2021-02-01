@@ -9,9 +9,9 @@ namespace Automattic\Jetpack\Autoloader\jp5ea6b2d4c1fe14beefe599f3e30c1479;
 
  // phpcs:ignore
 
- use Automattic\Jetpack\Autoloader\AutoloadGenerator;
+use \Automattic\Jetpack\Autoloader\AutoloadGenerator;
 
- /**
+/**
  * This class locates autoloaders.
  */
 class Autoloader_Locator {

@@ -1,8 +1,8 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\StoreApi;
 
+use \Exception;
 use Automattic\WooCommerce\Blocks\StoreApi\Formatters\DefaultFormatter;
-use Exception;
 
 /**
  * Formatters class.

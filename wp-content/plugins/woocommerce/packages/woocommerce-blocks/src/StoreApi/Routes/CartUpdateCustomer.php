@@ -1,10 +1,10 @@
 <?php
 namespace Automattic\WooCommerce\Blocks\StoreApi\Routes;
 
-use Automattic\WooCommerce\Blocks\StoreApi\Schemas\BillingAddressSchema;
-use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartSchema;
-use Automattic\WooCommerce\Blocks\StoreApi\Schemas\ShippingAddressSchema;
 use Automattic\WooCommerce\Blocks\StoreApi\Utilities\CartController;
+use Automattic\WooCommerce\Blocks\StoreApi\Schemas\CartSchema;
+use Automattic\WooCommerce\Blocks\StoreApi\Schemas\BillingAddressSchema;
+use Automattic\WooCommerce\Blocks\StoreApi\Schemas\ShippingAddressSchema;
 
 /**
  * CartUpdateCustomer class.

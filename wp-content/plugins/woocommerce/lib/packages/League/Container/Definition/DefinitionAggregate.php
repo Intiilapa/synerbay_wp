@@ -2,9 +2,9 @@
 
 namespace Automattic\WooCommerce\Vendor\League\Container\Definition;
 
+use Generator;
 use Automattic\WooCommerce\Vendor\League\Container\ContainerAwareTrait;
 use Automattic\WooCommerce\Vendor\League\Container\Exception\NotFoundException;
-use Generator;
 
 class DefinitionAggregate implements DefinitionAggregateInterface
 {

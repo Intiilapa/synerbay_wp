@@ -11,8 +11,8 @@ namespace Automattic\WooCommerce\Admin\Composer;
 
 defined( 'ABSPATH' ) || exit;
 
-use Automattic\WooCommerce\Admin\FeaturePlugin;
 use Automattic\WooCommerce\Admin\Notes\DeactivatePlugin;
+use Automattic\WooCommerce\Admin\FeaturePlugin;
 
 /**
  * Main package class.

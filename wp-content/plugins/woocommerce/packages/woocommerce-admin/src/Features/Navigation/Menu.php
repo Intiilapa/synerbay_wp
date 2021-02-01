@@ -7,6 +7,9 @@
 
 namespace Automattic\WooCommerce\Admin\Features\Navigation;
 
+use Automattic\WooCommerce\Admin\Features\Navigation\Screen;
+use Automattic\WooCommerce\Admin\Features\Navigation\CoreMenu;
+
 /**
  * Contains logic for the WooCommerce Navigation menu.
  */

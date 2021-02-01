@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94
+class ComposerStaticInit2ebb2e082f77df5a6048bf3326ce333c
 {
     public static $files = array (
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
@@ -736,9 +736,11 @@ class ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94
         'WeDevs\\DokanPro\\Upgrade\\Hooks' => __DIR__ . '/../..' . '/includes/Upgrade/Hooks.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\BackgroundProcesses\\V_3_0_7_ShippingLocations' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/BackgroundProcesses/V_3_0_7_ShippingLocations.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\BackgroundProcesses\\V_3_1_1_UpdateSubscriptionEnddate' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/BackgroundProcesses/V_3_1_1_UpdateSubscriptionEnddate.php',
+        'WeDevs\\DokanPro\\Upgrade\\Upgraders\\BackgroundProcesses\\V_3_2_0_UpdateSubscriptionMeta' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/BackgroundProcesses/V_3_2_0_UpdateSubscriptionMeta.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_0_7' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_0_7.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_0_8' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_0_8.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_1_1' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_1_1.php',
+        'WeDevs\\DokanPro\\Upgrade\\Upgraders\\V_3_2_0' => __DIR__ . '/../..' . '/includes/Upgrade/Upgraders/V_3_2_0.php',
         'WeDevs\\DokanPro\\Upgrade\\Upgrades' => __DIR__ . '/../..' . '/includes/Upgrade/Upgrades.php',
         'WeDevs\\DokanPro\\Widgets\\BestSeller' => __DIR__ . '/../..' . '/includes/Widgets/BestSeller.php',
         'WeDevs\\DokanPro\\Widgets\\FeatureSeller' => __DIR__ . '/../..' . '/includes/Widgets/FeatureSeller.php',
@@ -779,10 +781,10 @@ class ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf2ae5d30078b7bd7c6a9f2bb95163b94::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit2ebb2e082f77df5a6048bf3326ce333c::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit2ebb2e082f77df5a6048bf3326ce333c::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2ebb2e082f77df5a6048bf3326ce333c::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit2ebb2e082f77df5a6048bf3326ce333c::$classMap;
 
         }, null, ClassLoader::class);
     }
