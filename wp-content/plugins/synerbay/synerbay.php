@@ -13,6 +13,7 @@ if( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'SYNERBAY_DIR', __DIR__ );
+define( 'SYNERBAY_TEST_MODE', $_SERVER['HTTP_HOST'] == 'stage.synerbay.com' );
 
 class SynerBay {
     /**

@@ -108,16 +108,24 @@ class Ended extends AbstractCron implements InterfaceCron
             'customer_id' => $wcUser->ID,
         ]);
 
+        $subTotal = 1;
+        $total = 1;
+
+        if (!SYNERBAY_TEST_MODE) {
+            $subTotal = $applyUser['qty'] * $offerData['summary']['actual_product_price'];
+            $total = $applyUser['qty'] * $offerData['summary']['actual_product_price'];
+        }
+
         $order->add_product($offerData['product']['wc_product'], $applyUser['qty'],
             [
-                'subtotal' => $applyUser['qty'] * $offerData['summary']['actual_product_price'],
-                'total' => $applyUser['qty'] * $offerData['summary']['actual_product_price'],
+                'subtotal' => $subTotal,
+                'total' => $total,
             ]);
 
         $order->set_address($address, 'billing');
         $order->set_address($address, 'shipping');
-        $order->set_customer_id($wcUser->ID);
-        $order->set_total($applyUser['qty'] * $offerData['summary']['actual_product_price']);
+        $order->set_total($total);
+        $order->set_total($total);
         $order->save();
 
         $order->calculate_totals();
