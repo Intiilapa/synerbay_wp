@@ -2,7 +2,7 @@
 
 use SynerBay\Forms\CreateOffer;
 
-    $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
+$get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
     $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
 
     $current_time = date( 'g:i A' );
@@ -64,6 +64,7 @@ use SynerBay\Forms\CreateOffer;
                 <?php
                 $error_messages = [];
                 $created = false;
+
                 if (isset($post_data['add_offer'])) {
                     $formData = $post_data;
 
@@ -97,7 +98,7 @@ use SynerBay\Forms\CreateOffer;
                             <div class="product-edit-container dokan-clearfix">
                                 <div class="content-half-part dokan-product-meta">
                                     <?php
-                                        do_action('synerbay_getDokanMyProductsSelect', isset($post_data['post_id']) ? $post_data['post_id'] : false, $error_messages);
+                                        do_action('synerbay_getDokanMyProductsSelect', isset($post_data['product_id']) ? $post_data['product_id'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferDefaultPrice', isset($post_data['default_price']) ? $post_data['default_price'] : 0, $error_messages);
                                         do_action('synerbay_getPriceStepInput', isset($post_data['price_steps']) ? $post_data['price_steps'] : false, $error_messages);
                                         do_action('synerbay_getDokanOfferMinimumOrderQTYInput', isset($post_data['minimum_order_quantity']) ? $post_data['minimum_order_quantity'] : '', $error_messages);
