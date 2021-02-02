@@ -793,6 +793,7 @@ function my_account_remove_menu_item( $menu_links ){
 //Remove cancel button
 add_filter('woocommerce_my_account_my_orders_actions', 'remove_myaccount_orders_cancel_button', 10, 2);
 function remove_myaccount_orders_cancel_button( $actions, $order ){
+    unset($actions['pay']);
     unset($actions['cancel']);
     return $actions;
 }
@@ -874,7 +875,6 @@ function active_offers_my_account_endpoint_content() {
     <?php
 }
 
-
 //Product search results / sorting
 function remove_woocommerce_catalog_orderby( $orderby ) {
     unset($orderby["price"]);
@@ -883,6 +883,11 @@ function remove_woocommerce_catalog_orderby( $orderby ) {
 }
 add_filter( "woocommerce_catalog_orderby", "remove_woocommerce_catalog_orderby", 20 );
 
+add_filter( 'woocommerce_product_tabs', 'woocommerce_change_tabs_order' );
+function woocommerce_change_tabs_order( $tabs ) {
+    $tabs['more_seller_product']['priority'] = 5;
+    return $tabs;
+}
 
 //$data = get_userdata( get_current_user_id() );
 //

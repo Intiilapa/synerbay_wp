@@ -22,7 +22,7 @@ abstract class AbstractPage
             # you can do anything you want here but the easiest and safest is
             # wp_redirect( 'your url with query parameters from the failing 404 url' );
             # exit();
-            return FALSE;
+            return false;
         } );
     }
 
