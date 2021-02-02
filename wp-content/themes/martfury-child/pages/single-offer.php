@@ -24,6 +24,7 @@ $wp_query->post = $post = get_post($offer['product_id']);
 $wp_query->is_singular = true;
 $wp_query->is_single = true;
 $wp_query->is_404 = false;
+status_header( 200 );
 
 get_header( 'shop' ); ?>
 
