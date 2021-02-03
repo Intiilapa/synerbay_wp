@@ -389,6 +389,9 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 
 }
 
+.sticky-header .site-header.minimized .mobile-menu{
+  background: $primary-color;
+}
 //Invite results not found cursor
 .searchbtn{
   cursor: pointer;

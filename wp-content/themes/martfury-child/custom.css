@@ -422,6 +422,10 @@ button.modal_rounded_cancel {
     display: block;
   }
 }
+.sticky-header .site-header.minimized .mobile-menu {
+  background: #ff004e;
+}
+
 .searchbtn {
   cursor: pointer;
 }
