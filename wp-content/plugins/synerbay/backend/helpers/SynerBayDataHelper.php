@@ -1176,7 +1176,7 @@ class SynerBayDataHelper
     public static function getCategoriesFromDBToSelect()
     {
         $ret = [];
-        $categories = self::getCategoriesFromDB();
+        $categories = self::getNotEmptyCategoriesFromDB();
         if (count($categories)) {
             /** @var WP_Term $category */
             foreach ($categories as $category) {
@@ -1187,7 +1187,7 @@ class SynerBayDataHelper
         return $ret;
     }
 
-    public static function getCategoriesFromDB()
+    public static function getNotEmptyCategoriesFromDB()
     {
         $orderby = 'name';
         $order = 'asc';
@@ -1199,6 +1199,35 @@ class SynerBayDataHelper
         ];
 
         return get_terms('product_cat', $cat_args);
+    }
+
+    public static function getCategoriesFromDB()
+    {
+        $orderby = 'name';
+        $order = 'asc';
+        $hide_empty = false;
+        $cat_args = [
+            'orderby'    => $orderby,
+            'order'      => $order,
+            'hide_empty' => $hide_empty,
+        ];
+
+        return get_terms('product_cat', $cat_args);
+    }
+
+
+    public static function getProductCategoryIdsWithParentID()
+    {
+        $ret = [];
+        $categories = self::getCategoriesFromDB();
+        if (count($categories)) {
+            /** @var WP_Term $category */
+            foreach ($categories as $category) {
+                $ret[$category->term_id] = $category->parent;
+            }
+        }
+
+        return $ret;
     }
 
     public static function getActiveVendorsForOfferSearch()

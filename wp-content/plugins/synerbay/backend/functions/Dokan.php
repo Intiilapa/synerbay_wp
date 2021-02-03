@@ -5,6 +5,8 @@ namespace SynerBay\Functions;
 
 
 use SynerBay\Forms\CreateProduct;
+use SynerBay\Helper\SynerBayDataHelper;
+use WC_Product;
 use WP_Role;
 use WP_User;
 
@@ -28,6 +30,8 @@ class Dokan
         add_post_meta($product_id, '_weight_unit', $values['weight_unit']);
         add_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
         add_post_meta($product_id, '_material', $values['material']);
+
+        $this->refreshProductCategories($product_id, $postData);
     }
 
     public function productEditHook(int $product_id, $postData)
@@ -38,6 +42,41 @@ class Dokan
         update_post_meta($product_id, '_weight_unit', $values['weight_unit']);
         update_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
         update_post_meta($product_id, '_material', $values['material']);
+
+        $this->refreshProductCategories($product_id, $postData);
+    }
+
+    /**
+     * Ez a funkció felel, hogy rendbe tegye a product katokat DB szinten
+     *
+     * @param int $product_id
+     * @param     $postData
+     */
+    private function refreshProductCategories(int $product_id, $postData)
+    {
+        if (array_key_exists('product_cat', $postData)) {
+            $categories = SynerBayDataHelper::getProductCategoryIdsWithParentID();
+            /** @var WC_Product $product */
+            $product = wc_get_product($product_id);
+
+            $prodCat = (int)$postData['product_cat'];
+            $categoriesToSave = [$prodCat];
+
+            if (array_key_exists($prodCat, $categories) && !empty($categories[$prodCat])) {
+                $parentCat = $categories[$prodCat];
+
+                $categoriesToSave[] = $parentCat;
+
+                if (array_key_exists($parentCat, $categories) && !empty($categories[$parentCat])) {
+                    $parentCat = $categories[$parentCat];
+
+                    $categoriesToSave[] = $parentCat;
+                }
+            }
+
+            $product->set_category_ids($categoriesToSave);
+            $product->save();
+        }
     }
 
     public function addShopUserRole()

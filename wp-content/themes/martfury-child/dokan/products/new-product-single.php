@@ -272,9 +272,16 @@ do_action( 'dokan_dashboard_wrap_before', $post, $post_id );
                                             $term = array();
                                             $term = wp_get_post_terms( $post_id, 'product_cat', array( 'fields' => 'ids') );
 
-                                            if ( $term ) {
+                                            /**
+                                             * itt tesszük rendbe a kategória fa megjelenítést
+                                             * @see SynerBay\Functions\Dokan -> fgv.: refreshProductCategories
+                                             */
+                                            if (count($term)) {
+                                                $product_cat = max($term);
+                                            } elseif ( $term ) {
                                                 $product_cat = reset( $term );
                                             }
+
                                             include_once DOKAN_LIB_DIR.'/class.category-walker.php';
 
                                             $category_args =  array(
