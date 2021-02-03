@@ -147,6 +147,18 @@ abstract class AbstractElement
         ';
     }
 
+    protected function getDokanTextInput(string $label, string $name, $value = '', string $placeholder = '', array $errorMessages = [], string $description = '')
+    {
+        echo '
+            <div class="dokan-form-group">
+                <label for="product_name" class="form-label">' . $label . ':</label>
+                ' . $this->setupDescription($description) . '
+                <input class="dokan-form-control" name="'.$name.'" id="input_'.$name.'" type="text" placeholder="' .$placeholder. '" value="' . $value . '">
+                ' . $this->inputError($name, $errorMessages) . '
+            </div>
+        ';
+    }
+
     protected function getHiddenInput(string $name, $value = '', array $errorMessages = [])
     {
         echo '<input type="hidden" name="'.$name.'" id="input_'.$name.'" value="' . $value . '">

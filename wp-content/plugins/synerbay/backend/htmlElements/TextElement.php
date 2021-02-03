@@ -18,6 +18,7 @@ class TextElement extends AbstractElement
         $this->addAction('getPriceStepInput');
         $this->addAction('getDokanOfferIDHiddenInput');
         $this->addAction('getDokanOfferDefaultPrice');
+        $this->addAction('getDokanOfferPaymentTerm');
     }
 
     public function getDokanOfferMinimumOrderQTYInput($value = '', array $errorMessages = [])
@@ -63,6 +64,11 @@ class TextElement extends AbstractElement
     public function getDokanOfferDefaultPrice($value = 0, array $errorMessages = [])
     {
         $this->getDokanFloatInput('Default price', 'default_price', $value, '', $errorMessages, 'Offer default price');
+    }
+
+    public function getDokanOfferPaymentTerm($value = '', array $errorMessages = [])
+    {
+        $this->getDokanTextInput('Payment term', 'payment_term', $value, '', $errorMessages, 'ex.: 30% TT in advance 70% before shipment');
     }
 
     public function getPriceStepInput($value = '', array $errorMessages = [])

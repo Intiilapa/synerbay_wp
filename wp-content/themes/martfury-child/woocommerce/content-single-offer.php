@@ -90,6 +90,7 @@ if (post_password_required()) {
                 <li><span><?php _e('Transport parity: ', 'synerbay') ?><?php echo $offer['transport_parity']; ?></span>
                 </li>
                 <li><span><?php _e('Delivery date: ', 'synerbay') ?><?php echo $offer['delivery_date']; ?></span></li>
+                <li><span><?php _e('Payment term: ', 'synerbay') ?><?php echo $offer['payment_term']; ?></span></li>
             </ul>
 
             <?php if ($currentDate >= strtotime($offer['offer_start_date']) && $currentDate <= strtotime($offer['offer_end_date'])) : ?>

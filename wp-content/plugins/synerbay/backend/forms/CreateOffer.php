@@ -18,6 +18,13 @@ class CreateOffer extends AbstractForm
         ));
 
         $this->addColumn(new Column(
+            'payment_term',
+            true,
+            ['StringLength' => ['min' => 3, 'max' => 255],],
+            ['Trim', 'SetNull'],
+        ));
+
+        $this->addColumn(new Column(
             'offer_start_date',
             true,
             [
