@@ -883,17 +883,51 @@ function remove_woocommerce_catalog_orderby( $orderby ) {
 }
 add_filter( "woocommerce_catalog_orderby", "remove_woocommerce_catalog_orderby", 20 );
 
+//Change the product tab order
 add_filter( 'woocommerce_product_tabs', 'woocommerce_change_tabs_order' );
 function woocommerce_change_tabs_order( $tabs ) {
     $tabs['more_seller_product']['priority'] = 5;
     return $tabs;
 }
 
-//$data = get_userdata( get_current_user_id() );
-//
-//if ( is_object( $data) ) {
-//    $current_user_caps = $data->allcaps;
-//
-//    // print it to the screen
-//    echo '<pre>' . print_r( $current_user_caps, true ) . '</pre>';
-//}
+//Select sub categories accordingly
+function super_category_toggler() {
+
+    $taxonomies = apply_filters('super_category_toggler',array());
+    for($x=0;$x<count($taxonomies);$x++)
+    {
+        $taxonomies[$x] = '#'.$taxonomies[$x].'div .selectit input';
+    }
+    $selector = implode(',',$taxonomies);
+    if($selector == '') $selector = '.selectit input';
+
+    echo '
+		<script>
+		jQuery("'.$selector.'").change(function(){
+			var $chk = jQuery(this);
+			var ischecked = $chk.is(":checked");
+			$chk.parent().parent().siblings().children("label").children("input").each(function(){
+var b = this.checked;
+ischecked = ischecked || b;
+})
+			checkParentNodes(ischecked, $chk);
+		});
+		function checkParentNodes(b, $obj)
+		{
+			$prt = findParentObj($obj);
+			if ($prt.length != 0)
+			{
+			 $prt[0].checked = b;
+			 checkParentNodes(b, $prt);
+			}
+		}
+		function findParentObj($obj)
+		{
+			return $obj.parent().parent().parent().prev().children("input");
+		}
+		</script>
+		';
+
+}
+add_action('admin_footer-post.php', 'super_category_toggler');
+add_action('admin_footer-post-new.php', 'super_category_toggler');
