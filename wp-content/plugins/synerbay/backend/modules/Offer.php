@@ -32,6 +32,7 @@ class Offer extends AbstractModule
         'transport_parity'       => '%s',
         'shipping_to'            => '%s',
         'visible'                => '%s',
+        'payment_term'           => '%s',
     ];
 
     public function createOffer(array $filteredData)
