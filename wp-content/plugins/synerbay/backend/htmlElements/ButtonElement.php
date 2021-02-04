@@ -15,9 +15,9 @@ class ButtonElement extends AbstractElement
             echo '';
         } else {
             if (!get_current_user_id() || !$offer['summary']['current_user_have_apply']) {
-                echo "<button type='button' style='background-color: green !important;' onclick='synerbay.appearOffer(" . $offer['id'] . ")' class='button'>Place order need</button>";
+                echo "<a style='background-color: green !important;' onclick='synerbay.appearOffer(" . $offer['id'] . ")' class='button'>Place order need</a>";
             } else {
-                echo "<button type='button' onclick='synerbay.disAppearOffer(" . $offer['id'] . ")' class='button'>Delete order need (" . $offer['summary']['current_user_apply_qty'] . " pc)</button>";
+                echo "<a onclick='synerbay.disAppearOffer(" . $offer['id'] . ")' class='button'>Delete order need (" . $offer['summary']['current_user_apply_qty'] . " pc)</a>";
             }
         }
     }

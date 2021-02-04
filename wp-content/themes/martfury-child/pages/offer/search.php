@@ -75,9 +75,17 @@ get_header('shop');
                 <?php do_action('synerbay_getOfferSearchProductCategorySelect', isset($searchParameters['category_id']) ? $searchParameters['category_id'] : false);?>
                 <?php do_action('synerbay_getOfferSearchTransportParitySelect', isset($searchParameters['transport_parity']) ? $searchParameters['transport_parity'] : false);?>
                 <?php do_action('synerbay_getOfferSearchVendorSelect', isset($searchParameters['user_id']) ? $searchParameters['user_id'] : false);?>
-                <li>
+                <!--<li>
                     <label for="default_price">Default price (ex: from $10 - to $20)</label>
                     <input type="number" step="1" value="<?php echo $searchParameters['default_price'] ? $searchParameters['default_price'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
+                </li>-->
+                 <li>
+                    <label for="default_price_from">Min. Offer Price ($)</label>
+                    <input type="number" step="1" value="<?php echo $searchParameters['default_price_from'] ? $searchParameters['default_price_from'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price_from" placeholder="" id="input_default_price_from" value="0">
+                </li>
+                 <li>
+                    <label for="default_price_to">Max. Offer Price ($)</label>
+                    <input type="number" step="1" value="<?php echo $searchParameters['default_price_to'] ? $searchParameters['default_price_to'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price_to" placeholder="" id="input_default_price_to" value="0">
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-start-date">Offer start date</label>
