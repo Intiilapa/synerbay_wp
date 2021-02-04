@@ -36,34 +36,34 @@ function wc_change_offers_tabs( $tabs ) {
 	/**
 	 * add product data tab
 	 */
-	$tabs['product_data_tab'] = array(
-		'title' 	=> __( 'Product Data', 'woocommerce' ),
-		'priority' 	=> 5,
-		'callback' 	=> function () use ($offer){
-			/** @var WC_Product $productWCProduct */
-			$productWCProduct = $offer['product']['wc_product'];
-			$productMetadata = $offer['product']['meta'];
-
-			$attributeSkeleton = '<strong>%s</strong>: %s<br>';
-			$desc = '';
-
-			if (!empty($productMetadata['_weight_unit']) && !empty($productMetadata['_weight_unit_type'])) {
-				$desc .= sprintf($attributeSkeleton, 'Size / piece: ', $productMetadata['_weight_unit'] . $productMetadata['_weight_unit_type']);
-			}
-
-			if (!empty($productWCProduct->get_short_description())) {
-				$desc .= sprintf($attributeSkeleton, 'Short description: ', '<br>'. $productWCProduct->get_short_description());
-			}
-
-			if (!empty($desc)) {
-				echo $desc;
-			}
-
-			// VAR DUMP ...
-			print '<pre>';
-			var_dump($offer['product']);
-		},
-	);
+//	$tabs['product_data_tab'] = array(
+//		'title' 	=> __( 'Product Details', 'woocommerce' ),
+//		'priority' 	=> 5,
+//		'callback' 	=> function () use ($offer){
+//			/** @var WC_Product $productWCProduct */
+//			$productWCProduct = $offer['product']['wc_product'];
+//			$productMetadata = $offer['product']['meta'];
+//
+//			$attributeSkeleton = '<strong>%s</strong>: %s<br>';
+//			$desc = '';
+//
+//			if (!empty($productMetadata['_weight_unit']) && !empty($productMetadata['_weight_unit_type'])) {
+//				$desc .= sprintf($attributeSkeleton, 'Unit / piece: ', $productMetadata['_weight_unit'] . $productMetadata['_weight_unit_type']);
+//			}
+//
+//			if (!empty($productWCProduct->get_short_description())) {
+//				$desc .= sprintf($attributeSkeleton, 'Short description: ', '<br>'. $productWCProduct->get_short_description());
+//			}
+//
+//			if (!empty($desc)) {
+//				echo $desc;
+//			}
+//
+//			// VAR DUMP ...
+//			print '<pre>';
+//			var_dump($offer['product']);
+//		},
+//	);
 
 	/**
 	 * add shipping to for description

@@ -81,6 +81,10 @@ if (post_password_required()) {
                             'synerbay') ?><?php echo $offer['offer_start_date']; ?></span></li>
                 <li><span class="offer-end-date"> <?php _e('End date: ',
                             'synerbay') ?><?php echo $offer['offer_end_date']; ?></span></li>
+                <li><span class="offer-qty-min"> <?php _e('Unit: ',
+                            'synerbay') ?><?php echo $offer['product']['meta']['_weight_unit'].$offer['product']['meta']['_weight_unit_type']; ?></span></li>
+                <li><span class="offer-qty-min"> <?php _e('Material: ',
+                            'synerbay') ?><?php echo $offer['product']['meta']['_material']; ?></span></li>
                 <li><span class="offer-qty-min"> <?php _e('Min. product qty: ',
                             'synerbay') ?><?php echo $offer['minimum_order_quantity']; ?></span></li>
                 <li><span class="offer-qty-max"> <?php _e('Max. product qty/user: ',
@@ -129,7 +133,7 @@ if (post_password_required()) {
             <table width="100%">
                 <thead>
                 <tr>
-                    <td>Quantity</td>
+                    <td>Quantity (<?php echo $offer['product']['meta']['_weight_unit'].$offer['product']['meta']['_weight_unit_type'];?> / Unit)</td>
                     <td>Price</td>
                 </tr>
                 </thead>
