@@ -26,6 +26,64 @@ $wp_query->is_single = true;
 $wp_query->is_404 = false;
 status_header( 200 );
 
+/**
+ * Edit offer tabs ...
+ */
+add_filter( 'woocommerce_product_tabs', 'wc_change_offers_tabs', 98 );
+
+function wc_change_offers_tabs( $tabs ) {
+	global $offer;
+	/**
+	 * add product data tab
+	 */
+	$tabs['product_data_tab'] = array(
+		'title' 	=> __( 'Product Data', 'woocommerce' ),
+		'priority' 	=> 5,
+		'callback' 	=> function () use ($offer){
+			/** @var WC_Product $productWCProduct */
+			$productWCProduct = $offer['product']['wc_product'];
+			$productMetadata = $offer['product']['meta'];
+
+			$attributeSkeleton = '<strong>%s</strong>: %s<br>';
+			$desc = '';
+
+			if (!empty($productMetadata['_weight_unit']) && !empty($productMetadata['_weight_unit_type'])) {
+				$desc .= sprintf($attributeSkeleton, 'Size / piece: ', $productMetadata['_weight_unit'] . $productMetadata['_weight_unit_type']);
+			}
+
+			if (!empty($productWCProduct->get_short_description())) {
+				$desc .= sprintf($attributeSkeleton, 'Short description: ', '<br>'. $productWCProduct->get_short_description());
+			}
+
+			if (!empty($desc)) {
+				echo $desc;
+			}
+
+			// VAR DUMP ...
+			print '<pre>';
+			var_dump($offer['product']);
+		},
+	);
+
+	/**
+	 * add shipping to for description
+	 */
+	$tabs['description']['callback'] = function () use ($offer){
+		$desc = '<strong>Shipping to:</strong><br>' .
+			$offer['shipping_to_labels'];
+
+		if (!empty($offer['product']['wc_product']->get_description())) {
+			$desc .= '<hr><strong>Description:</strong><br>' . $offer['product']['wc_product']->get_description();
+		}
+
+		echo $desc;
+	};
+
+	return $tabs;
+}
+
+// end editing
+
 get_header( 'shop' ); ?>
 
 	<?php

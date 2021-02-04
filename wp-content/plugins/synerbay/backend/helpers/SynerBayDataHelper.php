@@ -88,7 +88,7 @@ class SynerBayDataHelper
     public static function setupDeliveryDestinationsForOfferData(array $deliveryDestinationsSlugs)
     {
         $ret = [];
-        $destinations = self::getDeliveryDestinationsForOffer();
+        $destinations = self::getDeliveryDestinationsForOfferWithCountries();
 
         foreach ($deliveryDestinationsSlugs as $slug) {
             if (array_key_exists($slug, $destinations)) {
@@ -113,6 +113,11 @@ class SynerBayDataHelper
         ]);
     }
 
+    public static function getDeliveryDestinationsForOfferWithCountries()
+    {
+        return ArrayHelper::reKeyBySlugFromValue(array_values(self::getDeliveryDestinationsList()));
+    }
+
     public static function getYesNo()
     {
         return ArrayHelper::reKeyBySlugFromValue([
@@ -124,16 +129,20 @@ class SynerBayDataHelper
     // a child/functions.php-ban van hgsználva és a merge elhalt sokszor
     public static function getDeliveryDestinations()
     {
+        return ['' => __('Select shipping to')] + self::getDeliveryDestinationsList();
+    }
+
+    public static function getDeliveryDestinationsList()
+    {
         return [
-            ''              => __('Select shipping to'),
-            'Worldwide'     => 'Wordwide',
-            'Asia'          => 'Asia',
-            'Australia'     => 'Australia',
-            'Europe'        => 'Europe',
+            'Worldwide'     => 'Worldwide',
             'Africa'        => 'Africa',
             'North America' => 'North America',
             'South America' => 'South America',
-            'Antarctica'    => 'Antarctica',
+            'Europe'        => 'Europe',
+            'Asia'          => 'Asia',
+            'Middle East'   => 'Middle East',
+            'Ocean Pacific' => 'Ocean Pacific',
             'AF'            => 'Afghanistan',
             'AX'            => 'Aland Islands',
             'AL'            => 'Albania',
@@ -1201,21 +1210,6 @@ class SynerBayDataHelper
         return get_terms('product_cat', $cat_args);
     }
 
-    public static function getCategoriesFromDB()
-    {
-        $orderby = 'name';
-        $order = 'asc';
-        $hide_empty = false;
-        $cat_args = [
-            'orderby'    => $orderby,
-            'order'      => $order,
-            'hide_empty' => $hide_empty,
-        ];
-
-        return get_terms('product_cat', $cat_args);
-    }
-
-
     public static function getProductCategoryIdsWithParentID()
     {
         $ret = [];
@@ -1228,6 +1222,20 @@ class SynerBayDataHelper
         }
 
         return $ret;
+    }
+
+    public static function getCategoriesFromDB()
+    {
+        $orderby = 'name';
+        $order = 'asc';
+        $hide_empty = false;
+        $cat_args = [
+            'orderby'    => $orderby,
+            'order'      => $order,
+            'hide_empty' => $hide_empty,
+        ];
+
+        return get_terms('product_cat', $cat_args);
     }
 
     public static function getActiveVendorsForOfferSearch()

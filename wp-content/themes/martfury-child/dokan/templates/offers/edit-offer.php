@@ -5,6 +5,7 @@ use SynerBay\Forms\UpdateOffer;
 global $offer;
 $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
 $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
+$current_time = date( 'g:i A' );
 
 if (!count($post_data)) {
     $post_data = $offer;

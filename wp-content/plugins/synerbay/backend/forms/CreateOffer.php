@@ -98,7 +98,7 @@ class CreateOffer extends AbstractForm
         $this->addColumn(new Column(
             'shipping_to',
             true,
-            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getDeliveryDestinationsForOffer())]],
+            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getDeliveryDestinationsForOfferWithCountries())]],
             ['setJSON']
         ));
 

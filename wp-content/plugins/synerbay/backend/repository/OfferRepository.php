@@ -114,7 +114,7 @@ class OfferRepository extends AbstractRepository
         if (!empty($searchAttributes['shipping_to'])) {
             $value = $searchAttributes['shipping_to'];
 
-            $this->addWhereParameter($this->getBaseTable() . '.shipping_to like %s', '%'.$value.'%');
+            $this->addWhereParameter('MATCH('.$this->getBaseTable().'.shipping_to) AGAINST (%s IN NATURAL LANGUAGE MODE)', $value);
         }
 
         if (!empty($searchAttributes['category_id'])) {

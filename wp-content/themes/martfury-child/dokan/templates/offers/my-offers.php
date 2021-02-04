@@ -51,6 +51,7 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
             $showButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="/dashboard/show-offers/' . $offer['id'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="Show"><i class="fa fa-users">&nbsp;</i></a>';
             $updateButton = '';
             $deleteButton = '';
+            $deliveryLocationNum = count($offer['shipping_to']);
 
             if ($currentDate < strtotime($offer['offer_start_date'])) {
                 $updateButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' href='/dashboard/edit-offer/" . $offer['id'] . "' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit offer'><i class='fa fa-pencil'>&nbsp;</i></a>";
@@ -64,7 +65,7 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
                 . '<td>' . date('Y-m-d', strtotime($offer['offer_end_date'])) . '</td>'
                 . '<td>' . date('Y-m-d', strtotime($offer['delivery_date'])) . '</td>'
                 . '<td>' . $offer['transport_parity'] . '</td>'
-                . '<td>' . $offer['shipping_to_labels'] . '</td>'
+                . '<td>' . ($deliveryLocationNum > 1 ? $deliveryLocationNum . ' dest.' : $offer['shipping_to_labels']) . '</td>'
                 . '<td>' . date('Y-m-d', strtotime($offer['created_at'])) . '</td>'
                 . '<td class="dokan-order-action">' . $updateButton . $viewOfferButton . $showButton . $deleteButton . '</td>'
                 . '</tr>';

@@ -64,7 +64,7 @@ class SelectElement extends AbstractElement
 
     public function getDokanShippingToOfferSelect($selected = false, array $errorMessages = []) {
 
-        $haystack = SynerBayDataHelper::getDeliveryDestinationsForOffer();
+        $haystack = SynerBayDataHelper::getDeliveryDestinationsForOfferWithCountries();
 
         $this->generateDokanMultiSelect('shipping_to', $haystack, 'Shipping to', $selected, $errorMessages, 'Choose the locations you ship to');
     }
@@ -78,7 +78,7 @@ class SelectElement extends AbstractElement
 
     public function getOfferSearchShippingToSelect($selected = false)
     {
-        $haystack = ['' => '-'] + SynerBayDataHelper::getDeliveryDestinationsForOffer();
+        $haystack = ['' => '-'] + SynerBayDataHelper::getDeliveryDestinationsForOfferWithCountries();
         $this->generateMartfurySearchSelect('shipping_to', $haystack, 'Shipping to', $selected);
     }
 
