@@ -2,7 +2,9 @@
 
 namespace SynerBay\Helper;
 
+use SynerBay\Repository\CurrencyRepository;
 use SynerBay\Repository\VendorRepository;
+use SynerBay\Resource\CurrencyResource;
 use WP_Term;
 
 class SynerBayDataHelper
@@ -1251,4 +1253,28 @@ class SynerBayDataHelper
 
         return $ret;
     }
+
+    public static function getLatestCurrenciesForSelect(bool $firstElementUSD = true)
+    {
+        $rates = (new CurrencyResource())->toArray((new CurrencyRepository())->getLatestRates());
+        $currencies = array_keys($rates['data']);
+
+        if ($firstElementUSD) {
+            $tmp = ['USD'];
+
+            foreach ($currencies as $currency) {
+                if ($currency == 'USD') {
+                    continue;
+                }
+
+                $tmp[] = $currency;
+            }
+
+            $currencies = $tmp;
+            unset($tmp);
+        }
+
+        return ArrayHelper::reKeyBySlugFromValue($currencies);
+    }
 }
+

@@ -126,6 +126,7 @@ do_action( 'dokan_new_product_wrap_before' );
                                 //form elements ...
                                 do_action('synerbay_getDokanOfferIDHiddenInput', isset($post_data['offer_id']) ? $post_data['offer_id'] : false, $error_messages);
                                 do_action('synerbay_getDokanMyProductsSelect', isset($post_data['product_id']) ? $post_data['product_id'] : false, $error_messages);
+                                do_action('synerbay_getDokanCurrencySelect', isset($post_data['currency']) ? $post_data['currency'] : '', $error_messages);
                                 do_action('synerbay_getDokanOfferPaymentTerm', isset($post_data['payment_term']) ? $post_data['payment_term'] : '', $error_messages);
                                 do_action('synerbay_getDokanOfferDefaultPrice', isset($post_data['default_price']) ? $post_data['default_price'] : 0, $error_messages);
                                 do_action('synerbay_getPriceStepInput', isset($post_data['price_steps']) ? $post_data['price_steps'] : false, $error_messages);

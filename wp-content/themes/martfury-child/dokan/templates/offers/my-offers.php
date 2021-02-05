@@ -37,6 +37,7 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
         <th style="width: 100px;"><?php esc_html_e('End Date', 'dokan-lite'); ?></th>
         <th style="width: 130px;"><?php esc_html_e('Delivery Date', 'dokan-lite'); ?></th>
         <th><?php esc_html_e('Transport Parity'); ?></th>
+        <th><?php esc_html_e('Cur.'); ?></th>
         <th><?php esc_html_e('Shipping To'); ?></th>
         <th style="width: 100px;"><?php esc_html_e('Created At'); ?></th>
         <th style="width: 175px;"><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
@@ -65,6 +66,7 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
                 . '<td>' . date('Y-m-d', strtotime($offer['offer_end_date'])) . '</td>'
                 . '<td>' . date('Y-m-d', strtotime($offer['delivery_date'])) . '</td>'
                 . '<td>' . $offer['transport_parity'] . '</td>'
+                . '<td>' . strtoupper($offer['currency']) . '</td>'
                 . '<td>' . ($deliveryLocationNum > 1 ? $deliveryLocationNum . ' dest.' : $offer['shipping_to_labels']) . '</td>'
                 . '<td>' . date('Y-m-d', strtotime($offer['created_at'])) . '</td>'
                 . '<td class="dokan-order-action">' . $updateButton . $viewOfferButton . $showButton . $deleteButton . '</td>'

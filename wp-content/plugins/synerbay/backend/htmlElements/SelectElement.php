@@ -17,11 +17,13 @@ class SelectElement extends AbstractElement
         $this->addAction('getDokanParityTypesSelect');
         $this->addAction('getDokanShippingToOfferSelect');
         $this->addAction('getDokanVisibleSelect');
+        $this->addAction('getDokanCurrencySelect');
         // offer search
         $this->addAction('getOfferSearchShippingToSelect');
         $this->addAction('getOfferSearchProductCategorySelect');
         $this->addAction('getOfferSearchTransportParitySelect');
         $this->addAction('getOfferSearchVendorSelect');
+        $this->addAction('getOfferSearchCurrencySelect');
     }
 
     public function getDokanMyProductsSelect($selected = false, array $errorMessages = []) {
@@ -76,6 +78,13 @@ class SelectElement extends AbstractElement
         $this->generateDokanSelect('visible', $haystack, 'Visible', $selected, $errorMessages, 'Offer visible before start?');
     }
 
+    public function getDokanCurrencySelect($selected = false, array $errorMessages = []) {
+
+        $haystack = SynerBayDataHelper::getLatestCurrenciesForSelect();
+
+        $this->generateDokanSelect('currency', $haystack, 'Currency', $selected, $errorMessages, 'Andris szöveg? + kellene módosítani az offer create/ update szöveget!');
+    }
+
     public function getOfferSearchShippingToSelect($selected = false)
     {
         $haystack = ['' => '-'] + SynerBayDataHelper::getDeliveryDestinationsForOfferWithCountries();
@@ -98,5 +107,11 @@ class SelectElement extends AbstractElement
     {
         $haystack = ['' => '-'] + SynerBayDataHelper::getActiveVendorsForOfferSearch();
         $this->generateMartfurySearchSelect('user_id', $haystack, 'Vendor', $selected);
+    }
+
+    public function getOfferSearchCurrencySelect($selected = false)
+    {
+        $haystack = ['' => '-'] + SynerBayDataHelper::getLatestCurrenciesForSelect();
+        $this->generateMartfurySearchSelect('cur', $haystack, 'Currency', $selected);
     }
 }

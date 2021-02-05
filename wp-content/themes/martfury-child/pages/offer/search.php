@@ -73,6 +73,7 @@ get_header('shop');
                 </li>
                 <?php do_action('synerbay_getOfferSearchShippingToSelect', isset($searchParameters['shipping_to']) ? $searchParameters['shipping_to'] : false);?>
                 <?php do_action('synerbay_getOfferSearchProductCategorySelect', isset($searchParameters['category_id']) ? $searchParameters['category_id'] : false);?>
+                <?php do_action('synerbay_getOfferSearchCurrencySelect', isset($searchParameters['cur']) ? $searchParameters['cur'] : false);?>
                 <?php do_action('synerbay_getOfferSearchTransportParitySelect', isset($searchParameters['transport_parity']) ? $searchParameters['transport_parity'] : false);?>
                 <?php do_action('synerbay_getOfferSearchVendorSelect', isset($searchParameters['user_id']) ? $searchParameters['user_id'] : false);?>
                 <!--<li>
@@ -80,11 +81,11 @@ get_header('shop');
                     <input type="number" step="1" value="<?php echo $searchParameters['default_price'] ? $searchParameters['default_price'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price" placeholder="" id="input_default_price" value="0">
                 </li>-->
                  <li>
-                    <label for="default_price_from">Min. Offer Price ($)</label>
+                    <label for="default_price_from">Min. Offer Price</label>
                     <input type="number" step="1" value="<?php echo $searchParameters['default_price_from'] ? $searchParameters['default_price_from'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price_from" placeholder="" id="input_default_price_from" value="0">
                 </li>
                  <li>
-                    <label for="default_price_to">Max. Offer Price ($)</label>
+                    <label for="default_price_to">Max. Offer Price</label>
                     <input type="number" step="1" value="<?php echo $searchParameters['default_price_to'] ? $searchParameters['default_price_to'] : ''; ?>" class="dokan-form-control dokan-product" name="default_price_to" placeholder="" id="input_default_price_to" value="0">
                 </li>
                 <li class="dokan-form-group">

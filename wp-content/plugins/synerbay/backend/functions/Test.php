@@ -17,6 +17,11 @@ class Test
 
     public function test()
     {
+        // latest currency rates
+//        print '<pre>';
+//        var_dump((new CurrencyResource())->toArray((new CurrencyRepository())->getLatestRates()));
+//        die;
+
         // cron test
 //        global $wpdb;
 //        $categories = SynerBayDataHelper::getCategories();

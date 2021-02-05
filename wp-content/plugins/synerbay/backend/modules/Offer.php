@@ -33,6 +33,7 @@ class Offer extends AbstractModule
         'shipping_to'            => '%s',
         'visible'                => '%s',
         'payment_term'           => '%s',
+        'currency'               => '%s',
     ];
 
     public function createOffer(array $filteredData)
@@ -139,6 +140,13 @@ class Offer extends AbstractModule
         $actualCommissionPrice = 0;
         $fictitiousCommissionPrice = 0;
 
+        // get dokan admin commision percantage
+        $sellingOptions = get_option( 'dokan_selling', array() );
+
+        if (! empty( $sellingOptions['admin_percentage'] )) {
+            $this->commissionMultiplier = (float)$sellingOptions['admin_percentage'];
+        }
+
         $tmp = [];
         foreach ($priceSteps as $stepData) {
             $tmp[$stepData['qty']] = $stepData['price'];
@@ -193,11 +201,11 @@ class Offer extends AbstractModule
             'actual_applicant_product_number'       => $groupByProductQTYNumber,
             'actual_commission_price'               => $actualCommissionPrice,
             'actual_applicant_number'               => $actualApplicantNumber,
-            'formatted_actual_product_price'        => wc_price($actualProductPrice),
-            'formatted_actual_commission_price'     => wc_price($actualCommissionPrice),
+            'formatted_actual_product_price'        => wc_price($actualProductPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'formatted_actual_commission_price'     => wc_price($actualCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
             'offer_qty_successful'                  => (int)$groupByProductQTYNumber >= (int)$maxPriceStep,
             'fictitious_commission_price'           => $fictitiousCommissionPrice,
-            'formatted_fictitious_commission_price' => wc_price($fictitiousCommissionPrice),
+            'formatted_fictitious_commission_price' => wc_price($fictitiousCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
         ];
     }
 

@@ -140,7 +140,7 @@ if (post_password_required()) {
                 <tbody>
                 <?php foreach ($offer['price_steps'] as $price_step) {
                     echo sprintf('<tr><td>%s+</td><td>%s</td></tr>', $price_step['qty'],
-                        wc_price($price_step['price']));
+                        wc_price($price_step['price'], ['currency' => strtoupper($offer['currency'])]));
                 }
                 ?>
                 </tbody>

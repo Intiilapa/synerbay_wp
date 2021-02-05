@@ -202,6 +202,10 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.delivery_date <= %s', $searchAttributes['delivery-date-to']);
         }
 
+        if (!empty($searchAttributes['cur'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.currency = %s', $searchAttributes['cur']);
+        }
+
         // add join
         if ($addProductJoin) {
             $this->addJoin('left join sb_posts on ' . $this->getBaseTable() . '.product_id = sb_posts.ID and sb_posts.post_type = "product"');

@@ -7,3 +7,4 @@ require_once __DIR__ . '/OfferApplyRepository.php';
 require_once __DIR__ . '/ProductRepository.php';
 require_once __DIR__ . '/RFQRepository.php';
 require_once __DIR__ . '/VendorRepository.php';
+require_once __DIR__ . '/CurrencyRepository.php';

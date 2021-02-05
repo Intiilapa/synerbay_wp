@@ -115,6 +115,12 @@ class CreateOffer extends AbstractForm
             true,
             ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getYesNo())]],
         ));
+
+        $this->addColumn(new Column(
+            'currency',
+            true,
+            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getLatestCurrenciesForSelect())]],
+        ));
     }
 
 }

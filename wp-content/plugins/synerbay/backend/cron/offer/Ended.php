@@ -59,12 +59,10 @@ class Ended extends AbstractCron implements InterfaceCron
                             $mail->send($customer->get_name(), $customer->get_email(), $apply);
                         }
                     }
-                    // vendor kiértesítése (ha nem járt sikerrel [vagy kevesen vannak, vagy konkrétan 0 ember jelentkezett], akkor segítsünk neki, hogy hívja meg az eddig partnereit, stb)
                     // charge (ha nem 0)
-//                    if ($offer['actual_commission_price'] > 0) {
-//                        $this->charge($offer);
-//                    }
+                    $this->charge($offer);
 
+                    // vendor kiértesítése (ha nem járt sikerrel [vagy kevesen vannak, vagy konkrétan 0 ember jelentkezett], akkor segítsünk neki, hogy hívja meg az eddig partnereit, stb)
                     // send email to vendor
                     /** @var Dokan_Vendor $vendor */
                     $vendor = $offer['vendor'];
@@ -138,8 +136,22 @@ class Ended extends AbstractCron implements InterfaceCron
         return $order;
     }
 
-//    private function charge(FullOfferResource $offer)
-//    {
-//        return true;
-//    }
+    /**
+     * Algo:
+     * - megnézzük, hogy szükséges-e a charge
+     * - megnézzük az offer pénznemét
+     * - átváltjuk usd-re ha kell
+     * - megcsináljuk a transactiont
+     * - megcsináljuk a bilingo számlát
+     *
+     * @see \SynerBay\Services\CurrencyService::exchange()
+     * @see \SynerBay\Helper\SynerBayDatahelper::getLatestCurrenciesForSelect()
+     *
+     * @param array $offer
+     * @return bool
+     */
+    private function charge(array $offer)
+    {
+        return true;
+    }
 }
