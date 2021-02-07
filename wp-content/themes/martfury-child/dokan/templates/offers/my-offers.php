@@ -17,7 +17,6 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
                             <a href="<?php echo esc_url(dokan_get_navigation_url('new-offer')); ?>"
                                class="dokan-btn dokan-btn-theme <?php echo ('on' == dokan_get_option('disable_product_popup',
                                        'dokan_selling', 'off')) ? '' : 'dokan-add-new-product'; ?>">
-                                <i class="fa fa-bullhorn">&nbsp;</i>
                                 <?php esc_html_e('Add new Offer', 'dokan-lite'); ?>
                             </a>
                         <?php endif ?>
@@ -73,7 +72,7 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
                 . '</tr>';
         }
     } else {
-        echo '<td colspan="9">No offers found</td>';
+        echo '<td colspan="10">No offers found</td>';
     }
 
     ?>
