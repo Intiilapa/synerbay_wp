@@ -4,7 +4,7 @@ if ( ! function_exists( 'generate_header_nonce' ) ) {
     function generate_header_nonce()
     {
         if (!array_key_exists('header_nonce_action', $_SESSION)) {
-            $_SESSION['header_nonce_action'] = 'header_' . time() .'_'. rand(1, 1000);
+            $_SESSION['header_nonce_action'] = 'header-' . time() .'-'. rand(1, 1000);
         }
 
         return wp_create_nonce($_SESSION['header_nonce_action']);
@@ -41,7 +41,7 @@ if ( ! function_exists( 'generate_offer_search_nonce' ) ) {
         }
 
         if (!array_key_exists('generate_offer_search_nonce_action', $_SESSION)) {
-            $_SESSION['generate_offer_search_nonce_action'] = 'offer_search_' . time() .'_'. rand(1, 1000);
+            $_SESSION['generate_offer_search_nonce_action'] = 'offer-search-' . time() .'-'. rand(1, 1000);
         }
 
         return wp_create_nonce($_SESSION['generate_offer_search_nonce_action']);

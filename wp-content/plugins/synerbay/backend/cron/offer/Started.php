@@ -24,6 +24,8 @@ class Started extends AbstractCron implements InterfaceCron
 
     public function run()
     {
+        // EZ KELL !!! HA NEM ITT HÍVOD? AKKOR ELKÚSZIK A REg mail
+        wc()->mailer();
         // init
         $offerRepository = new OfferRepository();
         $vendorRepository = new VendorRepository();

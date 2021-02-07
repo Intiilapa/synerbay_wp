@@ -24,6 +24,8 @@ class Ended extends AbstractCron implements InterfaceCron
 
     public function run()
     {
+        // EZ KELL !!! HA NEM ITT HÍVOD? AKKOR ELKÚSZIK A REg mail
+        wc()->mailer();
         // init
         $repository = new OfferRepository();
         $resource = new FullOfferResource();
@@ -53,7 +55,7 @@ class Ended extends AbstractCron implements InterfaceCron
                             $customer = $apply['customer'];
                             // customer gran total
                             $applicantTotal = (int)$apply['qty'] * (float)$offer['summary']['actual_product_price'];
-                            $apply['grand_total'] = wc_price($applicantTotal);
+                            $apply['grand_total'] = wc_price($applicantTotal, ['currency' => strtoupper($offer['currency'])]);
 
                             unset($apply['customer']);
                             $mail->send($customer->get_name(), $customer->get_email(), $apply);

@@ -21,9 +21,7 @@ class CurrencySync extends AbstractCron implements InterfaceCron
         if ($data = $currencyService->getCurrentRates()) {
             $currencyRepository = new CurrencyRepository();
 
-            return $currencyRepository->create('USD', $data['timestamp_to_date'], $data['rates_in_usd']);
+            $currencyRepository->create('USD', $data['timestamp_to_date'], $data['rates_in_usd']);
         }
-
-        return false;
     }
 }
