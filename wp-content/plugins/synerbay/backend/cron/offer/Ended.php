@@ -125,7 +125,7 @@ class Ended extends AbstractCron implements InterfaceCron
         $order->set_address($address, 'billing');
         $order->set_address($address, 'shipping');
         $order->set_total($total);
-        $order->set_total($total);
+        $order->set_currency(strtoupper($offerData['currency']));
         $order->save();
 
         $order->calculate_totals();
