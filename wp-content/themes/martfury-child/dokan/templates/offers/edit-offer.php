@@ -60,14 +60,13 @@ do_action( 'dokan_new_product_wrap_before' );
             </h1>
             <span>
                 <b>IMPORTANT!</b></br>
-                    Once you have created the offer, you can not delete later.</br>
+                    Once the offer has started, you can not delete later.</br>
                     When you set the expiration date of the offer, it will automatically close itself (you don’t have to delete it later)</br>
                     In case if any unexpected circumstance affects the ability to fulfill the order, you can later accept or decline your customer requests (so you can exempt yourself to fulfill any order).</br>
                     </br><b>Current timezone: </b>UTC+0 (Preview: <?php echo $current_time;?>) </br></br>
                 </span>
             <hr>
         </header><!-- .entry-header -->
-
 
         <div class="dokan-new-product-area">
             <!--check if create-->

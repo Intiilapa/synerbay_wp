@@ -40,7 +40,7 @@ class SelectElement extends AbstractElement
             $haystack = ['' => 'Please create product'];
         }
 
-        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Select the product you want to offer');
+        $this->generateDokanSelect('product_id', $haystack, 'Product', $selected, $errorMessages, 'Select the product you want to offer.<br>If you did not add any product yet, click catalogue » add new product');
     }
 
     public function getDokanMaterialTypesSelect($selectedHaystack = [], array $errorMessages = []) {

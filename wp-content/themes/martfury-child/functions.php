@@ -279,6 +279,7 @@ function extra_fields($current_user, $profile_info)
         </div>
     </div>
 
+    <hr>
     <?php
 }
 
@@ -532,7 +533,7 @@ function dokan_can_add_product_validation_customized($errors)
 
         $colMap = [
             'weight_unit' => 'Unit',
-            'weight_unit_type' => 'Unit Type',
+//            'weight_unit_type' => 'Unit Type',
             'material' => 'Material',
         ];
 
@@ -554,9 +555,9 @@ function dokan_new_product_popup_validation_customized($errors, $data)
     if (!$data['feat_image_id']) {
         return new WP_Error('no-image', __('Please select AT LEAST ONE Picture', 'dokan-lite'));
     }
-    if (!$data['weight_unit']) {
-        return new WP_Error('no-weight-unit', __('Please insert product weight unit', 'dokan-lite'));
-    }
+//    if (!$data['weight_unit']) {
+//        return new WP_Error('no-weight-unit', __('Please insert product weight unit', 'dokan-lite'));
+//    }
     if (!$data['material']) {
         return new WP_Error('no-material', __('Please insert product material', 'dokan-lite'));
     }
@@ -577,7 +578,7 @@ function product_custom_details()
     do_action('synerbay_product_rfqs', $product->get_id());
 
     $weight_unit = get_post_meta($product->get_id(), '_weight_unit', true);
-    $weight_unit_type = get_post_meta($product->get_id(), '_weight_unit_type', true);
+//    $weight_unit_type = get_post_meta($product->get_id(), '_weight_unit_type', true);
     $material = get_post_meta($product->get_id(), '_material', true);
     echo '<div class="product_custom_details">';
     if (!empty($weight_unit)) {
@@ -585,11 +586,11 @@ function product_custom_details()
         <span class="custom_details"><?php echo esc_attr__('Unit: ', 'dokan-lite'); ?><?php echo esc_attr($weight_unit); ?></span></br>
         <?php
     }
-    if (!empty($weight_unit_type)) {
-        ?>
-        <span class="custom_details"><?php echo esc_attr__('Unit type: ', 'dokan-lite'); ?><?php echo esc_attr($weight_unit_type); ?></span></br>
-        <?php
-    }
+//    if (!empty($weight_unit_type)) {
+//        ?>
+    <!--        <span class="custom_details">--><?php //echo esc_attr__('Unit type: ', 'dokan-lite'); ?><!----><?php //echo esc_attr($weight_unit_type); ?><!--</span></br>-->
+    <!--        --><?php
+//    }
     if (!empty($material)) {
         ?>
         <span class="custom_details"><?php echo esc_attr__('Material: ', 'dokan-lite'); ?><?php echo esc_attr($material); ?></span></br>
@@ -597,13 +598,13 @@ function product_custom_details()
     }
     echo '</div>';
 
-/*
-*
-*  Product page
-*  RFQ tab
-*  Show only if owner
-*
-*/
+    /*
+    *
+    *  Product page
+    *  RFQ tab
+    *  Show only if owner
+    *
+    */
     if (is_product() && get_current_user_id() == $post->post_author) {
         add_filter('woocommerce_product_tabs', 'rfq_product_tab');
         function rfq_product_tab($tabs)
@@ -847,6 +848,7 @@ function active_offers_my_account_endpoint_content() {
             <th><?php esc_html_e('Current price', 'dokan-lite'); ?></th>
             <th><?php esc_html_e('Current quantity', 'dokan-lite'); ?></th>
             <th><?php esc_html_e('Offer end date', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Status', 'dokan-lite'); ?></th>
             <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
         </tr>
         <?php
@@ -867,6 +869,7 @@ function active_offers_my_account_endpoint_content() {
                 . '<td><b>' . $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
                 . '<td><b>' . $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
                 . '<td><b>' . date('Y-m-d', strtotime($offerApply['offer']['offer_end_date'])) . '</b></td>'
+                . '<td><b>' . SynerBayDataHelper::offerAppearStatusLabel($offerApply['status']) . '</b></td>'
                 . '<td>' . $deleteButton . $showOfferButton . '</td>'
                 . '</tr>';
         }

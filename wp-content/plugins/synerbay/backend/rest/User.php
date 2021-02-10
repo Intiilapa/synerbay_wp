@@ -70,7 +70,7 @@ class User extends AbstractRest
         if (!count($message)) {
             $emailService->setParams(['url' => $inviteUrl]);
             $emailService->send($name, $email, ['inviterName' => ucfirst($inviterName)]);
-            $message = ['success' => 'Invite sended!'];
+            $message = ['success' => 'Invite sent!'];
         }
 
         $responseData = [

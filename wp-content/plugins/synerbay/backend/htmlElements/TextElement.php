@@ -38,7 +38,7 @@ class TextElement extends AbstractElement
 
     public function getDokanOfferUnitInput($value = '', array $errorMessages = [])
     {
-        $this->getDokanIntegerInput('Unit', 'weight_unit', $value, '', $errorMessages, '');
+        $this->getDokanTextInput('Unit', 'weight_unit', $value, '', $errorMessages, '');
     }
 
     public function getDokanOfferDeliveryStartDate($value = '', array $errorMessages = [])

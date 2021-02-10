@@ -1276,5 +1276,16 @@ class SynerBayDataHelper
 
         return ArrayHelper::reKeyBySlugFromValue($currencies);
     }
+
+    public static function  offerAppearStatusLabel(string $status)
+    {
+        $labels = [
+            'pending' => 'Pending',
+            'active' => 'Accepted',
+            'denied' => 'Rejected',
+        ];
+
+        return $labels[$status];
+    }
 }
 

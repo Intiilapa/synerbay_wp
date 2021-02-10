@@ -28,7 +28,7 @@ class Dokan
         $values = $form->getFilteredValues();
 
         add_post_meta($product_id, '_weight_unit', $values['weight_unit']);
-        add_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
+//        add_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
         add_post_meta($product_id, '_material', $values['material']);
 
         $this->refreshProductCategories($product_id, $postData);
@@ -40,7 +40,7 @@ class Dokan
         $values = $form->getFilteredValues();
 
         update_post_meta($product_id, '_weight_unit', $values['weight_unit']);
-        update_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
+//        update_post_meta($product_id, '_weight_unit_type', $values['weight_unit_sign']);
         update_post_meta($product_id, '_material', $values['material']);
 
         $this->refreshProductCategories($product_id, $postData);

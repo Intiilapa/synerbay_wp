@@ -1,5 +1,7 @@
 <?php
 
+use SynerBay\Helper\SynerBayDataHelper;
+
 do_action('synerbay_init_global_my_offer_applies_for_dashboard');
 global $myOfferApplies;
 
@@ -37,6 +39,7 @@ do_action('dokan_new_product_wrap_before');
                 <th><?php esc_html_e('Current price', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Current quantity', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Offer end date', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Status', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
             </tr>
             <?php
@@ -57,6 +60,7 @@ do_action('dokan_new_product_wrap_before');
                     . '<td><b>' . $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
                     . '<td><b>' . $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
                     . '<td><b>' . date('Y-m-d', strtotime($offerApply['offer']['offer_end_date'])) . '</b></td>'
+                    . '<td><b>' . SynerBayDataHelper::offerAppearStatusLabel($offerApply['status']) . '</b></td>'
                     . '<td>' . $deleteButton . $showOfferButton . '</td>'
                     . '</tr>';
             }

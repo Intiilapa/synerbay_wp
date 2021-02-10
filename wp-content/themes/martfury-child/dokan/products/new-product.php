@@ -1,9 +1,8 @@
 <?php
 
-use SynerBay\Forms\CreateOffer;
 use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
-    $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
+$get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
     $post_data = wp_unslash( $_POST ); // WPCS: CSRF ok.
 
 
@@ -166,7 +165,7 @@ use WeDevs\Dokan\Walkers\TaxonomyDropdown;
                                     <?php
                                         //custom form elements ...
                                         do_action('synerbay_getDokanOfferUnitInput', esc_attr( dokan_posted_input( 'weight_unit' ) ), []);
-                                        do_action('synerbay_getDokanUnitTypesSelect', dokan_posted_input( 'unit_type', true ), []);
+//                                        do_action('synerbay_getDokanUnitTypesSelect', dokan_posted_input( 'unit_type', true ), []);
                                         do_action('synerbay_getDokanMaterialTypesSelect', dokan_posted_input( 'material', true ), []);
                                     ?>
 

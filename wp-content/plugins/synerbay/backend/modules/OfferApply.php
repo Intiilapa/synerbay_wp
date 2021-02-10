@@ -109,7 +109,7 @@ class OfferApply extends AbstractModule
         try {
             if ($offer = $this->offerModule->getOfferData($offerID, true, true, true)) {
                 if (strtotime(date('Y-m-d H:i:s')) > strtotime($offer['offer_end_date'])) {
-                    throw new Exception('It cannot be delete because offer is finished!');
+                    throw new Exception('Order need can not be deleted, because this offer is closed!');
                 }
 
                 if($wpdb->delete($wpdb->prefix . 'offer_applies', [

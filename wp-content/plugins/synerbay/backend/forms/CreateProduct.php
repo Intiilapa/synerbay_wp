@@ -14,15 +14,15 @@ class CreateProduct extends AbstractForm
         $this->addColumn(new Column(
             'weight_unit',
             true,
-            ['integer' => []],
-            ['integer']
+            ['StringLength' => ['min' => 1, 'max' => 255],],
+            ['Trim', 'SetNull'],
         ));
 
-        $this->addColumn(new Column(
-            'weight_unit_sign',
-            true,
-            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getUnitTypes())]],
-        ));
+//        $this->addColumn(new Column(
+//            'weight_unit_sign',
+//            true,
+//            ['inArray' => ['haystack' => array_keys(SynerBayDataHelper::getUnitTypes())]],
+//        ));
 
         $this->addColumn(new Column(
             'material',

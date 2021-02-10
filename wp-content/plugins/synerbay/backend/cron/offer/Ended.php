@@ -26,6 +26,7 @@ class Ended extends AbstractCron implements InterfaceCron
     {
         // EZ KELL !!! HA NEM ITT HÍVOD? AKKOR ELKÚSZIK A REg mail
         wc()->mailer();
+        global $wpdb;
         // init
         $repository = new OfferRepository();
         $resource = new FullOfferResource();
@@ -59,6 +60,11 @@ class Ended extends AbstractCron implements InterfaceCron
 
                             unset($apply['customer']);
                             $mail->send($customer->get_name(), $customer->get_email(), $apply);
+
+                            // delete appear
+                            $wpdb->delete($wpdb->prefix . 'offer_applies', [
+                                'id' => $apply['id'],
+                            ]);
                         }
                     }
                     // charge (ha nem 0)
@@ -108,13 +114,13 @@ class Ended extends AbstractCron implements InterfaceCron
             'customer_id' => $wcUser->ID,
         ]);
 
-        $subTotal = 1;
-        $total = 1;
-
-        if (!SYNERBAY_TEST_MODE) {
+//        $subTotal = 1;
+//        $total = 1;
+//
+//        if (!SYNERBAY_TEST_MODE) {
             $subTotal = $applyUser['qty'] * $offerData['summary']['actual_product_price'];
             $total = $applyUser['qty'] * $offerData['summary']['actual_product_price'];
-        }
+//        }
 
         $order->add_product($offerData['product']['wc_product'], $applyUser['qty'],
             [
