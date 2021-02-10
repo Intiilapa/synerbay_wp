@@ -296,6 +296,16 @@ input#bulk-product-action {
   }
 }
 
+.woocommerce ul.products li.product .product-inner{
+  padding: 20px 10px 0!important;
+}
+
+.woocommerce ul.products li.product .mf-product-details-hover{
+  padding: 0 10px 10px;
+  left: -11px;
+  right: -11px;
+}
+
 .woocommerce ul.products li.product .mf-product-details-hover .sold-by-meta .sold-by-label{
   display: block!important;
 }
