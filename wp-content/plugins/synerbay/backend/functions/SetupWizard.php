@@ -1,6 +1,7 @@
 <?php
 namespace SynerBay\Functions\Dokan\Vendor\Wizard;
 
+use WC_Countries;
 use WeDevs\Dokan\Vendor\SetupWizard as DokanVendorSetupWizard;
 
 class SetupWizard extends DokanVendorSetupWizard {
