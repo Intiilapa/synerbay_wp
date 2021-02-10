@@ -5,6 +5,7 @@ namespace SynerBay\Functions;
 
 
 use SynerBay\Forms\CreateProduct;
+use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
 use SynerBay\Helper\SynerBayDataHelper;
 use WC_Product;
 use WP_Role;
@@ -18,9 +19,62 @@ class Dokan
         add_action('dokan_product_updated', [$this, 'productEditHook'], 10, 2);
         add_action('init', [$this, 'addShopUserRole'], 10, 2);
 
+        // magic szám, nem piszkáld, csak így tudjuk behúzni a saját setup wizardunkat
+        add_action( 'init', array( $this,'validateEmailLink' ), 99 );
+
         // login
         add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
 
+    }
+
+    /**
+     * A dokan pronak a kurva anyját :D
+     * Ezt a hekket, csak azért nem tudjuk felülírni a defaultját, te jó ég!!!!!!
+     * Az alatta lévő szart behúzza 100-as prioval és mi behekkeltük!!!
+     *
+     * @see \WeDevs\DokanPro\EmailVerification::validate_email_link
+     *
+     */
+    public function validateEmailLink()
+    {
+        if ( !isset( $_GET['dokan_email_verification'] ) && empty( $_GET['dokan_email_verification'] ) ) {
+            return;
+        }
+
+        if ( !isset( $_GET['id'] ) && empty( $_GET['id'] ) ) {
+            return;
+        }
+
+        $user_id = intval( $_GET['id'] );
+        $activation_key = $_GET['dokan_email_verification'];
+
+        if ( get_user_meta( $user_id, '_dokan_email_verification_key', true ) != $activation_key ) {
+            return;
+        }
+
+        delete_user_meta( $user_id, '_dokan_email_pending_verification' );
+        delete_user_meta( $user_id, '_dokan_email_verification_key' );
+
+        do_action( 'woocommerce_set_cart_cookies', true );
+
+        $user = get_user_by( 'id', $user_id );
+
+        if ( $user ) {
+            clean_user_cache( $user_id );
+            wp_clear_auth_cookie();
+            wp_set_current_user( $user_id, $user->user_login );
+
+            if ( is_ssl() == true ) {
+                wp_set_auth_cookie( $user_id, true, true );
+            } else {
+                wp_set_auth_cookie( $user_id, true, false );
+            }
+
+            update_user_caches( $user );
+        }
+
+        $seller_wizard = new SetupWizard();
+        $seller_wizard->setup_wizard();
     }
 
     public function productCreateHook(int $product_id, array $postData)
