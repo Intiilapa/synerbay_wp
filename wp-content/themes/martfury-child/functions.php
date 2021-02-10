@@ -31,10 +31,8 @@ function remove_admin_bar() {
 function myThemeIncludes()
 {
     require_once __DIR__ . '/inc/frontend/woocommerce.php';
-//    require_once __DIR__ . '/inc/frontend/wizard.php';
 
     new Martfury_Child_WooCommerce();
-//    new Dokan_Setup_Wizard_Override();
 }
 
 add_action('after_setup_theme', 'myThemeIncludes');
@@ -508,4 +506,399 @@ function dokan_load_document_menu_show_offers($query_vars)
 {
     $query_vars['show-offers'] = 'show-offers';
     return $query_vars;
+}
+
+add_action('dokan_load_custom_template', 'dokan_load_template_show_offers');
+function dokan_load_template_show_offers($query_vars)
+{
+    if (isset($query_vars['show-offers'])) {
+        require_once dirname(__FILE__) . '/dokan/templates/offers/show-offers.php';
+    }
+}
+
+/*
+* Validation for new product
+*
+* @param array $errors
+* @return array $errors
+*/
+function dokan_can_add_product_validation_customized($errors)
+{
+    $postData = wp_unslash($_POST);
+    $featured_image = absint(sanitize_text_field($postData['feat_image_id']));
+
+    if (empty($featured_image) && !in_array('Please upload a product cover image', $errors)) {
+        $errors[] = 'Please upload a product cover image';
+    }
+
+    $form = new CreateProductForm($postData);
+
+    if (!$form->validate()) {
+        $formErrors = $form->errorMessages();
+
+        $colMap = [
+            'weight_unit' => 'Unit',
+//            'weight_unit_type' => 'Unit Type',
+            'material' => 'Material',
+        ];
+
+        foreach ($formErrors as $col => &$error) {
+            $error = $colMap[$col] . ': ' . $error;
+        }
+
+        $errors = array_merge($errors, $formErrors);
+    }
+
+    $validator = new RequiredValidator();
+
+    return $errors;
+}
+
+add_filter('dokan_can_add_product', 'dokan_can_add_product_validation_customized', 35, 1);
+function dokan_new_product_popup_validation_customized($errors, $data)
+{
+    if (!$data['feat_image_id']) {
+        return new WP_Error('no-image', __('Please select AT LEAST ONE Picture', 'dokan-lite'));
+    }
+//    if (!$data['weight_unit']) {
+//        return new WP_Error('no-weight-unit', __('Please insert product weight unit', 'dokan-lite'));
+//    }
+    if (!$data['material']) {
+        return new WP_Error('no-material', __('Please insert product material', 'dokan-lite'));
+    }
+}
+
+add_filter('dokan_new_product_popup_args', 'dokan_new_product_popup_validation_customized', 35, 2);
+
+//Add custom metafields/details to default product page
+add_action('woocommerce_single_product_summary', 'product_custom_details', 13);
+function product_custom_details()
+{
+    global $product, $post, $rfqa;
+
+    if (empty($product)) {
+        return;
+    }
+    // init product rfqa to global
+    do_action('synerbay_product_rfqs', $product->get_id());
+
+    $weight_unit = get_post_meta($product->get_id(), '_weight_unit', true);
+//    $weight_unit_type = get_post_meta($product->get_id(), '_weight_unit_type', true);
+    $material = get_post_meta($product->get_id(), '_material', true);
+    echo '<div class="product_custom_details">';
+    if (!empty($weight_unit)) {
+        ?>
+        <span class="custom_details"><?php echo esc_attr__('Unit: ', 'dokan-lite'); ?><?php echo esc_attr($weight_unit); ?></span></br>
+        <?php
+    }
+//    if (!empty($weight_unit_type)) {
+//        ?>
+    <!--        <span class="custom_details">--><?php //echo esc_attr__('Unit type: ', 'dokan-lite'); ?><!----><?php //echo esc_attr($weight_unit_type); ?><!--</span></br>-->
+    <!--        --><?php
+//    }
+    if (!empty($material)) {
+        ?>
+        <span class="custom_details"><?php echo esc_attr__('Material: ', 'dokan-lite'); ?><?php echo esc_attr($material); ?></span></br>
+        <?php
+    }
+    echo '</div>';
+
+    /*
+    *
+    *  Product page
+    *  RFQ tab
+    *  Show only if owner
+    *
+    */
+    if (is_product() && get_current_user_id() == $post->post_author) {
+        add_filter('woocommerce_product_tabs', 'rfq_product_tab');
+        function rfq_product_tab($tabs)
+        {
+            $tabs['rfq'] = array(
+                'title' => __('RFQ', 'woocommerce'),
+                'priority' => 100,
+                'callback' => '_rfq_product_tab_content'
+            );
+            return $tabs;
+        }
+
+        function _rfq_product_tab_content()
+        {
+            global $rfqs;
+            echo '<h2>Request for quotations</h2>';
+            echo '
+            <div class="notice-box">
+                <b>You have received requests for quotation.</b></br>
+                After you have added an offer of this product we will inform every customer interested in this offer.</br>
+                We also inform all of your followers after every further offer added.</br>
+
+            </div>';
+            if (count($rfqs)) {
+
+
+            } else {
+                echo '<br>Remco, kérdezd meg az Andristól, hogy mi legyen a szöveg, ha tök üres, nincs mit megjeleníteni!';
+            }
+            ?>
+            <table class="dokan-table dokan-table-striped rfq" id="rfq-table">
+                <thead>
+                <tr>
+                    <th><?php esc_html_e('Vendor', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Quantity', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Created', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+                </tr>
+
+                <?php
+                foreach ($rfqs as $rfq) {
+                    $showOffer = "<a href='" . $rfq['vendor']->get_shop_url() . "' class='dokan-btn dokan-btn-default dokan-btn-sm btn-rfq' data-toggle='tooltip' data-placement='top' title='' data-original-title='Show vendor'><i class='fa fa-eye'>&nbsp;</i></a>";
+                    echo '<tr id="rfq_row_' . $rfq['user_id'] . '">'
+                        . '<td>' . $rfq['vendor']->get_name() . '</td>'
+                        . '<td><b>' . $rfq['qty'] . '</b></td>'
+                        . '<td>' . date('Y-m-d', strtotime($rfq['created_at'])) . '</td>'
+                        . '<td>' . $showOffer . '</td>'
+                        . '</tr>';
+                }
+                ?>
+                </thead>
+            </table>
+
+            <?php
+        }
+    }
+    do_action('synerbay_product_buttons');
+    echo '<hr>';
+}
+
+/**
+ * Generate a string of random characters
+ *
+ * @param array $args The arguments to use for this function
+ * @return string|null  The random string generated by this function (only 'if($args['echo'] === false)')
+ */
+function my_random_string($args = array())
+{
+
+    $defaults = array(  // Set some defaults for the function to use
+        'characters' => '0123456789',
+        'length' => 32,
+        'before' => '',
+        'after' => '',
+        'echo' => false
+    );
+    $args = wp_parse_args($args, $defaults);    // Parse the args passed by the user with the defualts to generate a final '$args' array
+
+    if (absint($args['length']) < 1) // Ensure that the length is valid
+        return;
+
+    $characters_count = strlen($args['characters']);    // Check how many characters the random string is to be assembled from
+    for ($i = 0; $i <= $args['length']; $i++) :          // Generate a random character for each of '$args['length']'
+
+        $start = mt_rand(0, $characters_count);
+        $random_string .= substr($args['characters'], $start, 1);
+
+    endfor;
+
+    $random_string = $args['before'] . $random_string . $args['after']; // Add the before and after strings to the random string
+
+    if ($args['echo']) : // Check if the random string shoule be output or returned
+        echo $random_string;
+    else :
+        return $random_string;
+    endif;
+
+}
+
+/**
+ * Upon user registration, generate a random number and add this to the usermeta table
+ *
+ * @param required integer $user_id The ID of the newly registerd user
+ */
+add_action('user_register', 'uniq_invite_code');
+function uniq_invite_code($user_id)
+{
+
+    $args = array(
+        'length' => 6,
+        'before' => date("Y")
+    );
+    $random_number = my_random_string($args);
+    update_user_meta($user_id, '_invite_code', $random_number);
+
+}
+
+/*
+* Allow SVG upload
+*/
+//function cc_mime_types($mimes) {
+//    $mimes['svg'] = 'image/svg+xml';
+//    return $mimes;
+//}
+//add_filter('upload_mimes', 'cc_mime_types');
+
+/*
+*
+* Dokan Dashboard / General
+* @since 3.0.16
+* @package dokan
+*
+*/
+
+//Change icons on Dokan dashboard
+add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
+function change_dokan_dashboard_icon($urls){
+    $urls['products']['icon'] = '<span id="svg-icon" class="icon-products"></span>';
+    $urls['offer']['icon']    = '<span id="svg-icon" class="icon-offer"></span>';
+    $urls['orders']['icon']   = '<span id="svg-icon" class="icon-orders"></span>';
+    return $urls;
+}
+
+//rename products
+add_filter ('dokan_get_dashboard_nav','rename_dashboard_product',16);
+function rename_dashboard_product($urls){
+    $urls['products']['title'] = __( 'Catalogue', 'dokan-lite' );
+    return $urls;
+}
+
+//remove coupons from dashboard
+function dokan_remove_coupon_menu( $urls ) {
+    unset($urls["coupons"]);
+    return $urls;
+}
+add_filter('dokan_get_dashboard_nav', 'dokan_remove_coupon_menu', 16 );
+
+/*
+*
+* Woocommerce custom changes
+* @version 4.9.1
+*
+*/
+
+//Completely remove cart from woocommerce
+remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
+remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
+remove_action('woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30);
+remove_action('woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30);
+
+//Message when no products found
+add_action( 'woocommerce_no_products_found', function(){
+    remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 ); ?>
+    <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+    <?php
+}, 9 );
+
+//Remove item from menu - Customer account page
+add_filter ( 'woocommerce_account_menu_items', 'my_account_remove_menu_item' );
+function my_account_remove_menu_item( $menu_links ){
+    //unset( $menu_links['edit-address'] ); // Addresses
+    //unset( $menu_links['dashboard'] ); // Remove Dashboard
+    //unset( $menu_links['payment-methods'] ); // Remove Payment Methods
+    //unset( $menu_links['orders'] ); // Remove Orders
+    unset( $menu_links['downloads'] ); // Disable Downloads
+    //unset( $menu_links['edit-account'] ); // Remove Account details tab
+    //unset( $menu_links['customer-logout'] ); // Remove Logout link
+
+    return $menu_links;
+}
+
+//Remove cancel button
+add_filter('woocommerce_my_account_my_orders_actions', 'remove_myaccount_orders_cancel_button', 10, 2);
+function remove_myaccount_orders_cancel_button( $actions, $order ){
+    unset($actions['pay']);
+    unset($actions['cancel']);
+    return $actions;
+}
+
+//Change number or products per row to 5
+add_filter('loop_shop_columns', 'loop_columns', 999);
+if (!function_exists('loop_columns')) {
+    function loop_columns() {
+        return 5;
+    }
+}
+
+//Account page - Add active offers page
+add_filter ( 'woocommerce_account_menu_items', 'my_account_active_offers', 40 );
+function my_account_active_offers( $menu_links ){
+
+    $menu_links = array_slice( $menu_links, 0, 1, true )
+        + array( 'active-offers' => 'Active Offers' )
+        + array_slice( $menu_links, 1, NULL, true );
+
+    return $menu_links;
+
+}
+
+//Init endpoint
+add_action( 'init', 'active_offers_add_endpoint' );
+function active_offers_add_endpoint() {
+    add_rewrite_endpoint( 'active-offers', EP_PAGES );
+}
+
+//Active offer content
+add_action( 'woocommerce_account_active-offers_endpoint', 'active_offers_my_account_endpoint_content' );
+function active_offers_my_account_endpoint_content() {
+    do_action('synerbay_init_global_my_offer_applies_for_dashboard');
+    global $myOfferApplies; ?>
+    <!-- Start -->
+    <button class="dokan-btn dokan-btn-theme" onClick="window.location.reload();"><i class="fa fa-refresh">&nbsp;</i> Refresh active offers</button>
+    </br></br>
+    <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
+           id="dokan-product-list-table">
+        <thead>
+        <tr>
+            <th><?php esc_html_e('Offer ID', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Product name', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Quantity', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Current price', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Current quantity', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Offer end date', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Status', 'dokan-lite'); ?></th>
+            <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+        </tr>
+        <?php
+        $currentDate = strtotime(date('Y-m-d H:i:s'));
+        foreach ($myOfferApplies as $offerApply) {
+
+            $deleteButton = '';
+            $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
+
+            if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
+                $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(" . $offerApply['offer_id'] . ")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
+            }
+
+            echo '<tr id="my_active_offer_row_' . $offerApply['offer_id'] . '">'
+                . '<td>' . $offerApply['offer_id'] . '</td>'
+                . '<td>' . $offerApply['offer']['product']['post_title'] . '</td>'
+                . '<td>' . $offerApply['qty'] . '</td>'
+                . '<td><b>' . $offerApply['offer']['summary']['formatted_actual_product_price'] . '</b></td>'
+                . '<td><b>' . $offerApply['offer']['summary']['actual_applicant_product_number'] . '</b></td>'
+                . '<td><b>' . date('Y-m-d', strtotime($offerApply['offer']['offer_end_date'])) . '</b></td>'
+                . '<td><b>' . SynerBayDataHelper::offerAppearStatusLabel($offerApply['status']) . '</b></td>'
+                . '<td>' . $deleteButton . $showOfferButton . '</td>'
+                . '</tr>';
+        }
+
+        if (!$myOfferApplies) {
+            echo '<td colspan="7">No active offers found</td>';
+        } ?>
+        </thead>
+    </table>
+    <!-- End -->
+    <?php
+}
+
+//Product search results / sorting
+function remove_woocommerce_catalog_orderby( $orderby ) {
+    unset($orderby["price"]);
+    unset($orderby["price-desc"]);
+    return $orderby;
+}
+add_filter( "woocommerce_catalog_orderby", "remove_woocommerce_catalog_orderby", 20 );
+
+//Change the product tab order
+add_filter( 'woocommerce_product_tabs', 'woocommerce_change_tabs_order' );
+function woocommerce_change_tabs_order( $tabs ) {
+    $tabs['more_seller_product']['priority'] = 5;
+    return $tabs;
 }
