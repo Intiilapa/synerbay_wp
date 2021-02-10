@@ -32,7 +32,8 @@ function myThemeIncludes()
     new Dokan_Setup_Wizard_Override();
 }
 
-add_action('before_setup_theme', 'myThemeIncludes');
+add_action('after_setup_theme', 'myThemeIncludes');
+
 
 // end include parent classes
 add_action('wp_footer', 'custom_footer_actions');
