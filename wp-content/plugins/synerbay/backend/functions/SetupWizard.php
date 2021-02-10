@@ -5,16 +5,10 @@ use WeDevs\Dokan\Vendor\SetupWizard as DokanVendorSetupWizard;
 
 class SetupWizard extends DokanVendorSetupWizard {
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Introduction step.
      */
     public function dokan_setup_introduction() {
-        $dashboard_url = dokan_get_navigation_url();
         ?>
         <h1><?php esc_attr_e( 'Welcome to the Marketplace!', 'dokan-lite' ); ?></h1>
         <p><?php echo wp_kses( __( 'Thank you for choosing The Marketplace to power your online store! This quick setup wizard will help you configure the basic settings. <strong>It’s completely optional and shouldn’t take longer than two minutes.</strong>', 'dokan-lite' ), [ 'strong' => [] ] ); ?></p>
