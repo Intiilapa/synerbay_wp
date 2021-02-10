@@ -1,6 +1,11 @@
 <?php
 
+use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
 use SynerBay\Helper\SynerBayDataHelper;
+
+// ez is akibaszott hekk része, hogy rohadjon meg!
+// ha kiváncsi vagy, keress rá a fájlra.
+new SetupWizard();
 
 add_action('wp_enqueue_scripts', 'martfury_child_enqueue_scripts', 20);
 function martfury_child_enqueue_scripts()
