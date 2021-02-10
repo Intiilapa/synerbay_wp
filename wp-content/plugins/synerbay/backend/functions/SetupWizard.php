@@ -4,6 +4,12 @@ namespace SynerBay\Functions\Dokan\Vendor\Wizard;
 use WeDevs\Dokan\Vendor\SetupWizard as DokanVendorSetupWizard;
 
 class SetupWizard extends DokanVendorSetupWizard {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
     /**
      * Introduction step.
      */

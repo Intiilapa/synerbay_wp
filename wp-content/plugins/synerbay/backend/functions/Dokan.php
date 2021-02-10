@@ -21,14 +21,15 @@ class Dokan
 
         // login
         add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
-        add_action('dokan_get_class_container', [$this, 'dokanClassContainerModify'], 10, 2);
+        add_action('dokan_get_class_container', [$this, 'dokanClassContainerModify'], 10, 1);
 
     }
 
-    public function dokanSellerWizardSteps($container)
+    public function dokanClassContainerModify($container)
     {
+//        die('fasz');
         $container['seller_wizard'] = new SetupWizard();
-            return $container;
+        return $container;
     }
 
     public function productCreateHook(int $product_id, array $postData)
