@@ -26,10 +26,10 @@ function remove_admin_bar() {
 function myThemeIncludes()
 {
     require_once __DIR__ . '/inc/frontend/woocommerce.php';
-    require_once __DIR__ . '/inc/frontend/wizard.php';
+//    require_once __DIR__ . '/inc/frontend/wizard.php';
 
     new Martfury_Child_WooCommerce();
-    new Dokan_Setup_Wizard_Override();
+//    new Dokan_Setup_Wizard_Override();
 }
 
 add_action('after_setup_theme', 'myThemeIncludes');

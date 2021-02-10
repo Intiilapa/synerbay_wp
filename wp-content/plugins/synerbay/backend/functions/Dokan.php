@@ -5,6 +5,7 @@ namespace SynerBay\Functions;
 
 
 use SynerBay\Forms\CreateProduct;
+use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
 use SynerBay\Helper\SynerBayDataHelper;
 use WC_Product;
 use WP_Role;
@@ -20,6 +21,14 @@ class Dokan
 
         // login
         add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
+        add_action('dokan_get_class_container', [$this, 'dokanClassContainerModify'], 10, 2);
+
+    }
+
+    public function dokanSellerWizardSteps($container)
+    {
+        $container['seller_wizard'] = new SetupWizard();
+            return $container;
     }
 
     public function productCreateHook(int $product_id, array $postData)
