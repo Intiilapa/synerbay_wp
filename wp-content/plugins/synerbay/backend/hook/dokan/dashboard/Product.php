@@ -22,6 +22,16 @@ class Product
             unset($row_action['delete']);
         }
 
+        //ha meg nem letezik offer a productrol, akkor legyen create offer gomb a row-actions kozott
+        if (array_key_exists('delete', $row_action)) {
+            $url = get_site_url() . '/dashboard/new-offer?product-id='.$post->ID;
+            $row_action['create-offer'] = array(
+                'title' => __( 'Create Offer', 'dokan' ),
+                'url'   => $url,
+                'class' => 'offer_create',
+            );
+        }
+
         return $row_action;
     }
 }

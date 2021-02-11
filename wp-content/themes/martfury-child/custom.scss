@@ -42,11 +42,12 @@ body{
 
 tr{
   th{
-    background-color: $primary-color;
+    background-color: $primary-color!important;
     color: white!important;
     font-weight: 500!important;
   }
 }
+
 .dokan_tabs{
   li{
     a{
@@ -304,6 +305,10 @@ input#bulk-product-action {
   padding: 0 10px 10px;
   left: -11px;
   right: -11px;
+}
+
+.gbcountdown-period{
+  font-size: 8px;
 }
 
 .woocommerce ul.products li.product .mf-product-details-hover .sold-by-meta .sold-by-label{
@@ -634,7 +639,17 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
     margin: 5px 0;
   }
 }
+.order-again{
+  display: none!important;
+}
 
+.not-right-now-btn{
+  display: none!important;
+}
+
+.woocommerce-account .woocommerce .woocommerce-MyAccount-content .woocommerce-MyAccount-orders thead th span {
+  color: white!important;
+}
 //New ribbon
 .woocommerce .ribbons .ribbon{
   right: unset!important;
