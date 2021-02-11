@@ -35,7 +35,7 @@ body {
 }
 
 tr th {
-  background-color: #ff004e;
+  background-color: #ff004e !important;
   color: white !important;
   font-weight: 500 !important;
 }
@@ -297,6 +297,10 @@ input#bulk-product-action {
   padding: 0 10px 10px;
   left: -11px;
   right: -11px;
+}
+
+.gbcountdown-period {
+  font-size: 8px;
 }
 
 .woocommerce ul.products li.product .mf-product-details-hover .sold-by-meta .sold-by-label {
@@ -693,6 +697,18 @@ button.modal_rounded_cancel {
 
 #price_step_wrapper #price_step_row {
   margin: 5px 0;
+}
+
+.order-again {
+  display: none !important;
+}
+
+.not-right-now-btn {
+  display: none !important;
+}
+
+.woocommerce-account .woocommerce .woocommerce-MyAccount-content .woocommerce-MyAccount-orders thead th span {
+  color: white !important;
 }
 
 .woocommerce .ribbons .ribbon {
