@@ -77,14 +77,14 @@
 
 <?php do_action( 'dokan_reg_form_field' ); ?>
 
-<p class="form-row form-group user-role">
+<p class="form-row form-group user-role" style="display: none;">
 
-	<label class="radio woocommerce-form__label-for-checkbox">
+<!--	<label class="radio woocommerce-form__label-for-checkbox">-->
 		<input checked type="radio" name="role" class="woocommerce-form__input-checkbox" value="seller"<?php checked( $role, 'seller' ); ?>>
-		<span>
-       	 <?php esc_html_e( 'I am a vendor', 'martfury' ); ?>
-		</span>
-	</label>
+<!--		<span>-->
+<!--       	 --><?php //esc_html_e( 'I am a vendor', 'martfury' ); ?>
+<!--		</span>-->
+<!--	</label>-->
 
 	<?php do_action( 'dokan_registration_form_role', $role ); ?>
 </p>
