@@ -68,13 +68,9 @@ function wc_change_offers_tabs( $tabs ) {
 	/**
 	 * add shipping to for description
 	 */
-	$tabs['description']['callback'] = function () use ($offer){
+	$tabs['shipping']['callback'] = function () use ($offer){
 		$desc = '<strong>Shipping to:</strong><br>' .
 			$offer['shipping_to_labels'];
-
-		if (!empty($offer['product']['wc_product']->get_description())) {
-			$desc .= '<hr><strong>Description:</strong><br>' . $offer['product']['wc_product']->get_description();
-		}
 
 		echo $desc;
 	};
