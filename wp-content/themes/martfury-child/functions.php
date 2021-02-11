@@ -1,5 +1,7 @@
 <?php
 
+use SynerBay\Forms\CreateProduct as CreateProductForm;
+use SynerBay\Forms\Validators\Required as RequiredValidator;
 use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
 use SynerBay\Helper\SynerBayDataHelper;
 
