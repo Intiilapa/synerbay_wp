@@ -211,6 +211,10 @@ table.dokan-table td.column-primary ~ :not(.check-column) {
   text-align: left;
 }
 
+.open-now {
+  display: none !important;
+}
+
 /*
 *
 * || Dokan Store listing

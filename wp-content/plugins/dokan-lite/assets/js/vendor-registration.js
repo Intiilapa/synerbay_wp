@@ -7,7 +7,7 @@ var Dokan_Vendor_Registration = {
 
         // bind events
         $( '.user-role input[type=radio]', form ).ready( this.showSellerForm );
-        $( '.tc_check_box', form ).on( 'click', this.onTOC );
+        //$( '.tc_check_box', form ).on( 'click', this.onTOC );
         $( '#shop-phone', form ).keydown( this.ensurePhoneNumber );
         $( '#company-name', form ).on( 'focusout', this.generateSlugFromCompany );
 
@@ -42,17 +42,17 @@ var Dokan_Vendor_Registration = {
             $('.show_if_seller').find( 'input, select' ).removeAttr( 'disabled' );
             $('.show_if_seller').slideDown();
 
-            if ( $( '.tc_check_box' ).length > 0 ) {
-                $('button[name=register]').attr('disabled','disabled');
-            }
+            // if ( $( '.tc_check_box' ).length > 0 ) {
+            //     $('button[name=register]').attr('disabled','disabled');
+            // }
 
         } else {
             $('.show_if_seller').find( 'input, select' ).attr( 'disabled', 'disabled' );
             $('.show_if_seller').slideUp();
 
-            if ( $( '.tc_check_box' ).length > 0 ) {
-                $( 'button[name=register]' ).removeAttr( 'disabled' );
-            }
+            // if ( $( '.tc_check_box' ).length > 0 ) {
+            //     $( 'button[name=register]' ).removeAttr( 'disabled' );
+            // }
         }
     },
 
@@ -179,10 +179,10 @@ $(function() {
     }
 
     // disable migration button if checkbox isn't checked
-    if ( $( '.tc_check_box' ).length > 0 ){
-        $( 'input[name=dokan_migration]' ).attr( 'disabled', 'disabled' );
-        $( 'input[name=register]' ).attr( 'disabled', 'disabled' );
-    }
+    // if ( $( '.tc_check_box' ).length > 0 ){
+    //     $( 'input[name=dokan_migration]' ).attr( 'disabled', 'disabled' );
+    //     $( 'input[name=register]' ).attr( 'disabled', 'disabled' );
+    // }
 });
 
 })(jQuery);

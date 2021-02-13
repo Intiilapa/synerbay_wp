@@ -328,55 +328,49 @@ function save_seller_url($store_user)
     <?php if (isset($store_info['vendor_vat']) && !empty($store_info['vendor_vat'])) { ?>
     <li>
         <i class="fa fa-legal"></i>
-        <a href="<?php echo esc_html($store_info['vendor_vat']); ?>"><?php echo esc_html($store_info['vendor_vat']); ?></a>
+        <a><?php echo esc_html($store_info['vendor_vat']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_type']) && !empty($store_info['vendor_type'])) { ?>
     <li>
         <i class="fa fa-globe"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_type']); ?>"><?php echo esc_html($store_info['vendor_type']); ?></a>
+        <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_type']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_industry']) && !empty($store_info['vendor_industry'])) { ?>
     <li>
         <i class="fa fa-industry"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_industry']); ?>"><?php echo esc_html($store_info['vendor_industry']); ?></a>
+        <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_industry']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_shipping_to']) && !empty($store_info['vendor_shipping_to'])) { ?>
     <li>
         <i class="fa fa-map-o"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_shipping_to']); ?>"><?php echo esc_html($store_info['vendor_shipping_to']); ?></a>
+        <a style="text-transform: capitalize"></a><?php echo esc_html($store_info['vendor_shipping_to']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_revenue']) && !empty($store_info['vendor_revenue'])) { ?>
     <li>
         <i class="fa fa-money"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_shipping_to']); ?>"><?php echo esc_html($store_info['vendor_revenue']); ?></a>
+        <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_revenue']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_employees']) && !empty($store_info['vendor_employees'])) { ?>
     <li>
         <i class="fa fa-users"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_shipping_to']); ?>"><?php echo esc_html($store_info['vendor_employees']); ?></a>
+        <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_employees']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_product_range']) && !empty($store_info['vendor_product_range'])) { ?>
     <li>
         <i class="fa fa-sliders"></i>
-        <a style="text-transform: capitalize"
-           href="<?php echo esc_html($store_info['vendor_product_range']); ?>"><?php echo esc_html($store_info['vendor_product_range']); ?></a>
+        <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_product_range']); ?></a>
     </li>
 <?php } ?>
 
@@ -781,6 +775,7 @@ remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add
 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
 remove_action('woocommerce_simple_add_to_cart', 'woocommerce_simple_add_to_cart', 30);
 remove_action('woocommerce_grouped_add_to_cart', 'woocommerce_grouped_add_to_cart', 30);
+remove_action( 'woocommerce_order_details_after_order_table', 'woocommerce_order_again_button' );
 
 //Message when no products found
 add_action( 'woocommerce_no_products_found', function(){
