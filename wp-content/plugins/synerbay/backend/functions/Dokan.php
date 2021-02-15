@@ -66,8 +66,8 @@ class Dokan
             return;
         }
 
-        delete_user_meta( $user_id, '_dokan_email_pending_verification' );
-        delete_user_meta( $user_id, '_dokan_email_verification_key' );
+//        delete_user_meta( $user_id, '_dokan_email_pending_verification' );
+//        delete_user_meta( $user_id, '_dokan_email_verification_key' );
 
         do_action( 'woocommerce_set_cart_cookies', true );
 
