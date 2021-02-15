@@ -684,6 +684,18 @@ class SetupWizard extends DokanVendorSetupWizard {
     public function dokan_setup_payment() {
         $methods    = dokan_withdraw_get_active_methods();
         $store_info = $this->store_info;
+
+        // fix role and permissions
+        $vendor = dokan_get_vendor($this->store_id);
+        $vendor->update_meta( 'dokan_enable_selling', 'yes' );
+        $vendor->update_meta( 'dokan_feature_seller', 'yes' );
+        $vendor->update_meta( 'dokan_publishing', 'yes' );
+        // role beállítása
+        $vendor->set_role('synerbay_user');
+
+        delete_user_meta( $this->store_id, '_dokan_email_pending_verification' );
+        delete_user_meta( $this->store_id, '_dokan_email_verification_key' );
+
         ?>
         <h1><?php esc_html_e( 'Payment Setup', 'dokan-lite' ); ?></h1>
         <form method="post">

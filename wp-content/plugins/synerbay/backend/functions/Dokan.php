@@ -23,7 +23,7 @@ class Dokan
         add_action( 'init', array( $this,'validateEmailLink' ), 99 );
 
         // login
-        add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
+//        add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
         // shortcode add args
         add_filter( 'dokan_seller_listing_args', [ $this, 'storeArgs' ], 20, 2 );
     }
@@ -184,13 +184,13 @@ class Dokan
     public function fixUserRole($userLogin, $user)
     {
         if (count($user->roles) == 1 && in_array($user->roles[0], ['seller', 'customer'])) {
-            // dokan megkötések
-            $vendor = dokan_get_vendor($user->ID);
-            $vendor->update_meta( 'dokan_enable_selling', 'yes' );
-            $vendor->update_meta( 'dokan_feature_seller', 'yes' );
-            $vendor->update_meta( 'dokan_publishing', 'yes' );
-            // role beállítása
-            $user->set_role('synerbay_user');
+//            // dokan megkötések
+//            $vendor = dokan_get_vendor($user->ID);
+//            $vendor->update_meta( 'dokan_enable_selling', 'yes' );
+//            $vendor->update_meta( 'dokan_feature_seller', 'yes' );
+//            $vendor->update_meta( 'dokan_publishing', 'yes' );
+//            // role beállítása
+//            $user->set_role('synerbay_user');
         }
     }
 }
