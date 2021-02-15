@@ -24,7 +24,21 @@ class Dokan
 
         // login
         add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
+        // shortcode add args
+        add_filter( 'dokan_seller_listing_args', [ $this, 'storeArgs' ], 20, 2 );
+    }
 
+    /**
+     * Shortcode + search
+     *
+     * @param $args
+     * @param $request
+     * @return mixed
+     */
+    public function storeArgs($args, $request)
+    {
+        $args['role__in'] = ['seller', 'administrator', 'synerbay_user'];
+        return $args;
     }
 
     /**
