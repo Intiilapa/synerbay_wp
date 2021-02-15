@@ -82,7 +82,7 @@ class SelectElement extends AbstractElement
 
         $haystack = SynerBayDataHelper::getLatestCurrenciesForSelect();
 
-        $this->generateDokanSelect('currency', $haystack, 'Currency', $selected, $errorMessages, 'Andris szöveg? + kellene módosítani az offer create/ update szöveget!');
+        $this->generateDokanSelect('currency', $haystack, 'Currency', $selected, $errorMessages, '');
     }
 
     public function getOfferSearchShippingToSelect($selected = false)
