@@ -20,6 +20,8 @@ global $offers, $searchParameters;
 // paginator attributes
 global $rowPerPage, $currentPage, $allRow, $lastPage;
 
+$safariDateInputFix = ' placeholder="dd/mm/yyyy" pattern="(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)"';
+
 //$arr = [
 //    'result: '. count($offers),
 //    'row / page: '. $rowPerPage,
@@ -94,35 +96,35 @@ get_header('shop');
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-start-date-from">Offer start date (from)</label>
-                    <input type="date" name="offer-start-date-from" value="<?php echo $searchParameters['offer-start-date-from'] ? $searchParameters['offer-start-date-from'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="offer-start-date-from" value="<?php echo $searchParameters['offer-start-date-from'] ? $searchParameters['offer-start-date-from'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-start-date-to">Offer start date (to)</label>
-                    <input type="date" name="offer-start-date-to" value="<?php echo $searchParameters['offer-start-date-to'] ? $searchParameters['offer-start-date-to'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="offer-start-date-to" value="<?php echo $searchParameters['offer-start-date-to'] ? $searchParameters['offer-start-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-end-date">Offer end date</label>
-                    <input type="date" name="offer-end-date" value="<?php echo $searchParameters['offer-end-date'] ? $searchParameters['offer-end-date'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="offer-end-date" value="<?php echo $searchParameters['offer-end-date'] ? $searchParameters['offer-end-date'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-end-date-from">Offer end date (from)</label>
-                    <input type="date" name="offer-end-date-from" value="<?php echo $searchParameters['offer-end-date-from'] ? $searchParameters['offer-end-date-from'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="offer-end-date-from" value="<?php echo $searchParameters['offer-end-date-from'] ? $searchParameters['offer-end-date-from'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="offer-end-date-to">Offer end date (to)</label>
-                    <input type="date" name="offer-end-date-to" value="<?php echo $searchParameters['offer-end-date-to'] ? $searchParameters['offer-end-date-to'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="offer-end-date-to" value="<?php echo $searchParameters['offer-end-date-to'] ? $searchParameters['offer-end-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="delivery-date">Delivery date</label>
-                    <input type="date" name="delivery-date" value="<?php echo $searchParameters['delivery-date'] ? $searchParameters['delivery-date'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="delivery-date" value="<?php echo $searchParameters['delivery-date'] ? $searchParameters['delivery-date'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="delivery-date-from">Delivery date (from)</label>
-                    <input type="date" name="delivery-date-from" value="<?php echo $searchParameters['delivery-date-from'] ? $searchParameters['delivery-date-from'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="delivery-date-from" value="<?php echo $searchParameters['delivery-date-from'] ? $searchParameters['delivery-date-from'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li class="dokan-form-group">
                     <label for="delivery-date-to">Delivery date (to)</label>
-                    <input type="date" name="delivery-date-to" value="<?php echo $searchParameters['delivery-date-to'] ? $searchParameters['delivery-date-to'] : ''; ?>" class="dokan-form-control">
+                    <input type="date" <?php echo $safariDateInputFix; ?> name="delivery-date-to" value="<?php echo $searchParameters['delivery-date-to'] ? $searchParameters['delivery-date-to'] : ''; ?>" class="dokan-form-control">
                 </li>
                 <li>
                     <input type="submit" name="clear" value="Clear fields" class="dokan-btn dokan-btn-theme">

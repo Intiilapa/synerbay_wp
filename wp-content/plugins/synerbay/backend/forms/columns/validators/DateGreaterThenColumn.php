@@ -4,6 +4,8 @@
 namespace SynerBay\Forms\Validators;
 
 
+use DateTime;
+
 class DateGreaterThenColumn extends AbstractValidator
 {
     private string $columnValue;
@@ -18,8 +20,10 @@ class DateGreaterThenColumn extends AbstractValidator
         $requiredValidator = new Required();
         $dateValidator = new Date();
         $columnValue = $this->getFormValue($this->validatorParameters['column']);
+        $date1 = new DateTime($columnValue);
+        $date2 = new DateTime($value);
 
-        $ret = $requiredValidator->run($columnValue) && $dateValidator->run($columnValue) && strtotime($columnValue) < strtotime($value);
+        $ret = $requiredValidator->run($columnValue) && $dateValidator->run($columnValue) && $date1 < $date2;
 
         if (!$ret) {
             $this->columnValue = $columnValue;

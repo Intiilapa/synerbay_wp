@@ -633,7 +633,6 @@ function product_custom_details()
 
 
             } else {
-                echo '<br>Remco, kérdezd meg az Andristól, hogy mi legyen a szöveg, ha tök üres, nincs mit megjeleníteni!';
             }
             ?>
             <table class="dokan-table dokan-table-striped rfq" id="rfq-table">

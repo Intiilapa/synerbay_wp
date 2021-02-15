@@ -137,11 +137,13 @@ abstract class AbstractElement
 
     protected function getDokanDateInput(string $label, string $name, $value = '', string $placeholder = '', array $errorMessages = [], string $description = '')
     {
+        $placeholder = "dd/mm/yyyy";
+
         echo '
            <div class="dokan-form-group">
                 <label for="'.$name.'" class="form-label">' . $label . ':</label>
                 ' . $this->setupDescription($description) . '
-                <input type="date" class="dokan-form-control" name="'.$name.'" placeholder="' .$placeholder. '" id="input_'.$name.'" value="' . $value . '">
+                <input type="date" class="dokan-form-control" name="'.$name.'" placeholder="' .$placeholder. '" pattern="(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)" id="input_'.$name.'" value="' . $value . '">
                 ' . $this->inputError($name, $errorMessages) . '
            </div> 
         ';
