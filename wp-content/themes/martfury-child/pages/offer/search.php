@@ -166,7 +166,7 @@ if (count($offers)) {
     woocommerce_product_loop_end();
 
 } else {?>
-     <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+     <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
   <?php }
 
 /**

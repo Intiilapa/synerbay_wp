@@ -780,7 +780,7 @@ remove_action( 'woocommerce_order_details_after_order_table', 'woocommerce_order
 //Message when no products found
 add_action( 'woocommerce_no_products_found', function(){
     remove_action( 'woocommerce_no_products_found', 'wc_no_products_found', 10 ); ?>
-    <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>'
+    <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
     <?php
 }, 9 );
 

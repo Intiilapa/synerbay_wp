@@ -179,7 +179,7 @@ if (typeof(DayPilot) === 'undefined') {
 
         this.left = null;  // will be centered if null
         this.width = 300;
-        this.top = 250;
+        this.top = 100;
         this.height = 200;  // see also autoStretch
 
         // event handler
