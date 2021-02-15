@@ -805,11 +805,11 @@ function remove_myaccount_orders_cancel_button( $actions, $order ){
     return $actions;
 }
 
-//Change number or products per row to 5
+//Change number or products per row to 4
 add_filter('loop_shop_columns', 'loop_columns', 999);
 if (!function_exists('loop_columns')) {
     function loop_columns() {
-        return 5;
+        return 4;
     }
 }
 
