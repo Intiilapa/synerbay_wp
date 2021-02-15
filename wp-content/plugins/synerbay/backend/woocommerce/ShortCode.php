@@ -24,7 +24,7 @@ class ShortCode extends WC_Shortcodes
     public function recentOffers($attributes)
     {
         extract(shortcode_atts($attributes, [
-            'per_page' => '12',
+            'per_page' => '16',
             'columns'  => '5',
             'orderby'  => 'id',
             'order'    => 'desc',
@@ -76,7 +76,7 @@ class ShortCode extends WC_Shortcodes
     public function almostFinishedOffers($attributes)
     {
         extract(shortcode_atts($attributes, [
-            'per_page' => '12',
+            'per_page' => '16',
             'columns'  => '5',
             'orderby'  => 'offer_end_date',
             'order'    => 'asc',
@@ -120,7 +120,7 @@ class ShortCode extends WC_Shortcodes
     public function almostFinishedOffersQuantity($attributes)
     {
         extract(shortcode_atts($attributes, [
-            'per_page' => '12',
+            'per_page' => '16',
             'columns'  => '5',
             'orderby'  => 'current_quantity',
             'order'    => 'desc',

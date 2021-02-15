@@ -16,3 +16,7 @@ Template: martfury
 .mf-newsletter-popup .modal-content{
     max-width: 320px!important;
 }
+
+.woocommerce div.product p.stock.in-stock{
+    display: none!important;
+}
