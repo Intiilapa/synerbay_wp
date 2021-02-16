@@ -26,7 +26,7 @@ class SetupWizard extends DokanVendorSetupWizard {
     public function dokan_setup_store() {
         $store_info      = $this->store_info;
 
-        $store_ppp       = isset( $store_info['store_ppp'] ) ? esc_attr( $store_info['store_ppp'] ) : 10;
+        $store_ppp       = isset( $store_info['store_ppp'] ) ? esc_attr( $store_info['store_ppp'] ) : 12;
         $show_email      = isset( $store_info['show_email'] ) ? esc_attr( $store_info['show_email'] ) : 'no';
         $address_street1 = isset( $store_info['address']['street_1'] ) ? $store_info['address']['street_1'] : '';
         $address_street2 = isset( $store_info['address']['street_2'] ) ? $store_info['address']['street_2'] : '';
