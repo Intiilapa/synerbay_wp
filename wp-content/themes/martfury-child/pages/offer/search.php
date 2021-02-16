@@ -156,7 +156,7 @@ if (count($offers)) {
     $base_url  = RouteHelper::generateRoute('offer_listing');
 
     if ( $lastPage > 1 ) {
-        echo '<div class="pagination-wrap">';
+        echo '<nav class="woocommerce-pagination">';
         $page_links = paginate_links( [
             'current'   => $currentPage,
             'total'     => $lastPage,
@@ -169,7 +169,7 @@ if (count($offers)) {
         echo "<ul class='pagination'>\n\t<li>";
         echo join( "</li>\n\t<li>", $page_links );
         echo "</li>\n</ul>\n";
-        echo '</div>';
+        echo '</nav>';
     }
 
 } else {?>
