@@ -123,7 +123,7 @@ get_header('shop');
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
     <header class="woocommerce-products-header">
-        <h1 class="woocommerce-products-header__title page-title">Offer search results (<?php echo count($offers) ?>)</h1>
+        <h1 class="woocommerce-products-header__title page-title">Offer search results</h1>
         <?php
         /**
          * Hook: woocommerce_archive_description.
