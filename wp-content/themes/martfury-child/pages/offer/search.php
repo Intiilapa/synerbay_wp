@@ -15,27 +15,12 @@
  * @version 3.4.0
  */
 
-defined( 'ABSPATH' ) || exit;
+use SynerBay\Helper\RouteHelper;defined( 'ABSPATH' ) || exit;
 global $offers, $searchParameters;
 // paginator attributes
 global $rowPerPage, $currentPage, $allRow, $lastPage;
 
 $safariDateInputFix = ' placeholder="dd/mm/yyyy" pattern="(^(((0[1-9]|1[0-9]|2[0-8])[\/](0[1-9]|1[012]))|((29|30|31)[\/](0[13578]|1[02]))|((29|30)[\/](0[4,6,9]|11)))[\/](19|[2-9][0-9])\d\d$)|(^29[\/]02[\/](19|[2-9][0-9])(00|04|08|12|16|20|24|28|32|36|40|44|48|52|56|60|64|68|72|76|80|84|88|92|96)$)"';
-
-//$arr = [
-//    'result: '. count($offers),
-//    'row / page: '. $rowPerPage,
-//    'current page: '.$currentPage,
-//    'all offer: '.$allRow,
-//    'last page: '.$lastPage,
-//];
-//var_dump($_GET);
-//echo '<br>';
-//var_dump($searchParameters);
-//echo '<br>';
-//echo implode('<br>', $arr);
-//var_dump($offers);
-//die();
 
 get_header('shop');
 
@@ -66,7 +51,7 @@ get_header('shop');
     <aside id="primary-sidebar"
            class="widgets-area primary-sidebar col-md-3 col-sm-12 col-xs-12 offer-search-content <?php echo esc_attr('catalog-sidebar') ?>">
         <!-- Search form before sidebar -->
-        <form action="/offers" method="post">
+        <form action="/offers" method="get">
             <ul class="offer-search-sidebar">
                 <input type="hidden" name="offer-site-search" value="<?php echo $searchParameters['offer-site-search']; ?>">
                 <li class="dokan-form-group">
@@ -166,6 +151,26 @@ if (count($offers)) {
     }
 
     woocommerce_product_loop_end();
+
+    // pagination
+    $base_url  = RouteHelper::generateRoute('offer_listing');
+
+    if ( $lastPage > 1 ) {
+        echo '<div class="pagination-wrap">';
+        $page_links = paginate_links( [
+            'current'   => $currentPage,
+            'total'     => $lastPage,
+            'base'      => $base_url . '%_%',
+            'format'    => '?page=%#%',
+            'add_args'  => false,
+            'type'      => 'array',
+        ] );
+
+        echo "<ul class='pagination'>\n\t<li>";
+        echo join( "</li>\n\t<li>", $page_links );
+        echo "</li>\n</ul>\n";
+        echo '</div>';
+    }
 
 } else {?>
      <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>

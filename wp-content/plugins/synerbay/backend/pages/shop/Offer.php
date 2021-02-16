@@ -48,13 +48,13 @@ class Offer extends AbstractPage
     {
         global $offers;
         global $searchParameters;
-        $searchParameters = wp_unslash($_POST);
+        $searchParameters = wp_unslash($_GET);
 
         $executeSearch = global_nonced_user() || (isset($searchParameters['site-search-nonce']) ? check_header_nonce($searchParameters['site-search-nonce']) : check_offer_search_nonce($searchParameters['offer-site-search']));
 
         if (isset($searchParameters['clear'])) {
             $searchParameters = [];
-            wp_reset_postdata();
+//            wp_reset_postdata();
         }
 
         if ($executeSearch) {
@@ -62,7 +62,7 @@ class Offer extends AbstractPage
             $searchParameters['except_ended'] = true;
             $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
 
-            $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 25, (int)$page));
+            $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 24, (int)$page));
 
             $searchParameters['offer-site-search'] = generate_offer_search_nonce();
         } else {
