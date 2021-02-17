@@ -693,8 +693,8 @@ class SetupWizard extends DokanVendorSetupWizard {
         // role beállítása
         $vendor->set_role('synerbay_user');
 
-        delete_user_meta( $this->store_id, '_dokan_email_pending_verification' );
-        delete_user_meta( $this->store_id, '_dokan_email_verification_key' );
+//        delete_user_meta( $this->store_id, '_dokan_email_pending_verification' );
+//        delete_user_meta( $this->store_id, '_dokan_email_verification_key' );
 
         ?>
         <h1><?php esc_html_e( 'Payment Setup', 'dokan-lite' ); ?></h1>
