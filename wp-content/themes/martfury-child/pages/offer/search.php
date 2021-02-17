@@ -123,7 +123,7 @@ get_header('shop');
     <!-- Main content -->
     <div id="primary" class="content-area col-md-9 col-sm-12 col-xs-12 ?>">
     <header class="woocommerce-products-header">
-        <h1 class="woocommerce-products-header__title page-title">Offer search results (<?php echo count($offers) ?>)</h1>
+        <h1 class="woocommerce-products-header__title page-title">Offer search results</h1>
         <?php
         /**
          * Hook: woocommerce_archive_description.
@@ -156,7 +156,7 @@ if (count($offers)) {
     $base_url  = RouteHelper::generateRoute('offer_listing');
 
     if ( $lastPage > 1 ) {
-        echo '<div class="pagination-wrap">';
+        echo '<nav class="woocommerce-pagination">';
         $page_links = paginate_links( [
             'current'   => $currentPage,
             'total'     => $lastPage,
@@ -169,7 +169,7 @@ if (count($offers)) {
         echo "<ul class='pagination'>\n\t<li>";
         echo join( "</li>\n\t<li>", $page_links );
         echo "</li>\n</ul>\n";
-        echo '</div>';
+        echo '</nav>';
     }
 
 } else {?>
