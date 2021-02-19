@@ -4,8 +4,12 @@
 namespace SynerBay\Resource;
 
 
+use SynerBay\Traits\Memcache;
+
 abstract class AbstractResource
 {
+    use Memcache;
+
     public function toArray($row)
     {
         if (!$row || !is_array($row) || !count($row)) {

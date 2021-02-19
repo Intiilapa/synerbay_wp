@@ -3,12 +3,13 @@
 namespace SynerBay\Functions;
 
 use SynerBay\Traits\Loader;
+use SynerBay\Traits\Memcache;
 use SynerBay\Traits\Toaster;
 use SynerBay\Traits\WPAction;
 
 class Test
 {
-    use WPAction, Loader, Toaster;
+    use WPAction, Loader, Toaster, Memcache;
 
     public function __construct()
     {
@@ -92,5 +93,35 @@ class Test
 //            var_dump($subcategories);
 //        die('vége');
 //        do_action('offer_ended_task');
+
+//        // cache test
+//        $data = 'alma';
+//
+//        $this->setCacheData('test', 'a', $data);
+//        $this->setCacheData('test', 'a2', $data);
+//        $this->setCacheData('test', 'a3', $data);
+//        $this->setCacheData('test2', 'a', $data);
+//        $this->setCacheData('test2', 'a2', $data);
+//        $this->setCacheData('test2', 'a3', $data);
+//
+//        $this->getAllStoredValue();
+//
+//        var_dump($this->getCacheData('test2', 'a3'));
+//        $this->deleteCacheData('test2', 'a3');
+//        var_dump($this->getCacheData('test2', 'a3'));
+//
+//        $this->getAllStoredValue();
+//
+//        $this->deleteGroupFromCache('test');
+//
+//        $this->getAllStoredValue();
+//
+//        $this->deleteGroupFromCache('test2');
+//
+//        var_dump($this->getCacheData('test2', 'a3'));
+//        var_dump($this->getCacheData('test2', 'a2'));
+//        var_dump($this->getCacheData('test', 'a2'));
+//        $this->getAllStoredValue();
+//        die;
     }
 }

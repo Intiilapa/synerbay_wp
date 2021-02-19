@@ -23,12 +23,17 @@ class FullOfferResource extends DefaultOfferResource
 
     protected function prepare($row): array
     {
-        $data = parent::prepare($row);
-        $data['vendor'] = dokan_get_vendor($data['user_id']);
-        $data['product'] = $this->productModule->getProductData($data['product_id'], true, true);
-        $data['applies'] = $this->offerApplyModule->getAppliesForOffer($data['id'], true);
-        $data['summary'] = $this->offerModule->getOfferSummaryData($data);
+        $key = 'FullOfferResource_' . $row['id'];
 
+        if (!($data = $this->getCacheData('offer_resource', $key))) {
+            $data = parent::prepare($row);
+            $data['vendor'] = dokan_get_vendor($data['user_id']);
+            $data['product'] = $this->productModule->getProductData($data['product_id'], true, true);
+            $data['applies'] = $this->offerApplyModule->getAppliesForOffer($data['id'], true);
+            $this->setCacheData('offer_resource', $key, $data, 60 * 60);
+        }
+
+        $data['summary'] = $this->offerModule->getOfferSummaryData($data);
         return $data;
     }
 }

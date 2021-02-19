@@ -49,6 +49,8 @@ class Offer extends AbstractModule
             return false;
         }
 
+        $this->deleteGroupFromCache('offer_resource');
+
         $this->addSuccessToast('Successful operation');
 
 //        $this->redirectToUpdateOffer($lastInsertedID);
@@ -80,6 +82,8 @@ class Offer extends AbstractModule
                     $this->getInsertFormat($filteredData),
                     ['%d']
                 );
+
+                $this->deleteGroupFromCache('offer_resource');
 
                 $this->addSuccessToast('Successful operation');
 
@@ -229,6 +233,7 @@ class Offer extends AbstractModule
                 $deleted = $wpdb->delete($wpdb->prefix . 'offers', ['id' => $offerID]);
 
                 if ($deleted) {
+                    $this->deleteGroupFromCache('offer_resource');
                     $this->addSuccessToast('Successful operation');
                 }
 

@@ -17,8 +17,14 @@ class OfferStartedResource extends DefaultOfferResource
 
     protected function prepare($row): array
     {
-        $data = parent::prepare($row);
-        $data['product'] = $this->productModule->getProductData($data['product_id'], true, true);
+        $key = 'OfferStartedResource_' . $row['id'];
+
+        if (!($data = $this->getCacheData('offer_resource', $key))) {
+            $data = parent::prepare($row);
+            $data['product'] = $this->productModule->getProductData($data['product_id'], true, true);
+            $this->setCacheData('offer_resource', $key, $data, 60 * 60);
+        }
+
         return $data;
     }
 }

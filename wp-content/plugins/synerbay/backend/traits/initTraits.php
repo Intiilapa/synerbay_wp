@@ -8,3 +8,4 @@ include_once 'Loader.php';
 include_once 'Toaster.php';
 include_once 'Redirector.php';
 include_once 'Search.php';
+include_once 'Memcache.php';

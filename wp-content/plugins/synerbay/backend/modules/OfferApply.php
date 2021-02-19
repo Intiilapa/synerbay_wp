@@ -85,6 +85,9 @@ class OfferApply extends AbstractModule
                     $vendor = $offer['vendor'];
                     $vendorMail = new ApplyCreated($offer);
                     $vendorMail->send($vendor->get_name(), $vendor->get_email());
+
+                    $this->deleteGroupFromCache('offer_resource');
+
                     return true;
                 }
 
@@ -169,6 +172,8 @@ class OfferApply extends AbstractModule
             Database::rollbackTransaction();
         }
 
+        $this->deleteGroupFromCache('offer_resource');
+
         return $ret;
     }
 
@@ -215,6 +220,8 @@ class OfferApply extends AbstractModule
             }
         }
 
+        $this->deleteGroupFromCache('offer_resource');
+
         return $ret;
     }
 
@@ -242,6 +249,9 @@ class OfferApply extends AbstractModule
                 $customer = dokan_get_vendor($offerApplyRow['user_id']);
                 $vendorMail = new ApplyDenied(array_merge($offer, ['reason' => $reason]));
                 $vendorMail->send($customer->get_name(), $customer->get_email());
+
+                $this->deleteGroupFromCache('offer_resource');
+
                 return true;
             }
         }

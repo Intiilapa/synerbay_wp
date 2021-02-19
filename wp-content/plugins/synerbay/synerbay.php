@@ -15,6 +15,10 @@ if( ! defined( 'ABSPATH' ) ) {
 define( 'SYNERBAY_DIR', __DIR__ );
 define( 'SYNERBAY_TEST_MODE', $_SERVER['HTTP_HOST'] == 'stage.synerbay.com' );
 
+if (SYNERBAY_TEST_MODE) {
+    define( 'WP_DEBUG', true );
+}
+
 class SynerBay {
     /**
      * Loading all dependencies

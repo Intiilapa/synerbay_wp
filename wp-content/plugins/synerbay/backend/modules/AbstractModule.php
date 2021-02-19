@@ -4,8 +4,12 @@
 namespace SynerBay\Module;
 
 
+use SynerBay\Traits\Memcache;
+
 abstract class AbstractModule
 {
+    use Memcache;
+
     private string $errorMessage = '';
 
     protected function addErrorMsg(string $message): void
