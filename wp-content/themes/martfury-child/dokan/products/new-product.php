@@ -1,5 +1,6 @@
 <?php
 
+
 use WeDevs\Dokan\Walkers\TaxonomyDropdown;
 
 $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
@@ -226,7 +227,6 @@ $get_data  = wp_unslash( $_GET ); // WPCS: CSRF ok.
                                         <select multiple="multiple" placeholder="<?php esc_attr_e( 'Select product tags', 'dokan-lite' ); ?>" name="product_tag[]" id="product_tag_search" class="product_tag_search product_tags dokan-form-control dokan-select2" data-placeholder="<?php esc_attr_e( 'Select tags', 'dokan-lite' ); ?>"></select>
                                     </div>
 
-                                    <?php do_action( 'dokan_new_product_after_product_tags' ); ?>
                                 </div>
                             </div>
 

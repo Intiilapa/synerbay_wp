@@ -80,7 +80,7 @@ do_action( 'dokan_new_product_wrap_before' );
             You have to accept customer requests to change pending status to accepted order.</br>
             You can easily contact potential customers before being sure of trustworthiness.</br>
             Once you have accepted the order request, you can not change later!</br>
-            Until a customer is in pending status, it</br>
+            Until a customer is in pending status, its order need is not added to the offer az a placed order.</br>
         </span>
         </div>
 
