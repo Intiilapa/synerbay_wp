@@ -27,3 +27,14 @@ include_once __DIR__ . '/service/Offer/Customer/ApplyDenied.php';
 include_once __DIR__ . '/service/Offer/Customer/FollowerOfferStarted.php';
 include_once __DIR__ . '/service/Offer/Customer/RFQUserOfferStarted.php';
 include_once __DIR__ . '/service/Offer/Customer/OfferEnded.php';
+
+// email marketing
+include_once __DIR__ . '/service/EmailMarketing/CompleteYourCatalogue.php';
+include_once __DIR__ . '/service/EmailMarketing/HowToReachCustomers.php';
+include_once __DIR__ . '/service/EmailMarketing/InviteYourPartners.php';
+include_once __DIR__ . '/service/EmailMarketing/RecommendedOffers.php';
+include_once __DIR__ . '/service/EmailMarketing/RegisteredVendorNewsletter.php';
+include_once __DIR__ . '/service/EmailMarketing/RFQ.php';
+include_once __DIR__ . '/service/EmailMarketing/SurplusStock.php';
+include_once __DIR__ . '/service/EmailMarketing/SynerBaySocialIcon.php';
+include_once __DIR__ . '/service/EmailMarketing/WeeklyAnalytics.php';

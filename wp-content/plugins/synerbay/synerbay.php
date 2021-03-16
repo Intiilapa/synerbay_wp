@@ -7,7 +7,6 @@
  */
 namespace SynerBay;
 session_start();
-
 if( ! defined( 'ABSPATH' ) ) {
     return;
 }
@@ -28,7 +27,6 @@ class SynerBay {
         // basic init ...
         include_once __DIR__ . '/backend/initPlugin.php';
     }
-
 
     public function loadScript() {
         // toast - notification.js
