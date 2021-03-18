@@ -19,7 +19,7 @@ class RouteHelper
         self::$router = $router;
     }
 
-    public static function generateRoute(string $routeName, array $params = [], array $getParams = [])
+    public static function generateRoute(string $routeName, array $params = [], array $getParams = []): string
     {
         /** @var Route $route */
         if ($route = self::$router->get_route($routeName))
@@ -43,7 +43,7 @@ class RouteHelper
         die('invalid route name');
     }
 
-    public static function getRoute(string $routeName)
+    public static function getRoute(string $routeName): Route
     {
         /** @var Route $route */
         if ($route = self::$router->get_route($routeName))
@@ -54,7 +54,7 @@ class RouteHelper
         die('invalid route name');
     }
 
-    public static function addInviteCodeToUrl($url)
+    public static function addInviteCodeToUrl($url): string
     {
         if (get_current_user_id() && $inviteCode = get_user_meta( get_current_user_id(), '_invite_code', true )) {
             $url .= '?invite='.$inviteCode;

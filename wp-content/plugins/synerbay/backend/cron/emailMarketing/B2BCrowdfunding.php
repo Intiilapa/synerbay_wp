@@ -9,19 +9,16 @@ use SynerBay\Cron\InterfaceCron;
 use SynerBay\Repository\VendorRepository;
 
 /**
- * Class InviteYourPartners
+ * Class B2BCrowdfunding
  * @package SynerBay\Cron\EmailMarketing
  *
- * Invite your partners!
- * referral üzenet, több verziót készíteni
- *
- * (hetente vagy kéthetente egyszer küldjük ki)
+ * (2 havonta küldjük ki egyszer)
  */
-class InviteYourPartners extends AbstractCron implements InterfaceCron
+class B2BCrowdfunding extends AbstractCron implements InterfaceCron
 {
     public function init()
     {
-        add_action('email_marketing_invite_your_partners', [$this, 'run']);
+        add_action('email_marketing_b2b_crowdfunding', [$this, 'run']);
     }
 
     public function run()
@@ -32,7 +29,7 @@ class InviteYourPartners extends AbstractCron implements InterfaceCron
         $vendors = (new VendorRepository())->getVendors([], false);
 
         if (count($vendors)) {
-            $mail = new \SynerBay\Emails\Service\EmailMarketing\InviteYourPartners();
+            $mail = new \SynerBay\Emails\Service\EmailMarketing\B2BCrowdfunding();
             foreach ($vendors as $vendor) {
                 $mail->send($vendor['display_name'], $vendor['user_email']);
             }

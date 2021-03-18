@@ -2,8 +2,6 @@
 
 namespace SynerBay\Functions;
 
-use SynerBay\Cron\EmailMarketing\CompleteYourCatalogue;
-use SynerBay\Repository\VendorRepository;
 use SynerBay\Traits\Loader;
 use SynerBay\Traits\Memcache;
 use SynerBay\Traits\Toaster;
@@ -126,9 +124,10 @@ class Test
 //        $this->getAllStoredValue();
 //        die;
 
-//        do_action('email_marketing_complete_your_catalogue');
+//        do_action('email_marketing_recommended_products');
 //        var_dump(date('Y-m-d', time() - (16 * 24 * 60 * 60)));
-//        (new VendorRepository())->getActiveVendorsByRegisteredDate('2021-02-15');
+//        print '<pre>';
+//        var_dump((new VendorRepository())->getActiveVendorsByRegisteredDate('2021-03-15'));
 //        die;
     }
 }

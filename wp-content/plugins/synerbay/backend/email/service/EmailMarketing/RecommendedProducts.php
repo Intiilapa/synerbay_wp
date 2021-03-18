@@ -4,20 +4,20 @@ namespace SynerBay\Emails\Service\EmailMarketing;
 
 use SynerBay\Emails\Service\AbstractEmail;
 
-class InviteYourPartners extends AbstractEmail
+class RecommendedProducts extends AbstractEmail
 {
     protected function getTemplateName(): string
     {
-        return 'emailMarketing/InviteYourPartners';
+        return 'emailMarketing/RecommendedProducts';
     }
 
     protected function getSubject(): string
     {
-        return 'Your partners are waiting for your invitation.';
+        return 'Recommended products';
     }
 
     protected function getEmailHead()
     {
-        return 'Your partners are waiting for your invitation.';
+        return 'Recommended products';
     }
 }

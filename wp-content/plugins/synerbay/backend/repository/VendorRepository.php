@@ -42,38 +42,57 @@ class VendorRepository extends AbstractRepository
     }
 
     /**
+     * @param array $searchParams
+     * @param bool $withMeta
+     * @return array|object|null
+     */
+    public function getVendors(array $searchParams = [], bool $withMeta = true)
+    {
+        $vendors = (new UserRepository())->search($searchParams);
+
+        if ($withMeta) {
+            $vendors = $this->addUserMetaDataForVendors($vendors);
+        }
+
+        return $vendors;
+    }
+
+    /**
      * Visszaad minden adatot a felhasználóhoz (email marketinghez van használva)
      *
      * @param string|null $registeredDate
      * @return array
      */
-    public function getActiveVendorsByRegisteredDate(string $registeredDate = null)
+    public function getActiveVendorsByRegisteredDate(string $registeredDate = null): array
     {
-        global $wpdb;
-
-        $ret = [];
-
-        $vendorSelect = "select
-                   su.id,
-                   su.user_registered, 
-                    su.user_status, 
-                    su.display_name,
-                    su.user_email
-            from
-                 sb_users as su";
+        $userSearchParams = [];
 
         if (!is_null($registeredDate)) {
-            $vendorSelect .= " where date(su.user_registered) = '".$registeredDate."'";
+            $userSearchParams['registered_date'] = $registeredDate;
         }
 
-        $vendors = $wpdb->get_results($vendorSelect, ARRAY_A);
+        $vendors = (new UserRepository())->search($userSearchParams);
 
+        return $this->addUserMetaDataForVendors($vendors);
+    }
+
+    /**
+     * @param array $vendors
+     * @return array
+     */
+    public function addUserMetaDataForVendors(array $vendors = []): array
+    {
         if (count($vendors)) {
+
+            global $wpdb;
+
+            $ret = [];
+
             foreach ($vendors as $vendor) {
-                $ret[$vendor['id']] = array_merge($vendor, ['data' => []]);
+                $ret[$vendor['ID']] = array_merge($vendor, ['data' => []]);
             }
 
-            $vendorMetaSelect = "select * from sb_usermeta where user_id in (".implode(',', array_column($vendors, 'id')).")";
+            $vendorMetaSelect = "select * from sb_usermeta where user_id in (".implode(',', array_column($vendors, 'ID')).")";
 
             $vendorMetaDatas = $wpdb->get_results($vendorMetaSelect, ARRAY_A);
 
@@ -86,9 +105,12 @@ class VendorRepository extends AbstractRepository
 
                 $ret[$meta['user_id']]['data'][$meta['meta_key']] = $data;
             }
+
+            $vendors = $ret;
+            unset($ret);
         }
 
-        return $ret;
+        return $vendors;
     }
 
     protected function prepareQuery(array $searchAttributes = [])
@@ -96,7 +118,7 @@ class VendorRepository extends AbstractRepository
         // TODO: Implement prepareQuery() method.
     }
 
-    protected function getBaseTableName()
+    protected function getBaseTableName(): string
     {
         return 'users';
     }

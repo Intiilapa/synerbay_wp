@@ -13,11 +13,11 @@ class RFQ extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - ';
+        return 'Here\'s how you can find the best offers!';
     }
 
     protected function getEmailHead()
     {
-        return '';
+        return 'Here\'s how you can find the best offers!';
     }
 }

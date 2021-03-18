@@ -95,6 +95,8 @@ trait Search
             $this->processOrderBy();
         }
 
+//        var_dump($this->query);
+
         return $wpdb->get_results($this->query, $output);
     }
 

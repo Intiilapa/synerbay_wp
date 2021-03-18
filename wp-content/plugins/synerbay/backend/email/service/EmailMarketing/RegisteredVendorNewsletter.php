@@ -13,11 +13,11 @@ class RegisteredVendorNewsletter extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - ';
+        return 'Here are your potential partners!';
     }
 
     protected function getEmailHead()
     {
-        return '';
+        return 'Here are your potential partners!';
     }
 }

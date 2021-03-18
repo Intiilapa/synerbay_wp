@@ -13,11 +13,11 @@ class HowToReachCustomers extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - ';
+        return 'Reach global customers on SynerBay';
     }
 
     protected function getEmailHead()
     {
-        return '';
+        return 'Reach global customers on SynerBay';
     }
 }

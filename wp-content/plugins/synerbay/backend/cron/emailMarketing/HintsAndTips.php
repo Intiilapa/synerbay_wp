@@ -6,25 +6,25 @@ namespace SynerBay\Cron\EmailMarketing;
 
 use SynerBay\Cron\AbstractCron;
 use SynerBay\Cron\InterfaceCron;
-use SynerBay\Emails\Service\EmailMarketing\CompleteYourCatalogue as CompleteYourCatalogueMail;
 use SynerBay\Repository\VendorRepository;
 
 /**
- * Class CompleteYourCatalogue
+ * Class HintsAndTips
  * @package SynerBay\Cron\EmailMarketing
  *
- * Complete your catalogue:
- * Why it is important to complete your catalogue-»product-»rfq-»new connection
+ * Folyamatok között ösztönzők kiküldése emailben
+ * Ha a popupok bevezetése problémás akkor ezzel tudjuk helyettesíteni
+ * Hints and Tips email - praktikákat kommunikálunk le a felhasználók felé
  *
- * (minden új felhasználónak 1x küldjük ki)
+ * (minden új felhasználónak 1x küldjük ki, 1 nappal a regisztráció után)
  */
-class CompleteYourCatalogue extends AbstractCron implements InterfaceCron
+class HintsAndTips extends AbstractCron implements InterfaceCron
 {
-    private int $howManyDaysRegistered = 2;
+    private int $howManyDaysRegistered = 1;
 
     public function init()
     {
-        add_action('email_marketing_complete_your_catalogue', [$this, 'run']);
+        add_action('email_marketing_hints_and_tips', [$this, 'run']);
     }
 
     public function run()
@@ -35,7 +35,7 @@ class CompleteYourCatalogue extends AbstractCron implements InterfaceCron
         $vendors = (new VendorRepository())->getActiveVendorsByRegisteredDate(date('Y-m-d', time() - ($this->howManyDaysRegistered * 24 * 60 * 60)));
 
         if (count($vendors)) {
-            $mail = new CompleteYourCatalogueMail();
+            $mail = new \SynerBay\Emails\Service\EmailMarketing\HintsAndTips();
             foreach ($vendors as $vendor) {
                 $mail->send($vendor['display_name'], $vendor['user_email']);
             }

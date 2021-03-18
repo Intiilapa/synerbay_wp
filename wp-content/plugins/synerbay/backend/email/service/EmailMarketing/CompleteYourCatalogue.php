@@ -13,11 +13,11 @@ class CompleteYourCatalogue extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - CompleteYourCatalogue';
+        return 'Complete your catalogue to increase sales!';
     }
 
     protected function getEmailHead()
     {
-        return 'CompleteYourCatalogue';
+        return 'Complete your catalogue to increase sales!';
     }
 }

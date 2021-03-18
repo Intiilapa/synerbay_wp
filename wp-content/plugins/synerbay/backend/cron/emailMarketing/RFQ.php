@@ -14,8 +14,6 @@ use SynerBay\Repository\VendorRepository;
  */
 class RFQ extends AbstractCron implements InterfaceCron
 {
-    private int $howManyDaysRegistered = 1;
-
     public function init()
     {
         add_action('email_marketing_rfq', [$this, 'run']);
@@ -26,7 +24,7 @@ class RFQ extends AbstractCron implements InterfaceCron
         // EZ KELL !!! HA NEM ITT HÍVOD? AKKOR ELKÚSZIK A MAIL
         wc()->mailer();
 
-        $vendors = (new VendorRepository())->getActiveVendorsByRegisteredDate(date('Y-m-d', time() - ($this->howManyDaysRegistered * 24 * 60 * 60)));
+        $vendors = (new VendorRepository())->getVendors([], false);
 
         if (count($vendors)) {
             $mail = new \SynerBay\Emails\Service\EmailMarketing\RFQ();
