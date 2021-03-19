@@ -31,7 +31,7 @@ class SynerBaySocialIcon extends AbstractCron implements InterfaceCron
             'registered_date' => date('Y-m-d', time() - ($this->howManyDaysRegistered * 24 * 60 * 60)),
         ];
 
-        $vendors = (new VendorRepository())->getVendors($searchParams);
+        $vendors = (new VendorRepository())->getVendors($searchParams, false);
 
         $attachmentFilePathSkeleton = 'static' . DIRECTORY_SEPARATOR . '%s';
 
