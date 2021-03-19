@@ -13,11 +13,11 @@ class RecommendedOffers extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - ';
+        return 'Recommended offers';
     }
 
     protected function getEmailHead()
     {
-        return '';
+        return 'Recommended offers';
     }
 }

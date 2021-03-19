@@ -124,7 +124,8 @@ class Test
 //        $this->getAllStoredValue();
 //        die;
 
-//        do_action('email_marketing_recommended_products');
+//        do_action('email_marketing_synerbay_social_icon');
+
 //        var_dump(date('Y-m-d', time() - (16 * 24 * 60 * 60)));
 //        print '<pre>';
 //        var_dump((new VendorRepository())->getActiveVendorsByRegisteredDate('2021-03-15'));

@@ -3,6 +3,7 @@
 namespace SynerBay\Emails;
 
 // default
+include_once __DIR__ . '/emailAttachmentHelper.php';
 include_once __DIR__ . '/service/AbstractEmail.php';
 include_once __DIR__ . '/service/TestEmail.php';
 include_once __DIR__ . '/service/InviteEmail.php';

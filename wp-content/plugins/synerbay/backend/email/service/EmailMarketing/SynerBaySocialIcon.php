@@ -13,11 +13,11 @@ class SynerBaySocialIcon extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'SynerBay - ';
+        return 'Something is missing from your email!';
     }
 
     protected function getEmailHead()
     {
-        return '';
+        return 'Something is missing from your email!';
     }
 }

@@ -69,6 +69,17 @@ class ProductRepository extends AbstractRepository
             $select .= ' and p.post_date >= "'.$searchParams['created_at_greater_equal'].'"';
         }
 
+        if (!empty($searchParams['product_id'])) {
+
+            $ids = $searchParams['product_id'];
+
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+
+            $select .= ' and p.ID in ('.implode(', ', $ids).')';
+        }
+
         return $wpdb->get_results($select, ARRAY_A);
     }
 }

@@ -206,6 +206,10 @@ class OfferRepository extends AbstractRepository
             $this->addWhereParameter($this->getBaseTable() . '.currency = %s', $searchAttributes['cur']);
         }
 
+        if (!empty($searchAttributes['created_at_greater_equal'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.created_at >= %s', $searchAttributes['created_at_greater_equal']);
+        }
+
         // add join
         if ($addProductJoin) {
             $this->addJoin('left join sb_posts on ' . $this->getBaseTable() . '.product_id = sb_posts.ID and sb_posts.post_type = "product"');

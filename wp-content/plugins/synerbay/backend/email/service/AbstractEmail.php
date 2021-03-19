@@ -13,6 +13,8 @@ abstract class AbstractEmail
 
     protected array $params;
 
+    protected array $attachments = [];
+
     protected array $headers = [];
 
     protected array $messageParams = [];
@@ -27,8 +29,9 @@ abstract class AbstractEmail
      * @info javasolt a paramokat és az msg paramokat kulcsozott tömbben átadni
      *
      * @param array $params
+     * @param bool $attachments
      */
-    public function __construct(array $params = [])
+    public function __construct(array $params = [], $attachments = false)
     {
         try {
             $this->id = (new ReflectionClass($this))->getShortName();
@@ -38,6 +41,14 @@ abstract class AbstractEmail
 
         $this->WCEmail = new WC_Email();
         $this->params = $params;
+
+        if ($attachments) {
+            if (!is_array($attachments)) {
+                $attachments = [$attachments];
+            }
+
+            $this->attachments = $attachments;
+        }
     }
 
     public function setParams(array $params = [])
@@ -45,7 +56,7 @@ abstract class AbstractEmail
         $this->params = $params;
     }
 
-    public function send($consigneeName, $consigneeEmailAddress, array $customData = []): void
+    public function send($consigneeName, $consigneeEmailAddress, array $customData = [], $attachments = false): void
     {
         $this->addWPFilters();
 
@@ -54,7 +65,13 @@ abstract class AbstractEmail
 
         $message = apply_filters('woocommerce_mail_content', $this->renderBody($customData));
 
-        wp_mail($consigneeEmailAddress, $this->getSubject(), $message, $this->buildHeaders());
+        if ($attachments) {
+            $emailAttachments = !is_array($attachments) ? [$attachments] : $attachments;
+        } else {
+            $emailAttachments = $this->attachments;
+        }
+
+        wp_mail($consigneeEmailAddress, $this->getSubject(), $message, $this->buildHeaders(), $emailAttachments);
 
         $this->removeWPFilters();
     }

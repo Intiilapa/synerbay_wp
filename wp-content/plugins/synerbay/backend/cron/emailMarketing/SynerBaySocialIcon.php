@@ -6,6 +6,7 @@ namespace SynerBay\Cron\EmailMarketing;
 
 use SynerBay\Cron\AbstractCron;
 use SynerBay\Cron\InterfaceCron;
+use SynerBay\Emails\EmailAttachmentHelper;
 use SynerBay\Repository\VendorRepository;
 
 /**
@@ -14,7 +15,7 @@ use SynerBay\Repository\VendorRepository;
  */
 class SynerBaySocialIcon extends AbstractCron implements InterfaceCron
 {
-    private int $howManyDaysRegistered = 1;
+    private int $howManyDaysRegistered = 3;
 
     public function init()
     {
@@ -26,10 +27,25 @@ class SynerBaySocialIcon extends AbstractCron implements InterfaceCron
         // EZ KELL !!! HA NEM ITT HÍVOD? AKKOR ELKÚSZIK A MAIL
         wc()->mailer();
 
-        $vendors = (new VendorRepository())->getActiveVendorsByRegisteredDate(date('Y-m-d', time() - ($this->howManyDaysRegistered * 24 * 60 * 60)));
+        $searchParams = [
+            'registered_date' => date('Y-m-d', time() - ($this->howManyDaysRegistered * 24 * 60 * 60)),
+        ];
+
+        $vendors = (new VendorRepository())->getVendors($searchParams);
+
+        $attachmentFilePathSkeleton = 'static' . DIRECTORY_SEPARATOR . '%s';
 
         if (count($vendors)) {
-            $mail = new \SynerBay\Emails\Service\EmailMarketing\SynerBaySocialIcon();
+
+            $attachments = [
+                EmailAttachmentHelper::getAttachmentPath(sprintf($attachmentFilePathSkeleton, 'synerbay_follow_us.png')),
+                EmailAttachmentHelper::getAttachmentPath(sprintf($attachmentFilePathSkeleton, 'synerbay_logo_round.png')),
+                EmailAttachmentHelper::getAttachmentPath(sprintf($attachmentFilePathSkeleton, 'synerbay_logo_rounded.png')),
+                EmailAttachmentHelper::getAttachmentPath(sprintf($attachmentFilePathSkeleton, 'synerbay_logo_square.png')),
+            ];
+
+            $mail = new \SynerBay\Emails\Service\EmailMarketing\SynerBaySocialIcon([], $attachments);
+
             foreach ($vendors as $vendor) {
                 $mail->send($vendor['display_name'], $vendor['user_email']);
             }
