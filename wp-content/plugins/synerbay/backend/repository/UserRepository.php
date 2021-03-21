@@ -15,7 +15,7 @@ class UserRepository extends AbstractRepository
                 $ids = [$ids];
             }
 
-            $this->addWhereParameter($this->getBaseTable() . '.id  in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
+            $this->addWhereParameter($this->getBaseTable() . '.ID in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
         }
 
         if (!empty($searchAttributes['registered_date'])) {
@@ -33,7 +33,7 @@ class UserRepository extends AbstractRepository
                 $ids = [$ids];
             }
 
-            $this->addWhereParameter($this->getBaseTable() . '.id not in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
+            $this->addWhereParameter($this->getBaseTable() . '.ID not in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
         }
 
         if (!empty($searchAttributes['industry'])) {

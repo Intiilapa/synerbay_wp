@@ -21,6 +21,16 @@ class ProductRepository extends AbstractRepository
         if (!empty($searchAttributes['is_active']) && $searchAttributes['is_active']) {
             $this->addWhereParameter($this->getBaseTable() . '.post_status = %s', 'publish');
         }
+
+        if (!empty($searchAttributes['user_id'])) {
+            $ids = $searchAttributes['user_id'];
+
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+
+            $this->addWhereParameter($this->getBaseTable() . '.post_author in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
+        }
     }
 
     protected function getBaseTableName(): string

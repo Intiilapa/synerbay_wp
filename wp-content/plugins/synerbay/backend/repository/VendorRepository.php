@@ -25,6 +25,12 @@ class VendorRepository extends AbstractRepository
             ARRAY_A);
     }
 
+    /**
+     * Azokat adja vissza akiket a bemenő paraméterként beadott user_id követnek
+     *
+     * @param int $vendorID
+     * @return array|object|null
+     */
     public function getFollowers(int $vendorID)
     {
         global $wpdb;
@@ -34,6 +40,28 @@ class VendorRepository extends AbstractRepository
                 "select follower_id"
                 . " from {$wpdb->prefix}dokan_follow_store_followers"
                 . " where vendor_id = %d"
+                . "     and unfollowed_at is null",
+                $vendorID,
+            ),
+            ARRAY_A
+        );
+    }
+
+    /**
+     * Azokat adja vissza akiket a bemenő paraméterként beadott user_id követ
+     *
+     * @param int $vendorID
+     * @return array|object|null
+     */
+    public function getFollowedUserIds(int $vendorID)
+    {
+        global $wpdb;
+
+        return $wpdb->get_results(
+            $wpdb->prepare(
+                "select vendor_id"
+                . " from {$wpdb->prefix}dokan_follow_store_followers"
+                . " where follower_id = %d"
                 . "     and unfollowed_at is null",
                 $vendorID,
             ),

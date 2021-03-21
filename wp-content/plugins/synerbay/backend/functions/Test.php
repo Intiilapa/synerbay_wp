@@ -124,7 +124,8 @@ class Test
 //        $this->getAllStoredValue();
 //        die;
 
-//        do_action('email_marketing_synerbay_social_icon');
+//        do_shortcode('[network_recommended_products]');
+//        die;
 
 //        var_dump(date('Y-m-d', time() - (16 * 24 * 60 * 60)));
 //        print '<pre>';
