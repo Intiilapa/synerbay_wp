@@ -176,15 +176,15 @@
     }
 
     synerbay.inviteUserHeader = function(inviteUrl, getInviterName) {
-        synerbay.inviteWrapper(getInviterName, 'inviteHeader', inviteUrl, 'Invite suppliers to see new offers, customers to get more order request, or partners to collaborate with to take advantage of discounted prices.');
+        synerbay.inviteWrapper(getInviterName, 'inviteHeader', inviteUrl, 'Invite business partners to get connected and benefit of SynerBay.');
     }
 
     synerbay.inviteUserOfferPage = function(inviteUrl, getInviterName) {
-        synerbay.inviteWrapper(getInviterName, 'inviteOffer', inviteUrl, 'Invite co-customers to group buy and earn more discounts together.');
+        synerbay.inviteWrapper(getInviterName, 'inviteOffer', inviteUrl, 'Invite business partners to create buyer group.');
     }
 
     synerbay.inviteUserProductPage = function(inviteUrl, getInviterName) {
-        synerbay.inviteWrapper(getInviterName, 'inviteProduct', inviteUrl, 'Invite customers to make this product reach more views.');
+        synerbay.inviteWrapper(getInviterName, 'inviteProduct', inviteUrl, 'Invite business partners to help them find this product.');
     }
 
     synerbay.createRFQ = function(productID) {
