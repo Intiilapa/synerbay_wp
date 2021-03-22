@@ -26,6 +26,10 @@ class UserRepository extends AbstractRepository
             $this->addWhereParameter('date(' . $this->getBaseTable() . '.user_registered) >= %s', $searchAttributes['registered_date']);
         }
 
+        if (!empty($searchAttributes['user_nicename'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.user_nicename = %s', $searchAttributes['user_nicename']);
+        }
+
         if (!empty($searchAttributes['except_ids'])) {
             $ids = $searchAttributes['except_ids'];
 

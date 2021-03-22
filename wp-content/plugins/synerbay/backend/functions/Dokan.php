@@ -6,6 +6,7 @@ namespace SynerBay\Functions;
 
 use SynerBay\Forms\CreateProduct;
 use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
+use SynerBay\Helper\RouteHelper;
 use SynerBay\Helper\SynerBayDataHelper;
 use WC_Product;
 use WP_Role;
@@ -192,5 +193,18 @@ class Dokan
 //            // role beállítása
 //            $user->set_role('synerbay_user');
         }
+    }
+
+    public function dokan_store_tabs($tabs, $store_id)
+    {
+        $userdata         = get_userdata( $store_id );
+        $user_nicename    = ( ! false == $userdata ) ? $userdata->user_nicename : '';
+
+        $tabs['offers'] = [
+            'title' => __( 'Offers', 'dokan-lite' ),
+            'url'   => RouteHelper::generateRoute('vendor_offers_tab', ['store_name' => $user_nicename]),
+        ];
+
+        return $tabs;
     }
 }

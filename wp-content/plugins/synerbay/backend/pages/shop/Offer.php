@@ -7,6 +7,7 @@ namespace SynerBay\Pages\Shop;
 use SynerBay\Helper\RouteHelper;
 use SynerBay\Pages\AbstractPage;
 use SynerBay\Repository\OfferRepository;
+use SynerBay\Repository\UserRepository;
 use SynerBay\Resource\Offer\FullOfferResource;
 
 class Offer extends AbstractPage
@@ -78,6 +79,38 @@ class Offer extends AbstractPage
         require_once RouteHelper::getRoute('edit_offer')->get_template();
     }
 
+    /**
+     * Megfut amikor valaki megnézi a store offers tabját
+     *
+     * @param $storeName
+     */
+    public function initStoreTabOffers($storeName)
+    {
+        global $currentUser;
+        global $offers;
+        global $searchParameters;
+        $currentUser = null;
+        $offers = [];
+
+        $user = (new UserRepository())->search(['user_nicename' => $storeName], OBJECT);
+
+        if (count($user)) {
+            $currentUser = $user[0];
+            $searchParameters = wp_unslash($_GET);
+
+            $searchParameters['visible'] = true;
+            $searchParameters['user_id'] = $currentUser->ID;
+            $searchParameters['order'] = [
+                'columnName' => 'id',
+                'direction' => 'desc',
+            ];
+
+            $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
+
+            $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 8, (int)$page));
+        }
+    }
+
     protected function init()
     {
         parent::init();
@@ -85,5 +118,6 @@ class Offer extends AbstractPage
         $this->addAction('init_dashboard_offer_sub_page', 'dashboardShowPage');
         $this->addAction('editOfferSubPage');
         $this->addAction('offerSearch');
+        $this->addAction('initStoreTabOffers');
     }
 }
