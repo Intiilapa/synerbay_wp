@@ -74,7 +74,7 @@ class RecommendedOffers extends AbstractCron implements InterfaceCron
                     $mainCategory = $offerProduct['main_category_name'];
 
                     $tempOffer = $offer;
-                    $tempOffer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);;
+                    $tempOffer['url'] = RouteHelper::generateRoute('offer_sub_page', ['id' => $offer['id']]);
                     $tempOffer['product'] = $offerProduct;
 
                     if (!array_key_exists($mainCategory, $newOffersByIndustry)) {

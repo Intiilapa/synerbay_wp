@@ -13,11 +13,11 @@ class B2BCrowdfunding extends AbstractEmail
 
     protected function getSubject(): string
     {
-        return 'Are you interested in B2B crowdfunding? ';
+        return 'Are you interested in B2B crowdfunding?';
     }
 
     protected function getEmailHead(): string
     {
-        return 'Are you interested in B2B crowdfunding? ';
+        return 'Are you interested in B2B crowdfunding?';
     }
 }

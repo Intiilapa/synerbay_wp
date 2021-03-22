@@ -127,6 +127,18 @@ class Test
 //        do_shortcode('[network_recommended_products]');
 //        die;
 
+//        do_action('email_marketing_recommended_offers'); // p - Recommended offers
+//        do_action('email_marketing_invite_your_partners');  // ap - Your partners are waiting for your invitation.
+//        do_action('email_marketing_synerbay_social_icon'); // ap - Something is missing from your email!
+//        do_action('email_marketing_complete_your_catalogue'); // ap - Complete your catalogue to increase sales!
+//        do_action('email_marketing_b2b_crowdfunding'); // ap - Are you interested in B2B crowdfunding?
+//        do_action('email_marketing_recommended_products'); // p - Recommended products
+//        do_action('email_marketing_hints_and_tips'); // ap - Hints and Tips to grow your business on SynerBay!
+//        do_action('email_marketing_registered_vendors'); //  - Here are your potential partners!
+//        do_action('email_marketing_surplus_stock'); // ap - Need some help to sell surplus stock?
+//        do_action('email_marketing_rfq'); // ap - Here\'s how you can find the best offers!
+//        do_action('email_marketing_how_to_reach_customers'); // ap - Reach global customers on SynerBay
+//        die('vége');
 //        var_dump(date('Y-m-d', time() - (16 * 24 * 60 * 60)));
 //        print '<pre>';
 //        var_dump((new VendorRepository())->getActiveVendorsByRegisteredDate('2021-03-15'));
