@@ -5,8 +5,10 @@
  * @package dokan
  * @package dokan - 2014 1.0
  */
+
 // user adat
 global $currentUser;
+
 // user offerei és a paginációhoz minden
 global $offers, $searchParameters, $rowPerPage, $currentPage, $allRow, $lastPage;
 
@@ -20,9 +22,9 @@ global $offers, $searchParameters, $rowPerPage, $currentPage, $allRow, $lastPage
 //var_dump($lastPage);
 //die;
 
-
-$store_info = dokan_get_store_info( $currentUser->ID );
-$map_location = isset( $store_info['location'] ) ? esc_attr( $store_info['location'] ) : '';
+$store_user   = dokan()->vendor->get( get_query_var( 'author' ) );
+$store_info   = $store_user->get_shop_info();
+$map_location = $store_user->get_location();
 $layout       = get_theme_mod( 'store_layout', 'left' );
 
 get_header( 'shop' );
@@ -36,38 +38,57 @@ get_header( 'shop' );
         <?php dokan_get_template_part( 'store', 'sidebar', array( 'store_user' => $currentUser, 'store_info' => $store_info, 'map_location' => $map_location ) ); ?>
     <?php } ?>
 
-    <div id="dokan-primary" class="dokan-single-store dokan-w8">
-        <div id="dokan-content" class="store-review-wrap woocommerce" role="main">
+    <div id="dokan-primary" class="dokan-single-store">
+        <div id="dokan-content" class="store-page-wrap woocommerce" role="main">
 
             <?php dokan_get_template_part( 'store-header' ); ?>
 
+            <?php do_action( 'dokan_store_profile_frame_after', $store_user->data, $store_info ); ?>
 
             <?php
-//            $dokan_template_reviews = dokan_pro()->review;
-//            $id                     = $store_user->ID;
-//            $post_type              = 'product';
-//            $limit                  = 20;
-//            $status                 = '1';
-//            $comments               = $dokan_template_reviews->comment_query( $id, $post_type, $limit, $status );
-            ?>
 
-            <div id="reviews">
-                <div id="comments">
+            if (count($offers)) {
 
-                    <?php do_action( 'dokan_review_tab_before_comments' ); ?>
+            woocommerce_product_loop_start();
 
-<!--                    <h2 class="headline">--><?php //_e( 'Vendor Review', 'dokan' ); ?><!--</h2>-->
+                global $offer;
+                global $post;
+                foreach ($offers as $offer) {
+                $post = get_post($offer['product']['ID']);
+                wc_get_template_part('content', 'offer');
 
-                    <ol class="commentlist">
-<!--                        --><?php //echo $dokan_template_reviews->render_store_tab_comment_list( $comments , $store_user->ID); ?>
-                    </ol>
+                $offer = [];
+                }
 
-                </div>
-            </div>
+            woocommerce_product_loop_end();
 
-            <?php
-//            echo $dokan_template_reviews->review_pagination( $id, $post_type, $limit, $status );
-            ?>
+            // pagination
+            //TODO $base_url miatt error.
+            //$base_url  = RouteHelper::generateRoute('offers');
+
+            if ( $lastPage > 1 ) {
+            echo '<nav class="woocommerce-pagination">';
+                $page_links = paginate_links( [
+                'current'   => $currentPage,
+                'total'     => $lastPage,
+                'base'      => $base_url . '%_%',
+                'format'    => '?page=%#%',
+                'add_args'  => false,
+                'type'      => 'array',
+                ] );
+
+                echo "<ul class='pagination'>\n\t<li>";
+                        echo join( "</li>\n\t<li>", $page_links );
+                        echo "</li>\n</ul>\n";
+                echo '</nav>';
+            }
+
+            } else { ?>
+
+                <p class="dokan-info"><?php esc_html_e( 'No offers were found of this vendor!', 'dokan-lite' ); ?></p>
+
+            <?php } ?>
+        </div>
 
         </div><!-- #content .site-content -->
     </div><!-- #primary .content-area -->

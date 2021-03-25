@@ -898,3 +898,18 @@ function woocommerce_change_tabs_order( $tabs ) {
     $tabs['more_seller_product']['priority'] = 5;
     return $tabs;
 }
+
+/*
+* Add extra tabs on store page
+*/
+function extra_tabs_store_page($tabs, $store_id)
+{
+    $tabs['offers'] = array(
+        'title' => __('Offers', 'dokan-lite'),
+        'url' =>  dokan_get_store_url( $store_id ) .'offers',
+    );
+
+    return $tabs;
+}
+add_filter('dokan_store_tabs', 'extra_tabs_store_page', 10, 2);
+
