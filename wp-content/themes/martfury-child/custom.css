@@ -681,6 +681,16 @@ button.modal_rounded_cancel {
   width: 40px !important;
 }
 
+.mobile-version .site-header .header-logo {
+  display: inline !important;
+  width: auto !important;
+}
+
+@media (max-width: 1199px) {
+  .site-header .extras-menu {
+    margin-left: 0 !important;
+  }
+}
 /*
 *
 * || Woocommerce Styling

@@ -619,6 +619,16 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   width: 40px!important;
 }
 
+.mobile-version .site-header .header-logo{
+  display: inline!important;
+  width: auto!important;
+}
+
+@media (max-width: 1199px) {
+  .site-header .extras-menu {
+    margin-left: 0!important;
+  }
+}
 
 /*
 *

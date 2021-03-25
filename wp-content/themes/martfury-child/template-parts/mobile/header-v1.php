@@ -4,6 +4,14 @@
             <div class="header-logo">
 				<?php get_template_part( 'template-parts/logo' ); ?>
             </div>
+
+            <div class="mobile-synerbay-btn">
+                <?php
+                do_action('synerbay_synerBayInviteButton');
+                do_action('synerbay_headerCreateOfferButton');
+                ?>
+            </div>
+
             <div class="header-extras">
                 <ul class="extras-menu">
 					<?php
@@ -14,12 +22,6 @@
 					?>
                 </ul>
             </div>
-        </div>
-        <div class="mobile-synerbay-btn">
-            <?php
-            do_action('synerbay_synerBayInviteButton');
-            do_action('synerbay_headerCreateOfferButton');
-            ?>
         </div>
         <div class="mobile-menu">
 	        <?php martfury_extra_category(); ?>
