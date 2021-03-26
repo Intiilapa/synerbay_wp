@@ -26,6 +26,9 @@ class SynerBay {
         add_action('wp_login', [$this, 'myEndSession']);
         // basic init ...
         include_once __DIR__ . '/backend/initPlugin.php';
+
+        // check verification
+        $this->checkVerification();
     }
 
     public function loadScript() {
@@ -62,6 +65,19 @@ class SynerBay {
     public function myEndSession()
     {
         session_destroy();
+    }
+
+    private function checkVerification()
+    {
+        if (
+            !isset( $_GET['dokan_email_verification'] ) &&
+            empty( $_GET['dokan_email_verification'] ) &&
+            get_current_user_id() &&
+            get_user_meta( get_current_user_id(), '_dokan_email_verification_key', true )
+        ) {
+            wp_logout(home_url());
+            exit;
+        }
     }
 }
 

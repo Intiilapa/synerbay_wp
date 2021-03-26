@@ -3,6 +3,7 @@ namespace SynerBay\Functions\Dokan\Vendor\Wizard;
 
 use WC_Countries;
 use WeDevs\Dokan\Vendor\SetupWizard as DokanVendorSetupWizard;
+use function SynerBay\synerBayLoad;
 
 class SetupWizard extends DokanVendorSetupWizard {
 
@@ -656,8 +657,6 @@ class SetupWizard extends DokanVendorSetupWizard {
         $dokan_settings['vendor_employees']  = isset( $_POST['vendor_employees'] ) ? ( $_POST['vendor_employees'] ) : '';
         $dokan_settings['vendor_product_range']  = isset( $_POST['vendor_product_range'] ) ? ( $_POST['vendor_product_range'] ) : '';
 
-
-
         $dokan_settings['address']     = isset( $_POST['address'] ) ? array_map( 'sanitize_text_field', wp_unslash( $_POST['address'] ) ) : array();
         $dokan_settings['show_email']  = isset( $_POST['show_email'] ) ? 'yes' : 'no';
 
@@ -675,6 +674,11 @@ class SetupWizard extends DokanVendorSetupWizard {
 
         do_action( 'dokan_seller_wizard_store_field_save', $this );
 
+        /**
+         * Itt fixáljuk a regisztrációt
+         */
+        $this->finishUserRegistration($this->store_id);
+
         wp_redirect( esc_url_raw( $this->get_next_step_link() ) );
         exit;
     }
@@ -684,18 +688,6 @@ class SetupWizard extends DokanVendorSetupWizard {
     public function dokan_setup_payment() {
         $methods    = dokan_withdraw_get_active_methods();
         $store_info = $this->store_info;
-
-        // fix role and permissions
-        $vendor = dokan_get_vendor($this->store_id);
-        $vendor->update_meta( 'dokan_enable_selling', 'yes' );
-        $vendor->update_meta( 'dokan_feature_seller', 'yes' );
-        $vendor->update_meta( 'dokan_publishing', 'yes' );
-        // role beállítása
-        $vendor->set_role('synerbay_user');
-
-//        delete_user_meta( $this->store_id, '_dokan_email_pending_verification' );
-//        delete_user_meta( $this->store_id, '_dokan_email_verification_key' );
-
         ?>
         <h1><?php esc_html_e( 'Payment Setup', 'dokan-lite' ); ?></h1>
         <form method="post">
@@ -726,5 +718,92 @@ class SetupWizard extends DokanVendorSetupWizard {
         <?php
 
         do_action( 'dokan_seller_wizard_after_payment_setup_form', $this );
+    }
+
+    /**
+     * Save payment options.
+     */
+    public function dokan_setup_payment_save() {
+        if ( ! isset( $_POST['_wpnonce'] ) ) {
+            return;
+        }
+
+        $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
+
+        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
+            return;
+        }
+
+        if ( isset( $posted_data['settings']['bank'] ) ) {
+            $bank = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $posted_data['settings']['bank'] ) );
+
+            $dokan_settings['payment']['bank'] = array(
+                'ac_name'        => sanitize_text_field( $bank['ac_name'] ),
+                'ac_number'      => sanitize_text_field( $bank['ac_number'] ),
+                'bank_name'      => sanitize_text_field( $bank['bank_name'] ),
+                'bank_addr'      => sanitize_text_field( $bank['bank_addr'] ),
+                'routing_number' => sanitize_text_field( $bank['routing_number'] ),
+                'iban'           => sanitize_text_field( $bank['iban'] ),
+                'swift'          => sanitize_text_field( $bank['swift'] ),
+            );
+        }
+
+        if ( isset( $posted_data['settings']['paypal'] ) ) {
+            $dokan_settings['payment']['paypal'] = array(
+                'email' => sanitize_email( $posted_data['settings']['paypal']['email'] ),
+            );
+            $dokan_settings['profile_completion']['paypal'] = 15;
+            $dokan_settings['profile_completion']['skrill'] = 0;
+        }
+
+        if ( isset( $posted_data['settings']['skrill'] ) ) {
+            $dokan_settings['payment']['skrill'] = array(
+                'email' => sanitize_email( $posted_data['settings']['skrill']['email'] ),
+            );
+            $dokan_settings['profile_completion']['skrill'] = 15;
+            $dokan_settings['profile_completion']['paypal'] = 0;
+        }
+
+        // Check any payment methods setups and add manually value on Profile Completion also increase progress value
+        if ( isset( $posted_data['settings']['paypal'] ) || isset( $posted_data['settings']['skrill'] ) ) {
+            $profile_settings = get_user_meta( $this->store_id, 'dokan_profile_settings', true );
+            if ( ! empty( $profile_settings['profile_completion']['progress'] ) ) {
+                $dokan_settings['profile_completion']['progress'] = $profile_settings['profile_completion']['progress'] + 15;
+            }
+        }
+
+        update_user_meta( $this->store_id, 'dokan_profile_settings', $dokan_settings );
+
+        do_action( 'dokan_seller_wizard_payment_field_save', $this );
+
+        wp_redirect( apply_filters( 'dokan_ww_payment_redirect', esc_url_raw( $this->get_next_step_link() ) ) );
+        exit;
+    }
+
+    /**
+     * Ez a metódus véglegesíti a wizardot,
+     * AMennyiben ez nem fut meg, akkor automatikusan kilépteti a usert a rendszer.
+     *
+     * @see synerBayLoad()
+     *
+     * @param $user_id
+     */
+    private function finishUserRegistration($user_id)
+    {
+        // fix role and permissions
+        $vendor = dokan_get_vendor($user_id);
+        $vendor->update_meta( 'dokan_enable_selling', 'yes' );
+        $vendor->update_meta( 'dokan_feature_seller', 'yes' );
+        $vendor->update_meta( 'dokan_publishing', 'yes' );
+        // role beállítása
+        $vendor->set_role('synerbay_user');
+
+        delete_user_meta( get_current_user_id(), '_dokan_email_pending_verification' );
+        delete_user_meta( get_current_user_id(), '_dokan_email_verification_key' );
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
     }
 }
