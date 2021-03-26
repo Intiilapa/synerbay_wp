@@ -176,7 +176,7 @@
     }
 
     synerbay.inviteUserHeader = function(inviteUrl, getInviterName) {
-        synerbay.inviteWrapper(getInviterName, 'inviteHeader', inviteUrl, 'Invite business partners to get connected and benefit of SynerBay.');
+        synerbay.inviteWrapper(getInviterName, 'inviteHeader', inviteUrl, 'Invite business partners to get connected and benefit from SynerBay.');
     }
 
     synerbay.inviteUserOfferPage = function(inviteUrl, getInviterName) {
