@@ -640,11 +640,11 @@ class SetupWizard extends DokanVendorSetupWizard {
             return;
         }
 
-        $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
-
-        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
-            return;
-        }
+//        $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
+//
+//        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
+//            return;
+//        }
 
         $dokan_settings = $this->store_info;
 
