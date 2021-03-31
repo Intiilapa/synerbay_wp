@@ -26,7 +26,10 @@ $wp_query->is_404 = false;
 //var_dump($lastPage);
 //die;
 
-$store_user   = dokan()->vendor->get( get_query_var( 'author' ) );
+$store_user   = dokan()->vendor->get( $currentUser->ID );
+
+//print '<pre>';var_dump($store_user);die;
+
 $store_info   = $store_user->get_shop_info();
 $map_location = $store_user->get_location();
 $layout       = get_theme_mod( 'store_layout', 'left' );
