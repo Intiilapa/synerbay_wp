@@ -7,10 +7,14 @@
  */
 
 // user adat
-global $currentUser;
+global $currentUser, $wp_query;
 
 // user offerei és a paginációhoz minden
 global $offers, $searchParameters, $rowPerPage, $currentPage, $allRow, $lastPage;
+
+$wp_query->is_singular = true;
+$wp_query->is_single = true;
+$wp_query->is_404 = false;
 
 // TODO Remco itt van minden adat, Fontos: a lapozó get-es legyen és page legyen a neve, pl.: ?page=2
 //print '<pre>';
