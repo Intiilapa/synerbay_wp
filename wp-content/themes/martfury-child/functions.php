@@ -785,7 +785,7 @@ add_action( 'woocommerce_no_products_found', function(){
 
 //Remove item from menu - Customer account page
 add_filter ( 'woocommerce_account_menu_items', 'my_account_remove_menu_item' );
-function my_account_remove_menu_item( $menu_links ){
+function my_account_remove_menu_item( $menu_links){
     //unset( $menu_links['edit-address'] ); // Addresses
     //unset( $menu_links['dashboard'] ); // Remove Dashboard
     //unset( $menu_links['payment-methods'] ); // Remove Payment Methods
@@ -882,6 +882,13 @@ function active_offers_my_account_endpoint_content() {
     </table>
     <!-- End -->
     <?php
+}
+
+add_filter( 'woocommerce_account_menu_items', 'rename_vendor_tab', 9999 );
+
+function rename_vendor_tab( $items ) {
+    $items['following'] = 'Following';
+    return $items;
 }
 
 //Product search results / sorting

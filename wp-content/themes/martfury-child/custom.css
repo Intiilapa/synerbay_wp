@@ -224,6 +224,10 @@ table.dokan-table td.column-primary ~ :not(.check-column) {
   border-radius: 4px;
 }
 
+.vendor_list_homepage .pagination-wrap {
+  display: none !important;
+}
+
 /*
 * || New product template
 */
@@ -683,7 +687,7 @@ button.modal_rounded_cancel {
 
 .mobile-version .site-header .header-logo {
   display: inline !important;
-  width: auto !important;
+  width: 22.5% !important;
 }
 
 @media (max-width: 1199px) {

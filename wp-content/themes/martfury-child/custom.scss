@@ -232,6 +232,12 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 #dokan-store-listing-filter-wrap .right .item select{
   border-radius: 4px;
 }
+//hide pagination on homepage
+.vendor_list_homepage{
+  .pagination-wrap{
+    display: none!important;
+  }
+}
 
 /*
 * || New product template
@@ -621,7 +627,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 
 .mobile-version .site-header .header-logo{
   display: inline!important;
-  width: auto!important;
+  width: 22.5%!important;
 }
 
 @media (max-width: 1199px) {
