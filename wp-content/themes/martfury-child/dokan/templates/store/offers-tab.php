@@ -7,7 +7,7 @@
  */
 
 // user adat
-global $currentUser, $wp_query;
+global $currentUser, $store_user, $wp_query;
 
 // user offerei és a paginációhoz minden
 global $offers, $searchParameters, $rowPerPage, $currentPage, $allRow, $lastPage;
@@ -25,12 +25,12 @@ $wp_query->is_404 = false;
 //var_dump($allRow);
 //var_dump($lastPage);
 //die;
-
+//dokan_get_template_part('store-header');
 $store_user   = dokan()->vendor->get( $currentUser->ID );
-
+//$store_user = get_userdata( get_query_var( 'author' ) );
 //print '<pre>';var_dump($store_user);die;
 
-$store_info   = $store_user->get_shop_info();
+$store_info   = dokan_get_store_info( $store_user->ID );
 $map_location = $store_user->get_location();
 $layout       = get_theme_mod( 'store_layout', 'left' );
 
@@ -42,10 +42,10 @@ get_header( 'shop' );
 <div class="dokan-store-wrap layout-<?php echo esc_attr( $layout ); ?>">
 
     <?php if ( 'left' === $layout ) { ?>
-        <?php dokan_get_template_part( 'store', 'sidebar', array( 'store_user' => $currentUser, 'store_info' => $store_info, 'map_location' => $map_location ) ); ?>
+        <?php dokan_get_template_part( 'store', 'sidebar', array( 'store_user' => $store_user, 'store_info' => $store_info, 'map_location' => $map_location ) ); ?>
     <?php } ?>
 
-    <div id="dokan-primary" class="dokan-single-store">
+    <div id="dokan-primary" class="dokan-single-store dokan-w8">
         <div id="dokan-content" class="store-page-wrap woocommerce" role="main">
 
             <?php dokan_get_template_part( 'store-header' ); ?>
