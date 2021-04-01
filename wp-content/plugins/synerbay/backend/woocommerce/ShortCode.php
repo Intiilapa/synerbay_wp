@@ -171,6 +171,7 @@ class ShortCode extends WC_Shortcodes
 
     /**
      * @param $attributes
+     * @return false|string
      */
     public function networkNewProducts($attributes)
     {
@@ -197,40 +198,14 @@ class ShortCode extends WC_Shortcodes
 
             if (count($products)) {
                 $entityNotFound = false;
-                // Remco itt van midnen product (post) id, ha esetleg le lehet az összeset kérni, valami optimalizált formában
-                //$productIds = array_column($products, 'ID');
-                //print '<pre>';var_dump($productIds);die;
-
-                // Remco egyesével így tudsz végig menni ...
-//                print '<pre>';
-//                foreach ($products as $product) {
-//                    var_dump($product);
-//                    echo '<br>';
-//                }
-//
-//                woocommerce_product_loop_start();
-//                    global $post;
-//
-//                    foreach ($products as $product) {
-//                        $post = get_post($product['ID']);
-//                        var_dump($post);
-//                        echo get_permalink( $post );
-//                        wc_get_template_part('content', 'product');
-//
-//                    }
-//
-//                woocommerce_product_loop_end();
-
-                //TODO kristof itt valahogy a fenti adatokat kene berakni....valahogy az csak egy pelda amit jelenleg van.
-                // synerbay_wp/wp-content/plugins/dokan-lite/includes/Shortcodes/TopRatedProduct.php
                 ob_start(); ?>
                 <ul class="products">
                     <?php
-                    $best_selling_query = dokan_get_top_rated_products();
-                    while ( $best_selling_query->have_posts() ) {
-                        $best_selling_query->the_post();
+                    global $product;
 
-                        wc_get_template_part( 'content', 'product' );
+                    foreach ($products as $nwProduct) {
+                        $product = wc_get_product($nwProduct['ID']);
+                        wc_get_template_part('content', 'product');
                     }
                     ?>
                 </ul>
@@ -447,8 +422,11 @@ class ShortCode extends WC_Shortcodes
 
                 // Remco egyesével így tudsz végig menni ...
                 print '<pre>';
+                global $vendor;
                 foreach ($recommendedVendors as $recommendedVendor) {
-                    var_dump($recommendedVendor);
+                    $vendor = dokan_get_vendor($recommendedVendor['ID']);
+//                    var_dump($recommendedVendor);
+                    var_dump($vendor);
                     echo '<br>';
                 }
             }
