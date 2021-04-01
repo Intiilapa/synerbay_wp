@@ -67,7 +67,7 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                var_dump($post);
+                //var_dump($post);
                 wc_get_template_part('content', 'offer');
 
                 $offer = [];
@@ -426,8 +426,11 @@ class ShortCode extends WC_Shortcodes
                 foreach ($recommendedVendors as $recommendedVendor) {
                     $vendor = dokan_get_vendor($recommendedVendor['ID']);
 //                    var_dump($recommendedVendor);
-                    var_dump($vendor);
-                    echo '<br>';
+                    //var_dump($vendor);
+                    //synerbay_wp/wp-content/plugins/dokan-lite/templates/store-lists.php
+                    dokan_get_template_part( 'store-lists-loop');
+
+                    //echo '<br>';
                 }
             }
         }
