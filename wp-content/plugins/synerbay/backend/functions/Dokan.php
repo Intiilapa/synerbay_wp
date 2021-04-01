@@ -6,7 +6,6 @@ namespace SynerBay\Functions;
 
 use SynerBay\Forms\CreateProduct;
 use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
-use SynerBay\Helper\RouteHelper;
 use SynerBay\Helper\SynerBayDataHelper;
 use WC_Product;
 use WP_Role;
@@ -27,6 +26,12 @@ class Dokan
 //        add_action('wp_login', [$this, 'fixUserRole'], 10, 2);
         // shortcode add args
         add_filter( 'dokan_seller_listing_args', [ $this, 'storeArgs' ], 20, 2 );
+
+        // vendor tab
+//        add_filter( 'dokan_query_var_filter', array( $this, 'load_vendor_offers_query_var' ));
+//        add_action( 'dokan_rewrite_rules_loaded', array( $this, 'load_vendor_offers_rewrite_rules' ) );
+//        add_filter( 'dokan_store_tabs', array( $this, 'add_vendor_offers_tab' ), 10, 2 );
+//        add_filter( 'dokan_load_custom_template', array( $this, 'load_vendor_offer_tab_template' ), 99 );
     }
 
     /**
@@ -195,16 +200,67 @@ class Dokan
         }
     }
 
-    public function dokan_store_tabs($tabs, $store_id)
-    {
-        $userdata         = get_userdata( $store_id );
-        $user_nicename    = ( ! false == $userdata ) ? $userdata->user_nicename : '';
-
-        $tabs['offers'] = [
-            'title' => __( 'Offers', 'dokan-lite' ),
-            'url'   => RouteHelper::generateRoute('vendor_offers_tab', ['store_name' => $user_nicename]),
-        ];
-
-        return $tabs;
-    }
+//    public function load_vendor_offers_query_var( $vars ) {
+//        $vars[] = 'offers';
+//
+//        return $vars;
+//    }
+//
+//    /**
+//     * Load vendor offers rewrite rules
+//     *
+//     * @param string $store_url
+//     *
+//     * @return void
+//     */
+//    public function load_vendor_offers_rewrite_rules( $custom_store_url ) {
+////        add_rewrite_rule( $custom_store_url.'/([^/]+)/offers?$', 'index.php?'.$custom_store_url.'=$matches[1]&offers=true', 'top' );
+////        add_rewrite_rule( $custom_store_url.'/([^/]+)/offers/page/?([0-9]{1,})/?$', 'index.php?'.$custom_store_url.'=$matches[1]&paged=$matches[2]&offers=true', 'top' );
+//    }
+//
+//    /**
+//     * @param $template
+//     * @return string
+//     */
+//    public function load_vendor_offer_tab_template( $template ) {
+//        if ( ! function_exists( 'WC' ) ) {
+//            return $template;
+//        }
+//
+//        if ( get_query_var( 'offers' ) ) {
+//            die('megtalálta');
+//            return dokan_locate_template( 'offers-tab.php', '', DOKAN_PRO_DIR. '/templates/', true );
+//        }
+//
+//        return $template;
+//    }
+//
+//    /**
+//     * @param $tabs
+//     * @param $store_id
+//     * @return mixed
+//     */
+//    public function add_vendor_offers_tab($tabs, $store_id)
+//    {
+//        $tabs['offer'] = [
+//            'title' => __( 'Offers', 'dokan-lite' ),
+//            'url'   => $this->dokan_get_vendor_offers_url($store_id),
+//        ];
+//
+//        return $tabs;
+//    }
+//    /**
+//     * @param $user_id
+//     * @return string
+//     */
+//    function dokan_get_vendor_offers_url( $user_id ): string
+//    {
+//        if ( ! $user_id ) {
+//            return '';
+//        }
+//
+//        $userstore = dokan_get_store_url( $user_id );
+//
+//        return apply_filters( 'dokan_get_seller_review_url', $userstore . 'offers' );
+//    }
 }

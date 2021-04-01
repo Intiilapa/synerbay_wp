@@ -5,7 +5,7 @@
  * @package dokan
  * @package dokan - 2014 1.0
  */
-
+die('körte');
 // user adat
 global $currentUser, $store_user, $wp_query;
 
@@ -31,7 +31,7 @@ $store_user   = dokan()->vendor->get( $currentUser->ID );
 //print '<pre>';var_dump($store_user);die;
 
 $store_info   = dokan_get_store_info( $store_user->ID );
-$map_location = $store_user->get_location();
+$map_location = isset( $store_info['location'] ) ? esc_attr( $store_info['location'] ) : '';
 $layout       = get_theme_mod( 'store_layout', 'left' );
 
 get_header( 'shop' );

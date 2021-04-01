@@ -1,7 +1,5 @@
 <?php
-/** @var \WeDevs\Dokan\Vendor\Vendor $store_user */
-global $store_user;
-
+$store_user               = dokan()->vendor->get( get_query_var( 'author' ) );
 $store_info               = $store_user->get_shop_info();
 $social_info              = $store_user->get_social_profiles();
 $store_tabs               = dokan_get_store_tabs( $store_user->get_id() );
