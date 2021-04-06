@@ -75,7 +75,9 @@ class ShortCode extends WC_Shortcodes
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
@@ -119,7 +121,9 @@ class ShortCode extends WC_Shortcodes
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
@@ -163,7 +167,9 @@ class ShortCode extends WC_Shortcodes
 
             woocommerce_product_loop_end();
         } else {
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
@@ -271,8 +277,9 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            // TODO: Remco plíz ezt ebben a file-ban refaktorááld, ha offeres a shortcode, akkor ne product not found-ot adjon vissza
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
@@ -326,8 +333,9 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            // TODO: Remco plíz ezt ebben a file-ban refaktorááld, ha offeres a shortcode, akkor ne product not found-ot adjon vissza
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
@@ -380,8 +388,10 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            // TODO: Remco plíz ezt ebben a file-ban refaktorááld, ha offeres a shortcode, akkor ne product not found-ot adjon vissza
-            wc_get_template('loop/no-products-found.php');
+         {?>
+             <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+         <?php }
+
         }
 
         wp_reset_postdata();
@@ -396,52 +406,43 @@ class ShortCode extends WC_Shortcodes
     public function networkRecommendedVendorsByIndustry($attributes)
     {
         extract(shortcode_atts([
-            'per_page' => '12',
             'columns'  => '5',
             'orderby'  => 'ID',
             'order'    => 'desc',
+            'per_page' => 10,
+            'search'   => 'yes',
+            'per_row'  => 3,
+            'featured' => 'no',
         ], $attributes));
 
-        $entityNotFound = true;
         $currentVendorProfileSettings = get_user_meta(get_current_user_id(), 'dokan_profile_settings');
 
-        if (count($currentVendorProfileSettings)) {
-            $settings = reset($currentVendorProfileSettings);
+        $settings = reset($currentVendorProfileSettings);
 
-            $recommendedVendors = (new UserRepository())->paginate([
-                'except_ids' => get_current_user_id(),
-                'industry'   => $settings['vendor_industry'],
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
-            ], $per_page, 1);
+        $recommendedVendors = (new UserRepository())->paginate([
+            'except_ids' => get_current_user_id(),
+            'industry'   => $settings['vendor_industry'],
+            'order'         => ['columnName' => $orderby, 'direction' => $order],
+        ], $per_page, 1, OBJECT);
 
-            if (count($recommendedVendors)) {
-                $entityNotFound = false;
-                // Remco itt van midnen vendor id, ha esetleg le lehet az összeset kérni, valami optimalizált formában
-//                $vendorIds = array_column($recommendedVendors, 'ID');
-//                print '<pre>';var_dump($vendorIds);die;
+        /**
+         * Filter for store listing args
+         *
+         * @since 2.4.9
+         */
+        $template_args = apply_filters(
+            'dokan_store_list_args', array(
+                'sellers'    => ['users' => $recommendedVendors],
+                'image_size' => 'full',
+            )
+        );
 
-                // Remco egyesével így tudsz végig menni ...
-                print '<pre>';
-                global $vendor;
-                foreach ($recommendedVendors as $recommendedVendor) {
-                    $vendor = dokan_get_vendor($recommendedVendor['ID']);
-//                    var_dump($recommendedVendor);
-                    //var_dump($vendor);
-                    //synerbay_wp/wp-content/plugins/dokan-lite/templates/store-lists.php
-                    dokan_get_template_part( 'store-lists-loop');
+        ob_start();
+        dokan_get_template_part( 'store-lists', false, $template_args );
+        $content = ob_get_clean();
 
-                    //echo '<br>';
-                }
-            }
-        }
+        return apply_filters( 'dokan_seller_listing', $content, $attributes );
 
-        // üres a lista?
-        if ($entityNotFound) {
-            // TODO: Remco plíz ezt ebben a file-ban refaktorááld, ha offeres a shortcode, akkor ne product not found-ot adjon vissza
-            wc_get_template('loop/no-products-found.php');
-        }
-
-        wp_reset_postdata();
     }
 
     /**
@@ -578,8 +579,9 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            // TODO: Remco plíz ezt ebben a file-ban refaktorááld, ha offeres a shortcode, akkor ne product not found-ot adjon vissza
-            wc_get_template('loop/no-products-found.php');
+            {?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+            <?php }
         }
 
         wp_reset_postdata();
