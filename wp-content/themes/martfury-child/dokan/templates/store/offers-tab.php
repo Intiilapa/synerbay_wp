@@ -1,12 +1,13 @@
 <?php
 /**
- * The Template for displaying all reviews.
+ * The Template for displaying all offers.
  *
  * @package dokan
  * @package dokan - 2014 1.0
  */
-//die('körte');
-// user adat
+
+use SynerBay\Helper\RouteHelper;
+
 global $currentUser, $store_user, $wp_query;
 
 // user offerei és a paginációhoz minden
@@ -16,19 +17,7 @@ $wp_query->is_singular = true;
 $wp_query->is_single = true;
 $wp_query->is_404 = false;
 
-// TODO Remco itt van minden adat a lapozóhoz
-//print '<pre>';
-//var_dump(count($offers));
-//var_dump($searchParameters);
-//var_dump($rowPerPage);
-//var_dump($currentPage);
-//var_dump($allRow);
-//var_dump($lastPage);
-//die;
-//dokan_get_template_part('store-header');
 $store_user   = dokan()->vendor->get( $currentUser->ID );
-//$store_user = get_userdata( get_query_var( 'author' ) );
-//print '<pre>';var_dump($store_user);die;
 
 $store_info   = dokan_get_store_info( $store_user->ID );
 $map_location = isset( $store_info['location'] ) ? esc_attr( $store_info['location'] ) : '';
@@ -69,25 +58,23 @@ get_header( 'shop' );
 
             woocommerce_product_loop_end();
 
-            // pagination
-            //TODO $base_url miatt error.
-            //$base_url  = RouteHelper::generateRoute('offers');
+            $base_url  = RouteHelper::getCurrentURL();
 
             if ( $lastPage > 1 ) {
-            echo '<nav class="woocommerce-pagination">';
-                $page_links = paginate_links( [
-                'current'   => $currentPage,
-                'total'     => $lastPage,
-                'base'      => $base_url . '%_%',
-                'format'    => '?page=%#%',
-                'add_args'  => false,
-                'type'      => 'array',
-                ] );
+                echo '<nav class="woocommerce-pagination">';
+                    $page_links = paginate_links( [
+                    'current'   => $currentPage,
+                    'total'     => $lastPage,
+                    'base'      => $base_url . '%_%',
+                    'format'    => 'page/%#%',
+                    'add_args'  => false,
+                    'type'      => 'array',
+                    ] );
 
-                echo "<ul class='pagination'>\n\t<li>";
-                        echo join( "</li>\n\t<li>", $page_links );
-                        echo "</li>\n</ul>\n";
-                echo '</nav>';
+                    echo "<ul class='pagination'>\n\t<li>";
+                            echo join( "</li>\n\t<li>", $page_links );
+                            echo "</li>\n</ul>\n";
+                    echo '</nav>';
             }
 
             } else { ?>

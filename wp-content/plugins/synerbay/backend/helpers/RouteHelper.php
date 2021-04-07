@@ -63,4 +63,17 @@ class RouteHelper
         return $url;
     }
 
+    /**
+     * Get current url without parameters
+     *
+     * @return string
+     */
+    public static function getCurrentURL(): string
+    {
+        $protocol = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
+        $baseURL = $protocol . "://" . $_SERVER['HTTP_HOST'];
+
+        return $baseURL . $_SERVER["REQUEST_URI"];
+    }
+
 }
