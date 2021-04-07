@@ -217,6 +217,7 @@ class Dokan
     {
         add_rewrite_rule( $custom_store_url.'/([^/]+)/offer?$', 'index.php?'.$custom_store_url.'=$matches[1]&store_offer=true', 'top' );
         add_rewrite_rule( $custom_store_url.'/([^/]+)/offer/page/?([0-9]{1,})/?$', 'index.php?'.$custom_store_url.'=$matches[1]&paged=$matches[2]&store_offer=true', 'top' );
+
     }
 
     /**
@@ -228,9 +229,16 @@ class Dokan
             return $template;
         }
 
-        if ( get_query_var( 'store_offer' ) ) {
-            die('megtalálta ...');
-            return dokan_locate_template( 'offers-tab.php', '', DOKAN_PRO_DIR. '/templates/', true );
+        if ( get_query_var('author') && get_query_var( 'store_offer' ) ) {
+            do_action('synerbay_initStoreTabOffers', get_query_var('author'));
+
+            die('megtalálta be kellene tölteni a templatet ...');
+
+//            global $offers;
+//            var_dump($offers);
+//            die;
+
+            $template = get_theme_file_path() . '/dokan/templates/store/offers-tab.php';
         }
 
         return $template;

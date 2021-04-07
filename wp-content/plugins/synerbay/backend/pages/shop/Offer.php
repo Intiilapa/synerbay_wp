@@ -82,9 +82,9 @@ class Offer extends AbstractPage
     /**
      * Megfut amikor valaki megnézi a store offers tabját
      *
-     * @param $storeName
+     * @param $storeId
      */
-    public function initStoreTabOffers($storeName)
+    public function initStoreTabOffers($storeId)
     {
         global $currentUser;
         global $offers;
@@ -92,11 +92,10 @@ class Offer extends AbstractPage
         $currentUser = null;
         $offers = [];
 
-        $user = (new UserRepository())->search(['user_nicename' => $storeName], OBJECT);
+        $user = (new UserRepository())->search(['user_id' => $storeId], OBJECT);
 
         if (count($user)) {
             $currentUser = $user[0];
-            $searchParameters = wp_unslash($_GET);
 
             $searchParameters['visible'] = true;
             $searchParameters['user_id'] = $currentUser->ID;
@@ -105,7 +104,7 @@ class Offer extends AbstractPage
                 'direction' => 'desc',
             ];
 
-            $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
+            $page = get_query_var('paged') ? get_query_var('paged') : 1;
 
             $offers = (new FullOfferResource())->collection((new OfferRepository())->paginate((array)$searchParameters, 8, (int)$page));
         }
