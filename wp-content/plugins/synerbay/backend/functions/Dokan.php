@@ -27,12 +27,7 @@ class Dokan
         // shortcode add args
         add_filter( 'dokan_seller_listing_args', [ $this, 'storeArgs' ], 20, 2 );
 
-        // vendor tab
-//        add_filter( 'dokan_query_var_filter', array( $this, 'load_vendor_offers_query_var' ));
-//        add_action( 'dokan_rewrite_rules_loaded', array( $this, 'load_vendor_offers_rewrite_rules' ) );
-//        add_filter( 'dokan_store_tabs', array( $this, 'add_vendor_offers_tab' ), 10, 2 );
-//        add_filter( 'dokan_load_custom_template', array( $this, 'load_vendor_offer_tab_template' ) );
-
+        // store / offers tab
         add_action( 'dokan_rewrite_rules_loaded', array( $this, 'load_vendor_offers_rewrite_rules' ) );
         add_action( 'dokan_query_var_filter', array( $this, 'load_vendor_offers_query_var' ), 10, 2 );
         add_filter( 'dokan_store_tabs', array( $this, 'add_vendor_offers_tab' ), 10, 2 );
