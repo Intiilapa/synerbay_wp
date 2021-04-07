@@ -31,7 +31,7 @@ class Dokan
         add_action( 'dokan_rewrite_rules_loaded', array( $this, 'load_vendor_offers_rewrite_rules' ) );
         add_action( 'dokan_query_var_filter', array( $this, 'load_vendor_offers_query_var' ), 10, 2 );
         add_filter( 'dokan_store_tabs', array( $this, 'add_vendor_offers_tab' ), 10, 2 );
-        add_filter( 'template_include', array( $this, 'load_vendor_offer_tab_template' ), 99 );
+        add_filter( 'template_include', array( $this, 'load_vendor_offer_tab_template' ), 100 );
     }
 
     /**
@@ -231,13 +231,6 @@ class Dokan
 
         if ( get_query_var('author') && get_query_var( 'store_offer' ) ) {
             do_action('synerbay_initStoreTabOffers', get_query_var('author'));
-
-            die('megtalálta be kellene tölteni a templatet ...');
-
-//            global $offers;
-//            var_dump($offers);
-//            die;
-
             $template = get_theme_file_path() . '/dokan/templates/store/offers-tab.php';
         }
 
@@ -259,17 +252,17 @@ class Dokan
         return $tabs;
     }
     /**
-     * @param $user_id
+     * @param $store_id
      * @return string
      */
-    function dokan_get_vendor_offers_url( $user_id ): string
+    function dokan_get_vendor_offers_url( $store_id ): string
     {
-        if ( ! $user_id ) {
+        if ( ! $store_id ) {
             return '';
         }
 
-        $userstore = dokan_get_store_url( $user_id );
+        $userStore = dokan_get_store_url( $store_id );
 
-        return apply_filters( 'dokan_get_seller_review_url', $userstore . 'offer' );
+        return apply_filters( 'dokan_get_seller_review_url', $userStore . 'offer' );
     }
 }

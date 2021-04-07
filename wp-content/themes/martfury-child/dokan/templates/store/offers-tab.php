@@ -5,7 +5,7 @@
  * @package dokan
  * @package dokan - 2014 1.0
  */
-die('körte');
+//die('körte');
 // user adat
 global $currentUser, $store_user, $wp_query;
 
@@ -16,7 +16,7 @@ $wp_query->is_singular = true;
 $wp_query->is_single = true;
 $wp_query->is_404 = false;
 
-// TODO Remco itt van minden adat, Fontos: a lapozó get-es legyen és page legyen a neve, pl.: ?page=2
+// TODO Remco itt van minden adat a lapozóhoz
 //print '<pre>';
 //var_dump(count($offers));
 //var_dump($searchParameters);
