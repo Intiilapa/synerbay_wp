@@ -430,15 +430,44 @@ class ShortCode extends WC_Shortcodes
          *
          * @since 2.4.9
          */
-        $template_args = apply_filters(
-            'dokan_store_list_args', array(
-                'sellers'    => ['users' => $recommendedVendors],
-                'image_size' => 'full',
-            )
-        );
+//        $template_args = apply_filters(
+//            'dokan_store_list_args', array(
+//                'sellers'    => ['users' => $recommendedVendors],
+//                'image_size' => 'full',
+//            )
+//        );
+
+        $sellers = ['users' => $recommendedVendors];
+        $image_size = 'full';
 
         ob_start();
-        dokan_get_template_part( 'store-lists', false, $template_args );
+
+//        dokan_get_template_part( 'store-lists', false, $template_args );
+
+        do_action( 'dokan_before_seller_listing_loop', $sellers );
+
+        $template_args = array(
+            'sellers'         => $sellers,
+            'limit'           => $limit,
+            'offset'          => $offset,
+            'paged'           => $paged,
+            'search_query'    => $search_query,
+            'pagination_base' => $pagination_base,
+            'per_row'         => $per_row,
+            'search_enabled'  => $search,
+            'image_size'      => $image_size,
+        );
+
+        dokan_get_template_part( 'store-lists-loop', false, $template_args );
+
+        /**
+         * Action hook after finishing seller listing loop
+         *
+         * @since 2.8.6
+         *
+         * @var array $sellers
+         */
+        do_action( 'dokan_after_seller_listing_loop', $sellers );
         $content = ob_get_clean();
 
         return apply_filters( 'dokan_seller_listing', $content, $attributes );
