@@ -12,7 +12,7 @@ function martfury_extra_search_form() {
         <select onchange="synerbay.processGlobalSearchInput(this)" id="header-search-product-cat" class="product-cat-dd">
             <option class="level-0" data-rewrite="'.$defaultFormAction.'" data-param="'.$defaultParamName.'" data-method="'.$defaultParamMethod.'" selected="selected">Offer</option>
             <option class="level-1" data-rewrite="/shop" data-param="s" data-method="get">Product</option>
-            <option class="level-2" data-rewrite="/store-listing=" data-param="dokan_seller_search" data-method="get">Store</option>
+            <option class="level-2" data-rewrite="/stores" data-param="query" data-method="get">Store</option>
         </select>
     ';
 

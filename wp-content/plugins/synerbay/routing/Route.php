@@ -13,6 +13,7 @@ class Route
         'edit_offer'     => 'Edit offer',
         'offer_sub_page' => 'Offer',
         'offer_listing'  => 'Offer Search',
+        'store_listing'  => 'Store Search',
     ];
 
     /**

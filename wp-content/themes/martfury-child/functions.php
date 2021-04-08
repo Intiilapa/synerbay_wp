@@ -112,21 +112,7 @@ function extra_fields($current_user, $profile_info)
         <div class="dokan-w5">
             <select class="dokan-form-control" name="vendor_industry" id="vendor_industry">
                 <?php
-                $industries = [
-                    '' => __('Select industry'),
-                    'Agriculture & Food' => ('Agriculture & Food'),
-                    'Apparel,Textiles & Accessories' => ('Apparel, Textiles & Accessories'),
-                    'Auto & Transportation' => ('Auto & Transportation'),
-                    'Bags, Shoes & Accessories' => ('Bags, Shoes & Accessories'),
-                    'Electronics' => ('Electronics'),
-                    'Electrical Equipment, Components & Telecoms' => ('Electrical Equipment, Components & Telecoms'),
-                    'Gifts, Sports & Toys' => ('Gifts, Sports & Toys'),
-                    'Health & Beauty' => ('Health & Beauty'),
-                    'Home, Lights & Construction' => ('Home, Lights & Construction'),
-                    'Machinery, Industrial Parts & Tools' => ('Machinery, Industrial Parts & Tools'),
-                    'Metallurgy, Chemicals, Rubber & Plastics' => ('Metallurgy, Chemicals, Rubber & Plastics'),
-                    'Packaging, Advertising & Office' => ('Packaging, Advertising & Office'),
-                ];
+                $industries = SynerBayDataHelper::getIndustries();
 
                 foreach ($industries as $value => $label) {
                     printf(
@@ -149,13 +135,7 @@ function extra_fields($current_user, $profile_info)
         <div class="dokan-w5">
             <select class="dokan-form-control" name="vendor_type" id="vendor_type">
                 <?php
-                $company_types = [
-                    '' => __('Select company type'),
-                    'manufacturer' => ('Manufacturer'),
-                    'wholesaler' => ('Wholesaler'),
-                    'retailer' => ('Retailer'),
-                    'service' => ('Service'),
-                ];
+                $company_types = SynerBayDataHelper::getCompanyTypes();
 
                 foreach ($company_types as $value => $label) {
                     printf(
@@ -200,16 +180,7 @@ function extra_fields($current_user, $profile_info)
         <div class="dokan-w5">
             <select class="dokan-form-control" name="vendor_revenue" id="vendor_revenue">
                 <?php
-                $revenues = [
-                    '' => __('Select annual revenue'),
-                    '$0-$500.000' => ('$0 - $500.000'),
-                    '$500.000-$1.000.000' => ('$500.000 - $1.000.000'),
-                    '$1.000.000-$5.000.000' => ('$1.000.000 - $5.000.000'),
-                    '$5.000.000-$10.000.000' => ('$5.000.000 - $10.000.000'),
-                    '$10.000.000-$50.000.000' => ('$10.000.000 - $50.000.000'),
-                    '$50.000.000<' => ('$50.000.000<'),
-
-                ];
+                $revenues = SynerBayDataHelper::getRevenues();
 
                 foreach ($revenues as $value => $label) {
                     printf(
@@ -232,15 +203,7 @@ function extra_fields($current_user, $profile_info)
         <div class="dokan-w5">
             <select class="dokan-form-control" name="vendor_employees" id="vendor_employees">
                 <?php
-                $employees = [
-                    '' => __('Select employees count'),
-                    '<10 employees' => ('< 10 employees'),
-                    '10-50 employees' => ('10 - 50 employees'),
-                    '50-100 employees' => ('50 - 100 employees'),
-                    '100-500 employees' => ('100 - 500 employees'),
-                    '500-1000 employees' => ('500 - 1000 employees'),
-                    '1000< employees' => ('1000 < employees'),
-                ];
+                $employees = SynerBayDataHelper::getEmployees();
 
                 foreach ($employees as $value => $label) {
                     printf(
@@ -263,15 +226,7 @@ function extra_fields($current_user, $profile_info)
         <div class="dokan-w5">
             <select class="dokan-form-control" name="vendor_product_range" id="vendor_product_range">
                 <?php
-                $product_ranges = [
-                    '' => __('Select a product range'),
-                    '<10 products' => ('< 10 products'),
-                    '10-50 products' => ('10 - 50 products'),
-                    '50-100 products' => ('50 - 100 products'),
-                    '100-300 products' => ('100 - 300 products'),
-                    '300-1000 products' => ('300 - 1000 products'),
-                    '1000< products' => ('1000 < products'),
-                ];
+                $product_ranges = SynerBayDataHelper::getProductRanges();
 
                 foreach ($product_ranges as $value => $label) {
                     printf(

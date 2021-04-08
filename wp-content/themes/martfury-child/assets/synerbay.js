@@ -4,6 +4,27 @@
     synerbay.init = function () {
         synerbay.$body = $(document.body);
         synerbay.$window = $(window);
+        synerbay.formHideEmptyFields();
+    }
+
+    synerbay.formHideEmptyFields = function() {
+        $("form").submit(function(){
+            $("input").each(function(index, obj){
+                var val = $(obj).val()
+                if(val === "" || val === "-") {
+                    // $(obj).remove();
+                    $(obj).attr("disabled", "disabled");
+                }
+            });
+
+            $("select").each(function(index, obj){
+                var val = $(obj).val()
+                if(val === "" || val === "-") {
+                    // $(obj).remove();
+                    $(obj).attr("disabled", "disabled");
+                }
+            });
+        });
     }
 
     synerbay.processGlobalSearchInput = function(selectObject) {

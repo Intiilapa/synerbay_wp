@@ -1287,5 +1287,74 @@ class SynerBayDataHelper
 
         return $labels[$status];
     }
+
+    public static function getIndustries(): array
+    {
+        return [
+            '' => __('Select industry'),
+            'Agriculture & Food' => ('Agriculture & Food'),
+            'Apparel,Textiles & Accessories' => ('Apparel, Textiles & Accessories'),
+            'Auto & Transportation' => ('Auto & Transportation'),
+            'Bags, Shoes & Accessories' => ('Bags, Shoes & Accessories'),
+            'Electronics' => ('Electronics'),
+            'Electrical Equipment, Components & Telecoms' => ('Electrical Equipment, Components & Telecoms'),
+            'Gifts, Sports & Toys' => ('Gifts, Sports & Toys'),
+            'Health & Beauty' => ('Health & Beauty'),
+            'Home, Lights & Construction' => ('Home, Lights & Construction'),
+            'Machinery, Industrial Parts & Tools' => ('Machinery, Industrial Parts & Tools'),
+            'Metallurgy, Chemicals, Rubber & Plastics' => ('Metallurgy, Chemicals, Rubber & Plastics'),
+            'Packaging, Advertising & Office' => ('Packaging, Advertising & Office'),
+        ];
+    }
+
+    public static function getCompanyTypes(): array
+    {
+        return  [
+            '' => __('Select company type'),
+            'manufacturer' => ('Manufacturer'),
+            'wholesaler' => ('Wholesaler'),
+            'retailer' => ('Retailer'),
+            'service' => ('Service'),
+        ];
+    }
+
+    public static function getRevenues(): array
+    {
+        return [
+            '' => __('Select annual revenue'),
+            '$0-$500.000' => ('$0 - $500.000'),
+            '$500.000-$1.000.000' => ('$500.000 - $1.000.000'),
+            '$1.000.000-$5.000.000' => ('$1.000.000 - $5.000.000'),
+            '$5.000.000-$10.000.000' => ('$5.000.000 - $10.000.000'),
+            '$10.000.000-$50.000.000' => ('$10.000.000 - $50.000.000'),
+            '$50.000.000<' => ('$50.000.000<'),
+        ];
+    }
+
+    public static function getEmployees(): array
+    {
+        return [
+            '' => __('Select employees count'),
+            '<10 employees' => ('< 10 employees'),
+            '10-50 employees' => ('10 - 50 employees'),
+            '50-100 employees' => ('50 - 100 employees'),
+            '100-500 employees' => ('100 - 500 employees'),
+            '500-1000 employees' => ('500 - 1000 employees'),
+            '1000< employees' => ('1000 < employees'),
+        ];
+    }
+
+    public static function getProductRanges(): array
+    {
+        return [
+            '' => __('Select a product range'),
+            '<10 products' => ('< 10 products'),
+            '10-50 products' => ('10 - 50 products'),
+            '50-100 products' => ('50 - 100 products'),
+            '100-300 products' => ('100 - 300 products'),
+            '300-1000 products' => ('300 - 1000 products'),
+            '1000< products' => ('1000 < products'),
+        ];
+    }
 }
 

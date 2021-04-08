@@ -30,6 +30,8 @@ $routes = [
         get_theme_file_path() . '/pages/offer/search.php', '/offers'),
 //    'vendor_offers_tab' => new Route('/^\/store\/([\s\S]*)\/offers[\/]?$/', 'synerbay_initStoreTabOffers',
 //        get_theme_file_path() . '/dokan/templates/store/offers-tab.php', '/store/[store_name]/offers'),
+    'store_listing' => new Route('/^\/stores[\/]?$/', 'synerbay_storeSearch',
+        get_theme_file_path() . '/pages/store/search.php', '/stores'),
 ];
 
 function my_plugin_redirect()
