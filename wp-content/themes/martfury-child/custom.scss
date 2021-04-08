@@ -1,7 +1,4 @@
-/*
-*  Color pallet
-*/
-
+/*Color pallet*/
 $primary-color : #ff004e;
 $hover-color: #C2003A;
 
@@ -15,7 +12,6 @@ body{
 /*
 * || Dokan Dashboard
 */
-
 @media (min-width: 450px ){
   .dokan-dashboard .dokan-dash-sidebar{
     border-radius: 4px;
@@ -110,7 +106,6 @@ input[type='submit'].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 .icon-products{
   background: no-repeat url('/wp-content/uploads/2021/01/catalog.svg');
 }
-
 .icon-offer{
   background: no-repeat url('/wp-content/uploads/2021/01/gift.svg');
 }
@@ -228,7 +223,6 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 * || Dokan Store listing
 *
 */
-
 #dokan-store-listing-filter-wrap .right .item select{
   border-radius: 4px;
 }
@@ -382,7 +376,6 @@ strong{
 * || Modal
 *
 */
-//DayPilot theme
 .modal_rounded_background { background-color: #000; opacity: 0.85; }
 .modal_rounded_main { border-radius: 4px; }
 .modal_rounded_main, .modal_rounded_main input, .modal_rounded_main button {  font-size: 14px; }
@@ -417,6 +410,10 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
     width: 100%;
     display: block;
   }
+}
+
+#btn-marketplace{
+  min-width: 175px;
 }
 .button.invite{
 
@@ -477,6 +474,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
+
 //User menu
 .dashboard-menu-item{
   background-color: $primary-color!important;
@@ -489,11 +487,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
     }
   }
 }
-//Sticky menu
-.mobile-version.sticky-header .site-header.minimized .header-main{
-  //padding-bottom: 10px!important;
-  padding-top: 10px!important;
-}
+
 //Cat menu
 .site-header .products-cats-menu .toggle-product-cats .menu{
   border-radius: 4px;
@@ -597,7 +591,6 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 * || Mobile optimization
 *
 */
-
 @media (max-width: 991px) {
   .site-header .product-extra-search .product-cat {
     display: block!important;
@@ -617,7 +610,6 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   position: relative;
 }
 
-
 .dokan-dashboard .dokan-dash-sidebar #dokan-navigation > #mobile-menu-icon{
   background: white;
   color:black;
@@ -636,6 +628,11 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   }
 }
 
+//Sticky menu
+.mobile-version.sticky-header .site-header.minimized .header-main{
+  //padding-bottom: 10px!important;
+  padding-top: 10px!important;
+}
 /*
 *
 * || Woocommerce Styling
@@ -675,10 +672,64 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   left: 0;
   background-color: $primary-color!important;
 }
+
+//Customer page
+.woocommerce-account .woocommerce .woocommerce-MyAccount-navigation ul li a{
+  font-weight: 500!important;
+
+}
+
+//Custom icons
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--dashboard a:before{
+  content: "\f0e4";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--active-offers a:before{
+  content: "\f0e4";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--orders a:before{
+  content: "\f0e4";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-address a:before{
+  content: "\f0e4";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-account a:before{
+  content: "\f007";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 20px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--following a:before{
+  content: "\f004";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--support-tickets a:before{
+  content: "\f1cd";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--customer-logout a:before{
+  content: "\f011";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
 /*
-*
+*s
 * || General
-*
 *
  */
 

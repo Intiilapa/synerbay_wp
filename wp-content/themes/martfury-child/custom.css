@@ -1,6 +1,5 @@
-/*
-*  Color pallet
-*/
+@charset "UTF-8";
+/*Color pallet*/
 .site-header .main-menu {
   border-top: 1px solid rgba(255, 255, 255, 0.3) !important;
 }
@@ -455,6 +454,10 @@ button.modal_rounded_cancel {
     display: block;
   }
 }
+#btn-marketplace {
+  min-width: 175px;
+}
+
 .sticky-header .site-header.minimized .mobile-menu {
   background: #ff004e;
 }
@@ -517,10 +520,6 @@ button.modal_rounded_cancel {
 }
 .dashboard-menu-item a:hover {
   border-bottom-color: white !important;
-}
-
-.mobile-version.sticky-header .site-header.minimized .header-main {
-  padding-top: 10px !important;
 }
 
 .site-header .products-cats-menu .toggle-product-cats .menu {
@@ -695,6 +694,10 @@ button.modal_rounded_cancel {
     margin-left: 0 !important;
   }
 }
+.mobile-version.sticky-header .site-header.minimized .header-main {
+  padding-top: 10px !important;
+}
+
 /*
 *
 * || Woocommerce Styling
@@ -734,10 +737,61 @@ button.modal_rounded_cancel {
   background-color: #ff004e !important;
 }
 
+.woocommerce-account .woocommerce .woocommerce-MyAccount-navigation ul li a {
+  font-weight: 500 !important;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--dashboard a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--active-offers a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--orders a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-address a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-account a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 20px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--following a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--support-tickets a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
+body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--customer-logout a:before {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-right: 15px;
+}
+
 /*
-*
+*s
 * || General
-*
 *
  */
 @media (max-width: 780px) {

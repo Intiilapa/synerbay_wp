@@ -72,7 +72,7 @@ add_action('widgets_init', 'synerbay_offers_sidebar');
 
 /*
 *
-* Enable custom registration details for Dokan dashboard
+* Enable custom registration details for Dokan dashboard at Wizard
 *
 * @since 3.0.16
 * @package dokan
@@ -290,7 +290,7 @@ function extra_fields($current_user, $profile_info)
     <?php
 }
 
-//Back-end
+//save fields
 add_action('dokan_store_profile_saved', 'save_extra_fields', 15);
 function save_extra_fields($store_id)
 {
@@ -316,10 +316,13 @@ function save_extra_fields($store_id)
     if (isset($_POST['vendor_product_range'])) {
         $dokan_settings['vendor_product_range'] = $_POST['vendor_product_range'];
     }
+
+    $dokan_settings['dokan_feature_seller'] = 'no';
+
     update_user_meta($store_id, 'dokan_profile_settings', $dokan_settings);
 }
 
-//Show on Store page
+//Show vendor wizard settings on Store page
 add_action('dokan_store_header_info_fields', 'save_seller_url', 10);
 
 function save_seller_url($store_user)
