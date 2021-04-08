@@ -25,6 +25,10 @@ class SetupWizard extends DokanVendorSetupWizard {
      * Store step.
      */
     public function dokan_setup_store() {
+        if (!$this->initUser()) {
+            return;
+        }
+
         $store_info      = $this->store_info;
 
         $store_ppp       = isset( $store_info['store_ppp'] ) ? esc_attr( $store_info['store_ppp'] ) : 12;
@@ -640,6 +644,10 @@ class SetupWizard extends DokanVendorSetupWizard {
             return;
         }
 
+        if (!$this->initUser()) {
+            return;
+        }
+
 //        $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
 //
 //        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
@@ -728,6 +736,10 @@ class SetupWizard extends DokanVendorSetupWizard {
             return;
         }
 
+        if (!$this->initUser()) {
+            return;
+        }
+
         $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
 
         if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
@@ -793,13 +805,46 @@ class SetupWizard extends DokanVendorSetupWizard {
         // fix role and permissions
         $vendor = dokan_get_vendor($user_id);
         $vendor->update_meta( 'dokan_enable_selling', 'yes' );
-        $vendor->update_meta( 'dokan_feature_seller', 'yes' );
+        $vendor->update_meta( 'dokan_feature_seller', 'no' );
         $vendor->update_meta( 'dokan_publishing', 'yes' );
+        $vendor->update_meta( 'dokan_publishing', 'yes' );
+
         // role beállítása
         $vendor->set_role('synerbay_user');
 
         delete_user_meta( get_current_user_id(), '_dokan_email_pending_verification' );
         delete_user_meta( get_current_user_id(), '_dokan_email_verification_key' );
+    }
+
+    private function initUser()
+    {
+        if ( !isset( $_GET['dokan_email_verification'] ) && empty( $_GET['dokan_email_verification'] ) ) {
+            return false;
+        }
+
+        if ( !isset( $_GET['id'] ) && empty( $_GET['id'] ) ) {
+            return false;
+        }
+
+        $user_id = intval( $_GET['id'] );
+        $activation_key = $_GET['dokan_email_verification'];
+
+        $verificationKey = get_user_meta( $user_id, '_dokan_email_verification_key', true );
+
+        if (!$verificationKey) {
+            wp_redirect(home_url());
+            exit;
+        }
+
+        if ( $verificationKey != $activation_key ) {
+            return false;
+        }
+
+        $this->store_id   = $_GET['id'];
+        $this->store_info = dokan_get_store_info( $this->store_id );
+
+        return true;
+
     }
 
     public function __construct()
