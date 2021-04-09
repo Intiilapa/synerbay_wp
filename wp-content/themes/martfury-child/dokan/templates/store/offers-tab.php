@@ -42,18 +42,16 @@ get_header( 'shop' );
             <?php do_action( 'dokan_store_profile_frame_after', $store_user->data, $store_info ); ?>
 
             <?php
-
             if (count($offers)) {
 
             woocommerce_product_loop_start();
 
-                global $offer;
                 global $post;
+
                 foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
                 wc_get_template_part('content', 'offer');
-
-                $offer = [];
+                    $offer = [];
                 }
 
             woocommerce_product_loop_end();

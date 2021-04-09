@@ -23,7 +23,8 @@
 <!--        gtag('config', 'G-MK9E3HHMWV');-->
 <!--    </script>-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-	<?php wp_head(); ?>
+    <script src="https://kit.fontawesome.com/066facd3ea.js" crossorigin="anonymous"></script>
+    <?php wp_head(); ?>
 
 </head>
 
