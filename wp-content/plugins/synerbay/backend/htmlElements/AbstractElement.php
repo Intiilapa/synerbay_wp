@@ -193,7 +193,7 @@ abstract class AbstractElement
     protected function inputError($name, $errors)
     {
         if (array_key_exists($name, $errors)) {
-            return '<span style="margin-top: 3px; font-size: 11px; color: red;">*'.$errors[$name].'</span>';
+            return '<span style="margin-top: 3px; font-size: 11px; color: white; background: red; padding: 5px 10px; font-weight: 500;">*'.$errors[$name].'</span>';
         }
 
         return '';

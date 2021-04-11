@@ -272,6 +272,7 @@ function save_extra_fields($store_id)
         $dokan_settings['vendor_product_range'] = $_POST['vendor_product_range'];
     }
 
+
     update_user_meta($store_id, 'dokan_profile_settings', $dokan_settings);
 }
 

@@ -35,7 +35,7 @@ class ButtonElement extends AbstractElement
     public function synerBayInviteButton()
     {
         $url = RouteHelper::addInviteCodeToUrl(get_site_url());
-        echo '<a class="invite-header" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>Invite</a>';
+        echo '<a id="invite-header-btn" class="invite-header" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>Invite</a>';
     }
 
     public function synerBayInviteButtonSearch()
@@ -70,7 +70,7 @@ class ButtonElement extends AbstractElement
     public function headerCreateOfferButton()
     {
         $url = get_site_url() . '/dashboard/new-offer';
-        echo '<a class="invite-header" href="'.$url.'">Create offer</a>';
+        echo '<a id="create-header-btn" class="invite-header" href="'.$url.'">Create offer</a>';
     }
 
     protected function init()

@@ -104,6 +104,10 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
   background: no-repeat url("/wp-content/uploads/2021/01/stack.svg");
 }
 
+.dokan-product-listing .dokan-product-listing-area .row-actions {
+  visibility: visible !important;
+}
+
 input[type=submit].dokan-btn-theme:hover, a.dokan-btn-theme:hover, .dokan-btn-theme:hover, input[type=submit].dokan-btn-theme:focus, a.dokan-btn-theme:focus, .dokan-btn-theme:focus, input[type=submit].dokan-btn-theme:active, a.dokan-btn-theme:active, .dokan-btn-theme:active, input[type=submit].dokan-btn-theme.active, a.dokan-btn-theme.active, .dokan-btn-theme.active, .open .dropdown-toggleinput[type=submit].dokan-btn-theme, .open .dropdown-togglea.dokan-btn-theme, .open .dropdown-toggle.dokan-btn-theme {
   background-color: #C2003A !important;
   border-color: #C2003A !important;
@@ -132,6 +136,18 @@ input[type=submit].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default {
 
 .mobile-version.dokan-dashboard .site-content {
   padding-top: 0 !important;
+}
+
+.dokan-add-product-link a:after {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 5px;
+}
+
+#dokan_update_product:after {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 5px;
 }
 
 @media (max-width: 430px) {
@@ -320,18 +336,23 @@ input#bulk-product-action {
   color: black !important;
 }
 
+.dashicons-groups:before {
+  color: #ff004e !important;
+}
+
 .groupbuy-bage {
   background: white;
   top: 12px;
   right: 7px !important;
   border-radius: 20px;
   font-size: 27px !important;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid #ff004e;
+  box-shadow: rgba(100, 100, 111, 0.8) 0px 7px 29px 0px;
 }
 
 @media (min-width: 450px) {
   .groupbuy-bage {
-    top: -8px !important;
+    top: 10px !important;
   }
 }
 .groupbuy-time {
@@ -522,8 +543,27 @@ button.modal_rounded_cancel {
   border-bottom-color: white !important;
 }
 
+.site-header .extras-menu .menu-item-account > ul li a {
+  color: black;
+}
+
 .site-header .products-cats-menu .toggle-product-cats .menu {
   border-radius: 4px;
+}
+
+#invite-header-btn:after {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 5px;
+  color: #ff004e;
+  vertical-align: middle;
+}
+
+#create-header-btn:after {
+  content: "";
+  font: normal normal normal 14px/1 FontAwesome;
+  padding-left: 5px;
+  color: #ff004e;
 }
 
 /*
@@ -701,8 +741,9 @@ button.modal_rounded_cancel {
 /*
 *
 * || Woocommerce Styling
+* Including myaccount page
 *
- */
+*/
 .woocommerce ul.products li.product .product-inner:hover .mf-product-details-hover {
   border-radius: 4px;
 }
@@ -787,6 +828,14 @@ body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--customer-l
   content: "";
   font: normal normal normal 14px/1 FontAwesome;
   padding-right: 15px;
+}
+
+.woocommerce-info {
+  border-top-color: #ff004e !important;
+}
+
+.woocommerce-info::before {
+  color: #ff004e !important;
 }
 
 /*
