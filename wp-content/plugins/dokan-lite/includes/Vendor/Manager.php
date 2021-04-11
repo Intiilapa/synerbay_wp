@@ -48,7 +48,7 @@ class Manager {
             'number'     => 10,
             'offset'     => 0,
             'orderby'    => 'registered',
-            'order'      => 'ASC',
+            'order'      => 'DESC',
             'status'     => [ 'approved' ],
             'featured'   => '', // yes or no
             'meta_query' => [],
