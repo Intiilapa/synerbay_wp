@@ -195,8 +195,7 @@ class ShortCode extends WC_Shortcodes
             $productRepository = new ProductRepository();
 
             $searchParams = [
-                'recent_offers' => true,
-                'user_id' => array_column($followedVendors, 'vendor_id'),
+                'user_id'       => array_column($followedVendors, 'vendor_id'),
                 'order'         => ['columnName' => $orderby, 'direction' => $order],
             ];
 
@@ -207,18 +206,21 @@ class ShortCode extends WC_Shortcodes
                 ob_start(); ?>
                 <ul class="products">
                     <?php
-                    global $product;
+                    global $wp_query;
+                    global $post;
 
                     foreach ($products as $nwProduct) {
-                        $product = wc_get_product($nwProduct['ID']);
+                        $post = get_post($nwProduct['ID']);
+                        $wp_query->setup_postdata($post);
                         wc_get_template_part('content', 'product');
                     }
+
                     ?>
                 </ul>
+
                 <?php
                 wp_reset_postdata();
                 return ob_get_clean();
-
             }
         }
 
@@ -476,6 +478,7 @@ class ShortCode extends WC_Shortcodes
 
     /**
      * @param $attributes
+     * @return false|string
      */
     public function networkRecommendedProducts($attributes)
     {
@@ -492,55 +495,36 @@ class ShortCode extends WC_Shortcodes
         if (count($currentVendorProfileSettings)) {
             $settings = reset($currentVendorProfileSettings);
 
-            $recommendedVendors = (new UserRepository())->paginate([
-                'except_ids' => get_current_user_id(),
-                'industry' => $settings['vendor_industry'],
-                'order' => ['columnName' => $orderby, 'direction' => $order],
-            ], $per_page, 1);
+            $productRepository = new ProductRepository();
 
-            if (count($recommendedVendors)) {
-                $productRepository = new ProductRepository();
+            $searchParams = [
+                'category_name' => $settings['vendor_industry'],
+                'except_user_id'=> get_current_user_id(),
+                'order'         => ['columnName' => $orderby, 'direction' => $order],
+            ];
 
-                $searchParams = [
-                    'recent_offers' => true,
-                    'user_id' => array_column($recommendedVendors, 'ID'),
-                    'order'         => ['columnName' => $orderby, 'direction' => $order],
-                ];
+            $products = $productRepository->paginate($searchParams, $per_page, 1);
 
-                $products = $productRepository->paginate($searchParams, $per_page, 1);
-
-                if (count($products)) {
-                    $entityNotFound = false;
-                    // Remco itt van midnen product (post) id, ha esetleg le lehet az összeset kérni, valami optimalizált formában
-//                $productIds = array_column($products, 'ID');
-//                print '<pre>';var_dump($productIds);die;
-
-                    // Remco egyesével így tudsz végig menni ...
-//                    print '<pre>';
-//                    foreach ($products as $product) {
-//                        var_dump($product);
-//                        echo '<br>';
-//                    }
-
-//                woocommerce_product_loop_start();
-
-//                woocommerce_product_loop_end();
-                    //TODO kristof itt valahogy a fenti adatokat kene berakni....valahogy az csak egy pelda amit jelenleg van.
-                    ob_start(); ?>
-                    <ul class="products">
-                        <?php
-                        $best_selling_query = dokan_get_top_rated_products();
-                        while ( $best_selling_query->have_posts() ) {
-                            $best_selling_query->the_post();
-
-                            wc_get_template_part( 'content', 'product' );
-                        }
-                        ?>
-                    </ul>
+            if (count($products)) {
+                $entityNotFound = false;
+                ob_start(); ?>
+                <ul class="products">
                     <?php
-                    wp_reset_postdata();
-                    return ob_get_clean();
-                }
+                    global $wp_query;
+                    global $post;
+
+                    foreach ($products as $nwProduct) {
+                        $post = get_post($nwProduct['ID']);
+                        $wp_query->setup_postdata($post);
+                        wc_get_template_part('content', 'product');
+                    }
+
+                    ?>
+                </ul>
+
+                <?php
+                wp_reset_postdata();
+                return ob_get_clean();
             }
         }
 
@@ -570,17 +554,22 @@ class ShortCode extends WC_Shortcodes
         if (count($currentVendorProfileSettings)) {
             $settings = reset($currentVendorProfileSettings);
 
-            $recommendedVendors = (new UserRepository())->paginate([
-                'except_ids' => get_current_user_id(),
-                'industry'   => $settings['vendor_industry']
-            ], $per_page, 1);
+            $productRepository = new ProductRepository();
 
-            if (count($recommendedVendors)) {
+            $searchParams = [
+                'category_name' => $settings['vendor_industry'],
+                'except_user_id'=> get_current_user_id(),
+                'order'         => ['columnName' => $orderby, 'direction' => $order],
+            ];
+
+            $recommendedProducts = $productRepository->search($searchParams);
+
+            if (count($recommendedProducts)) {
 
                 $offerRepository = new OfferRepository();
 
                 $offerSearchParams = [
-                    'user_id' => array_column($recommendedVendors, 'ID'),
+                    'product_id' => array_column($recommendedProducts, 'ID'),
                     'order'         => ['columnName' => $orderby, 'direction' => $order],
                 ];
 

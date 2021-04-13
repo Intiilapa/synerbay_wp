@@ -31,6 +31,23 @@ class ProductRepository extends AbstractRepository
 
             $this->addWhereParameter($this->getBaseTable() . '.post_author in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
         }
+
+        if (!empty($searchAttributes['except_user_id'])) {
+            $ids = $searchAttributes['except_user_id'];
+
+            if (!is_array($ids)) {
+                $ids = [$ids];
+            }
+
+            $this->addWhereParameter($this->getBaseTable() . '.post_author not in ('.$this->buildInPlaceholderFromArrayToWhere($ids).')', $ids);
+        }
+
+        if (!empty($searchAttributes['category_name'])) {
+            $this->addJoin('left join sb_term_relationships str on ' . $this->getBaseTable() . '.ID = str.object_id');
+            $this->addJoin('left join sb_term_taxonomy stt on str.term_taxonomy_id = stt.term_taxonomy_id and stt.parent = 0 and stt.taxonomy = "product_cat"');
+            $this->addJoin('left join sb_terms st on stt.term_id = st.term_id');
+            $this->addWhereParameter('st.name = %s', $searchAttributes['category_name']);
+        }
     }
 
     protected function getBaseTableName(): string
