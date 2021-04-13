@@ -8,7 +8,6 @@
         Offer ID: <?php echo $id?><br>
         Product price: <?php echo $summary['formatted_actual_product_price'];?><br>
         Applicants: <?php echo $summary['actual_applicant_number'];?><br>
-        Successful: <strong><?php echo $summary['offer_qty_successful'] ? 'yes' : 'no';?></strong><br>
     </p>
     <p>
     <?php
