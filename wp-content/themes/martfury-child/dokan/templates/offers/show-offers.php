@@ -95,7 +95,7 @@ do_action( 'dokan_new_product_wrap_before' );
                 <th><?php esc_html_e('QTY'); ?></th>
                 <th><?php esc_html_e('Status'); ?></th>
                 <th style="width: 160px;"><?php esc_html_e('Apply date'); ?></th>
-                <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+                <th style="width: 140px;"><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
             </tr>
 
             <?php
@@ -104,11 +104,11 @@ do_action( 'dokan_new_product_wrap_before' );
                     /** @var Dokan_Vendor $dokanCustomer */
                     $dokanCustomer = $apply['customer'];
 
-                    $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $dokanCustomer->get_shop_url() . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View vendor"><i class="fa fa-eye">&nbsp;</i></a>';
+                    $viewButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $dokanCustomer->get_shop_url() . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View vendor"><i class="fas fa-eye">&nbsp;</i></a>';
 
                     if ($apply['status'] == OfferApply::STATUS_PENDING) {
-                        $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.acceptApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Accept"><i class="fa fa-check">&nbsp;</i></a>';
-                        $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.rejectApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reject"><i class="fa fa-trash">&nbsp;</i></a>';
+                        $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.acceptApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Accept"><i class="fas fa-check-circle">&nbsp;</i></a>';
+                        $viewButton .= '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" onclick="synerbay.rejectApply(' . $apply['id'] . ')" data-toggle="tooltip" data-placement="top" title="" data-original-title="Reject"><i class="fas fa-trash">&nbsp;</i></a>';
                     }
 
                     echo '<tr id="my_offer_apply_row_' . $apply['id'] . '">'

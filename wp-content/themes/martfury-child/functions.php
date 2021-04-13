@@ -284,49 +284,49 @@ function save_seller_url($store_user)
     $store_info = dokan_get_store_info($store_user); ?>
     <?php if (isset($store_info['vendor_vat']) && !empty($store_info['vendor_vat'])) { ?>
     <li>
-        <i class="fa fa-legal"></i>
+        <i class="fas fa-legal"></i>
         <a><?php echo esc_html($store_info['vendor_vat']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_type']) && !empty($store_info['vendor_type'])) { ?>
     <li>
-        <i class="fa fa-globe"></i>
+        <i class="fas fa-globe"></i>
         <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_type']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_industry']) && !empty($store_info['vendor_industry'])) { ?>
     <li>
-        <i class="fa fa-industry"></i>
+        <i class="fas fa-industry"></i>
         <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_industry']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_shipping_to']) && !empty($store_info['vendor_shipping_to'])) { ?>
     <li>
-        <i class="fa fa-map-o"></i>
+        <i class="fas fa-map-o"></i>
         <a style="text-transform: capitalize"></a><?php echo esc_html($store_info['vendor_shipping_to']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_revenue']) && !empty($store_info['vendor_revenue'])) { ?>
     <li>
-        <i class="fa fa-money"></i>
+        <i class="fas fa-money"></i>
         <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_revenue']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_employees']) && !empty($store_info['vendor_employees'])) { ?>
     <li>
-        <i class="fa fa-users"></i>
+        <i class="fas fa-users"></i>
         <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_employees']); ?></a>
     </li>
 <?php } ?>
 
     <?php if (isset($store_info['vendor_product_range']) && !empty($store_info['vendor_product_range'])) { ?>
     <li>
-        <i class="fa fa-sliders"></i>
+        <i class="fas fa-sliders"></i>
         <a style="text-transform: capitalize"><?php echo esc_html($store_info['vendor_product_range']); ?></a>
     </li>
 <?php } ?>
@@ -354,7 +354,7 @@ function dokan_add_offer_menu($urls)
 {
     $urls['offer'] = array(
         'title' => __('Offers', 'dokan'),
-        'icon' => '<i class="fa fa-bookmark"></i>',
+        'icon' => '<i class="fas fa-bookmark"></i>',
         'url' => dokan_get_navigation_url('offer'),
         'pos' => 51
     );
@@ -586,12 +586,7 @@ function product_custom_details()
                 We also inform all of your followers after every further offer added.</br>
 
             </div>';
-            if (count($rfqs)) {
-
-
-            } else {
-            }
-            ?>
+            if (count($rfqs)) { ?>
             <table class="dokan-table dokan-table-striped rfq" id="rfq-table">
                 <thead>
                 <tr>
@@ -603,7 +598,7 @@ function product_custom_details()
 
                 <?php
                 foreach ($rfqs as $rfq) {
-                    $showOffer = "<a href='" . $rfq['vendor']->get_shop_url() . "' class='dokan-btn dokan-btn-default dokan-btn-sm btn-rfq' data-toggle='tooltip' data-placement='top' title='' data-original-title='Show vendor'><i class='fa fa-eye'>&nbsp;</i></a>";
+                    $showOffer = "<a href='" . $rfq['vendor']->get_shop_url() . "' class='dokan-btn dokan-btn-default dokan-btn-sm btn-rfq' data-toggle='tooltip' data-placement='top' title='' data-original-title='Show vendor'><i class='fas fa-eye'>&nbsp;</i></a>";
                     echo '<tr id="rfq_row_' . $rfq['user_id'] . '">'
                         . '<td>' . $rfq['vendor']->get_name() . '</td>'
                         . '<td><b>' . $rfq['qty'] . '</b></td>'
@@ -611,11 +606,25 @@ function product_custom_details()
                         . '<td>' . $showOffer . '</td>'
                         . '</tr>';
                 }
+
                 ?>
                 </thead>
             </table>
+            <?php } else { ?>
 
+            <table class="dokan-table dokan-table-striped rfq" id="rfq-table">
+                <thead>
+                <tr>
+                    <th><?php esc_html_e('Vendor', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Quantity', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Created', 'dokan-lite'); ?></th>
+                    <th><?php esc_html_e('Actions', 'dokan-lite'); ?></th>
+                </tr>
+                </thead>
+            </table>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteRfq'); ?></p>
             <?php
+            }
         }
     }
     do_action('synerbay_product_buttons');
@@ -794,7 +803,7 @@ function active_offers_my_account_endpoint_content() {
     do_action('synerbay_init_global_my_offer_applies_for_dashboard');
     global $myOfferApplies; ?>
     <!-- Start -->
-    <button class="dokan-btn dokan-btn-theme" onClick="window.location.reload();"><i class="fa fa-refresh">&nbsp;</i> Refresh active offers</button>
+    <button class="dokan-btn dokan-btn-theme" onClick="window.location.reload();"><i class="fas fa-refresh">&nbsp;</i> Refresh active offers</button>
     </br></br>
     <table class="dokan-table dokan-table-striped product-listing-table dokan-inline-editable-table"
            id="dokan-product-list-table">
@@ -814,10 +823,10 @@ function active_offers_my_account_endpoint_content() {
         foreach ($myOfferApplies as $offerApply) {
 
             $deleteButton = '';
-            $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
+            $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fas fa-eye'>&nbsp;</i></a>";
 
             if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
-                $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(" . $offerApply['offer_id'] . ")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
+                $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(" . $offerApply['offer_id'] . ")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fas fa-times'>&nbsp;</i></a>";
             }
 
             echo '<tr id="my_active_offer_row_' . $offerApply['offer_id'] . '">'
@@ -833,7 +842,7 @@ function active_offers_my_account_endpoint_content() {
         }
 
         if (!$myOfferApplies) {
-            echo '<td colspan="7">No active offers found</td>';
+            echo '<td colspan="8">No active offers found</td>';
         } ?>
         </thead>
     </table>

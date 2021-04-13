@@ -47,7 +47,7 @@ do_action('dokan_new_product_wrap_before');
             foreach ($myOfferApplies as $offerApply) {
 
                 $deleteButton = '';
-                $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fa fa-eye'>&nbsp;</i></a>";
+                $showOfferButton = "<a href='" . $offerApply['offer']['url'] . "' class='dokan-btn dokan-btn-default dokan-btn-sm tips'data-toggle='tooltip' data-placement='top' title='' data-original-title='Details'><i class='fas fa-eye'>&nbsp;</i></a>";
 
                 if ($currentDate <= strtotime($offerApply['offer']['offer_end_date'])) {
                     $deleteButton = "<a onclick='window.synerbay.disAppearOfferDashboard(" . $offerApply['offer_id'] . ")' class='dokan-btn dokan-btn-default dokan-btn-sm tips' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete'><i class='fa fa-times'>&nbsp;</i></a>";
@@ -66,7 +66,7 @@ do_action('dokan_new_product_wrap_before');
             }
 
             if (!$myOfferApplies) {
-                echo '<td colspan="7">No active offers found</td>';
+                echo '<td colspan="8">No active offers found</td>';
             } ?>
             </thead>
         </table>

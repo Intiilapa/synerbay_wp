@@ -47,15 +47,15 @@ do_action('synerbay_init_global_my_offers_for_dashboard'); ?>
 
     if (count($myOffers)) {
         foreach ($myOffers as $offer) {
-            $viewOfferButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $offer['url'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View offer"><i class="fa fa-eye">&nbsp;</i></a>';
-            $showButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="/dashboard/show-offers/' . $offer['id'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="Show"><i class="fa fa-users">&nbsp;</i></a>';
+            $viewOfferButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="' . $offer['url'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="View offer"><i class="fas fa-eye">&nbsp;</i></a>';
+            $showButton = '<a class="dokan-btn dokan-btn-default dokan-btn-sm tips" target="_blank" href="/dashboard/show-offers/' . $offer['id'] . '" data-toggle="tooltip" data-placement="top" title="" data-original-title="Show"><i class="fas fa-users">&nbsp;</i></a>';
             $updateButton = '';
             $deleteButton = '';
             $deliveryLocationNum = count($offer['shipping_to']);
 
             if ($currentDate < strtotime($offer['offer_start_date'])) {
-                $updateButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' href='/dashboard/edit-offer/" . $offer['id'] . "' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit offer'><i class='fa fa-pencil'>&nbsp;</i></a>";
-                $deleteButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' onclick='window.synerbay.deleteOffer(" . $offer['id'] . ")' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete offer'><i class='fa fa-times'>&nbsp;</i></a>";
+                $updateButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' href='/dashboard/edit-offer/" . $offer['id'] . "' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit offer'><i class='fas fa-pencil'>&nbsp;</i></a>";
+                $deleteButton = "<a class='dokan-btn dokan-btn-default dokan-btn-sm tips' onclick='window.synerbay.deleteOffer(" . $offer['id'] . ")' data-toggle='tooltip' data-placement='top' title='' data-original-title='Delete offer'><i class='fas fa-times'>&nbsp;</i></a>";
             }
 
             echo '<tr id="my_offer_row_' . $offer['id'] . '">'

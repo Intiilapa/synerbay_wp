@@ -64,6 +64,7 @@ tr{
 input[type='submit'].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
   background-color: $primary-color!important;
   border-color:white!important;
+  min-width: 39px;
 }
 
 .notice-box{
@@ -440,14 +441,191 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 #btn-marketplace{
   min-width: 175px;
 }
-.button.invite{
+
+
+//Base
+#synerbay-btn{
+  font-size: 16px;
+  font-weight:500;
+}
+
+.delete-btn{
 
 }
-.button.rfq{
 
+.place-order-btn{
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: hsl(243, 80%, 62%);
+  margin: 0 10px;
 }
-.button.view-offer{
 
+.place-order-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.place-order-btn::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  background-color: hsl(222, 100%, 95%);
+  transition: transform .2s ease-in-out;
+}
+
+.place-order-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #474E51;
+  transition: transform .2s ease-in-out;
+}
+
+.place-order-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.place-order-btn:hover::after {
+  transform: translate(-6px, 4px);
+}
+
+//View offer button
+.view-offer-btn{
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: hsl(243, 80%, 62%);
+  margin: 0 10px;
+}
+
+.view-offer-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.view-offer-btn::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  background-color: hsl(222, 100%, 95%);
+  transition: transform .2s ease-in-out;
+}
+
+.view-offer-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #474E51;
+  transition: transform .2s ease-in-out;
+}
+
+.view-offer-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.view-offer-btn:hover::after {
+  transform: translate(-6px, 4px);
+}
+
+//Create RFQ
+.create-rfq-btn {
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: hsl(243, 80%, 62%);
+  margin: 0 10px;
+}
+
+.create-rfq-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.create-rfq-btn::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  background-color: hsl(222, 100%, 95%);
+  transition: transform .2s ease-in-out;
+}
+
+.create-rfq-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #474E51;
+  transition: transform .2s ease-in-out;
+}
+
+.create-rfq-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.create-rfq-btn:hover::after {
+  transform: translate(-6px, 4px);
+}
+
+//Invite
+.invite-btn {
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: hsl(243, 80%, 62%);
+  margin: 0 10px;
+}
+
+.invite-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.invite-btn::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  background-color: hsl(222, 100%, 95%);
+  transition: transform .2s ease-in-out;
+}
+
+.invite-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border: 1px solid #474E51;
+  transition: transform .2s ease-in-out;
+}
+
+.invite-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.invite-btn:hover::after {
+  transform: translate(-6px, 4px);
 }
 
 .sticky-header .site-header.minimized .mobile-menu{
@@ -743,19 +921,19 @@ body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--active-off
 body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--orders a:before{
   content: "\f468";
   font: normal normal normal 14px/1 FontAwesome;
-  padding-right: 20px;
+  padding-right: 12px;
 }
 
 body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-address a:before{
-  content: "\f041";
+  content: "\f3c5";
   font: normal normal normal 14px/1 FontAwesome;
-  padding-right: 15px;
+  padding-right: 18px;
 }
 
 body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--edit-account a:before{
-  content: "\f007";
+  content: "\f4ff";
   font: normal normal normal 14px/1 FontAwesome;
-  padding-right: 20px;
+  padding-right: 12px;
 }
 
 body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--following a:before{
@@ -781,6 +959,15 @@ body.woocommerce-account ul li.woocommerce-MyAccount-navigation-link--customer-l
 .woocommerce-info::before{
   color: $primary-color!important;
 }
+
+.vendor-dashboard{
+  font-weight: 600!important;
+   &:after{
+     content: "\f0a9";
+     font: normal normal normal 14px/1 FontAwesome;
+     padding-left: 10px;
+   }
+  }
 
 /*
 *s
