@@ -381,12 +381,8 @@ strong {
   background-color: white !important;
 }
 
-.woocommerce div.product .social-links a {
-  border-radius: 4px;
-}
-
 .product_custom_details {
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 }
 
 /*
@@ -480,9 +476,84 @@ button.modal_rounded_cancel {
   min-width: 175px;
 }
 
+@media (max-width: 780px) {
+  .invite-btn {
+    display: block;
+    width: 100%;
+    margin: 15px 0 !important;
+  }
+
+  .create-rfq-btn {
+    display: block;
+    width: 100%;
+    margin: 15px 0 !important;
+  }
+
+  .place-order-btn {
+    display: block;
+    width: 100%;
+    margin: 15px !important;
+  }
+
+  .view-offer-btn {
+    display: block;
+    width: 100%;
+    margin: 15px 0 !important;
+  }
+}
 #synerbay-btn {
   font-size: 16px;
   font-weight: 500;
+}
+
+.delete-btn {
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: white;
+  margin: 0 10px;
+  top: 15px;
+}
+
+.delete-btn:hover {
+  color: white;
+}
+
+.delete-btn span {
+  position: relative;
+  z-index: 1;
+}
+
+.delete-btn::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  border-radius: 4px !important;
+  background-color: #ff004e;
+  transition: transform 0.2s ease-in-out;
+}
+
+.delete-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px !important;
+  border: 1px solid #474E51;
+  transition: transform 0.2s ease-in-out;
+}
+
+.delete-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.delete-btn:hover::after {
+  transform: translate(-6px, 4px);
 }
 
 .place-order-btn {
@@ -491,6 +562,7 @@ button.modal_rounded_cancel {
   position: relative;
   color: #5851ec;
   margin: 0 10px;
+  top: 15px;
 }
 
 .place-order-btn span {
@@ -505,6 +577,7 @@ button.modal_rounded_cancel {
   width: 100%;
   top: 5px;
   right: 5px;
+  border-radius: 4px !important;
   background-color: #e6edff;
   transition: transform 0.2s ease-in-out;
 }
@@ -516,6 +589,7 @@ button.modal_rounded_cancel {
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px !important;
   border: 1px solid #474E51;
   transition: transform 0.2s ease-in-out;
 }
@@ -534,6 +608,7 @@ button.modal_rounded_cancel {
   position: relative;
   color: #5851ec;
   margin: 0 10px;
+  top: 15px;
 }
 
 .view-offer-btn span {
@@ -548,6 +623,7 @@ button.modal_rounded_cancel {
   width: 100%;
   top: 5px;
   right: 5px;
+  border-radius: 4px !important;
   background-color: #e6edff;
   transition: transform 0.2s ease-in-out;
 }
@@ -559,6 +635,7 @@ button.modal_rounded_cancel {
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px !important;
   border: 1px solid #474E51;
   transition: transform 0.2s ease-in-out;
 }
@@ -575,8 +652,13 @@ button.modal_rounded_cancel {
   cursor: pointer;
   padding: 12px 24px;
   position: relative;
-  color: #5851ec;
+  color: white;
   margin: 0 10px;
+  top: 15px;
+}
+
+.create-rfq-btn:hover {
+  color: white;
 }
 
 .create-rfq-btn span {
@@ -591,7 +673,8 @@ button.modal_rounded_cancel {
   width: 100%;
   top: 5px;
   right: 5px;
-  background-color: #e6edff;
+  border-radius: 4px !important;
+  background-color: #ff004e;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -602,6 +685,7 @@ button.modal_rounded_cancel {
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px !important;
   border: 1px solid #474E51;
   transition: transform 0.2s ease-in-out;
 }
@@ -618,8 +702,9 @@ button.modal_rounded_cancel {
   cursor: pointer;
   padding: 12px 24px;
   position: relative;
-  color: #5851ec;
+  color: black;
   margin: 0 10px;
+  top: 15px;
 }
 
 .invite-btn span {
@@ -634,7 +719,8 @@ button.modal_rounded_cancel {
   width: 100%;
   top: 5px;
   right: 5px;
-  background-color: #e6edff;
+  border-radius: 4px !important;
+  background-color: #21ff74;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -645,6 +731,7 @@ button.modal_rounded_cancel {
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px !important;
   border: 1px solid #474E51;
   transition: transform 0.2s ease-in-out;
 }
@@ -663,6 +750,10 @@ button.modal_rounded_cancel {
 
 .searchbtn {
   cursor: pointer;
+}
+
+.mf-entry-product-header .social-links a {
+  border-radius: 4px;
 }
 
 .header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a {
@@ -905,7 +996,7 @@ button.modal_rounded_cancel {
 
 .mobile-version .site-header .header-logo {
   display: inline !important;
-  width: 22.5% !important;
+  width: 16.5% !important;
 }
 
 @media (max-width: 1199px) {

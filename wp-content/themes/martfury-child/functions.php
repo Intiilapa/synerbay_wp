@@ -628,7 +628,7 @@ function product_custom_details()
         }
     }
     do_action('synerbay_product_buttons');
-    echo '<hr>';
+    echo "</br></br></br>";
 }
 
 /**

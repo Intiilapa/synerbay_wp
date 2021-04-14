@@ -390,11 +390,8 @@ strong{
   background-color: white!important;
 }
 
-.woocommerce div.product .social-links a{
-  border-radius: 4px;
-}
 .product_custom_details{
-  padding-bottom: 15px;
+  padding-bottom: 25px;
 }
 
 /*
@@ -441,24 +438,93 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 #btn-marketplace{
   min-width: 175px;
 }
+//Repso for buttons Product Page
+@media (max-width: 780px) {
+  .invite-btn {
+    display: block;
+    width: 100%;
+    margin: 15px 0!important;
+  }
+  .create-rfq-btn{
+    display: block;
+    width: 100%;
+    margin: 15px 0!important;
+  }
+  .place-order-btn{
+    display: block;
+    width: 100%;
+    margin: 15px!important;
+  }
+  .view-offer-btn{
+    display: block;
+    width: 100%;
+    margin: 15px 0!important;
+  }
+}
 
-
-//Base
+//Base of button
 #synerbay-btn{
   font-size: 16px;
   font-weight:500;
 }
 
-.delete-btn{
-
+//Delete
+.delete-btn {
+  cursor: pointer;
+  padding: 12px 24px;
+  position: relative;
+  color: white;
+  margin: 0 10px;
+  top: 15px;
+}
+.delete-btn:hover {
+  color:white;
+}
+.delete-btn span {
+  position: relative;
+  z-index: 1;
 }
 
+.delete-btn::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 5px;
+  right: 5px;
+  border-radius: 4px!important;
+  background-color: #ff004e;
+  transition: transform .2s ease-in-out;
+}
+
+.delete-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 4px!important;
+  border: 1px solid #474E51;
+  transition: transform .2s ease-in-out;
+}
+
+.delete-btn:hover::before {
+  transform: translate(6px, -4px);
+}
+
+.delete-btn:hover::after {
+  transform: translate(-6px, 4px);
+}
+
+//Place order button
 .place-order-btn{
   cursor: pointer;
   padding: 12px 24px;
   position: relative;
   color: hsl(243, 80%, 62%);
   margin: 0 10px;
+  top: 15px;
 }
 
 .place-order-btn span {
@@ -473,6 +539,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   width: 100%;
   top: 5px;
   right: 5px;
+  border-radius: 4px!important;
   background-color: hsl(222, 100%, 95%);
   transition: transform .2s ease-in-out;
 }
@@ -484,6 +551,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px!important;
   border: 1px solid #474E51;
   transition: transform .2s ease-in-out;
 }
@@ -503,6 +571,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   position: relative;
   color: hsl(243, 80%, 62%);
   margin: 0 10px;
+  top: 15px;
 }
 
 .view-offer-btn span {
@@ -517,6 +586,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   width: 100%;
   top: 5px;
   right: 5px;
+  border-radius: 4px!important;
   background-color: hsl(222, 100%, 95%);
   transition: transform .2s ease-in-out;
 }
@@ -528,6 +598,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px!important;
   border: 1px solid #474E51;
   transition: transform .2s ease-in-out;
 }
@@ -545,8 +616,13 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   cursor: pointer;
   padding: 12px 24px;
   position: relative;
-  color: hsl(243, 80%, 62%);
+  color: white;
   margin: 0 10px;
+  top: 15px;
+}
+
+.create-rfq-btn:hover{
+  color:white;
 }
 
 .create-rfq-btn span {
@@ -561,7 +637,8 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   width: 100%;
   top: 5px;
   right: 5px;
-  background-color: hsl(222, 100%, 95%);
+  border-radius: 4px!important;
+  background-color: #ff004e;
   transition: transform .2s ease-in-out;
 }
 
@@ -572,6 +649,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px!important;
   border: 1px solid #474E51;
   transition: transform .2s ease-in-out;
 }
@@ -589,10 +667,10 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   cursor: pointer;
   padding: 12px 24px;
   position: relative;
-  color: hsl(243, 80%, 62%);
+  color: hsl(0, 0%, 0%);
   margin: 0 10px;
+  top: 15px;
 }
-
 .invite-btn span {
   position: relative;
   z-index: 1;
@@ -605,7 +683,8 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   width: 100%;
   top: 5px;
   right: 5px;
-  background-color: hsl(222, 100%, 95%);
+  border-radius: 4px!important;
+  background-color: #21ff74;
   transition: transform .2s ease-in-out;
 }
 
@@ -616,6 +695,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   left: 0;
   height: 100%;
   width: 100%;
+  border-radius: 4px!important;
   border: 1px solid #474E51;
   transition: transform .2s ease-in-out;
 }
@@ -635,6 +715,10 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 .searchbtn{
   cursor: pointer;
 }
+.mf-entry-product-header .social-links a{
+  border-radius: 4px;
+}
+
 .header-layout-3 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-parent > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-item > a, .header-layout-3 .site-header .primary-nav > ul > li.current-menu-ancestor > a, .header-layout-4 .site-header .primary-nav > ul > li.current-menu-ancestor > a{
   font-weight: 700;
   color:white!important;
@@ -844,7 +928,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
 
 .mobile-version .site-header .header-logo{
   display: inline!important;
-  width: 22.5%!important;
+  width: 16.5%!important;
 }
 
 @media (max-width: 1199px) {
