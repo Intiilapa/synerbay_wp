@@ -44,6 +44,12 @@ class ButtonElement extends AbstractElement
         echo 'No results found <a class="searchbtn" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>invite</a> relevant  vendors to find offers with this keyword';
     }
 
+    public function synerBayInviteButtonSearchNetwork()
+    {
+        $url = RouteHelper::addInviteCodeToUrl(get_site_url());
+        echo 'No results found <a class="searchbtn" onclick=\'synerbay.inviteUserHeader("' . $url . '", '.(get_current_user_id() ? 'false' : 'true').')\'>invite</a> partners to see more listing';
+    }
+
     public function synerBayInviteRfq()
     {
         $url = RouteHelper::addInviteCodeToUrl(get_site_url());
@@ -86,6 +92,7 @@ class ButtonElement extends AbstractElement
         $this->addAction('deleteRFQButton');
         $this->addAction('synerBayInviteButton');
         $this->addAction('synerBayInviteButtonSearch');
+        $this->addAction('synerBayInviteButtonSearchNetwork');
         $this->addAction('synerBayInviteRfq');
         $this->addAction('productInviteButton');
         $this->addAction('offerInviteButton');

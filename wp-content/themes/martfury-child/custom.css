@@ -836,6 +836,10 @@ button.modal_rounded_cancel {
   vertical-align: middle;
 }
 
+#menu-primary-menu li {
+  padding: 10px !important;
+}
+
 /*
 **
 ** || RFQ

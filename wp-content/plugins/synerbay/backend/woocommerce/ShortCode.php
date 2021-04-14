@@ -280,7 +280,7 @@ class ShortCode extends WC_Shortcodes
         // üres a lista?
         if ($entityNotFound) {
             {?>
-                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
 
@@ -336,7 +336,7 @@ class ShortCode extends WC_Shortcodes
         // üres a lista?
         if ($entityNotFound) {
             {?>
-                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
 
@@ -391,7 +391,7 @@ class ShortCode extends WC_Shortcodes
         // üres a lista?
         if ($entityNotFound) {
          {?>
-             <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+             <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
          <?php }
 
         }
@@ -598,7 +598,7 @@ class ShortCode extends WC_Shortcodes
         // üres a lista?
         if ($entityNotFound) {
             {?>
-                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
 
