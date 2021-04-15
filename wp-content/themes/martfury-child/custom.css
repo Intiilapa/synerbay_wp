@@ -219,8 +219,8 @@ table.dokan-table td.column-primary ~ :not(.check-column) {
 /*
 * || Dokan Store page - Front End
 */
-.dokan-single-store .profile-frame .profile-info-box .profile-info-img.dummy-image {
-  height: 480px !important;
+.dokan-single-store .profile-frame {
+  background-color: white;
 }
 
 .store-name {
@@ -229,6 +229,18 @@ table.dokan-table td.column-primary ~ :not(.check-column) {
 
 .open-now {
   display: none !important;
+}
+
+.dokan-single-store .profile-frame {
+  height: 520px;
+}
+
+.dokan-single-store .profile-frame .profile-info-box {
+  height: 520px;
+}
+
+.dokan-single-store .profile-frame .profile-info-box .profile-info-img {
+  height: 100%;
 }
 
 /*
@@ -481,24 +493,28 @@ button.modal_rounded_cancel {
     display: block;
     width: 100%;
     margin: 15px 0 !important;
+    text-align: center;
   }
 
   .create-rfq-btn {
     display: block;
     width: 100%;
     margin: 15px 0 !important;
+    text-align: center;
   }
 
   .place-order-btn {
     display: block;
     width: 100%;
     margin: 15px !important;
+    text-align: center;
   }
 
   .view-offer-btn {
     display: block;
     width: 100%;
     margin: 15px 0 !important;
+    text-align: center;
   }
 }
 #synerbay-btn {
@@ -508,240 +524,72 @@ button.modal_rounded_cancel {
 
 .delete-btn {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 15px 25px;
   position: relative;
   color: white;
-  margin: 0 10px;
+  background: red;
+  border-radius: 4px;
+  margin: 0 3px;
   top: 15px;
 }
-
 .delete-btn:hover {
   color: white;
 }
 
-.delete-btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.delete-btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 5px;
-  right: 5px;
-  border-radius: 4px !important;
-  background-color: #ff004e;
-  transition: transform 0.2s ease-in-out;
-}
-
-.delete-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 4px !important;
-  border: 1px solid #474E51;
-  transition: transform 0.2s ease-in-out;
-}
-
-.delete-btn:hover::before {
-  transform: translate(6px, -4px);
-}
-
-.delete-btn:hover::after {
-  transform: translate(-6px, 4px);
-}
-
 .place-order-btn {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 15px 25px;
   position: relative;
-  color: #5851ec;
-  margin: 0 10px;
+  color: white;
+  background: green;
+  border-radius: 4px;
+  margin: 0 3px;
   top: 15px;
 }
-
-.place-order-btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.place-order-btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 5px;
-  right: 5px;
-  border-radius: 4px !important;
-  background-color: #e6edff;
-  transition: transform 0.2s ease-in-out;
-}
-
-.place-order-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 4px !important;
-  border: 1px solid #474E51;
-  transition: transform 0.2s ease-in-out;
-}
-
-.place-order-btn:hover::before {
-  transform: translate(6px, -4px);
-}
-
-.place-order-btn:hover::after {
-  transform: translate(-6px, 4px);
+.place-order-btn:hover {
+  color: white;
 }
 
 .view-offer-btn {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 15px 25px;
   position: relative;
-  color: #5851ec;
-  margin: 0 10px;
+  color: white;
+  background: #ff004e;
+  border-radius: 4px;
+  margin: 0 3px;
   top: 15px;
 }
-
-.view-offer-btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.view-offer-btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 5px;
-  right: 5px;
-  border-radius: 4px !important;
-  background-color: #e6edff;
-  transition: transform 0.2s ease-in-out;
-}
-
-.view-offer-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 4px !important;
-  border: 1px solid #474E51;
-  transition: transform 0.2s ease-in-out;
-}
-
-.view-offer-btn:hover::before {
-  transform: translate(6px, -4px);
-}
-
-.view-offer-btn:hover::after {
-  transform: translate(-6px, 4px);
+.view-offer-btn:hover {
+  color: white;
 }
 
 .create-rfq-btn {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 15px 25px;
   position: relative;
   color: white;
-  margin: 0 10px;
+  background: green;
+  border-radius: 4px;
+  margin: 0 3px;
   top: 15px;
 }
-
 .create-rfq-btn:hover {
   color: white;
 }
 
-.create-rfq-btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.create-rfq-btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 5px;
-  right: 5px;
-  border-radius: 4px !important;
-  background-color: #ff004e;
-  transition: transform 0.2s ease-in-out;
-}
-
-.create-rfq-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 4px !important;
-  border: 1px solid #474E51;
-  transition: transform 0.2s ease-in-out;
-}
-
-.create-rfq-btn:hover::before {
-  transform: translate(6px, -4px);
-}
-
-.create-rfq-btn:hover::after {
-  transform: translate(-6px, 4px);
-}
-
 .invite-btn {
   cursor: pointer;
-  padding: 12px 24px;
+  padding: 15px 25px;
   position: relative;
-  color: black;
-  margin: 0 10px;
+  color: white;
+  background: #ff004e;
+  border-radius: 4px;
+  margin: 0 3px;
   top: 15px;
 }
-
-.invite-btn span {
-  position: relative;
-  z-index: 1;
-}
-
-.invite-btn::before {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  top: 5px;
-  right: 5px;
-  border-radius: 4px !important;
-  background-color: #21ff74;
-  transition: transform 0.2s ease-in-out;
-}
-
-.invite-btn::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  border-radius: 4px !important;
-  border: 1px solid #474E51;
-  transition: transform 0.2s ease-in-out;
-}
-
-.invite-btn:hover::before {
-  transform: translate(6px, -4px);
-}
-
-.invite-btn:hover::after {
-  transform: translate(-6px, 4px);
+.invite-btn:hover {
+  color: white;
 }
 
 .sticky-header .site-header.minimized .mobile-menu {

@@ -331,7 +331,6 @@ function save_seller_url($store_user)
     </li>
 <?php } ?>
 
-
 <?php }
 
 /*
@@ -491,7 +490,6 @@ function dokan_can_add_product_validation_customized($errors)
 
         $colMap = [
             'weight_unit' => 'Unit',
-//            'weight_unit_type' => 'Unit Type',
             'material' => 'Material',
         ];
 
@@ -513,9 +511,6 @@ function dokan_new_product_popup_validation_customized($errors, $data)
     if (!$data['feat_image_id']) {
         return new WP_Error('no-image', __('Please select AT LEAST ONE Picture', 'dokan-lite'));
     }
-//    if (!$data['weight_unit']) {
-//        return new WP_Error('no-weight-unit', __('Please insert product weight unit', 'dokan-lite'));
-//    }
     if (!$data['material']) {
         return new WP_Error('no-material', __('Please insert product material', 'dokan-lite'));
     }
@@ -536,7 +531,6 @@ function product_custom_details()
     do_action('synerbay_product_rfqs', $product->get_id());
 
     $weight_unit = get_post_meta($product->get_id(), '_weight_unit', true);
-//    $weight_unit_type = get_post_meta($product->get_id(), '_weight_unit_type', true);
     $material = get_post_meta($product->get_id(), '_material', true);
     echo '<div class="product_custom_details">';
     if (!empty($weight_unit)) {
@@ -544,11 +538,6 @@ function product_custom_details()
         <span class="custom_details"><?php echo esc_attr__('Unit: ', 'dokan-lite'); ?><?php echo esc_attr($weight_unit); ?></span></br>
         <?php
     }
-//    if (!empty($weight_unit_type)) {
-//        ?>
-    <!--        <span class="custom_details">--><?php //echo esc_attr__('Unit type: ', 'dokan-lite'); ?><!----><?php //echo esc_attr($weight_unit_type); ?><!--</span></br>-->
-    <!--        --><?php
-//    }
     if (!empty($material)) {
         ?>
         <span class="custom_details"><?php echo esc_attr__('Material: ', 'dokan-lite'); ?><?php echo esc_attr($material); ?></span></br>
@@ -678,7 +667,6 @@ function my_random_string($args = array())
 add_action('user_register', 'uniq_invite_code');
 function uniq_invite_code($user_id)
 {
-
     $args = array(
         'length' => 6,
         'before' => date("Y")
@@ -689,28 +677,18 @@ function uniq_invite_code($user_id)
 }
 
 /*
-* Allow SVG upload
-*/
-//function cc_mime_types($mimes) {
-//    $mimes['svg'] = 'image/svg+xml';
-//    return $mimes;
-//}
-//add_filter('upload_mimes', 'cc_mime_types');
-
-/*
 *
 * Dokan Dashboard / General
 * @since 3.0.16
 * @package dokan
 *
 */
-
 //Change icons on Dokan dashboard
 add_filter ('dokan_get_dashboard_nav','change_dokan_dashboard_icon',16);
 function change_dokan_dashboard_icon($urls){
     $urls['products']['icon'] = '<span id="svg-icon" class="icon-products"></span>';
     $urls['offer']['icon']    = '<span id="svg-icon" class="icon-offer"></span>';
-    $urls['orders']['icon']   = '<span id="svg-icon" class="icon-orders"></span>';
+    $urls['orders']['icon']   = '<i class="fas fa-boxes"></i>';
     return $urls;
 }
 
@@ -731,10 +709,9 @@ add_filter('dokan_get_dashboard_nav', 'dokan_remove_coupon_menu', 16 );
 /*
 *
 * Woocommerce custom changes
-* @version 4.9.1
+* @version 5.2.1
 *
 */
-
 //Completely remove cart from woocommerce
 remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
 remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30);
@@ -752,14 +729,7 @@ add_action( 'woocommerce_no_products_found', function(){
 //Remove item from menu - Customer account page
 add_filter ( 'woocommerce_account_menu_items', 'my_account_remove_menu_item' );
 function my_account_remove_menu_item( $menu_links){
-    //unset( $menu_links['edit-address'] ); // Addresses
-    //unset( $menu_links['dashboard'] ); // Remove Dashboard
-    //unset( $menu_links['payment-methods'] ); // Remove Payment Methods
-    //unset( $menu_links['orders'] ); // Remove Orders
     unset( $menu_links['downloads'] ); // Disable Downloads
-    //unset( $menu_links['edit-account'] ); // Remove Account details tab
-    //unset( $menu_links['customer-logout'] ); // Remove Logout link
-
     return $menu_links;
 }
 
