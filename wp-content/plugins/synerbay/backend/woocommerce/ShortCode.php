@@ -27,6 +27,8 @@ class ShortCode extends WC_Shortcodes
         add_shortcode('network_recommended_vendors_by_industry', [$this, 'networkRecommendedVendorsByIndustry']);
         add_shortcode('network_recommended_products', [$this, 'networkRecommendedProducts']);
         add_shortcode('network_recommended_offers', [$this, 'networkRecommendedOffers']);
+        //Grid - List view
+        add_filter( 'body_class', array( $this, 'body_classes' ) );
     }
 
     /**
@@ -604,4 +606,25 @@ class ShortCode extends WC_Shortcodes
 
         wp_reset_postdata();
     }
+
+    /**
+     * Adds custom classes to the array of body classes.
+     *
+     * @since 1.0
+     *
+     * @param array $classes Classes for the body element.
+     *
+     * @return array
+     */
+    function body_classes( $classes ) {
+        // Adds a class of group-blog to blogs with more than 1 published author.
+        if (is_page('Network')) {
+            $shop_view = 'list';
+            $classes[] = 'shop-view-' . $shop_view;
+            $classes[] = 'woocommerce';
+        }
+
+        return $classes;
+    }
+
 }
