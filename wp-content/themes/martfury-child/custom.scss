@@ -230,26 +230,27 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
 /*
 * || Dokan Store page - Front End
 */
-.dokan-single-store .profile-frame{
-  background-color:white;
-}
+@media (min-width: 780px) {
+  .dokan-single-store .profile-frame {
+    background-color: white;
+  }
 
-.store-name{
-  text-align: left;
+  .store-name {
+    text-align: left;
+  }
+  .open-now {
+    display: none !important;
+  }
+  .dokan-single-store .profile-frame {
+    height: 520px;
+  }
+  .dokan-single-store .profile-frame .profile-info-box {
+    height: 520px;
+  }
+  .dokan-single-store .profile-frame .profile-info-box .profile-info-img {
+    height: 100%;
+  }
 }
-.open-now{
-  display: none!important;
-}
-.dokan-single-store .profile-frame{
-  height: 520px;
-}
-.dokan-single-store .profile-frame .profile-info-box{
-  height: 520px;
-}
-.dokan-single-store .profile-frame .profile-info-box .profile-info-img{
-  height: 100%;
-}
-
 /*
 *
 * || Dokan Store listing
