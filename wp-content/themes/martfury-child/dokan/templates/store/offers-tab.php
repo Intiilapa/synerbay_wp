@@ -14,7 +14,6 @@ global $currentUser, $store_user, $wp_query;
 global $offers, $searchParameters, $rowPerPage, $currentPage, $allRow, $lastPage;
 
 $wp_query->is_singular = true;
-$wp_query->is_single = true;
 $wp_query->is_404 = false;
 
 $store_user   = dokan()->vendor->get( $currentUser->ID );
@@ -34,7 +33,7 @@ get_header( 'shop' );
         <?php dokan_get_template_part( 'store', 'sidebar', array( 'store_user' => $store_user, 'store_info' => $store_info, 'map_location' => $map_location ) ); ?>
     <?php } ?>
 
-    <div id="dokan-primary" class="dokan-single-store dokan-w8">
+    <div id="dokan-primary" class="dokan-single-store">
         <div id="dokan-content" class="store-page-wrap woocommerce" role="main">
 
             <?php dokan_get_template_part( 'store-header' ); ?>
