@@ -61,8 +61,8 @@ get_header( 'shop' );
             ?></div><?php
 
             $base_url  = RouteHelper::getCurrentURL();
-            if (strpos($base_url, "/page")) {
-                $base_url = substr($base_url, 0, strpos($base_url, "/page"));
+            if (strpos($base_url, "page")) {
+                $base_url = substr($base_url, 0, strpos($base_url, "page"));
             }
 
             if ( $lastPage > 1 ) {
