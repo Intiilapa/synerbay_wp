@@ -9,7 +9,7 @@ use Memcached;
 
 class MemcacheHelper
 {
-    private static bool $active = false;
+    private static bool $active = true;
 
     /** @var Memcached */
     private static Memcached $mc;
