@@ -42,23 +42,31 @@ get_header( 'shop' );
             <?php do_action( 'dokan_store_profile_frame_after', $store_user->data, $store_info ); ?>
 
             <?php
-            if (count($offers)) {
+            if (count($offers)) {?>
+            <div class="seller-items">
+                <?php
 
-            woocommerce_product_loop_start();
+                woocommerce_product_loop_start();
 
-                global $post;
+                    global $post;
 
-                foreach ($offers as $offer) {
-                $post = get_post($offer['product']['ID']);
-                wc_get_template_part('content', 'offer');
-                    $offer = [];
-                }
+                    foreach ($offers as $offer) {
+                    $post = get_post($offer['product']['ID']);
+                    wc_get_template_part('content', 'offer');
+                        $offer = [];
+                    }
 
-            woocommerce_product_loop_end();
+                woocommerce_product_loop_end();
+
+            ?></div><?php
 
             $base_url  = RouteHelper::getCurrentURL();
+            if (strpos($base_url, "/page")) {
+                $base_url = substr($base_url, 0, strpos($base_url, "/page"));
+            }
 
             if ( $lastPage > 1 ) {
+
                 echo '<nav class="woocommerce-pagination">';
                     $page_links = paginate_links( [
                     'current'   => $currentPage,
