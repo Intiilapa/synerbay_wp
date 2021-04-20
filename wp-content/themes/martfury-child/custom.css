@@ -243,6 +243,10 @@ table.dokan-table td.column-primary ~ :not(.check-column) {
   .dokan-single-store .profile-frame .profile-info-box .profile-info-img {
     height: 100%;
   }
+
+  .dokan-single-store .profile-frame .profile-info-box .profile-info-img.dummy-image {
+    background-size: unset !important;
+  }
 }
 /*
 *
