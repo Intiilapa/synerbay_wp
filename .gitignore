@@ -17,6 +17,8 @@
 /wp-signup.php
 /wp-trackback.php
 /xmlrpc.php
+.idea
+
 /wp-content/uploads/
 /wp-content/fonts/
 /wp-content/upgrade/
@@ -25,14 +27,12 @@
 /wp-content/plugins/martfury-addons
 /wp-content/plugins/kirki
 /wp-content/plugins/woocommerce
-.idea
 /wp-content/updraft/
 /patch/
 /icons/
 /wp-content/backups-dup-lite/
 /wp-content/maintenance/
 /wp-content/wp-content/
-/wp-content/themes/martfury/
 
 /wp-content/plugins/dokan-lite/
 /wp-content/plugins/classic-editor/
@@ -50,8 +50,10 @@
 /wp-content/plugins/wp-mail-smtp/
 /wp-content/plugins/wps-hide-login/
 /wp-content/plugins/index.php
+
 /wp-content/themes/index.php
 /wp-content/themes/martfury/
+
 /wp-content/index.php
 /wp-content/maintenance.php
 /wp-content/themes/martfury-child/header.php
