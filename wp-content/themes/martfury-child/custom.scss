@@ -390,6 +390,66 @@ input#bulk-product-action {
 .dokan-progress-bar-info{
   background-color: $primary-color!important;
 }
+/*
+*
+* || Offer card (product loop) LIST view
+*
+*/
+
+.list-custom{
+  li.product{
+   border-top: 1px solid #f0f0f0!important;
+  }
+  .product-inner{
+    padding: 20px!important;
+    .mf-product-thumbnail{
+      order: -1;
+      flex: 1;
+      img{
+        max-height: 200px!important;
+        margin-bottom: 10px;
+      }
+    }
+
+    .wcl-progress-meter{
+      flex: 1;
+      padding: 20px;
+      .zero{
+        top: 1px!important;
+      }
+      .max{
+        top: 1px!important;
+      }
+      .groupbuy-time{
+        margin:0!important;
+      }
+    }
+
+    .groupbuy-ajax-change{
+      padding: 20px;
+      flex: 1;
+      //padding: 20px;
+    }
+
+    .mf-product-price-box{
+      display: none!important;
+      flex: 1;
+      //padding: 20px;
+    }
+
+    .mf-product-details{
+      flex: 1;
+      order: -1;
+      //padding: 20px;
+    }
+    .mf-product-content{
+      flex: 1;
+    }
+    .offer_list{
+      flex: 1;
+    }
+  }
+}
 
 /*
 *

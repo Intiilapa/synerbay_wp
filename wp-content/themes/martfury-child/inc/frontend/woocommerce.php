@@ -49,5 +49,8 @@ class Martfury_Child_WooCommerce
         wc_get_template('loop/offer-badge.php');
         wc_get_template('loop/offer-progress.php');
         wc_get_template('loop/offer-countdown.php');
+        if (is_page("Network")) {
+            printf('<a href="%s" class="button product_type_simple offer_list" rel="nofollow"><span class="add-to-cart-text">Read more</span></a>', esc_url($offer['url']));
+        }
     }
 }

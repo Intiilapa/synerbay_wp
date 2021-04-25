@@ -617,11 +617,10 @@ class ShortCode extends WC_Shortcodes
      * @return array
      */
     function body_classes( $classes ) {
-        // Adds a class of group-blog to blogs with more than 1 published author.
         if (is_page('Network')) {
             $shop_view = 'list';
             $classes[] = 'shop-view-' . $shop_view;
-            $classes[] = 'woocommerce';
+            $classes[] = 'woocommerce'. $shop_view;
         }
 
         return $classes;

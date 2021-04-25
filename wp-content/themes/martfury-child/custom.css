@@ -387,6 +387,57 @@ input#bulk-product-action {
 
 /*
 *
+* || Offer card (product loop) LIST view
+*
+*/
+.list-custom li.product {
+  border-top: 1px solid #f0f0f0 !important;
+}
+.list-custom .product-inner {
+  padding: 20px !important;
+}
+.list-custom .product-inner .mf-product-thumbnail {
+  order: -1;
+  flex: 1;
+}
+.list-custom .product-inner .mf-product-thumbnail img {
+  max-height: 200px !important;
+  margin-bottom: 10px;
+}
+.list-custom .product-inner .wcl-progress-meter {
+  flex: 1;
+  padding: 20px;
+}
+.list-custom .product-inner .wcl-progress-meter .zero {
+  top: 1px !important;
+}
+.list-custom .product-inner .wcl-progress-meter .max {
+  top: 1px !important;
+}
+.list-custom .product-inner .wcl-progress-meter .groupbuy-time {
+  margin: 0 !important;
+}
+.list-custom .product-inner .groupbuy-ajax-change {
+  padding: 20px;
+  flex: 1;
+}
+.list-custom .product-inner .mf-product-price-box {
+  display: none !important;
+  flex: 1;
+}
+.list-custom .product-inner .mf-product-details {
+  flex: 1;
+  order: -1;
+}
+.list-custom .product-inner .mf-product-content {
+  flex: 1;
+}
+.list-custom .product-inner .offer_list {
+  flex: 1;
+}
+
+/*
+*
 * || Offer page template
 *
 */
