@@ -70,7 +70,7 @@ class ShortCode extends WC_Shortcodes
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
                 //var_dump($post);
-                wc_get_template_part('content', 'offer');
+                wc_get_template_part('content', 'offerList');
 
                 $offer = [];
             }
@@ -116,7 +116,7 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part('content', 'offer');
+                wc_get_template_part('content', 'offerList');
 
                 $offer = [];
             }
@@ -162,7 +162,7 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part('content', 'offer');
+                wc_get_template_part('content', 'offerList');
 
                 $offer = [];
             }
@@ -270,7 +270,7 @@ class ShortCode extends WC_Shortcodes
                 global $post;
                 foreach ($offers as $offer) {
                     $post = get_post($offer['product']['ID']);
-                    wc_get_template_part('content', 'offer');
+                    wc_get_template_part('content', 'offerList');
 
                     $offer = [];
                 }
@@ -326,7 +326,7 @@ class ShortCode extends WC_Shortcodes
                 global $post;
                 foreach ($offers as $offer) {
                     $post = get_post($offer['product']['ID']);
-                    wc_get_template_part('content', 'offer');
+                    wc_get_template_part('content', 'offerList');
 
                     $offer = [];
                 }
@@ -381,7 +381,7 @@ class ShortCode extends WC_Shortcodes
                 global $post;
                 foreach ($offers as $offer) {
                     $post = get_post($offer['product']['ID']);
-                    wc_get_template_part('content', 'offer');
+                    wc_get_template_part('content', 'offerList');
 
                     $offer = [];
                 }
@@ -587,7 +587,7 @@ class ShortCode extends WC_Shortcodes
                     global $post;
                     foreach ($offers as $offer) {
                         $post = get_post($offer['product']['ID']);
-                        wc_get_template_part('content', 'offer');
+                        wc_get_template_part('content', 'offerList');
 
                         $offer = [];
                     }
