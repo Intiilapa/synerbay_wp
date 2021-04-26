@@ -433,10 +433,21 @@ input#bulk-product-action {
 .list-custom .product-inner .groupbuy-ajax-change {
   flex: 1;
 }
+.list-custom .product-inner .buttons-offer-list {
+  display: flex;
+  align-items: flex-end;
+}
+.list-custom .product-inner .offer_list_invite {
+  background: #ff004e !important;
+  border: 2px solid #ff004e;
+  color: white !important;
+  border-radius: 4px;
+}
 .list-custom .product-inner .offer_list {
-  flex: 1;
-  align-self: flex-end;
-  margin-bottom: 10px;
+  background: transparent !important;
+  border: 2px solid #ff004e;
+  color: black !important;
+  border-radius: 4px;
 }
 
 /*

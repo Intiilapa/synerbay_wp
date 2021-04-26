@@ -451,11 +451,24 @@ input#bulk-product-action {
 
     .mf-product-content{
     }
-
+    .buttons-offer-list{
+      display: flex;
+      align-items: flex-end;
+    }
+    .offer_list_invite{
+      background:$primary-color!important;
+      border: 2px solid $primary-color;
+      color: white!important;
+      border-radius: 4px;
+    }
     .offer_list{
-      flex:1;
-      align-self: flex-end;
-      margin-bottom: 10px;
+      //flex:1;
+      //align-self: flex-end;
+      //margin-bottom: 10px;
+      background:transparent!important;
+      border: 2px solid $primary-color;
+      color: black!important;
+      border-radius: 4px;
     }
 
   }
