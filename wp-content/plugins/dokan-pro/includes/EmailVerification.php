@@ -53,7 +53,7 @@ class EmailVerification {
 
         add_action( 'woocommerce_registration_redirect', array( $this, 'check_verification' ), 99 );
         add_action( 'woocommerce_login_redirect', array( $this, 'check_verification' ), 99, 2 );
-        add_action( 'init', array( $this, 'validate_email_link' ), 100 );
+        //add_action( 'init', array( $this, 'validate_email_link' ), 100 );
         add_action( 'woocommerce_email_footer', array( $this, 'add_activation_link' ), 1 );
         add_action( 'dokan_seller_meta_fields', array( $this, 'add_email_verification_field' ) );
         add_action( 'dokan_process_seller_meta_fields', array( $this, 'verify_vendor' ) );
