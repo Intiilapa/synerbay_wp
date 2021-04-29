@@ -26,7 +26,7 @@ class Manager {
             'post_type'      => 'product',
             'post_status'    => $post_statuses,
             'posts_per_page' => -1,
-            'orderby'        => 'post_date',
+            'orderby'        => 'post_date ID',
             'order'          => 'DESC',
             'paged'          => 1,
         ];
@@ -52,7 +52,7 @@ class Manager {
      *
      * @since 3.0.0
      *
-     * @return product object | wc_get_product
+     * @return \WC_Product object | wc_get_product
      */
     public function create( $args = [] ) {
         $id = isset( $args['id'] ) ? absint( $args['id'] ) : 0;
@@ -373,9 +373,9 @@ class Manager {
             $product->set_total_sales( 0 );
         }
 
-        $product->save();
+        $product_id = $product->save();
 
-        return $product;
+        return wc_get_product( $product_id );
     }
 
     /**

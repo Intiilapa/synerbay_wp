@@ -254,7 +254,7 @@ class SetupWizard {
             <?php do_action( 'admin_head' ); ?>
             <?php do_action( 'dokan_setup_wizard_styles' ); ?>
         </head>
-        <body class="wc-setup wp-core-ui<?php echo get_transient( 'dokan_setup_wizard_no_wc' ) ? ' dokan-setup-wizard-activated-wc' : ''; ?>">
+        <body class="wc-setup dokan-admin-setup-wizard wp-core-ui<?php echo get_transient( 'dokan_setup_wizard_no_wc' ) ? ' dokan-setup-wizard-activated-wc' : ''; ?>">
             <?php
                 $logo_url = ( ! empty( $this->custom_logo ) ) ? $this->custom_logo : plugins_url( 'assets/images/dokan-logo.png', DOKAN_FILE );
             ?>
@@ -322,6 +322,7 @@ class SetupWizard {
         <p><?php esc_html_e( 'No time right now? If you don’t want to go through the wizard, you can skip and return to the WordPress dashboard. Come back anytime if you change your mind!', 'dokan-lite' ); ?></p>
         <p class="wc-setup-actions step">
             <a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next"><?php esc_html_e( 'Let\'s Go!', 'dokan-lite' ); ?></a>
+            <a href="<?php echo esc_url( admin_url() ); ?>" class="button button-large"><?php esc_html_e( 'Not right now', 'dokan-lite' ); ?></a>
         </p>
         <?php
     }
@@ -406,10 +407,11 @@ class SetupWizard {
      * Selling step.
      */
     public function dokan_setup_selling() {
-        $options = get_option( 'dokan_selling', array() );
+        $options          = get_option( 'dokan_selling', array( 'admin_percentage' => 10 ) );
+        $admin_percentage = isset( $options['admin_percentage'] ) ? $options['admin_percentage'] : 10;
+
         $new_seller_enable_selling = ! empty( $options['new_seller_enable_selling'] ) ? $options['new_seller_enable_selling'] : '';
         $commission_type           = ! empty( $options['commission_type'] ) ? $options['commission_type'] : 'percentage';
-        $admin_percentage          = ! empty( $options['admin_percentage'] ) ? $options['admin_percentage'] : '';
         $order_status_change       = ! empty( $options['order_status_change'] ) ? $options['order_status_change'] : '';
         $dokan_commission_types    = dokan_commission_types();
 
@@ -443,6 +445,8 @@ class SetupWizard {
 
         update_option( 'dokan_selling', $options );
 
+        do_action( 'dokan_admin_setup_wizard_save_step_setup_selling', $options, $_post_data );
+
         wp_safe_redirect( esc_url_raw( $this->get_next_step_link() ) );
         exit;
     }
@@ -451,7 +455,13 @@ class SetupWizard {
      * Withdraw Step.
      */
     public function dokan_setup_withdraw() {
-        $options = get_option( 'dokan_withdraw', array() );
+        $options = get_option(
+            'dokan_withdraw', array(
+				'withdraw_methods'      => array( 'paypal' ),
+				'withdraw_limit'        => 50,
+				'withdraw_order_status' => array( 'wc-completed' => 'wc-completed' ),
+            )
+        );
 
         $withdraw_methods      = ! empty( $options['withdraw_methods'] ) ? $options['withdraw_methods'] : array();
         $withdraw_limit        = ! empty( $options['withdraw_limit'] ) ? $options['withdraw_limit'] : 0;

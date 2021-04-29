@@ -109,38 +109,38 @@ class SetupWizard extends DokanSetupWizard {
     /**
      * Setup Wizard Header.
      */
-public function setup_wizard_header() {
-    ?>
-    <!DOCTYPE html>
-    <html <?php language_attributes(); ?>>
-    <head>
-        <meta name="viewport" content="width=device-width" />
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title><?php esc_attr_e( 'Vendor &rsaquo; Setup Wizard', 'dokan-lite' ); ?></title>
-        <?php wp_print_scripts( 'wc-setup' ); ?>
-        <?php do_action( 'admin_print_styles' ); ?>
-        <?php do_action( 'dokan_setup_wizard_styles' ); ?>
-    </head>
-    <body class="wc-setup wp-core-ui">
-    <?php if ( ! empty( $this->custom_logo ) ) { ?>
-        <h1 id="wc-logo"><a href="<?php echo esc_url( home_url() ) ?>"><img src="<?php echo esc_url( $this->custom_logo ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /></a></h1>
-    <?php } else {
-        echo '<h1 id="wc-logo">' . esc_attr( get_bloginfo( 'name' ) ) . '</h1>';
-    }
+    public function setup_wizard_header() {
+        ?>
+        <!DOCTYPE html>
+        <html <?php language_attributes(); ?>>
+        <head>
+            <meta name="viewport" content="width=device-width" />
+            <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+            <title><?php esc_attr_e( 'Vendor &rsaquo; Setup Wizard', 'dokan-lite' ); ?></title>
+            <?php wp_print_scripts( 'wc-setup' ); ?>
+            <?php do_action( 'admin_print_styles' ); ?>
+            <?php do_action( 'dokan_setup_wizard_styles' ); ?>
+        </head>
+        <body class="wc-setup wp-core-ui dokan-vendor-setup-wizard">
+            <?php if ( ! empty( $this->custom_logo ) ) { ?>
+                <h1 id="wc-logo"><a href="<?php echo esc_url( home_url() ) ?>"><img src="<?php echo esc_url( $this->custom_logo ); ?>" alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" /></a></h1>
+            <?php } else {
+                echo '<h1 id="wc-logo">' . esc_attr( get_bloginfo( 'name' ) ) . '</h1>';
+            }
     }
 
     /**
      * Setup Wizard Footer.
      */
     public function setup_wizard_footer() {
-    ?>
-    <?php if ( 'next_steps' === $this->step ) : ?>
-        <a class="wc-return-to-dashboard" href="<?php echo esc_url( site_url() ); ?>"><?php esc_attr_e( 'Return to the Marketplace', 'dokan-lite' ); ?></a>
-    <?php endif; ?>
-    </body>
-    </html>
-    <?php
-}
+        ?>
+            <?php if ( 'next_steps' === $this->step ) : ?>
+                <a class="wc-return-to-dashboard" href="<?php echo esc_url( site_url() ); ?>"><?php esc_attr_e( 'Return to the Marketplace', 'dokan-lite' ); ?></a>
+            <?php endif; ?>
+            </body>
+        </html>
+        <?php
+    }
 
     /**
      * Introduction step.
@@ -182,7 +182,7 @@ public function setup_wizard_header() {
         <form method="post" class="dokan-seller-setup-form">
             <table class="form-table">
                 <tr>
-                    <th scope="row"><label for="store_ppp"><?php esc_attr_e( 'Store Product Per Page', 'dokan-lite' ); ?></label></th>
+                    <th scope="row"><label for="store_ppp"><?php esc_attr_e( 'Store Products Per Page', 'dokan-lite' ); ?></label></th>
                     <td>
                         <input type="text" id="store_ppp" name="store_ppp" value="<?php echo esc_attr( $store_ppp ); ?>" />
                     </td>
@@ -205,10 +205,10 @@ public function setup_wizard_header() {
                         <input type="text" id="address[city]" name="address[city]" value="<?php echo esc_attr( $address_city ); ?>" />
                     </td>
                 </tr>
-                <th scope="row"><label for="address[zip]"><?php esc_html_e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
-                <td>
-                    <input type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
-                </td>
+                    <th scope="row"><label for="address[zip]"><?php esc_html_e( 'Post/Zip Code', 'dokan-lite' ); ?></label></th>
+                    <td>
+                        <input type="text" id="address[zip]" name="address[zip]" value="<?php echo esc_attr( $address_zip ); ?>" />
+                    </td>
                 <tr>
                     <th scope="row"><label for="address[country]"><?php esc_html_e( 'Country', 'dokan-lite' ); ?></label></th>
                     <td>
@@ -330,13 +330,7 @@ public function setup_wizard_header() {
      * Save store options.
      */
     public function dokan_setup_store_save() {
-        if ( ! isset( $_POST['_wpnonce'] ) ) {
-            return;
-        }
-
-        $nonce = sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) );
-
-        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'dokan-seller-setup' ) ) {
             return;
         }
 
@@ -375,19 +369,19 @@ public function setup_wizard_header() {
         <form method="post">
             <table class="form-table">
                 <?php
-                foreach ( $methods as $method_key ) {
-                    $method = dokan_withdraw_get_method( $method_key );
-                    if ( isset( $method['callback'] ) && is_callable( $method['callback'] ) ) {
+				foreach ( $methods as $method_key ) {
+					$method = dokan_withdraw_get_method( $method_key );
+					if ( isset( $method['callback'] ) && is_callable( $method['callback'] ) ) {
                         ?>
                         <tr>
                             <th scope="row"><label><?php echo esc_html( $method['title'] ); ?></label></th>
                             <td>
-                                <?php call_user_func( $method['callback'], $store_info ); ?>
+        						<?php call_user_func( $method['callback'], $store_info ); ?>
                             </td>
                         </tr>
-                        <?php
+    					<?php
                     }
-                }
+				}
 
                 do_action( 'dokan_seller_wizard_payment_setup_field', $this );
                 ?>
@@ -407,22 +401,16 @@ public function setup_wizard_header() {
      * Save payment options.
      */
     public function dokan_setup_payment_save() {
+        if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( $_POST['_wpnonce'] ), 'dokan-seller-setup' ) ) {
+            return;
+        }
+
         $posted_data = wp_unslash( $_POST );
-
-        if ( ! isset( $posted_data['_wpnonce'] ) ) {
-            return;
-        }
-
-        $nonce = sanitize_text_field( wp_unslash( $posted_data['_wpnonce'] ) );
-
-        if ( ! wp_verify_nonce( $nonce, 'dokan-seller-setup' ) ) {
-            return;
-        }
 
         $dokan_settings = $this->store_info;
 
         if ( isset( $posted_data['settings']['bank'] ) ) {
-            $bank = array_map( 'sanitize_text_field', array_map( 'wp_unslash', $posted_data['settings']['bank'] ) );
+            $bank = $posted_data['settings']['bank'];
 
             $dokan_settings['payment']['bank'] = array(
                 'ac_name'        => sanitize_text_field( $bank['ac_name'] ),
@@ -473,16 +461,16 @@ public function setup_wizard_header() {
     public function dokan_setup_ready() {
         $dashboard_url = dokan_get_navigation_url();
         ?>
-        <div class="dokan-setup-done">
-            <img src="<?php echo esc_url( plugins_url( 'assets/images/dokan-checked.png', DOKAN_FILE ) ); ?>" alt="dokan setup">
-            <h1><?php esc_html_e( 'Your Store is Ready!', 'dokan-lite' ); ?></h1>
-        </div>
+            <div class="dokan-setup-done">
+                <img src="<?php echo esc_url( plugins_url( 'assets/images/dokan-checked.png', DOKAN_FILE ) ); ?>" alt="dokan setup">
+                <h1><?php esc_html_e( 'Your Store is Ready!', 'dokan-lite' ); ?></h1>
+            </div>
 
-        <div class="dokan-setup-done-content">
-            <p class="wc-setup-actions step">
-                <a class="button button-primary dokan-btn-theme" href="<?php echo esc_url( $dashboard_url ); ?>"><?php esc_html_e( 'Go to your Store Dashboard!', 'dokan-lite' ); ?></a>
-            </p>
-        </div>
+            <div class="dokan-setup-done-content">
+                <p class="wc-setup-actions step">
+                    <a class="button button-primary dokan-btn-theme" href="<?php echo esc_url( $dashboard_url ); ?>"><?php esc_html_e( 'Go to your Store Dashboard!', 'dokan-lite' ); ?></a>
+                </p>
+            </div>
         <?php
     }
 }

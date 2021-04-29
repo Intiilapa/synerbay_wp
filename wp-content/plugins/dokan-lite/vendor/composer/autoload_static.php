@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit97568c9d5918187a35e3e37e83adbac1
+class ComposerStaticInit4d61ec1b003f7b094a4ea9632ad3810a
 {
     public static $prefixLengthsPsr4 = array (
         'W' => 
@@ -72,6 +72,7 @@ class ComposerStaticInit97568c9d5918187a35e3e37e83adbac1
         'WeDevs\\Dokan\\Emails\\NewProductPending' => __DIR__ . '/../..' . '/includes/Emails/NewProductPending.php',
         'WeDevs\\Dokan\\Emails\\NewSeller' => __DIR__ . '/../..' . '/includes/Emails/NewSeller.php',
         'WeDevs\\Dokan\\Emails\\ProductPublished' => __DIR__ . '/../..' . '/includes/Emails/ProductPublished.php',
+        'WeDevs\\Dokan\\Emails\\VendorCompletedOrder' => __DIR__ . '/../..' . '/includes/Emails/VendorCompletedOrder.php',
         'WeDevs\\Dokan\\Emails\\VendorNewOrder' => __DIR__ . '/../..' . '/includes/Emails/VendorNewOrder.php',
         'WeDevs\\Dokan\\Emails\\VendorWithdrawRequest' => __DIR__ . '/../..' . '/includes/Emails/VendorWithdrawRequest.php',
         'WeDevs\\Dokan\\Emails\\WithdrawApproved' => __DIR__ . '/../..' . '/includes/Emails/WithdrawApproved.php',
@@ -177,9 +178,9 @@ class ComposerStaticInit97568c9d5918187a35e3e37e83adbac1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit97568c9d5918187a35e3e37e83adbac1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit97568c9d5918187a35e3e37e83adbac1::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit97568c9d5918187a35e3e37e83adbac1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit4d61ec1b003f7b094a4ea9632ad3810a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit4d61ec1b003f7b094a4ea9632ad3810a::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit4d61ec1b003f7b094a4ea9632ad3810a::$classMap;
 
         }, null, ClassLoader::class);
     }
