@@ -47,6 +47,16 @@ function custom_footer_actions()
     do_action('synerbay_loader');
     do_action('synerbay_loginModal');
 }
+/*
+ * Overwrite Dokan vendor registration js.
+ * @version: 3.2.5
+ */
+add_action('wp_enqueue_scripts', 'dokan_js_overwrite', 100);
+function dokan_js_overwrite()
+{
+    wp_dequeue_script('dokan-vendor-registration');
+    wp_enqueue_script( 'dokan-vendor-registration-custom', get_stylesheet_directory_uri().'/assets/vendor-registration-custom.js', array( 'jquery', 'jquery-form' ), null, true);
+}
 
 /*
 * Register new Sidebar
