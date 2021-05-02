@@ -385,6 +385,15 @@ input#bulk-product-action {
   background-color: #ff004e !important;
 }
 
+.offer-ended-view {
+  text-align: center;
+  color: white;
+  font-weight: 500;
+  border-radius: 4px;
+  margin-top: 15px;
+  background: #ff004e;
+}
+
 /*
 *
 * || Offer card (product loop) LIST view
