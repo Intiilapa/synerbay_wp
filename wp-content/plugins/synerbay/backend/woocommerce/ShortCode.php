@@ -15,6 +15,8 @@ class ShortCode extends WC_Shortcodes
 {
     public function __construct()
     {
+        //homepage
+        add_shortcode('home_page_vendors', [$this, 'homePageVendors']);
         // marketplace shortcodes
         add_shortcode('recent_offers', [$this, 'recentOffers']);
         add_shortcode('almost_finished_offers', [$this, 'almostFinishedOffers']);
@@ -32,6 +34,76 @@ class ShortCode extends WC_Shortcodes
     }
 
     /**
+     * @param $attributes
+     * @return mixed|void
+     */
+    public function homePageVendors($attributes)
+    {
+        extract(shortcode_atts([
+            'columns'  => '5',
+            'orderby'  => 'ID',
+            'order'    => 'desc',
+            'per_page' => 10,
+            'search'   => 'yes',
+            'per_row'  => 3,
+            'featured' => 'no',
+        ], $attributes));
+
+        $recommendedVendors = (new UserRepository())->paginate([
+            'except_ids' => get_current_user_id(),
+            'only_verificated' => true,
+            'order'         => ['columnName' => $orderby, 'direction' => $order],
+        ], $per_page, 1, OBJECT);
+
+        /**
+         * Filter for store listing args
+         *
+         * @since 2.4.9
+         */
+//        $template_args = apply_filters(
+//            'dokan_store_list_args', array(
+//                'sellers'    => ['users' => $recommendedVendors],
+//                'image_size' => 'full',
+//            )
+//        );
+
+        $sellers = ['users' => $recommendedVendors];
+        $image_size = 'full';
+
+        ob_start();
+
+//        dokan_get_template_part( 'store-lists', false, $template_args );
+
+        do_action( 'dokan_before_seller_listing_loop', $sellers );
+
+        $template_args = array(
+            'sellers'         => $sellers,
+            'limit'           => $limit,
+            'offset'          => $offset,
+            'paged'           => $paged,
+            'search_query'    => $search_query,
+            'pagination_base' => $pagination_base,
+            'per_row'         => $per_row,
+            'search_enabled'  => $search,
+            'image_size'      => $image_size,
+        );
+
+        dokan_get_template_part( 'store-lists-loop', false, $template_args );
+
+        /**
+         * Action hook after finishing seller listing loop
+         *
+         * @since 2.8.6
+         *
+         * @var array $sellers
+         */
+        do_action( 'dokan_after_seller_listing_loop', $sellers );
+        $content = ob_get_clean();
+
+        return apply_filters( 'dokan_seller_listing', $content, $attributes );
+    }
+
+    /**
      * Új ajánlatok (főoldal)
      *
      * @param $attributes
@@ -44,7 +116,6 @@ class ShortCode extends WC_Shortcodes
             'orderby'  => 'id',
             'order'    => 'desc',
         ]));
-
 
         $offerSearch = new OfferSearch([
             'recent_offers' => true,
@@ -426,6 +497,7 @@ class ShortCode extends WC_Shortcodes
         $recommendedVendors = (new UserRepository())->paginate([
             'except_ids' => get_current_user_id(),
             'industry'   => $settings['vendor_industry'],
+            'only_verificated' => true,
             'order'         => ['columnName' => $orderby, 'direction' => $order],
         ], $per_page, 1, OBJECT);
 

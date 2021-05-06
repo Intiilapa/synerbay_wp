@@ -23,6 +23,7 @@ class Store extends AbstractPage
         if ($executeSearch) {
             $page = array_key_exists('page', $searchParameters) ? $searchParameters['page'] : 1;
 
+            $searchParameters['only_verificated'] = true;
             $sellers = ['users' => (new UserRepository())->paginate((array)$searchParameters, 24, (int)$page, OBJECT)];
 
             $searchParameters['store-site-search'] = generate_store_search_nonce();

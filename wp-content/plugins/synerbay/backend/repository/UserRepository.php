@@ -75,6 +75,10 @@ class UserRepository extends AbstractRepository
             $this->addWhereParameter('supr.meta_value like %s', "%vendor_product_range%" . $searchAttributes['product_range'] . "%");
         }
 
+        if (!empty($searchAttributes['only_verificated'])) {
+            $this->addWhereParameter($this->getBaseTable() . '.ID not in (select sunf.user_id from sb_usermeta sunf where sunf.meta_key = %s)', '_dokan_email_pending_verification');
+        }
+
         if (!empty($searchAttributes['rating'])) {
 
         }
