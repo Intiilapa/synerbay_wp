@@ -30,17 +30,17 @@
 /wp-content/updraft/
 /patch/
 /icons/
+
 /wp-content/backups-dup-lite/
 /wp-content/maintenance/
 /wp-content/wp-content/
 
-/wp-content/plugins/dokan-lite/
 /wp-content/plugins/classic-editor/
 /wp-content/plugins/contact-form-7/
+/wp-content/plugins/dokan-lite/
 /wp-content/plugins/dokan-pro/
 /wp-content/plugins/duplicator/
 /wp-content/plugins/elementor/
-
 /wp-content/plugins/kirki/
 /wp-content/plugins/martfury-addons/
 /wp-content/plugins/updraftplus/
