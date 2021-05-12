@@ -16,7 +16,7 @@ class Martfury_Child_WooCommerce
     }
 
     /**
-     * WooCommerce Loop Offer Content Thumbs
+     * WooCommerce Loop Offer Content Thumbs Normal view
      *
      * @return string
      * @since  1.0

@@ -2,7 +2,6 @@
 
 namespace WeDevs\Dokan\Shortcodes;
 
-use SynerBay\Repository\UserRepository;
 use WeDevs\Dokan\Abstracts\DokanShortcode;
 
 class Stores extends DokanShortcode {
@@ -94,15 +93,6 @@ class Stores extends DokanShortcode {
          *
          * @since 2.4.9
          */
-
-        //$verifiedUsers= get_user_meta( 156, 'dokan_profile_settings');
-
-        //var_dump($verifiedUsers);
-        #todo Kristof
-        //$sellers = ['users' => $verifiedUsers];
-        //var_dump($sellers);
-
-
         $template_args = apply_filters(
             'dokan_store_list_args', array(
 				'sellers'    => $sellers,
