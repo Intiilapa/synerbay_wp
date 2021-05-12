@@ -15,9 +15,8 @@ class ShortCode extends WC_Shortcodes
 {
     public function __construct()
     {
-        //homepage
+        //Homepage Shortcodes - Marketplace
         add_shortcode('home_page_vendors', [$this, 'homePageVendors']);
-        // marketplace shortcodes
         add_shortcode('recent_offers', [$this, 'recentOffers']);
         add_shortcode('almost_finished_offers', [$this, 'almostFinishedOffers']);
         add_shortcode('almost_finished_offers_quantity', [$this, 'almostFinishedOffersQuantity']);
@@ -30,7 +29,7 @@ class ShortCode extends WC_Shortcodes
         add_shortcode('network_recommended_products', [$this, 'networkRecommendedProducts']);
         add_shortcode('network_recommended_offers', [$this, 'networkRecommendedOffers']);
         //Grid - List view
-        add_filter( 'body_class', array( $this, 'body_classes' ) );
+        add_filter('body_class', array($this, 'body_classes'));
     }
 
     /**
@@ -40,32 +39,21 @@ class ShortCode extends WC_Shortcodes
     public function homePageVendors($attributes)
     {
         extract(shortcode_atts([
-            'columns'  => '5',
-            'orderby'  => 'ID',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'ID',
+            'order' => 'desc',
             'per_page' => 10,
-            'search'   => 'yes',
-            'per_row'  => 3,
+            'search' => 'yes',
+            'per_row' => 3,
             'featured' => 'no',
         ], $attributes));
 
         $recommendedVendors = (new UserRepository())->paginate([
             'except_ids' => get_current_user_id(),
             'only_verificated' => true,
-            'order'         => ['columnName' => $orderby, 'direction' => $order],
+            'order' => ['columnName' => $orderby, 'direction' => $order],
         ], $per_page, 1, OBJECT);
 
-        /**
-         * Filter for store listing args
-         *
-         * @since 2.4.9
-         */
-//        $template_args = apply_filters(
-//            'dokan_store_list_args', array(
-//                'sellers'    => ['users' => $recommendedVendors],
-//                'image_size' => 'full',
-//            )
-//        );
 
         $sellers = ['users' => $recommendedVendors];
         $image_size = 'full';
@@ -74,21 +62,21 @@ class ShortCode extends WC_Shortcodes
 
 //        dokan_get_template_part( 'store-lists', false, $template_args );
 
-        do_action( 'dokan_before_seller_listing_loop', $sellers );
+        do_action('dokan_before_seller_listing_loop', $sellers);
 
         $template_args = array(
-            'sellers'         => $sellers,
-            'limit'           => $limit,
-            'offset'          => $offset,
-            'paged'           => $paged,
-            'search_query'    => $search_query,
+            'sellers' => $sellers,
+            'limit' => $limit,
+            'offset' => $offset,
+            'paged' => $paged,
+            'search_query' => $search_query,
             'pagination_base' => $pagination_base,
-            'per_row'         => $per_row,
-            'search_enabled'  => $search,
-            'image_size'      => $image_size,
+            'per_row' => $per_row,
+            'search_enabled' => $search,
+            'image_size' => $image_size,
         );
 
-        dokan_get_template_part( 'store-lists-loop', false, $template_args );
+        dokan_get_template_part('store-lists-loop', false, $template_args);
 
         /**
          * Action hook after finishing seller listing loop
@@ -97,10 +85,10 @@ class ShortCode extends WC_Shortcodes
          *
          * @var array $sellers
          */
-        do_action( 'dokan_after_seller_listing_loop', $sellers );
+        do_action('dokan_after_seller_listing_loop', $sellers);
         $content = ob_get_clean();
 
-        return apply_filters( 'dokan_seller_listing', $content, $attributes );
+        return apply_filters('dokan_seller_listing', $content, $attributes);
     }
 
     /**
@@ -112,14 +100,14 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'id',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'id',
+            'order' => 'desc',
         ]));
 
         $offerSearch = new OfferSearch([
             'recent_offers' => true,
-            'order'         => ['columnName' => $orderby, 'direction' => $order],
+            'order' => ['columnName' => $orderby, 'direction' => $order],
         ]);
 
         $offerIds = $offerSearch->paginate(2 * (int)$per_page, 1);
@@ -141,14 +129,15 @@ class ShortCode extends WC_Shortcodes
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
                 //var_dump($post);
-                wc_get_template_part('content', 'offerList');
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
             <?php }
         }
@@ -165,14 +154,14 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'offer_end_date',
-            'order'    => 'asc',
+            'columns' => '5',
+            'orderby' => 'offer_end_date',
+            'order' => 'asc',
         ]));
 
         $offerSearch = new OfferSearch([
             'recent_offers' => true,
-            'order'         => ['columnName' => $orderby, 'direction' => $order],
+            'order' => ['columnName' => $orderby, 'direction' => $order],
         ]);
 
         $offerIds = $offerSearch->paginate($per_page, 1);
@@ -187,14 +176,15 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part('content', 'offerList');
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
             <?php }
         }
@@ -211,14 +201,14 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts($attributes, [
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'current_quantity',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'current_quantity',
+            'order' => 'desc',
         ]));
 
         $offerSearch = new OfferSearch([
             'recent_offers' => true,
-            'order'         => ['columnName' => $orderby, 'direction' => $order],
+            'order' => ['columnName' => $orderby, 'direction' => $order],
         ]);
 
         $offerIds = $offerSearch->paginate($per_page, 1);
@@ -233,14 +223,15 @@ class ShortCode extends WC_Shortcodes
             global $post;
             foreach ($offers as $offer) {
                 $post = get_post($offer['product']['ID']);
-                wc_get_template_part('content', 'offerList');
+                wc_get_template_part('content', 'offer');
 
                 $offer = [];
             }
 
             woocommerce_product_loop_end();
         } else {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearch'); ?></p>
             <?php }
         }
@@ -256,9 +247,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'ID',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'ID',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -268,8 +259,8 @@ class ShortCode extends WC_Shortcodes
             $productRepository = new ProductRepository();
 
             $searchParams = [
-                'user_id'       => array_column($followedVendors, 'vendor_id'),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'user_id' => array_column($followedVendors, 'vendor_id'),
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $products = $productRepository->paginate($searchParams, $per_page, 1);
@@ -312,9 +303,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'id',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'id',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -326,7 +317,7 @@ class ShortCode extends WC_Shortcodes
 
             $offerSearchParams = [
                 'user_id' => array_column($followedVendors, 'vendor_id'),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $offers = $offerRepository->paginate($offerSearchParams, $per_page, 1);
@@ -352,7 +343,8 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
@@ -367,9 +359,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'current_quantity',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'current_quantity',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -382,7 +374,7 @@ class ShortCode extends WC_Shortcodes
             $offerSearchParams = [
                 'recent_offers' => true,
                 'user_id' => array_column($followedVendors, 'vendor_id'),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $offers = $offerRepository->paginate($offerSearchParams, $per_page, 1);
@@ -408,7 +400,8 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
@@ -423,9 +416,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'offer_end_date',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'offer_end_date',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -437,7 +430,7 @@ class ShortCode extends WC_Shortcodes
             $offerSearchParams = [
                 'recent_offers' => true,
                 'user_id' => array_column($followedVendors, 'vendor_id'),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $offers = $offerRepository->paginate($offerSearchParams, $per_page, 1);
@@ -463,16 +456,17 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-         {?>
-             <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
-         <?php }
+            {
+                ?>
+                <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
+            <?php }
 
         }
 
         wp_reset_postdata();
     }
 
-    /**
+    /*
      * Főoldali shortcode:
      * @see /wp-content/plugins/dokan-lite/includes/Shortcodes/Stores.php
      *
@@ -481,12 +475,12 @@ class ShortCode extends WC_Shortcodes
     public function networkRecommendedVendorsByIndustry($attributes)
     {
         extract(shortcode_atts([
-            'columns'  => '5',
-            'orderby'  => 'ID',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'ID',
+            'order' => 'desc',
             'per_page' => 10,
-            'search'   => 'yes',
-            'per_row'  => 3,
+            'search' => 'yes',
+            'per_row' => 3,
             'featured' => 'no',
         ], $attributes));
 
@@ -496,22 +490,10 @@ class ShortCode extends WC_Shortcodes
 
         $recommendedVendors = (new UserRepository())->paginate([
             'except_ids' => get_current_user_id(),
-            'industry'   => $settings['vendor_industry'],
+            'industry' => $settings['vendor_industry'],
             'only_verificated' => true,
-            'order'         => ['columnName' => $orderby, 'direction' => $order],
+            'order' => ['columnName' => $orderby, 'direction' => $order],
         ], $per_page, 1, OBJECT);
-
-        /**
-         * Filter for store listing args
-         *
-         * @since 2.4.9
-         */
-//        $template_args = apply_filters(
-//            'dokan_store_list_args', array(
-//                'sellers'    => ['users' => $recommendedVendors],
-//                'image_size' => 'full',
-//            )
-//        );
 
         $sellers = ['users' => $recommendedVendors];
         $image_size = 'full';
@@ -520,21 +502,21 @@ class ShortCode extends WC_Shortcodes
 
 //        dokan_get_template_part( 'store-lists', false, $template_args );
 
-        do_action( 'dokan_before_seller_listing_loop', $sellers );
+        do_action('dokan_before_seller_listing_loop', $sellers);
 
         $template_args = array(
-            'sellers'         => $sellers,
-            'limit'           => $limit,
-            'offset'          => $offset,
-            'paged'           => $paged,
-            'search_query'    => $search_query,
+            'sellers' => $sellers,
+            'limit' => $limit,
+            'offset' => $offset,
+            'paged' => $paged,
+            'search_query' => $search_query,
             'pagination_base' => $pagination_base,
-            'per_row'         => $per_row,
-            'search_enabled'  => $search,
-            'image_size'      => $image_size,
+            'per_row' => $per_row,
+            'search_enabled' => $search,
+            'image_size' => $image_size,
         );
 
-        dokan_get_template_part( 'store-lists-loop', false, $template_args );
+        dokan_get_template_part('store-lists-loop', false, $template_args);
 
         /**
          * Action hook after finishing seller listing loop
@@ -543,10 +525,10 @@ class ShortCode extends WC_Shortcodes
          *
          * @var array $sellers
          */
-        do_action( 'dokan_after_seller_listing_loop', $sellers );
+        do_action('dokan_after_seller_listing_loop', $sellers);
         $content = ob_get_clean();
 
-        return apply_filters( 'dokan_seller_listing', $content, $attributes );
+        return apply_filters('dokan_seller_listing', $content, $attributes);
 
     }
 
@@ -558,9 +540,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'ID',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'ID',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -573,8 +555,8 @@ class ShortCode extends WC_Shortcodes
 
             $searchParams = [
                 'category_name' => $settings['vendor_industry'],
-                'except_user_id'=> get_current_user_id(),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'except_user_id' => get_current_user_id(),
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $products = $productRepository->paginate($searchParams, $per_page, 1);
@@ -617,9 +599,9 @@ class ShortCode extends WC_Shortcodes
     {
         extract(shortcode_atts([
             'per_page' => '12',
-            'columns'  => '5',
-            'orderby'  => 'id',
-            'order'    => 'desc',
+            'columns' => '5',
+            'orderby' => 'id',
+            'order' => 'desc',
         ], $attributes));
 
         $entityNotFound = true;
@@ -632,8 +614,8 @@ class ShortCode extends WC_Shortcodes
 
             $searchParams = [
                 'category_name' => $settings['vendor_industry'],
-                'except_user_id'=> get_current_user_id(),
-                'order'         => ['columnName' => $orderby, 'direction' => $order],
+                'except_user_id' => get_current_user_id(),
+                'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
             $recommendedProducts = $productRepository->search($searchParams);
@@ -644,7 +626,7 @@ class ShortCode extends WC_Shortcodes
 
                 $offerSearchParams = [
                     'product_id' => array_column($recommendedProducts, 'ID'),
-                    'order'         => ['columnName' => $orderby, 'direction' => $order],
+                    'order' => ['columnName' => $orderby, 'direction' => $order],
                 ];
 
                 $offers = $offerRepository->paginate($offerSearchParams, $per_page, 1);
@@ -671,7 +653,8 @@ class ShortCode extends WC_Shortcodes
 
         // üres a lista?
         if ($entityNotFound) {
-            {?>
+            {
+                ?>
                 <p class="woocommerce-info"><?php do_action('synerbay_synerBayInviteButtonSearchNetwork'); ?></p>
             <?php }
         }
@@ -682,17 +665,18 @@ class ShortCode extends WC_Shortcodes
     /**
      * Adds custom classes to the array of body classes.
      *
-     * @since 1.0
-     *
      * @param array $classes Classes for the body element.
      *
      * @return array
+     * @since 1.0
+     *
      */
-    function body_classes( $classes ) {
+    function body_classes($classes)
+    {
         if (is_page('Network')) {
             $shop_view = 'list';
             $classes[] = 'shop-view-' . $shop_view;
-            $classes[] = 'woocommerce'. $shop_view;
+            $classes[] = 'woocommerce' . $shop_view;
         }
 
         return $classes;
