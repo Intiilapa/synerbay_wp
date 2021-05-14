@@ -1,4 +1,4 @@
-Figyelni kell, hogy MINDENKÉPP muszáj kikommentezni ezt a sort, ha frissíted a dokan-pro-t:
+(UPDATE: 2021.05.01 utáni frissítés miatt NEM KELL EZZEL FOGLALKOZNI) Figyelni kell, hogy MINDENKÉPP muszáj kikommentezni ezt a sort, ha frissíted a dokan-pro-t:
 add_action( 'init', array( $this,'validate_email_link' ), 100 ); ->
 // add_action( 'init', array( $this,'validate_email_link' ), 100 );
 

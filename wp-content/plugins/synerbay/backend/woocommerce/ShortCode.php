@@ -15,6 +15,8 @@ class ShortCode extends WC_Shortcodes
 {
     public function __construct()
     {
+        add_action( 'after_setup_theme', [$this, 'fix_product_title_link'], 110 );
+
         //Homepage Shortcodes - Marketplace
         add_shortcode('home_page_vendors', [$this, 'homePageVendors']);
         add_shortcode('recent_offers', [$this, 'recentOffers']);
@@ -30,6 +32,23 @@ class ShortCode extends WC_Shortcodes
         add_shortcode('network_recommended_offers', [$this, 'networkRecommendedOffers']);
         //Grid - List view
         add_filter('body_class', array($this, 'body_classes'));
+    }
+
+    public function fix_product_title_link()
+    {
+        global $martfury_woocommerce;
+        remove_action('woocommerce_shop_loop_item_title', [$martfury_woocommerce, 'products_title'], 10);
+        add_action('woocommerce_shop_loop_item_title', function() {
+            global $offer;
+            if ($offer) {
+                $url = $offer['url'];
+            } else {
+                $url = esc_url( get_the_permalink() );
+            }
+
+            printf( '<h2><a href="%s">%s</a></h2>', $url, get_the_title() );
+
+        }, 10);
     }
 
     /**
@@ -127,6 +146,7 @@ class ShortCode extends WC_Shortcodes
             global $offer;
             global $post;
             foreach ($offers as $offer) {
+//                print '<pre>';var_dump($offer);die;
                 $post = get_post($offer['product']['ID']);
                 //var_dump($post);
                 wc_get_template_part('content', 'offer');
