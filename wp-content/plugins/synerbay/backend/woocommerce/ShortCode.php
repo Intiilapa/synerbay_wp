@@ -337,6 +337,7 @@ class ShortCode extends WC_Shortcodes
 
             $offerSearchParams = [
                 'user_id' => array_column($followedVendors, 'vendor_id'),
+                'recent_offers' => true,
                 'order' => ['columnName' => $orderby, 'direction' => $order],
             ];
 
@@ -438,7 +439,7 @@ class ShortCode extends WC_Shortcodes
             'per_page' => '12',
             'columns' => '5',
             'orderby' => 'offer_end_date',
-            'order' => 'desc',
+            'order' => 'asc',
         ], $attributes));
 
         $entityNotFound = true;
