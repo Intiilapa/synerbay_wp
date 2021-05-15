@@ -399,6 +399,14 @@ input#bulk-product-action {
   background: #ff004e;
 }
 
+.woocommerce ul.products li.product .mf-vendor-name .sold-by-meta .sold-by-label {
+  display: unset !important;
+}
+
+.woocommerce ul.products li.product h2 {
+  padding: 0 0 10px !important;
+}
+
 /*
 *
 * || Offer card (product loop) LIST view
