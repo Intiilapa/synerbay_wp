@@ -268,6 +268,11 @@ input[type="submit"].dokan-btn-default, a.dokan-btn-default, .dokan-btn-default{
     display: none!important;
   }
 }
+@media (max-width: 450px) {
+  .dokan-single-store .dokan-store-tabs ul li {
+    min-width: 90px;
+  }
+}
 
 /*
 * || New product template
@@ -398,6 +403,13 @@ input#bulk-product-action {
   border-radius: 4px;
   margin-top: 15px;
   background: #ff004e;
+}
+
+.woocommerce ul.products li.product .mf-vendor-name .sold-by-meta .sold-by-label{
+  display: unset!important;
+}
+.woocommerce ul.products li.product h2{
+  padding: 0 0 10px!important;
 }
 
 /*

@@ -88,7 +88,7 @@ do_action( 'dokan_new_product_wrap_before' );
                id="dokan-product-list-table">
             <thead>
             <tr>
-                <th><?php esc_html_e('Vendor name', 'dokan-lite'); ?></th>
+                <th><?php esc_html_e('Buyer name', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Contact name', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Contact e-mail', 'dokan-lite'); ?></th>
                 <th><?php esc_html_e('Contact phone', 'dokan-lite'); ?></th>
