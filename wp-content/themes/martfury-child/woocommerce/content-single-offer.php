@@ -181,11 +181,11 @@ if (post_password_required()) {
                         </div>
                     </div>
                     <?php
-                    do_action('synerbay_offerApplyButton', $offer);
                 }
                 ?>
 
                 <!-- Subscribe button -->
+                <?php do_action('synerbay_offerApplyButton', $offer);?>
                 <?php do_action('synerbay_offerInviteButton', $offer['url']); ?>
             </form>
 

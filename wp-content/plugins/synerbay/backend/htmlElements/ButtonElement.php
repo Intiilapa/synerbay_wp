@@ -5,16 +5,17 @@ namespace SynerBay\HTMLElement;
 
 
 use SynerBay\Helper\RouteHelper;
+use SynerBay\Model\Offer;
 
 class ButtonElement extends AbstractElement
 {
     public function offerApplyButton($offer)
     {
         // amennyiben a sajátja az offer, akkor nem tud jelentkezni
-        if ($offer['summary']['my_offer'] || !$offer['summary']['is_active']) {
+        if ($offer['summary']['my_offer'] || !$offer['summary']['is_active'] || $offer['status'] == Offer::STATUS_CLOSED ) {
             echo '';
         } else {
-            if (!get_current_user_id() || !$offer['summary']['current_user_have_apply']) {
+            if (!get_current_user_id() || !$offer['summary']['current_user_have_apply']){
                 echo "<a id='synerbay-btn' class='place-order-btn' onclick='synerbay.appearOffer(" . $offer['id'] . ")' class='button'><span>Place order need</span></a>";
             } else {
                 echo "<a onclick='synerbay.disAppearOffer(" . $offer['id'] . ")' class='button'>Delete order need (" . $offer['summary']['current_user_apply_qty'] . " pc)</a>";
