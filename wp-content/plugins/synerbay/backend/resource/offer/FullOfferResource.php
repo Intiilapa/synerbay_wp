@@ -34,6 +34,11 @@ class FullOfferResource extends DefaultOfferResource
         }
 
         $data['summary'] = $this->offerModule->getOfferSummaryData($data);
+
+//        print '<pre>';
+//        var_dump($data['summary']);
+//        die;
+
         return $data;
     }
 }

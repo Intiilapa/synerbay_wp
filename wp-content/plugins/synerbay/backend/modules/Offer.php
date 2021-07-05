@@ -155,9 +155,12 @@ class Offer extends AbstractModule
         foreach ($priceSteps as $stepData) {
             $tmp[$stepData['qty']] = $stepData['price'];
         }
+
         ksort($tmp);
         $minPriceStep = array_key_first($tmp);
+        $minPriceStepPrice = $tmp[$minPriceStep];
         $maxPriceStep = array_key_last($tmp);
+        $maxPriceStepPrice = $tmp[$maxPriceStep];
 
         // clean steps
         if (count($tmp) && count($offerData['applies'])) {
@@ -176,22 +179,65 @@ class Offer extends AbstractModule
 
             foreach ($tmp as $qty => $stepPrice) {
                 $actualPriceStepQty = $qty;
+                $actualProductPrice = $stepPrice;
 
                 // mi az ára?
                 if ($groupByProductQTYNumber < $qty) {
                     break;
                 }
-
-                $actualProductPrice = $stepPrice;
             }
         }
-
-        unset($tmp);
 
         if ($actualProductPrice > 0 && $actualApplicantNumber > 0) {
             $actualCommissionPrice = (($groupByProductQTYNumber * $actualProductPrice) * $this->commissionMultiplier);
             $fictitiousCommissionPrice = (($groupByProductQTYNumber * $actualProductPrice) * $this->fictitiousCommissionMultiplier);
         }
+
+        // egyéb adatok
+        $nextPriceStepQty = $minPriceStep;
+        $nextPriceStepPrice = $minPriceStepPrice;
+
+        foreach ($tmp as $priceStepQty => $priceStepPrice) {
+            $nextPriceStepQty = $priceStepQty;
+            $nextPriceStepPrice = $priceStepPrice;
+
+            if ($priceStepQty > $actualPriceStepQty) {
+                break;
+            }
+        }
+
+        // teljesített az offer qty-ben
+        /**
+         * @info a summary kulcs offer_qty_successful adjuk meg (bool)
+         */
+
+        // hot offer (az utolsó előtt lépcsőben van a teljesítése)
+        $hotOffer = (int)$actualPriceStepQty == (int)$maxPriceStep;
+
+        // hamarosan lejáró offer (a lejáratig kevesebb mint 1 hét van)
+        $lastMinuteOfferStartTimeFlag = strtotime( $offerData['offer_end_date'] . " -7 days");
+        $lastMinuteOffer = strtotime('now') >= $lastMinuteOfferStartTimeFlag;
+
+        // jelenlegi kedvezmény %-ban / árban
+        $currentDiscountPercentage = round(100 - (($actualProductPrice / $offerData['default_price']) * 100), 2);
+        $currentDiscountPrice = $offerData['default_price'] - $actualProductPrice;
+
+        // maximális step árához viszonított ár és kedvezmény az alapárból
+        $maxDiscountPercentage = round(100 - (($maxPriceStepPrice / $offerData['default_price']) * 100), 2);
+        $maxDiscountPrice = $offerData['default_price'] - $maxPriceStepPrice;
+
+        // mennyi kell a következő kedvezményig
+        $nextPriceStepRequiredQty = $actualPriceStepQty - $groupByProductQTYNumber;
+
+        // a következő lépcsőnél mennyi a kedvezmény az aktuálishoz mérten
+        $nextPriceStepDiscountFromCurrentPercentage = round(100 - (($nextPriceStepPrice / $actualProductPrice) * 100), 2);
+        $nextPriceStepDiscountFromCurrentPrice = $actualProductPrice - $nextPriceStepPrice;
+
+        // a következő lépcsőnél mennyi a kedvezmény az alaphoz képest
+        $nextPriceStepDiscountFromDefaultPercentage = round(100 - (($nextPriceStepPrice / $offerData['default_price']) * 100), 2);
+        $nextPriceStepDiscountFromDefaultPrice = $offerData['default_price'] - $nextPriceStepPrice;
+
+        unset($tmp);
 
         return [
             'is_active'                             => $active,
@@ -200,16 +246,30 @@ class Offer extends AbstractModule
             'current_user_apply_qty'                => $currentUserApplyQty,
             'actual_product_price'                  => $actualProductPrice,
             'min_price_step_qty'                    => $minPriceStep,
+            'min_price_step_price'                  => $minPriceStepPrice,
             'max_price_step_qty'                    => $maxPriceStep,
+            'max_price_step_price'                  => $maxPriceStepPrice,
             'actual_price_step_qty'                 => $actualPriceStepQty,
             'actual_applicant_product_number'       => $groupByProductQTYNumber,
             'actual_commission_price'               => $actualCommissionPrice,
             'actual_applicant_number'               => $actualApplicantNumber,
             'formatted_actual_product_price'        => wc_price($actualProductPrice, ['currency' => strtoupper($offerData['currency'])]),
             'formatted_actual_commission_price'     => wc_price($actualCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
-            'offer_qty_successful'                  => (int)$groupByProductQTYNumber >= (int)$maxPriceStep,
             'fictitious_commission_price'           => $fictitiousCommissionPrice,
             'formatted_fictitious_commission_price' => wc_price($fictitiousCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
+            // metadata
+            'offer_qty_successful'                              => (int)$groupByProductQTYNumber >= (int)$maxPriceStep,
+            'last_minute_offer'                                 => $lastMinuteOffer,
+            'current_discount_percentage_from_default_price'    => $currentDiscountPercentage,
+            'current_discount_price_from_default_price'         => wc_price($currentDiscountPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'max_discount_percentage_from_default_price'        => $maxDiscountPercentage,
+            'max_discount_price_from_default_price'             => wc_price($maxDiscountPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'next_price_step_required_qty'                      => $nextPriceStepRequiredQty,
+            'next_price_step_discount_percentage_from_current'  => $nextPriceStepDiscountFromCurrentPercentage,
+            'next_price_step_discount_price_from_current'       => wc_price($nextPriceStepDiscountFromCurrentPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'next_price_step_discount_percentage_from_default'  => $nextPriceStepDiscountFromDefaultPercentage,
+            'next_price_step_discount_price_from_default'       => wc_price($nextPriceStepDiscountFromDefaultPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'hot_offer'                                         => $hotOffer,
         ];
     }
 

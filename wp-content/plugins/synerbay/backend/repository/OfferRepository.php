@@ -64,6 +64,19 @@ class OfferRepository extends AbstractRepository
         );
     }
 
+    public function increaseNumberOfViews(int $offerID, int $currentNumberOfViews)
+    {
+        global $wpdb;
+
+        return $wpdb->update(
+            $wpdb->prefix . 'offers',
+            ['number_of_views' => $currentNumberOfViews + 1],
+            ['id' => $offerID],
+            ['%d'],
+            ['%d']
+        );
+    }
+
     protected function prepareQuery(array $searchAttributes = [])
     {
         $addProductJoin = false;
