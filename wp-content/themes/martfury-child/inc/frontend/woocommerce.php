@@ -27,6 +27,8 @@ class Martfury_Child_WooCommerce
 
         printf( '<div class="mf-product-thumbnail">' );
 
+        wc_get_template('loop/offer-badge.php');
+
         printf('<a href="%s" target="_blank">', esc_url($offer['url']));
 
         $image_size = 'shop_catalog';
@@ -47,9 +49,9 @@ class Martfury_Child_WooCommerce
 
 
         echo '</div>';
-        wc_get_template('loop/offer-badge.php');
-        wc_get_template('loop/offer-progress.php');
-        wc_get_template('loop/offer-countdown.php');
+        //wc_get_template('loop/offer-badge.php');
+        //wc_get_template('loop/offer-progress.php');
+        //wc_get_template('loop/offer-countdown.php');
         if (is_page("Network")) {
             printf('<a href="%s" class="button offer_list" rel="nofollow"><span class="add-to-cart-text">Read more</span></a>', esc_url($offer['url']));
         }

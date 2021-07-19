@@ -364,9 +364,8 @@ input#bulk-product-action {
 }
 
 .groupbuy-bage {
+  position: relative !important;
   background: white;
-  top: 12px;
-  right: 7px !important;
   border-radius: 20px;
   font-size: 27px !important;
   border: 1px solid #ff004e;
@@ -405,6 +404,24 @@ input#bulk-product-action {
 
 .woocommerce ul.products li.product h2 {
   padding: 0 0 10px !important;
+}
+
+.offer-time {
+  content: url("/wp-content/uploads/2021/07/hourglass.svg");
+  padding: 3px;
+}
+
+.offer-hot {
+  content: url("/wp-content/uploads/2021/07/hot-sale.svg");
+  padding: 3px;
+}
+
+.wrapper-icons {
+  display: grid;
+  direction: rtl;
+  grid-template-columns: 40px 40px 40px;
+  background-color: #fff;
+  color: #444;
 }
 
 /*
@@ -487,6 +504,11 @@ strong {
 
 .product_custom_details {
   padding-bottom: 25px;
+}
+
+.step-green {
+  background: #8bcf69;
+  font-weight: 700;
 }
 
 /*
