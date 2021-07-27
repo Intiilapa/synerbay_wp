@@ -22,7 +22,6 @@ defined('ABSPATH') || exit;
 
 global $product;
 global $offer;
-//var_dump($offer);
 
 (new OfferRepository())->increaseNumberOfViews($offer['id'], $offer['number_of_views']);
 
@@ -98,119 +97,9 @@ if (post_password_required()) {
                 </li>
                 <li><span><?php _e('Delivery date: ', 'synerbay') ?><?php echo $offer['delivery_date']; ?></span></li>
                 <li><span><?php _e('Payment term: ', 'synerbay') ?><?php echo $offer['payment_term']; ?></span></li>
+                <li><span><?php _e('Viewers: ', 'synerbay') ?><?php echo $offer['number_of_views']; ?></span></li>
+                <li><span><?php _e('Next price step required quantity: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty']; ?></span></li>
             </ul>
-            <?php
-            /**
-             * TODO: Remco itt van minden adat
-             */
-            ?>
-            <hr>
-            <strong class="details-title">Új adatok (Remco ezekből tudsz majd dolgozni; amit kell egyeztessünk 3-an; A Martfury egy csomó mindenben segít):</strong>
-            <ul class="offer-list">
-                <li>
-                    <span>
-                        <?php _e('Megtekintések száma: ', 'synerbay') ?>
-                        <?php echo $offer['number_of_views']; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Hot?: ', 'synerbay') ?>
-                        <?php echo $offer['summary']['hot_offer'] ? 'igen' : 'nem'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Last minute offer?: ', 'synerbay') ?>
-                        <?php echo $offer['summary']['last_minute_offer'] ? 'igen' : 'nem'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('A jelenlegi lépcső az alap árhoz számított kedvezménye (%): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['current_discount_percentage_from_default_price'] . '%'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('A jelenlegi lépcső az alap árhoz számított kedvezménye (ár): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['current_discount_price_from_default_price']; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Maximum kedvezmény az alap árhoz viszonyítva (%): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['max_discount_percentage_from_default_price'] . '%'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Maximum kedvezmény az alap árhoz viszonyítva (ár): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['max_discount_price_from_default_price']; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Következő lépcsőhöz szükséges darabszám (0 esetén ne rakd ki, mert akkor el van érve a legfelső lépcső): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['next_price_step_required_qty']; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Következő lépcsőnél az éppen aktuális árhoz viszonyított kedvezmény (%; 0 esetén ne rakd ki, mert akkor el van érve a legfelső lépcső): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['next_price_step_discount_percentage_from_current'] . '%'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Következő lépcsőnél az éppen aktuális árhoz viszonyított kedvezmény (ár; 0 esetén ne rakd ki, mert akkor el van érve a legfelső lépcső): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['next_price_step_discount_price_from_current']; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Következő lépcsőnél az alap árhoz viszonyított kedvezmény (%): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['next_price_step_discount_percentage_from_default'] . '%'; ?>
-                    </span>
-                </li>
-                <li>
-                    <span>
-                        <?php _e('Következő lépcsőnél az alap árhoz viszonyított kedvezmény (ár): ', 'synerbay') ?>
-                        <?php echo $offer['summary']['next_price_step_discount_price_from_default']; ?>
-                    </span>
-                </li>
-            </ul>
-            <hr>
-
-            <?php if ($currentDate >= strtotime($offer['offer_start_date']) && $currentDate <= strtotime($offer['offer_end_date'])) : ?>
-
-                <div style="padding-bottom: 10px" class='groupbuy-ajax-change'>
-                    <div class="groupbuy-time" id="countdown">
-                        <strong class="details-title">Time left:</strong>
-                        <div class="main-groupbuy groupbuy-time-countdown" data-time="<?php echo $time_remaining ?>"
-                             data-groupbuyid="<?php echo $product->get_id() ?>"
-                             data-format="<?php echo get_option('simple_groupbuy_countdown_format') ?>"></div>
-                    </div>
-                </div>
-
-            <?php elseif ($currentDate <= strtotime($offer['offer_start_date'])) : ?>
-
-                <div class="groupbuy-time future" id="countdown">
-                    <strong class="details-title">Offer start in:</strong>
-                    <div class="groupbuy-time-countdown future" data-time="<?php echo $time_for_start ?>"
-                         data-format="<?php echo get_option('simple_groupbuy_countdown_format') ?>"></div>
-                </div>
-
-            <?php endif; ?>
-
-            <!-- Progress bar -->
-            <div class="wcl-progress-meter">
-                <span class="zero"><?php echo $offer['summary']['min_price_step_qty'] ?></span>
-                <span class="max"><?php echo $offer['summary']['max_price_step_qty'] ?></span>
-                <progress max="<?php echo $offer['summary']['max_price_step_qty'] ?>"
-                          value="<?php echo !empty($offer['summary']['actual_applicant_product_number']) ? $offer['summary']['actual_applicant_product_number'] : '0' ?>"
-                          low="<?php echo $offer['summary']['min_price_step_qty'] ?>"></progress>
-            </div>
 
             <!-- Table -->
             <p class="deal-info">

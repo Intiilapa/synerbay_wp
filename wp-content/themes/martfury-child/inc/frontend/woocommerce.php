@@ -5,6 +5,7 @@
  *
  * @version 1.0
  */
+
 class Martfury_Child_WooCommerce
 {
     function __construct()
@@ -24,6 +25,8 @@ class Martfury_Child_WooCommerce
      */
     function product_content_offer_thumbnail() {
         global $product, $post, $offer;
+
+        $offer_validity = date('Y-m-d', strtotime($offer['offer_end_date']));
 
         printf( '<div class="mf-product-thumbnail">' );
 
@@ -47,14 +50,19 @@ class Martfury_Child_WooCommerce
 
         do_action( 'martfury_after_product_loop_thumbnail_link' );
 
-
+        echo '<b style="color: #0bb90b;font-size: 18px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['next_price_step_discount_price_from_default'] . '</b> ' . ' <b style="color: red;font-weight: 400;">'. $offer['summary']['current_discount_percentage_from_default_price'] . '% off' . '</b>';
+        echo '<br>';
+        echo 'Lowest available price: ' .  '<b>'. '$' . $offer['summary']['max_price_step_price'] .'</b>';
+        echo '<br>';
+        echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity;
+        echo '<br>';
+        echo '<b style="font-weight: 400;">' . 'Sold: ' . $offer['summary']['actual_applicant_product_number'];
         echo '</div>';
-        //wc_get_template('loop/offer-badge.php');
-        //wc_get_template('loop/offer-progress.php');
-        //wc_get_template('loop/offer-countdown.php');
+
         if (is_page("Network")) {
             printf('<a href="%s" class="button offer_list" rel="nofollow"><span class="add-to-cart-text">Read more</span></a>', esc_url($offer['url']));
         }
+
     }
 
     /**
