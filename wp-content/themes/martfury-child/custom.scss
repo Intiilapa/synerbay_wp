@@ -602,7 +602,7 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
   .place-order-btn{
     display: block;
     width: 100%;
-    margin: 15px!important;
+    margin: 15px 0!important;
     text-align: center;
   }
   .view-offer-btn{
@@ -610,6 +610,11 @@ button.modal_rounded_cancel { margin-left: 10px; border: 1px solid $primary-colo
     width: 100%;
     margin: 15px 0!important;
     text-align: center;
+  }
+  .card-more-info{
+    b{
+      font-size: 12px!important;
+    }
   }
 }
 

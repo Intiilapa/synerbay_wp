@@ -620,7 +620,7 @@ button.modal_rounded_cancel {
   .place-order-btn {
     display: block;
     width: 100%;
-    margin: 15px !important;
+    margin: 15px 0 !important;
     text-align: center;
   }
 
@@ -629,6 +629,10 @@ button.modal_rounded_cancel {
     width: 100%;
     margin: 15px 0 !important;
     text-align: center;
+  }
+
+  .card-more-info b {
+    font-size: 12px !important;
   }
 }
 #synerbay-btn {

@@ -52,7 +52,9 @@ class Martfury_Child_WooCommerce
 
         echo '<b style="color: #0bb90b;font-size: 18px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['next_price_step_discount_price_from_default'] . '</b> ' . ' <b style="color: red;font-weight: 400;">'. $offer['summary']['current_discount_percentage_from_default_price'] . '% off' . '</b>';
         echo '<br>';
-        echo 'Lowest available price: ' .  '<b>'. '$' . $offer['summary']['max_price_step_price'] .'</b>';
+        echo '</div>';
+        echo '<div class="card-more-info">';
+        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. '$' . $offer['summary']['max_price_step_price'] .'</b>';
         echo '<br>';
         echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity;
         echo '<br>';
