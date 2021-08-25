@@ -26,12 +26,11 @@ function martfury_child_enqueue_scripts()
  *
  */
 
-
 //If user is not logged in redirect to /home
-// védett URL-ek, nem tudok ACL-ről :(
-
 $guestRoutes = [
     '/guest-homepage/',
+    '/sb-login/',
+    '/privacy-policy/',
     '/faq/',
     '/my-account/',
     '/my-account/lost-password/',
@@ -46,16 +45,11 @@ $guestRoutes = [
     '/wp-admin/admin-ajax.php',
 ];
 
-//print'<pre>';
-//var_dump($_SERVER);
-//die;
-
-if ( ! get_current_user_id() && !in_array(rtrim($_SERVER['REQUEST_URI'], '?'.$_SERVER['QUERY_STRING']), $guestRoutes)) {
+if ( ! get_current_user_id() &&  !in_array(rtrim($_SERVER['REQUEST_URI'], '?'.$_SERVER['QUERY_STRING']), $guestRoutes)) {
     $urlparts = parse_url(home_url());
     $domain = $urlparts['host'];
     header('Location: '.$domain.'/guest-homepage/');
 }
-
 
 //Remove access to wp-admin
 add_action('after_setup_theme', 'remove_admin_bar');

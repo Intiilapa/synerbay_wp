@@ -37,6 +37,7 @@ $time_remaining = strtotime($offer['offer_end_date']) - (get_option('gmt_offset'
 $time_for_start = strtotime($offer['offer_start_date']) - (get_option('gmt_offset') * 3600);
 
 $currentDate = strtotime(date('Y-m-d H:i:s'));
+$offer_validity = date('Y-m-d', strtotime($offer['offer_end_date']));
 
 /**
  * woocommerce_before_single_product hook.
@@ -68,8 +69,10 @@ if (post_password_required()) {
         <div class="summary entry-summary">
             <?php if ($offer['summary']['actual_product_price'] != 0): ?>
                 <p class="price">
-                    Current price: <?php echo $offer['summary']['formatted_actual_product_price']; ?>
-                </p>
+                    <?php echo '<b style="color: green;font-size: 25px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;font-size: 14px;">' . $offer['summary']['next_price_step_discount_price_from_default'] . '</b> ' . ' <b style="color: red;font-weight: 400;font-size: 14px">'. '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';?>
+                </p><hr>
+
+            <?php  echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';?>
             <?php endif; ?>
 
             </br>
@@ -127,6 +130,7 @@ if (post_password_required()) {
                 ?>
                 </tbody>
             </table>
+            <p>Sold: <?php echo $offer['summary']['actual_applicant_product_number']?> </p>
 
             <!-- Add to cart section -->
             <form class="buy-now cart" method="post" enctype='multipart/form-data'
