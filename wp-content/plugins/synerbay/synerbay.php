@@ -50,7 +50,8 @@ class SynerBay {
         // localize the script to your domain name, so that you can reference the url to admin-ajax.php file easily
         wp_localize_script( 'synerbay-script', 'synerbayAjax', array(
             'restURL' => rest_url(),
-            'restNonce' => wp_create_nonce('wp_rest')
+            'restNonce' => wp_create_nonce('wp_rest'),
+            'userID' => get_current_user_id(),
         ));
     }
 

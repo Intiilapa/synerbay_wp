@@ -4,7 +4,34 @@
     synerbay.init = function () {
         synerbay.$body = $(document.body);
         synerbay.$window = $(window);
+        synerbay.hideMenu();
         synerbay.formHideEmptyFields();
+    }
+
+    synerbay.hideMenu = function() {
+        if (synerbayAjax.userID == 0) {
+            const main_menu = document.getElementsByClassName("main-menu ")
+            // mobile
+            const mobile_menu = document.getElementsByClassName("mobile-menu")
+            const mobile_menu_buttons = document.getElementsByClassName("mobile-synerbay-btn")
+            const mobile_menu_categories = document.getElementById("navigation-mobile_cat")
+
+            if (main_menu.length) {
+                main_menu[0].style.display = "none";
+            }
+
+            if (mobile_menu.length) {
+                mobile_menu[0].style.display = "none";
+            }
+
+            if (mobile_menu_buttons.length) {
+                mobile_menu_buttons[0].style.display = "none";
+            }
+
+            if (mobile_menu_categories) {
+                mobile_menu_categories.style.display = "none";
+            }
+        }
     }
 
     synerbay.formHideEmptyFields = function() {

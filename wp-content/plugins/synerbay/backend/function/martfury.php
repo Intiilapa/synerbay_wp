@@ -19,8 +19,13 @@ function martfury_extra_search_form() {
     $item_class     = empty( $cat ) ? 'no-cats' : '';
     $post_type_html = '';
 
+    $criticalStyle = '';
+    if (!get_current_user_id()) {
+        $criticalStyle = ' style="display: none !important;"';
+    }
+
     return sprintf(
-        '<form id="global-search-form" class="products-search" method="%s" action="%s">
+        '<form id="global-search-form" class="products-search"%s method="%s" action="%s">
                 <div class="psearch-content">
                     <div class="product-cat"><div class="product-cat-label %s">%s</div> %s</div>
                     <div class="search-wrapper">
@@ -32,6 +37,7 @@ function martfury_extra_search_form() {
                     <button type="submit" class="search-submit">%s</button>
                 </div>
             </form>',
+        $criticalStyle,
         $defaultParamMethod,
         $defaultFormAction,
         esc_attr( $item_class ),
