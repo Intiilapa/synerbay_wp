@@ -28,8 +28,25 @@ function martfury_child_enqueue_scripts()
 
 
 //If user is not logged in redirect to /home
-if ( ! is_user_logged_in() ) {
-    //header('Location: ' . '/guest-homepage/');
+// védett URL-ek, nem tudok ACL-ről :(
+
+$guestRoutes = [
+    '/guest-homepage/',
+    '/my-account/',
+    '/privacy-policy/',
+    '/about-us/',
+    '/contact/',
+    '/synerbay-blog/',
+    '/differences-between-b2b-and-b2bg-commerce/',
+    '/how-synerbay-changes-b2b-e-commerce-to-b2b-c-commerce/',
+    '/the-evolution-of-e-commerce/',
+    '/how-synerbay-changes-the-way-we-think-about-global-commerce/',
+];
+
+if ( ! get_current_user_id() && !in_array($_SERVER['REQUEST_URI'], $guestRoutes)) {
+    $urlparts = parse_url(home_url());
+    $domain = $urlparts['host'];
+    header('Location: '.$domain.'/guest-homepage/');
 }
 
 
