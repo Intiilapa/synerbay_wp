@@ -19,6 +19,20 @@ function martfury_child_enqueue_scripts()
     }
 
 }
+
+/*
+ *
+ * General Settings
+ *
+ */
+
+
+//If user is not logged in redirect to /home
+if ( ! is_user_logged_in() ) {
+    //header('Location: ' . '/guest-homepage/');
+}
+
+
 //Remove access to wp-admin
 add_action('after_setup_theme', 'remove_admin_bar');
 function remove_admin_bar() {
