@@ -32,7 +32,9 @@ function martfury_child_enqueue_scripts()
 
 $guestRoutes = [
     '/guest-homepage/',
+    '/faq/',
     '/my-account/',
+    '/my-account/lost-password/',
     '/privacy-policy/',
     '/about-us/',
     '/contact/',
@@ -41,9 +43,14 @@ $guestRoutes = [
     '/how-synerbay-changes-b2b-e-commerce-to-b2b-c-commerce/',
     '/the-evolution-of-e-commerce/',
     '/how-synerbay-changes-the-way-we-think-about-global-commerce/',
+    '/wp-admin/admin-ajax.php',
 ];
 
-if ( ! get_current_user_id() && !in_array($_SERVER['REQUEST_URI'], $guestRoutes)) {
+//print'<pre>';
+//var_dump($_SERVER);
+//die;
+
+if ( ! get_current_user_id() && !in_array(rtrim($_SERVER['REQUEST_URI'], '?'.$_SERVER['QUERY_STRING']), $guestRoutes)) {
     $urlparts = parse_url(home_url());
     $domain = $urlparts['host'];
     header('Location: '.$domain.'/guest-homepage/');
