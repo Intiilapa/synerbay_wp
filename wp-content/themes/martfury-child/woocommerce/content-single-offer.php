@@ -69,7 +69,7 @@ if (post_password_required()) {
         <div class="summary entry-summary">
             <?php if ($offer['summary']['actual_product_price'] != 0): ?>
                 <p class="price">
-                    <?php echo '<b style="color: green;font-size: 25px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;font-size: 14px;">' . $offer['summary']['next_price_step_discount_price_from_default'] . '</b> ' . ' <b style="color: red;font-weight: 400;font-size: 14px">'. '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';?>
+                    <?php echo '<b style="color: green;font-size: 25px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;font-size: 14px;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b> ' . ' <b style="color: red;font-weight: 400;font-size: 14px">'. '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';?>
                 </p><hr>
 
             <?php  echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';?>

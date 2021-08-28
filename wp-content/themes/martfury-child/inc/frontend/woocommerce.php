@@ -50,7 +50,7 @@ class Martfury_Child_WooCommerce
 
         do_action( 'martfury_after_product_loop_thumbnail_link' );
 
-        echo '<b style="color: green;font-size: 18px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['next_price_step_discount_price_from_default'] . '</b> ' . ' <b style="color: red;font-weight: 400;">'. $offer['summary']['current_discount_percentage_from_default_price'] . '% off' . '</b>';
+        echo '<b style="color: green;font-size: 18px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['formatted_actual_default_product_price']. '</b> ' . ' <b style="color: red;font-weight: 400;">'. '(-'.$offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';
         echo '<br>';
         echo '</div>';
         echo '<div class="card-more-info">';

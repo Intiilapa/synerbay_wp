@@ -131,6 +131,7 @@ class Offer extends AbstractModule
     {
         $currentDate = strtotime(date('Y-m-d H:i:s'));
         $actualProductPrice = $offerData['default_price'];
+        $defaultProductPrice = $offerData['default_price'];
         $priceSteps = $offerData['price_steps'];
         $groupByProductQTYNumber = 0;
         $actualApplicantNumber = 0;
@@ -245,6 +246,7 @@ class Offer extends AbstractModule
             'current_user_have_apply'               => $currentUserHaveApply,
             'current_user_apply_qty'                => $currentUserApplyQty,
             'actual_product_price'                  => $actualProductPrice,
+            'default_product_price'                 => $defaultProductPrice,
             'min_price_step_qty'                    => $minPriceStep,
             'min_price_step_price'                  => $minPriceStepPrice,
             'max_price_step_qty'                    => $maxPriceStep,
@@ -254,9 +256,11 @@ class Offer extends AbstractModule
             'actual_commission_price'               => $actualCommissionPrice,
             'actual_applicant_number'               => $actualApplicantNumber,
             'formatted_actual_product_price'        => wc_price($actualProductPrice, ['currency' => strtoupper($offerData['currency'])]),
+            'formatted_actual_default_product_price'=> wc_price($defaultProductPrice, ['currency' => strtoupper($offerData['currency'])]),
             'formatted_actual_commission_price'     => wc_price($actualCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
             'fictitious_commission_price'           => $fictitiousCommissionPrice,
             'formatted_fictitious_commission_price' => wc_price($fictitiousCommissionPrice, ['currency' => strtoupper($offerData['currency'])]),
+
             // metadata
             'offer_qty_successful'                              => (int)$groupByProductQTYNumber >= (int)$maxPriceStep,
             'last_minute_offer'                                 => $lastMinuteOffer,
