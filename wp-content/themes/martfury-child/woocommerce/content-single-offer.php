@@ -83,7 +83,7 @@ if (post_password_required()) {
                 </p>
                 <hr>
 
-                <?php echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>'; ?>
+                <?php echo '<div class="mb-1"><b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b></div>'; ?>
             <?php endif; ?>
 
             </br>
@@ -101,7 +101,7 @@ if (post_password_required()) {
                             'synerbay') ?><?php echo $offer['product']['meta']['_weight_unit']; ?></span></li>
                 <li><span class="offer-qty-min"> <?php _e('Material: ',
                             'synerbay') ?><?php echo $offer['product']['meta']['_material']; ?></span></li>
-                <li><span class="offer-qty-min"> <?php _e('Min. product qty: ',
+                <li><span class="offer-qty-min"> <?php _e('Minimum Order Quantity: ',
                             'synerbay') ?><?php echo $offer['minimum_order_quantity']; ?></span></li>
                 <li><span class="offer-qty-max"> <?php _e('Max. product qty/user: ',
                             'synerbay') ?><?php echo $offer['max_total_offer_qty']; ?></span></li>
@@ -113,7 +113,7 @@ if (post_password_required()) {
                 <li><span><?php _e('Payment term: ', 'synerbay') ?><?php echo $offer['payment_term']; ?></span></li>
                 <li><span><?php _e('Viewers: ', 'synerbay') ?><?php echo $offer['number_of_views']; ?></span></li>
                 <li>
-                    <span><?php _e('Next price step required quantity: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty']; ?></span>
+                    <span><?php _e('Required order for further discount: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty'] <= 0 ? '-' : $offer['summary']['next_price_step_required_qty']; ?></span>
                 </li>
             </ul>
 
@@ -143,12 +143,12 @@ if (post_password_required()) {
                 ?>
                 </tbody>
             </table>
-            <p>Sold: <?php
+            <?php
                 if ($offer['summary']['actual_applicant_product_number'] != 0){
-                    echo $offer['summary']['actual_applicant_product_number'];
+                    echo '<p style="font-weight: 400;color:red;">Sold: ' .$offer['summary']['actual_applicant_product_number'] . '</p>';
                 }
-                ?>
-            </p>
+            ?>
+
 
             <!-- Add to cart section -->
             <form class="buy-now cart" method="post" enctype='multipart/form-data'

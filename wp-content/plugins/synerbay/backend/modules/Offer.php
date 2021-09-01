@@ -179,13 +179,13 @@ class Offer extends AbstractModule
             }
 
             foreach ($tmp as $qty => $stepPrice) {
-                $actualPriceStepQty = $qty;
-                $actualProductPrice = $stepPrice;
-
                 // mi az ára?
                 if ($groupByProductQTYNumber < $qty) {
                     break;
                 }
+
+                $actualPriceStepQty = $qty;
+                $actualProductPrice = $stepPrice;
             }
         }
 
