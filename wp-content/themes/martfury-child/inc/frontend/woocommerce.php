@@ -50,7 +50,15 @@ class Martfury_Child_WooCommerce
 
         do_action( 'martfury_after_product_loop_thumbnail_link' );
 
-        echo '<b style="color: green;font-size: 18px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['formatted_actual_default_product_price']. '</b> ' . ' <b style="color: red;font-weight: 400;">'. '(-'.$offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';
+        //Price
+        echo '<b style="color: green;font-size: 18px;"> ' . $offer['summary']['formatted_actual_product_price'] . '</b> ';
+        if ($offer['summary']['formatted_actual_default_product_price'] != $offer['summary']['formatted_actual_product_price']) {
+            echo '<b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b>';
+        }
+        if ($offer['summary']['current_discount_percentage_from_default_price'] != 0) {
+            echo '<b style="color: red;font-weight: 400;">' . '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';
+        }
+
         echo '<br>';
         echo '</div>';
         echo '<div class="card-more-info">';
@@ -58,7 +66,11 @@ class Martfury_Child_WooCommerce
         echo '<br>';
         echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';
         echo '<br>';
-        echo '<b style="font-weight: 400;">' . 'Sold: ' . $offer['summary']['actual_applicant_product_number'];
+
+        if ($offer['summary']['actual_applicant_product_number'] != 0) {
+            echo '<b style="font-weight: 400;">' . 'Sold: ' . '</b>' . $offer['summary']['actual_applicant_product_number'];
+        }
+
         echo '</div>';
 
         if (is_page("Network")) {

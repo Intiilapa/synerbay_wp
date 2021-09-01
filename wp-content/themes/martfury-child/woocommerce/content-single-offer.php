@@ -69,10 +69,21 @@ if (post_password_required()) {
         <div class="summary entry-summary">
             <?php if ($offer['summary']['actual_product_price'] != 0): ?>
                 <p class="price">
-                    <?php echo '<b style="color: green;font-size: 25px;"> '. $offer['summary']['formatted_actual_product_price'] . '</b> ' . ' <b style="text-decoration: line-through;color:grey;font-weight: 400;font-size: 14px;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b> ' . ' <b style="color: red;font-weight: 400;font-size: 14px">'. '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';?>
-                </p><hr>
 
-            <?php  echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';?>
+                    <?php echo '<b style="color: green;font-size: 25px;"> ' . $offer['summary']['formatted_actual_product_price'] . '</b> ';
+
+                        if ( $offer['summary']['formatted_actual_default_product_price'] != $offer['summary']['formatted_actual_product_price']) {
+                            echo ' <b style="text-decoration: line-through;color:grey;font-weight: 400;font-size: 14px;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b>';
+                        }
+                        if ($offer['summary']['current_discount_percentage_from_default_price'] != 0) {
+                            echo ' <b style="color: red;font-weight: 400;font-size: 14px">' . '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';
+                        }
+                    ?>
+
+                </p>
+                <hr>
+
+                <?php echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>'; ?>
             <?php endif; ?>
 
             </br>
@@ -101,7 +112,9 @@ if (post_password_required()) {
                 <li><span><?php _e('Delivery date: ', 'synerbay') ?><?php echo $offer['delivery_date']; ?></span></li>
                 <li><span><?php _e('Payment term: ', 'synerbay') ?><?php echo $offer['payment_term']; ?></span></li>
                 <li><span><?php _e('Viewers: ', 'synerbay') ?><?php echo $offer['number_of_views']; ?></span></li>
-                <li><span><?php _e('Next price step required quantity: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty']; ?></span></li>
+                <li>
+                    <span><?php _e('Next price step required quantity: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty']; ?></span>
+                </li>
             </ul>
 
             <!-- Table -->
@@ -110,7 +123,7 @@ if (post_password_required()) {
             <table width="100%">
                 <thead>
                 <tr>
-                    <td>Quantity (<?php echo $offer['product']['meta']['_weight_unit'];?> / Unit)</td>
+                    <td>Quantity (<?php echo $offer['product']['meta']['_weight_unit']; ?> / Unit)</td>
                     <td>Price</td>
                 </tr>
                 </thead>
@@ -130,39 +143,44 @@ if (post_password_required()) {
                 ?>
                 </tbody>
             </table>
-            <p>Sold: <?php echo $offer['summary']['actual_applicant_product_number']?> </p>
+            <p>Sold: <?php
+                if ($offer['summary']['actual_applicant_product_number'] != 0){
+                    echo $offer['summary']['actual_applicant_product_number'];
+                }
+                ?>
+            </p>
 
             <!-- Add to cart section -->
             <form class="buy-now cart" method="post" enctype='multipart/form-data'
                   data-product_id="<?php echo $offer['product_id'] ?>">
                 <?php
-                if( ! isset( $classes ) || empty( $classes ) ) {
+                if (!isset($classes) || empty($classes)) {
                     $classes[] = 'input-text qty text';
                 }
-                if ($offer['status'] != Offer::STATUS_CLOSED  && !$offer['summary']['current_user_have_apply'] && !$offer['summary']['my_offer']) {
-                ?>
+                if ($offer['status'] != Offer::STATUS_CLOSED && !$offer['summary']['current_user_have_apply'] && !$offer['summary']['my_offer']) {
+                    ?>
 
                     <div class="quantity">
                         <label class="screen-reader-text"
-                               for="<?php echo esc_attr($offer['product_id'] ); ?>"><?php echo esc_html( $label ); ?></label>
+                               for="<?php echo esc_attr($offer['product_id']); ?>"><?php echo esc_html($label); ?></label>
                         <label class="label"
-                               for="<?php echo esc_attr( $offer['product_id'] ); ?>"><?php esc_html_e( 'Quantity', 'martfury' ); ?></label>
+                               for="<?php echo esc_attr($offer['product_id']); ?>"><?php esc_html_e('Quantity', 'martfury'); ?></label>
                         <div class="qty-box">
                             <span class="decrease  icon_minus-06"></span>
                             <input
                                     type="number"
-                                    id="<?php echo esc_attr( $offer['product_id'] ); ?>"
-                                    class="<?php echo esc_attr( join( ' ', (array) $classes ) ); ?>"
-                                    step="<?php echo esc_attr($order_quantity_step)?>"
-                                    min="<?php echo esc_attr( $minimum_order_quantity ); ?>"
-                                    max="<?php echo esc_attr( 0 < $max_total_offer_qty ? $max_total_offer_qty : '' ); ?>"
+                                    id="<?php echo esc_attr($offer['product_id']); ?>"
+                                    class="<?php echo esc_attr(join(' ', (array)$classes)); ?>"
+                                    step="<?php echo esc_attr($order_quantity_step) ?>"
+                                    min="<?php echo esc_attr($minimum_order_quantity); ?>"
+                                    max="<?php echo esc_attr(0 < $max_total_offer_qty ? $max_total_offer_qty : ''); ?>"
                                     name="quantity"
-                                    value="<?php echo esc_attr( $minimum_order_quantity ); ?>"
-                                    title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'martfury' ); ?>"
+                                    value="<?php echo esc_attr($minimum_order_quantity); ?>"
+                                    title="<?php echo esc_attr_x('Qty', 'Product quantity input tooltip', 'martfury'); ?>"
                                     size="4"
                                     inputmode="numberic"
                                     readonly="readonly"/>
-                            <?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
+                            <?php do_action('woocommerce_after_quantity_input_field'); ?>
                             <span class="increase icon_plus"></span>
                         </div>
                     </div>
@@ -171,7 +189,7 @@ if (post_password_required()) {
                 ?>
 
                 <!-- Subscribe button -->
-                <?php do_action('synerbay_offerApplyButton', $offer);?>
+                <?php do_action('synerbay_offerApplyButton', $offer); ?>
                 <?php do_action('synerbay_offerInviteButton', $offer['url']); ?>
             </form>
 
