@@ -115,6 +115,9 @@ if (post_password_required()) {
                 <li>
                     <span><?php _e('Required order for further discount: ', 'synerbay') ?><?php echo $offer['summary']['next_price_step_required_qty'] <= 0 ? '-' : $offer['summary']['next_price_step_required_qty']; ?></span>
                 </li>
+                <li>
+                    <span><?php _e('Potential discount rate: ', 'synerbay') ?><?php echo $offer['summary']['max_discount_percentage_from_default_price'] . '%'; ?></span>
+                </li>
             </ul>
 
             <!-- Table -->
