@@ -23,6 +23,9 @@ defined('ABSPATH') || exit;
 global $product;
 global $offer;
 
+//print '<pre>';
+//var_dump($offer['summary']);
+
 (new OfferRepository())->increaseNumberOfViews($offer['id'], $offer['number_of_views']);
 
 $minimum_order_quantity = $offer['minimum_order_quantity'] ? $offer['minimum_order_quantity'] : 1;
@@ -90,8 +93,8 @@ if (post_password_required()) {
             <!-- Basic info -->
             <strong class="details-title">Offer details:</strong>
             <ul class="offer-list">
-                <li><span class="current_subscribed"> <?php _e('Active amount subscribers: ',
-                            'synerbay') ?><?php echo $offer['summary']['actual_applicant_product_number']; ?></span>
+                <li><span class="current_subscribed"> <?php _e('Purchaser(s): ',
+                            'synerbay') ?><?php echo $offer['summary']['actual_applicant_number']; ?></span>
                 </li>
                 <li><span class="offer-start-date"> <?php _e('Start date: ',
                             'synerbay') ?><?php echo $offer['offer_start_date']; ?></span></li>
@@ -103,9 +106,9 @@ if (post_password_required()) {
                             'synerbay') ?><?php echo $offer['product']['meta']['_material']; ?></span></li>
                 <li><span class="offer-qty-min"> <?php _e('Minimum Order Quantity: ',
                             'synerbay') ?><?php echo $offer['minimum_order_quantity']; ?></span></li>
-                <li><span class="offer-qty-max"> <?php _e('Max. product qty/user: ',
+                <li><span class="offer-qty-max"> <?php _e('Maximum Order Quantity: ',
                             'synerbay') ?><?php echo $offer['max_total_offer_qty']; ?></span></li>
-                <li><span class="offer-qty-step"> <?php _e('Quantity step: ',
+                <li><span class="offer-qty-step"> <?php _e('Order Quantity Level: ',
                             'synerbay') ?><?php echo $offer['order_quantity_step']; ?></span></li>
                 <li><span><?php _e('Transport parity: ', 'synerbay') ?><?php echo $offer['transport_parity']; ?></span>
                 </li>

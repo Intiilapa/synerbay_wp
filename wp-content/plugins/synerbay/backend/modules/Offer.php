@@ -228,7 +228,7 @@ class Offer extends AbstractModule
         $maxDiscountPrice = $offerData['default_price'] - $maxPriceStepPrice;
 
         // mennyi kell a következő kedvezményig
-        $nextPriceStepRequiredQty = $actualPriceStepQty - $groupByProductQTYNumber;
+        $nextPriceStepRequiredQty = $nextPriceStepQty - $groupByProductQTYNumber;
 
         // a következő lépcsőnél mennyi a kedvezmény az aktuálishoz mérten
         $nextPriceStepDiscountFromCurrentPercentage = round(100 - (($nextPriceStepPrice / $actualProductPrice) * 100), 2);
