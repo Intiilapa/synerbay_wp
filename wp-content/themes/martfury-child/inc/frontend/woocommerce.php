@@ -62,7 +62,7 @@ class Martfury_Child_WooCommerce
         echo '<br>';
         echo '</div>';
         echo '<div class="card-more-info">';
-        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. '$' . $offer['summary']['max_price_step_price'] .'</b>';
+        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. $offer['summary']['max_price_step_price'] .'</b>';
         echo '<br>';
         echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';
         echo '<br>';
