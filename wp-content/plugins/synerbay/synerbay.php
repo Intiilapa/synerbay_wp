@@ -2,8 +2,8 @@
 /**
  * Plugin Name: SynerBay
  * Description: Offer, Offer apply, Invite, RFQ
- * Version: 1.0
- * Author: Kristóf Nagy
+ * Version: 2.0
+ * Author: Kristóf Nagy - Remco
  */
 namespace SynerBay;
 session_start();
