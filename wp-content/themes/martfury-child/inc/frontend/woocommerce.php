@@ -25,7 +25,6 @@ class Martfury_Child_WooCommerce
      */
     function product_content_offer_thumbnail() {
         global $product, $post, $offer;
-
         $offer_validity = date('Y-m-d', strtotime($offer['offer_end_date']));
 
         printf( '<div class="mf-product-thumbnail">' );
@@ -50,7 +49,7 @@ class Martfury_Child_WooCommerce
 
         do_action( 'martfury_after_product_loop_thumbnail_link' );
 
-        //Price
+        //Price -->
         echo '<b style="color: green;font-size: 18px;"> ' . $offer['summary']['formatted_actual_product_price'] . '</b> ';
         if ($offer['summary']['formatted_actual_default_product_price'] != $offer['summary']['formatted_actual_product_price']) {
             echo '<b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b>';
@@ -60,23 +59,22 @@ class Martfury_Child_WooCommerce
         }
 
         echo '<br>';
+        //<!-- End price
         echo '</div>';
-        echo '<div class="card-more-info">';
-        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. $offer['summary']['max_price_step_price'] .'</b>';
-        echo '<br>';
-        echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';
-        echo '<br>';
 
+        //<!-- More details
+        echo '<div class="card-more-info">';
+        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. $offer['summary']['max_price_step_price'] .'</b>';echo '<br>';
+        echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>';echo '<br>';
         if ($offer['summary']['actual_applicant_product_number'] != 0) {
             echo '<b style="font-weight: 400;">' . 'Sold: ' . '</b>' . $offer['summary']['actual_applicant_product_number'];
         }
-
         echo '</div>';
+        //<!-- End Details
 
         if (is_page("Network")) {
             printf('<a href="%s" class="button offer_list" rel="nofollow"><span class="add-to-cart-text">Read more</span></a>', esc_url($offer['url']));
         }
-
     }
 
     /**
@@ -88,6 +86,7 @@ class Martfury_Child_WooCommerce
      */
     function product_content_offerList_thumbnail() {
         global $product, $post, $offer;
+        $offer_validity = date('Y-m-d', strtotime($offer['offer_end_date']));
 
         printf( '<div class="mf-product-thumbnail">' );
 
@@ -109,12 +108,35 @@ class Martfury_Child_WooCommerce
 
         do_action( 'martfury_after_product_loop_thumbnail_link' );
 
+        //Price -->
+        echo '<b style="color: green;font-size: 18px;"> ' . $offer['summary']['formatted_actual_product_price'] . '</b> ';
+        if ($offer['summary']['formatted_actual_default_product_price'] != $offer['summary']['formatted_actual_product_price']) {
+            echo '<b style="text-decoration: line-through;color:grey;font-weight: 400;">' . $offer['summary']['formatted_actual_default_product_price'] . '</b>';
+        }
+        if ($offer['summary']['current_discount_percentage_from_default_price'] != 0) {
+            echo '<b style="color: red;font-weight: 400;">' . '(-' . $offer['summary']['current_discount_percentage_from_default_price'] . '%)' . '</b>';
+        }
+        echo '<br>';
+        //<!-- End price
         echo '</div>';
+
+        //<!-- More details
+        echo '<div class="card-more-info">';
+        echo '<b>' . 'Lowest available price: ' . '</b>' .  '<b>'. $offer['summary']['max_price_step_price'] .'</b>'; echo '<br>';
+        echo '<b style="font-weight: 400;color:red;">' . 'Offer validity: ' . $offer_validity . '</b>'; echo '<br>';
+
+        if ($offer['summary']['actual_applicant_product_number'] != 0) {
+            echo '<b style="font-weight: 400;">' . 'Sold: ' . '</b>' . $offer['summary']['actual_applicant_product_number'];
+        }
+        echo '</div>';
+        //<!-- End details
+
+        //Badge -->
         echo '<div class="box">';
             wc_get_template('loop/offer-badge.php');
-            wc_get_template('loop/offer-progress.php');
-            wc_get_template('loop/offer-countdown.php');
         echo '</div>';
+        //<!-- End badge
+
         if (is_page("Network")) {
             echo'<div class="buttons-offer-list">';
                 do_action('synerbay_synerBayInviteShortcodeList', $offer['url']);
