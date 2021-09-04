@@ -5,10 +5,7 @@ use SynerBay\Forms\Validators\Required as RequiredValidator;
 use SynerBay\Functions\Dokan\Vendor\Wizard\SetupWizard;
 use SynerBay\Helper\SynerBayDataHelper;
 
-// ez is akibaszott hekk része, hogy rohadjon meg!
-// ha kiváncsi vagy, keress rá a fájlra.
 new SetupWizard();
-
 add_action('wp_enqueue_scripts', 'martfury_child_enqueue_scripts', 20);
 function martfury_child_enqueue_scripts()
 {
@@ -26,7 +23,35 @@ function martfury_child_enqueue_scripts()
  *
  */
 
-//If user is not logged in redirect to /home
+/**
+ * Redirect users to custom URL based on their role after login
+ *
+ * @param string $redirect
+ * @param object $user
+ * @return string
+ */
+function wc_custom_user_redirect( $redirect, $user ) {
+    $role = $user->roles[0];
+
+    $dashboard = admin_url();
+    $myaccount = get_permalink( get_page_by_path( 'network' ) );
+
+    if( $role == 'administrator' ) {
+        //Redirect administrators to the dashboard
+        $redirect = $dashboard;
+    } elseif ( $role == 'vendor' || $role == 'seller') {
+        //Redirect customers and subscribers to the "Network" page
+        $redirect = $myaccount;
+        echo $role;
+    } else {
+        //Redirect any other role to the previous visited page or, if not available, to the home
+        $redirect = wp_get_referer() ? wp_get_referer() : home_url();
+    }
+
+    return $redirect;
+}
+add_filter( 'woocommerce_login_redirect', 'wc_custom_user_redirect', 10, 2 );
+
 $guestRoutes = [
     '/guest-homepage/',
     '/sb-login/',
