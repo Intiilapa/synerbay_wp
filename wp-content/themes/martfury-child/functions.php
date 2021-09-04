@@ -73,7 +73,8 @@ $guestRoutes = [
 if ( ! get_current_user_id() &&  !in_array(rtrim($_SERVER['REQUEST_URI'], '?'.$_SERVER['QUERY_STRING']), $guestRoutes)) {
     $urlparts = parse_url(home_url());
     $domain = $urlparts['host'];
-    header('Location: '.$domain.'/guest-homepage/');
+    //header('Location: '.$domain.'/guest-homepage/');
+    echo "<script type='text/javascript'> document.location = '/guest-homepage/'; </script>";
 }
 
 //Remove access to wp-admin
